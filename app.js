@@ -7,11 +7,11 @@ var mongoose = require("mongoose");
 
 // API
 var indexRouter = require("./routes/api/Index");
-var productAPIRouter = require("./routes/api/ProductApi");
+var tourAPIRouter = require("./routes/api/TourApi");
 var userAPIRouter = require("./routes/api/UserApi");
 
 // CPANEL
-var productCpanelRouter = require("./cpanel/ProductCpanel");
+var tourCpanelRouter = require("./cpanel/TourCpanel");
 var userCpanelRouter = require("./cpanel/UserCpanel");
 
 var app = express();
@@ -43,15 +43,15 @@ mongoose
 app.use("/", indexRouter);
 
 // API
-// http://localhost:3000/product/api
-app.use("/product/api", productAPIRouter);
+// http://localhost:3000/tour/api
+app.use("/tour/api", tourAPIRouter);
 
 // http://localhost:3000/user/api
 app.use("/user/api", userAPIRouter);
 
 // CPANEL
-// http://localhost:3000/product/cpanel
-app.use("/product/cpanel", productCpanelRouter);
+// http://localhost:3000/tour/cpanel
+app.use("/tour/cpanel", tourCpanelRouter);
 
 // http://localhost:3000/user/cpanel
 app.use("/user/cpanel", userCpanelRouter);

@@ -3,6 +3,11 @@ var router = express.Router();
 const jwt = require('jsonwebtoken');
 const userController = require('../../component/user/UserController')
 
+const accountSid = "AC8e6d6d91ef6f9d54fbefa4e641512eeb";
+const authToken = "0d5a88edb0a6ab255900de8522eccd2e";
+const verifySid = "VAa426a315b4b5f6b338bfc2fb20065568";
+const client = require("twilio")(accountSid, authToken);
+
 //http://localhost:3000/user/api/login
 router.post('/login', async (req, res, next) => {
     try {
@@ -54,6 +59,45 @@ router.post('/register',  async (req, res, next) => {
         return res.status(500).json({ result: false, user: null })
     }
 })
+
+//http://localhost:3000/user/api/otp
+// Xử lý request POST để lấy mã OTP
+router.post('/otp', async (req, res) => {
+    const phoneNumber = req.body.phoneNumber;
+  
+    // Gửi mã OTP đến số điện thoại
+    await client.verify.v2
+      .services(verifySid)
+      .verifications.create({ to: phoneNumber, channel: "sms" })
+      .then((verification) => {
+        res.json({ message: "OTP sent successfully" });
+      })
+      .catch((error) => {
+        res.status(500).json({ error: error.message });
+      });
+});
+  
+//http://localhost:3000/user/api/otp/verify
+// Xử lý request POST để kiểm tra mã OTP
+router.post("/otp/verify", async (req, res) => {
+    const phoneNumber = req.body.phoneNumber;
+    const otpCode = req.body.otpCode;
+
+    // Kiểm tra mã OTP
+    await client.verify.v2
+        .services(verifySid)
+        .verificationChecks.create({ to: phoneNumber, code: otpCode })
+        .then((verificationCheck) => {
+        if (verificationCheck.status === "approved") {
+            res.json({ message: "OTP verification successful" });
+        } else {
+            res.status(400).json({ error: "Invalid OTP" });
+        }
+        })
+        .catch((error) => {
+        res.status(500).json({ error: error.message });
+        });
+});
 
 //http://localhost:3000/user/api/update
 router.put('/update', async (req, res, next) => {

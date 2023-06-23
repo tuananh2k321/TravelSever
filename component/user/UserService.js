@@ -1,5 +1,9 @@
 const UserModel = require('./UserModel')
 const bcrypt = require('bcryptjs')
+const accountSid = "AC8e6d6d91ef6f9d54fbefa4e641512eeb";
+const authToken = "0d5a88edb0a6ab255900de8522eccd2e";
+const verifySid = "VAa426a315b4b5f6b338bfc2fb20065568";
+const client = require("twilio")(accountSid, authToken);
 
 //http://localhost:3000/api/user/login
 const login = async (email, password) => {

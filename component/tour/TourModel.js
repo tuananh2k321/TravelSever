@@ -7,17 +7,22 @@ const tourSchema = new Schema({
   tourName: { type: String, required: true },
   description: { type: Number, required: true },
   price: { type: Number, required: true },
-  image: { type: String, required: true },
+  mainImage: { type: String, required: true },
+  checking: { type: Array, required: true },
   rating: { type: Number, required: true },
-  address: { type: String, required: true },
+  address: {
+    imageMap: { type: String, required: true },
+    specificAddress: { type: String, required: true },
+  },
   comment: [
     {
       content: { type: String, required: true },
       image: [{ type: String, required: true }],
       timestamp: { type: String, required: true },
-      user_id: { type: ObjectId, required: true}
+      user_id: { type: ObjectId, required: true },
     },
   ],
+  hotel_id: { type: ObjectId, ref: "hotel" },
 });
 
 module.exports = mongoose.models.tour || mongoose.model("tour", tourSchema);

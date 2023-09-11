@@ -9,6 +9,7 @@ var mongoose = require("mongoose");
 var indexRouter = require("./routes/api/Index");
 var tourAPIRouter = require("./routes/api/TourApi");
 var userAPIRouter = require("./routes/api/UserApi");
+var hotelAPIRouter = require("./routes/api/HotelAPI");
 
 // CPANEL
 var tourCpanelRouter = require("./cpanel/TourCpanel");
@@ -48,6 +49,9 @@ app.use("/tour/api", tourAPIRouter);
 
 // http://localhost:3000/user/api
 app.use("/user/api", userAPIRouter);
+
+// http://localhost:3000/hotel/api
+app.use("/hotel/api", hotelAPIRouter);
 
 // CPANEL
 // http://localhost:3000/tour/cpanel

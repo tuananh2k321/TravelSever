@@ -40,10 +40,10 @@ router.get('/get-all-hotels/:id',async (req, res, next) => {
 });
 
 // lấy hết danh sách hotel bằng rating
-//	http://localhost:3000/hotel/api/get-all-hotels/:rate
-router.get('/get-all-hotels/:rate',async (req, res, next) => {
+//	http://localhost:3000/hotel/api/get-all-hotels?rate=5
+router.get('/get-all-hotels',async (req, res, next) => {
     try {
-        const {rate} = req.params;
+        const {rate} = req.query;
         const hotels = await hotelController.getHotelByRating(rate);
         const returnData = {
             error: false,
@@ -71,6 +71,9 @@ router.post('/new-hotel',async (req, res, next) => {
         }
         return res.status(200).json({hotels,returnData});
     } catch (error) {
+        console.log(error);
         return res.status(400).json({});
     }
 });
+
+module.exports = router;

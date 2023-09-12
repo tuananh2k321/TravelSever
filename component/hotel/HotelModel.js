@@ -21,6 +21,6 @@ const schema = new Schema({
       ],
 });
 
-module.exports = mongoose.models.restaurant || mongoose.model('restaurant', schema);
+module.exports = mongoose.models.hotel || mongoose.model('hotel', schema);
 //trong đây là số ít bên mông là số nhiều
-// restaurant ---------> restaurants
+// hotel ---------> hotels

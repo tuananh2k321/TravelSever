@@ -22,6 +22,21 @@ const getHotelById = async (id) => {
     return null;
 };
 
+// lấy danh sách hotel bằng xếp hạng
+
+const getHotelByRating = async (rating) => {
+    try {
+        let query = {
+            rating: {$eq : rating}
+        } 
+        let hotel = await hotelModel.find(query);
+        return hotel;
+    } catch (error) {
+        console.log("get hotel by rating error: " + error);
+    }
+    return null;
+}
+
 // thêm hotel mới vào database
 const addNewHotel = async (hotelName, description, image, rating, address, phoneNumber) => {
     try {
@@ -33,24 +48,42 @@ const addNewHotel = async (hotelName, description, image, rating, address, phone
             address, 
             phoneNumber
         }  
-        await hotelModel.create(newHotel);
-        return true;
+        const hotel = await hotelModel.create(newHotel);
+        return hotel;
     } catch (error) {
         console.log("Create new hotel error: " + error);
     }
     return false;
 };
 
-// lấy danh sách hotel bằng xếp hạng
-
-const getHotelByRating = async (rate) => {
+// cập nhật hotel mới vào database
+const updateHotel = async (id, hotelName, description, image, rating, address, phoneNumber) => {
     try {
-        let hotel = await hotelModel.find(rate);
-        return hotel;
+        let item = await hotelModel.findById(id);
+        if (item) {
+            item.hotelName = hotelName ? hotelName : item.hotelName;
+            item.description = description ? description : item.description;
+            item.image = image ? image : item.image;
+            item.rating = rating ? rating : item.rating;
+            item.address = address ? address : item.address;
+            item.phoneNumber = phoneNumber ? phoneNumber : item.phoneNumber;
+            await hotelModel.findByIdAndUpdate(id, item);
+            return true;
+        }
     } catch (error) {
-        console.log("get hotel by rating error: " + error);
+        console.log("Update hotel error: " + error);
     }
-    return [];
+    return false;
+};
+
+// xóa hotel
+const removeHotel = async (id) => {
+    try {
+        await hotelModel.findByIdAndDelete(id);
+        return true;
+    } catch (error) {
+        console.log('Delete hotel by ID error', error);
+    }
 }
 
-module.exports = {getAllHotels, getHotelById, getHotelByRating, addNewHotel};
+module.exports = {getAllHotels, getHotelById, getHotelByRating, addNewHotel, updateHotel, removeHotel};

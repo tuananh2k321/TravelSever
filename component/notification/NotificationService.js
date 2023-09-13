@@ -10,10 +10,10 @@ const getNotification  = async () =>{
 }
 
 
-const addNotification  = async (id, title, content, quantity, user_id) =>{
+const addNotification  = async (image, title, content, timestamp, user_id) =>{
     try {
         const newNotification = {
-            id, title, content, quantity, user_id
+            image, title, content, timestamp, user_id
         };
         await notificationModel.create(newNotification);
         return true;

@@ -5,9 +5,10 @@ const ObjectId = Schema.ObjectId;
 
 const notificationSchema = new Schema({
     id: {type: ObjectId},
+    image: {type: String, required: true},
     title: {type: String,  required: true},
     content: {type: String, required: true},
-    quantity: {type: String, required: true},
+    timestamp: {type: String, require: true},
     user_id: { type: ObjectId, ref: "user" },
 })
 

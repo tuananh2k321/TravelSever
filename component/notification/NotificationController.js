@@ -8,9 +8,9 @@ const getNotification = async () =>{
     }
 }
 
-const addNotification = async (id, title, content, quantity, user_id) =>{
+const addNotification = async (image, title, content, timestamp, user_id) =>{
     try {
-        await notificationService.addNotification(id, title, content, quantity, user_id);
+        await notificationService.addNotification(image, title, content, timestamp, user_id);
     } catch (error) {
         throw error;
     }

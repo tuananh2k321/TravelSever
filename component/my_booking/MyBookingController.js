@@ -10,9 +10,9 @@ const getListBooking = async () => {
 
 const addMyBooking = async (timestamp, user_id, tour_id, hotel_id) => {
   try {
-    await favoriteService.addMyBooking(timestamp, user_id, tour_id, hotel_id);
+    return await favoriteService.addMyBooking(timestamp, user_id, tour_id, hotel_id);
   } catch (error) {
-    throw error;
+    return error;
   }
 };
 module.exports = { getListBooking, addMyBooking };

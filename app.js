@@ -10,11 +10,11 @@ var indexRouter = require("./routes/api/Index");
 var tourAPIRouter = require("./routes/api/TourApi");
 var userAPIRouter = require("./routes/api/UserApi");
 var hotelAPIRouter = require("./routes/api/HotelApi");
+var bookingAPIRouter = require("./routes/api/BookingApi");
 
 // CPANEL
 var tourCpanelRouter = require("./cpanel/TourCpanel");
 var userCpanelRouter = require("./cpanel/UserCpanel");
-
 var app = express();
 
 // view engine setup
@@ -46,6 +46,11 @@ app.use("/", indexRouter);
 // API
 // http://localhost:3000/tour/api
 app.use("/tour/api", tourAPIRouter);
+
+
+//
+// http://localhost:3000/mybooking/api/
+app.use("/mybooking/api", bookingAPIRouter);
 
 // http://localhost:3000/user/api
 app.use("/user/api", userAPIRouter);

@@ -52,14 +52,12 @@ const deleteByPhoneNumber = async (phoneNumber) => {
     }
 }
 
-const updateUser = async (phoneNumber, password, name, email, address, gender, dob, avatar, role) => {
+const updateUser = async (email, phoneNumber, name, address, gender, dob, avatar, role) => {
     try {
-        const user = await UserModel.findOne({ phoneNumber: phoneNumber })
+        const user = await UserModel.findOne({ email: email })
         if (user) {
             user.name = name ? name : user.name;
             user.phoneNumber = phoneNumber ? phoneNumber : user.phoneNumber;
-            user.password = password ? password : user.password;
-            user.email = email ? email : user.email;
             user.address = address ? address : user.address;
             user.gender = gender ? gender : user.gender;
             user.dob = dob ? dob : user.dob;
@@ -77,17 +75,53 @@ const updateUser = async (phoneNumber, password, name, email, address, gender, d
         return false;
     }
 }
-const search = async (phoneNumber) => {
-    try {
-        console.log("phoneNumber",phoneNumber)
-        return await UserModel.findOne(
-            { phoneNumber: phoneNumber }
-        )
 
+const updatePassword = async (password, email) => {
+    try {
+        const user = await UserModel.findOne({ email: email })
+        if (user) {
+            user.password = password ? password : user.password;
+            await user.save();
+            console.log("USER:" + user);
+            return true;
+        } else {
+            return false;
+        }
+        
     } catch (error) {
+        console.log("Update User  error" + error)
         return false;
     }
 }
+
+const verifyAccount = async (email) => {
+    try {
+        const user = await UserModel.findOne({ email: email })
+        if (user) {
+            user.isVerify = true;
+            await user.save();
+            console.log("USER:" + user);
+            return true;
+        } else {
+            return false;
+        }
+        
+    } catch (error) {
+        console.log("Update User  error" + error)
+        return false;
+    }
+}
+
+const findUserByEmail = async (email) => {
+    const user = await UserModel.findOne({ email: email })
+    if (user) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 const getAllUser = async (page, size) => {
     try {
         // return data;
@@ -101,5 +135,6 @@ const getAllUser = async (page, size) => {
 
 module.exports = {
     login, register, deleteByPhoneNumber,
-    updateUser, getAllUser, search,
+    updateUser, getAllUser, updatePassword,
+    findUserByEmail, verifyAccount
 };

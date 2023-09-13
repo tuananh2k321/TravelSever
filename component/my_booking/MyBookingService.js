@@ -16,8 +16,8 @@ const addMyBooking = async (timestamp, user_id, tour_id) => {
       user_id,
       tour_id,
     };
-    await mybookingModel.create(newBooking);
-    return true;
+    return await mybookingModel.create(newBooking);
+    
   } catch (error) { }
   return false;
 };

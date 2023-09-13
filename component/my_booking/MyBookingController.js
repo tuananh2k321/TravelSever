@@ -8,9 +8,9 @@ const getListBooking = async () => {
   }
 };
 
-const addMyBooking = async (timestamp, user_id, tour_id, hotel_id) => {
+const addMyBooking = async (timestamp, user_id, tour_id) => {
   try {
-    return await favoriteService.addMyBooking(timestamp, user_id, tour_id, hotel_id);
+    return await myBookingService.addMyBooking(timestamp, user_id, tour_id);
   } catch (error) {
     return error;
   }

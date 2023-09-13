@@ -6,6 +6,7 @@ const getListBooking = async () => {
   } catch (error) {
     console.log("get list booking", error);
   }
+  return [];
 };
 
 const addMyBooking = async (timestamp, user_id, tour_id) => {
@@ -15,8 +16,7 @@ const addMyBooking = async (timestamp, user_id, tour_id) => {
       user_id,
       tour_id,
     };
-    const u = new HotelModel(newHotel);
-    await u.save();
+    await mybookingModel.create(newBooking);
     return true;
   } catch (error) { }
   return false;

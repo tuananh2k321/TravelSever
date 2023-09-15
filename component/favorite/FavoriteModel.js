@@ -7,6 +7,7 @@ const favoriteSchema = new Schema({
   timestamp: { type: String, required: true},
   user_id: { type: ObjectId, ref: "user" },
   tour_id: { type: ObjectId, ref: "tour" },
+  hotel_id: {type: ObjectId, ref: 'hotel'}
 });
 
 module.exports = mongoose.models.favorite || mongoose.model("favorite", favoriteSchema);

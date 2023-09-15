@@ -4,18 +4,15 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+require('./component/category/CategoryModel')
 
 // API
 var indexRouter = require("./routes/api/Index");
 var tourAPIRouter = require("./routes/api/TourApi");
-var userAPIRouter = require("./routes/api/UserApi");
-<<<<<<< HEAD
 var hotelAPIRouter = require("./routes/api/HotelAPI");
-=======
-var hotelAPIRouter = require("./routes/api/HotelApi");
+var userAPIRouter = require("./routes/api/UserApi");
 var favoriteAPIRouter = require("./routes/api/FavoriteApi");
 var notificationAPIRouter = require("./routes/api/NotificationApi");
->>>>>>> tri
 
 // CPANEL
 var tourCpanelRouter = require("./cpanel/TourCpanel");
@@ -50,8 +47,8 @@ mongoose
 app.use("/", indexRouter);
 
 // API
-// http://localhost:3000/tour/api
-app.use("/tour/api", tourAPIRouter);
+// http://localhost:3000/api/tourApi
+app.use("/api/tourApi", tourAPIRouter);
 
 // http://localhost:3000/user/api
 app.use("/user/api", userAPIRouter);

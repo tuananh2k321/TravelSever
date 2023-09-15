@@ -13,4 +13,16 @@ router.get('/getNotification', async (req,res,next)=>{
     }
 });
 
+router.post('/addNotification/:user_id', async (req, res, next) =>{
+    try {
+        const {image, title, content, timestamp} = req.body;
+        const {user_id} = req.params;
+
+        await notificationController.addNotification(image, title, content, timestamp, user_id);
+        res.status(200).json({result: true, message: "Add notify Success"})
+    } catch (error) {
+        res.status(400).json({result: false, message: "Add notify fail"})
+    }
+})
+
 module.exports = router;

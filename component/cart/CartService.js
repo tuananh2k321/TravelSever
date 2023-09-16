@@ -1,6 +1,6 @@
 const cartModel = require("./CartModel");
 
-const listCart = async () => {
+const getListCart = async () => {
   try {
     return await cartModel.find();
   } catch (error) {
@@ -9,9 +9,9 @@ const listCart = async () => {
   return [];
 };
 
-const addCart = async (name, totalPrice, content, user_id) => {
+const addCart = async (name, user_id) => {
   try {
-    const newCart = { name, totalPrice, content, user_id };
+    const newCart = { name, user_id };
     await cartModel.create(newCart);
     return true;
   } catch (error) {
@@ -30,4 +30,4 @@ const deleteCart = async (id) => {
   return false;
 };
 
-module.exports = { listCart, addCart, deleteCart };
+module.exports = { getListCart, addCart, deleteCart };

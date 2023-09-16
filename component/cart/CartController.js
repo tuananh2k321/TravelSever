@@ -2,15 +2,15 @@ const cartService = require("./CartService");
 
 const getListCart = async () => {
   try {
-    return await cartService.listCart();
+    return await cartService.getListCart();
   } catch (error) {
     throw error;
   }
 };
 
-const addCart = async (name, totalPrice, content, user_id) => {
+const addCart = async (name, user_id) => {
   try {
-    return await cartService.addCart(name, totalPrice, content, user_id);
+    return await cartService.addCart(name, user_id);
   } catch (error) {
     return false;
   }
@@ -25,7 +25,7 @@ const deleteCartbyID = async (id) => {
 };
 
 module.exports = {
-  addCart,
   getListCart,
+  addCart,
   deleteCartbyID,
 };

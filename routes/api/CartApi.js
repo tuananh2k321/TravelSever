@@ -20,7 +20,7 @@ router.get("/getListCart", async (req, res, next) => {
     console.log(cart);
     res
       .status(200)
-      .json({ result: true, booking: cart, message: "Get cart Success" });
+      .json({ result: true, cart: cart, message: "Get cart Success" });
   } catch (error) {
     res.status(400).json({ result: false, error, message: "Get cart fail" });
   }

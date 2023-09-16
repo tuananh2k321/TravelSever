@@ -4,18 +4,19 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+require("./component/category/CategoryModel");
 
 // API
 var indexRouter = require("./routes/api/Index");
 var tourAPIRouter = require("./routes/api/TourApi");
+var hotelAPIRouter = require("./routes/api/HotelAPI");
 var userAPIRouter = require("./routes/api/UserApi");
 var hotelAPIRouter = require("./routes/api/HotelApi");
-var bookingAPIRouter = require("./routes/api/BookingApi");
-var cartAPIRouter = require("./routes/api/CartApi");
 
 // CPANEL
 var tourCpanelRouter = require("./cpanel/TourCpanel");
 var userCpanelRouter = require("./cpanel/UserCpanel");
+
 var app = express();
 
 // view engine setup
@@ -48,17 +49,17 @@ app.use("/", indexRouter);
 // http://localhost:3000/tour/api
 app.use("/tour/api", tourAPIRouter);
 
-//-	http://localhost:3000/card/api/
-app.use("/card/api", cartAPIRouter);
-//
-// http://localhost:3000/mybooking/api/
-app.use("/mybooking/api", bookingAPIRouter);
-
 // http://localhost:3000/user/api
 app.use("/user/api", userAPIRouter);
 
-// http://localhost:3000/user/api
+// http://localhost:3000/hotel/api
 app.use("/hotel/api", hotelAPIRouter);
+
+// http://localhost:3000/favorite/api
+app.use("/favorite/api", favoriteAPIRouter);
+
+// http://localhost:3000/notification/api
+app.use("/notification/api", notificationAPIRouter);
 
 // CPANEL
 // http://localhost:3000/tour/cpanel
@@ -66,6 +67,9 @@ app.use("/tour/cpanel", tourCpanelRouter);
 
 // http://localhost:3000/user/cpanel
 app.use("/user/cpanel", userCpanelRouter);
+
+// http://localhost:3000/user/cpanel
+app.use("/hotel/cpanel", hotelCpanelRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

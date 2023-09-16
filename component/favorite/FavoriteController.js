@@ -8,9 +8,9 @@ const getListFavorite = async () =>{
     }
 }
 
-const addFavorite = async (timestamp, user_id, tour_id, hotel_id) =>{
+const addFavorite = async (timestamp, user_id, tour_id) =>{
     try {
-        await favoriteService.addFavorite(timestamp, user_id, tour_id, hotel_id);
+        await favoriteService.addFavorite(timestamp, user_id, tour_id);
     } catch (error) {
         throw error;
     }

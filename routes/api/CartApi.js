@@ -26,4 +26,16 @@ router.get("/getListCart", async (req, res, next) => {
   }
 });
 
+router.delete("/deleteCart/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await cartController.deleteCartbyID(id);
+    return res
+      .status(200)
+      .json({ result: true, message: "Delete cart Success" });
+  } catch (error) {
+    return res.status(400).json({ result: true, message: "Dekete cart fail" });
+  }
+});
+
 module.exports = router;

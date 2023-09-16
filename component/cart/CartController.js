@@ -18,7 +18,7 @@ const addCart = async (name, totalPrice, content, user_id) => {
 
 const deleteCartbyID = async (id) => {
   try {
-    return await cartService.deleteFavorite(id);
+    return await cartService.deleteCart(id);
   } catch (error) {
     throw error;
   }

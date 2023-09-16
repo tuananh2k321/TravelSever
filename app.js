@@ -11,6 +11,7 @@ var tourAPIRouter = require("./routes/api/TourApi");
 var userAPIRouter = require("./routes/api/UserApi");
 var hotelAPIRouter = require("./routes/api/HotelApi");
 var bookingAPIRouter = require("./routes/api/BookingApi");
+var cartAPIRouter = require("./routes/api/CartApi");
 
 // CPANEL
 var tourCpanelRouter = require("./cpanel/TourCpanel");
@@ -47,7 +48,8 @@ app.use("/", indexRouter);
 // http://localhost:3000/tour/api
 app.use("/tour/api", tourAPIRouter);
 
-
+//-	http://localhost:3000/card/api/
+app.use("/card/api", cartAPIRouter);
 //
 // http://localhost:3000/mybooking/api/
 app.use("/mybooking/api", bookingAPIRouter);

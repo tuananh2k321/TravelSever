@@ -15,6 +15,7 @@ var userAPIRouter = require("./routes/api/UserApi");
 // CPANEL
 var tourCpanelRouter = require("./cpanel/TourCpanel");
 var userCpanelRouter = require("./cpanel/UserCpanel");
+var hotelCpanelRouter = require("./cpanel/HotelCpanel");
 
 var app = express();
 
@@ -60,6 +61,9 @@ app.use("/tour/cpanel", tourCpanelRouter);
 
 // http://localhost:3000/user/cpanel
 app.use("/user/cpanel", userCpanelRouter);
+
+// http://localhost:3000/user/cpanel
+app.use("/hotel/cpanel", hotelCpanelRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

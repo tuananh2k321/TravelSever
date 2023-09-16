@@ -11,8 +11,9 @@ var indexRouter = require("./routes/api/Index");
 var tourAPIRouter = require("./routes/api/TourApi");
 var hotelAPIRouter = require("./routes/api/HotelAPI");
 var userAPIRouter = require("./routes/api/UserApi");
-var hotelAPIRouter = require("./routes/api/HotelApi");
-
+var favoriteAPIRouter = require("./routes/api/FavoriteApi");
+var notificationAPIRouter = require("./routes/api/NotificationApi");
+var cartAPIRouter = require("./routes/api/CartApi");
 // CPANEL
 var tourCpanelRouter = require("./cpanel/TourCpanel");
 var userCpanelRouter = require("./cpanel/UserCpanel");
@@ -55,6 +56,9 @@ app.use("/user/api", userAPIRouter);
 // http://localhost:3000/hotel/api
 app.use("/hotel/api", hotelAPIRouter);
 
+//
+app.use("/cart/api", cartAPIRouter);
+
 // http://localhost:3000/favorite/api
 app.use("/favorite/api", favoriteAPIRouter);
 
@@ -63,14 +67,14 @@ app.use("/notification/api", notificationAPIRouter);
 
 // CPANEL
 // http://localhost:3000/tour/cpanel
-app.use("/tour/cpanel", tourCpanelRouter);
+// app.use("/tour/cpanel", tourCpanelRouter);
 
 // http://localhost:3000/user/cpanel
-app.use("/user/cpanel", userCpanelRouter);
+// app.use("/user/cpanel", userCpanelRouter);
 
 // http://localhost:3000/user/cpanel
-app.use("/hotel/cpanel", hotelCpanelRouter);
-
+// app.use("/hotel/cpanel", hotelCpanelRouter);
+//
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

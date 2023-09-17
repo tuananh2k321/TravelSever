@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
-const hotelSchema = new Schema({
+const schema = new Schema({
     id: { type: ObjectId },
     hotelName: { type: String, required: true },
     description: { type: String, required: true },
@@ -22,5 +22,6 @@ const hotelSchema = new Schema({
     //   ],
 });
 
-module.exports = mongoose.models.hotel || mongoose.model('hotel', hotelSchema);
+module.exports = mongoose.models.hotel || mongoose.model('hotel', schema);
 //trong đây là số ít bên mông là số nhiều
+// hotel ---------> hotels

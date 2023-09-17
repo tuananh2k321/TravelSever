@@ -24,14 +24,31 @@ const deleteByPhoneNumber = async (phoneNumber) => {
         return false;
     }
 }
-const updateUser = async ( phoneNumber, password, name, email, address, gender, dob, avatar, role) => {
+const updateUser = async (email, phoneNumber, name, address, gender, dob, avatar, role) => {
     try {
-        return await UserService.updateUser( phoneNumber, password, name, email, address, gender, dob, avatar, role);
+        return await UserService.updateUser(email, phoneNumber, name, address, gender, dob, avatar, role);
 
     } catch (error) {
         return false;
     }
 }
+
+const updatePassword = async (password, email) => {
+    try{
+        return await UserService.updatePassword(password, email);
+    } catch (error) {
+        return false
+    }
+}
+
+const verifyAccount = async (email) => {
+    try{
+        return await UserService.verifyAccount(email);
+    } catch (error) {
+        return false
+    }
+}
+
 const getAllUser = async (page, size) => {
     try {
         return await UserService.getAllUser(page, size);
@@ -39,15 +56,16 @@ const getAllUser = async (page, size) => {
         throw error;
     }
 }
-const search = async (phoneNumber)=>{
-    try {
-        return await UserService.search(phoneNumber);
+
+const findUserByEmail = async (email) => {
+    try{
+        return await UserService.findUserByEmail(email);
     } catch (error) {
-        throw error;
+        return false
     }
 }
 
 module.exports = {
     login, register, deleteByPhoneNumber,
-    updateUser, getAllUser,search
+    updateUser, getAllUser, updatePassword, findUserByEmail, verifyAccount
 };

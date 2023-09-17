@@ -5,7 +5,7 @@ const ObjectId = Schema.ObjectId;
 const userSchema = new Schema({
   id: { type: ObjectId },
   name: { type: String, required: true },
-  phoneNumber: { type: Number, required: true },
+  phoneNumber: { type: String, required: true },
   password: { type: String, required: true },
   lastName: { type: String, required: true },
   address: {type: String, default: "Ho Chi Minh City"},
@@ -15,9 +15,10 @@ const userSchema = new Schema({
   avatar: { type: String, default: "" },
   createAt: { type: Date, default: Date.now },
   role: { type: Number, default: 1 },
+  isVerify: { type: Boolean, default:false}
   //1 user
   //100 admin
 });
 
 module.exports = mongoose.models.user || mongoose.model("user", userSchema);
-//trong đây là số ít bên mông là số nhiều
+

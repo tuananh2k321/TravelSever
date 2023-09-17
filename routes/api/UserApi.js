@@ -2,11 +2,14 @@ var express = require('express');
 var router = express.Router();
 const jwt = require('jsonwebtoken');
 const userController = require('../../component/user/UserController')
+const nodemailer = require('nodemailer');
 
 const accountSid = "AC8e6d6d91ef6f9d54fbefa4e641512eeb";
-const authToken = "0d5a88edb0a6ab255900de8522eccd2e";
+const authToken = "725564a0a92f0bd20ac32260d2f5575b";
 const verifySid = "VAa426a315b4b5f6b338bfc2fb20065568";
 const client = require("twilio")(accountSid, authToken);
+
+
 
 //http://localhost:3000/user/api/login
 router.post('/login', async (req, res, next) => {
@@ -100,23 +103,56 @@ router.post("/otp/verify", async (req, res) => {
 });
 
 //http://localhost:3000/user/api/update
-router.put('/update', async (req, res, next) => {
-
+router.post('/update', async (req, res, next) => {
     try {
-        const { phoneNumber, password, name, email, address, gender, dob, avatar, role } = req.body;
-        console.log(phoneNumber, password, name, email, address, gender, dob, avatar, role);
-        const user = await userController.updateUser(phoneNumber, password, name, email, address, gender, dob, avatar, role);
+        const { email, name, phoneNumber, address, gender, dob, avatar, role } = req.body;
+        console.log(email, name, address, gender, dob, avatar, role, phoneNumber,);
+        const user = await userController.updateUser(email, phoneNumber, name, address, gender, dob, avatar, role,);
         console.log(user)
         if (user) {
-            return res.status(200).json({ result: true, user: user, message: "Update Success" })
+            return res.status(200).json({ result: true, user: user, message: "Update Success" });
         } else {
-            return res.status(400).json({ result: false, user: null, message: " user not exist" })
+            return res.status(400).json({ result: false, user: null, message: "User not exist" });
         }
     } catch (error) {
-        console.log(error)
-        return res.status(500).json({ result: false, user: null })
+        console.log(error);
+        return res.status(500).json({ result: false, user: null });
+    }
+});
+
+//http://localhost:3000/user/api/updatePassword
+router.post('/updatePassword', async (req, res) => {
+    try {
+        const email = req.query.email.toString();
+        const password = req.body.password.toString()
+        const user = await userController.updatePassword(password, email)
+        if (user) {
+            return res.status(200).json({ result: true, user: user, message: "Update Success" });
+        } else {
+            return res.status(400).json({ result: false, user: null, message: "change password fail" });
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ result: false});
     }
 })
+
+//http://localhost:3000/user/api/verifyAccount
+router.get('/verifyAccount', async (req, res) => {
+    try {
+        const email = req.query.email.toString()
+        const user = await userController.verifyAccount(email)
+        if (user) {
+            return res.status(200).json({ result: true, user: user, message: "verify Success" });
+        } else {
+            return res.status(400).json({ result: false, user: null, message: "verify fail" });
+        }
+    }catch (error){
+        console.log(error);
+        return res.status(500).json({ result: false});
+    }
+})
+
 //http://localhost:3000/user/api/list
 router.get('/list', async (req, res, next) => {
     try {
@@ -128,38 +164,51 @@ router.get('/list', async (req, res, next) => {
         return res.status(500).json({ result: false, massage: "Can't get list user" })
     }
 })
+
+
 //http://localhost:3000/user/api/send-mail
 router.post('/send-mail', async (req, res, next) => {
-    try {
-        const { to, subject } = req.body;
-        let html = 'Congrat hahaahah';
-        await userController.sendMail(to, subject, html);
-        return res.status(200).json({ result: true });
-    } catch (error) {
-        console.log("MAIL:" + error)//API
-        return res.status(500).json({ result: false, massage: "Can't get list user" })//app
+    const email = req.body.email
+    //const isUser = await userController.findUserByEmail(email)
+    if (email) {
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: 'haizzj123@gmail.com',
+                pass: 'xakpztqusyejqykx'
+            }
+        });
+
+        // URL của API xác thực
+        const authenticationUrl = 'https://example.com/authenticate';
+
+        // Tạo một đường link trong email với href trỏ đến API xác thực
+        const emailHtml = `
+            <p>Nhấn vào xác thực để xác thực email:</p>
+            <a href="${authenticationUrl}">xác thực</a>
+        `;
+        
+        const mailOptions = {
+            from: 'haizzj123@gmail.com',
+            to: email,
+            subject: 'XÁC THỰC EMAIL',
+            html: emailHtml
+        };
+        
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                res.status(200).json({result:true,message:"send fail"})
+            } else {
+                res.status(200).json({result:true,message:"send success"})
+            }
+        });
+    } else {
+        res.status(400).json({result:false,message:"email is not exist!"})
     }
+    
 })
 
-//http://localhost:3000/user/api/search
-router.get('/search', async (req, res, next) => {
-    try {
 
-        let { phoneNumber } = req.query;
-        console.log(phoneNumber)
-        const user = await userController.search(phoneNumber);
-        console.log(user);
-        if (user) {
-            res.status(200).json({ result: true, user: user, message: "Search Success" });
-        } else {
-            res.status(400).json({ result: false, user: null, message: "User not exist" });
-
-        }
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ result: false, massage: "Failed to search" })
-    }
-})
 //http://localhost:3000/user/api/delete
 router.delete('/delete',async (req,res,next)=>{
     try{

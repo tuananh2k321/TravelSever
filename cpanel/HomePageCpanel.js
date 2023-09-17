@@ -1,23 +1,24 @@
 var express = require('express');
 var router = express.Router();
+const authen = require('../middleware/Authen')
 
 // http://localhost:3000/home-page/cpanel/home
-router.get('/home', function(req, res) {
+router.get('/home', [authen.checkTokenCpanel], function(req, res) {
     res.render('home-page/home');
 });
 
 // http://localhost:3000/home-page/cpanel/form
-router.get('/form', function(req, res) {
+router.get('/form', [authen.checkTokenCpanel], function(req, res) {
     res.render('home-page/form');
 });
 
 // http://localhost:3000/home-page/cpanel/chart
-router.get('/chart', function(req, res) {
+router.get('/chart', [authen.checkTokenCpanel], function(req, res) {
     res.render('home-page/chart');
 });
 
 // http://localhost:3000/home-page/cpanel/profile
-router.get('/profile', function(req, res) {
+router.get('/profile', [authen.checkTokenCpanel], function(req, res) {
     res.render('home-page/profile');
 });
 

@@ -16,7 +16,7 @@ router.post('/login', [authen.checkTokenCpanel], async function(req, res, next) 
     const { email, password } = req.body;
     const result = await userController.login(email, password);
   
-    if (result) {
+    if (result.role === 2) {
         const token = jwt.sign({ _id: result._id }, 'secret');
         req.session.token = token;
         console.log('token: ', token);

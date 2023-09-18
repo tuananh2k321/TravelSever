@@ -1,9 +1,12 @@
 const hotelModel = require("./HotelModel");
 
 //lấy toàn bộ hotel trong database
-const getAllHotels =  async () => {
+const getAllHotels = async () => {
     try {
-        return await hotelModel.find();
+        return await hotelModel
+            .find()
+            .sort({ rating: -1 })
+            .limit(10);
     } catch (error) {
         console.log("Get all hotels error: " + error);
     }
@@ -27,8 +30,8 @@ const getHotelById = async (id) => {
 const getHotelByRating = async (rating) => {
     try {
         let query = {
-            rating: {$eq : rating}
-        } 
+            rating: { $eq: rating }
+        }
         let hotel = await hotelModel.find(query);
         return hotel;
     } catch (error) {
@@ -41,13 +44,13 @@ const getHotelByRating = async (rating) => {
 const addNewHotel = async (hotelName, description, image, rating, address, phoneNumber) => {
     try {
         const newHotel = {
-            hotelName, 
-            description, 
-            image, 
-            rating, 
-            address, 
+            hotelName,
+            description,
+            image,
+            rating,
+            address,
             phoneNumber
-        }  
+        }
         const hotel = await hotelModel.create(newHotel);
         return hotel;
     } catch (error) {
@@ -59,6 +62,23 @@ const addNewHotel = async (hotelName, description, image, rating, address, phone
 // cập nhật hotel mới vào database
 const updateHotel = async (id, hotelName, description, image, rating, address, phoneNumber) => {
     try {
+        // let hotel = hotelModel.find(item => item._id.toString() == id.toString());
+        // if (hotel) {
+        //     data = hotelModel.map(item => {
+        //         if (item._id.toString() == id.toString()) {
+        //             item.hotelName = hotelName ? hotelName : item.hotelName;
+        //             item.description = description ? description : item.description;
+        //             item.image = image ? image : item.image;
+        //             item.rating = rating ? rating : item.rating;
+        //             item.address = address ? address : item.address;
+        //             item.phoneNumber = phoneNumber ? phoneNumber : item.phoneNumber;
+        //         }
+        //         return true;
+        //     });
+        //     return true;
+        // }
+        // return false;
+
         let item = await hotelModel.findById(id);
         if (item) {
             item.hotelName = hotelName ? hotelName : item.hotelName;
@@ -67,13 +87,13 @@ const updateHotel = async (id, hotelName, description, image, rating, address, p
             item.rating = rating ? rating : item.rating;
             item.address = address ? address : item.address;
             item.phoneNumber = phoneNumber ? phoneNumber : item.phoneNumber;
-            await hotelModel.findByIdAndUpdate(id, item);
+            await hotelModel.save(id, item);
             return true;
         }
     } catch (error) {
         console.log("Update hotel error: " + error);
+        return false;
     }
-    return false;
 };
 
 // xóa hotel
@@ -86,4 +106,4 @@ const removeHotel = async (id) => {
     }
 }
 
-module.exports = {getAllHotels, getHotelById, getHotelByRating, addNewHotel, updateHotel, removeHotel};
+module.exports = { getAllHotels, getHotelById, getHotelByRating, addNewHotel, updateHotel, removeHotel };

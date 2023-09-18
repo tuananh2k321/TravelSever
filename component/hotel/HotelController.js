@@ -13,7 +13,7 @@ const getHotelById = async (id) => {
     try {
         return await hotelService.getHotelById(id);
     } catch (error) {
-        throw error;
+        console.log("Get hotelById error: ",error);
     }
 }
 
@@ -37,7 +37,7 @@ const updateHotel = async (id,hotelName, description, image, rating, address, ph
     try {
         return await hotelService.updateHotel(id, hotelName, description, image, rating, address, phoneNumber);
     } catch (error) {
-        throw error;
+        console.log("Update hotel failed: " + error);
     }
 }
 

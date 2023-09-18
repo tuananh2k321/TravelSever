@@ -24,6 +24,14 @@ const deleteByPhoneNumber = async (phoneNumber) => {
         return false;
     }
 }
+const deleteById = async (id) => {
+    try {
+        return await UserService.deleteById(id);
+
+    } catch (error) {
+        return false;
+    }
+}
 const updateUser = async (email, phoneNumber, name, address, gender, dob, avatar, role) => {
     try {
         return await UserService.updateUser(email, phoneNumber, name, address, gender, dob, avatar, role);
@@ -57,6 +65,14 @@ const getAllUser = async (page, size) => {
     }
 }
 
+const getAllAdmin = async (page, size) => {
+    try {
+        return await UserService.getAllAdmin(page, size);
+    } catch (error) {
+        throw error;
+    }
+}
+
 const findUserByEmail = async (email) => {
     try{
         return await UserService.findUserByEmail(email);
@@ -67,5 +83,6 @@ const findUserByEmail = async (email) => {
 
 module.exports = {
     login, register, deleteByPhoneNumber,
-    updateUser, getAllUser, updatePassword, findUserByEmail, verifyAccount
+    updateUser, getAllUser, updatePassword, findUserByEmail, verifyAccount,
+    getAllAdmin, deleteById
 };

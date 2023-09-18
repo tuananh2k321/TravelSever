@@ -165,6 +165,18 @@ router.get('/list', async (req, res, next) => {
     }
 })
 
+//http://localhost:3000/user/api/listAdmin
+router.get('/listAdmin', async (req, res, next) => {
+    try {
+        const users = await userController.getAllAdmin();
+        console.log(users)
+        return res.status(200).json({ result: true, users: users });
+    } catch (error) {
+        console.log("List User:" + error)
+        return res.status(500).json({ result: false, massage: "Can't get list user" })
+    }
+})
+
 
 //http://localhost:3000/user/api/send-mail
 router.post('/send-mail', async (req, res, next) => {

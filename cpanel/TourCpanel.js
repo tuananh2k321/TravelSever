@@ -21,12 +21,12 @@ router.get('/insert-tour',async function(req, res,next) {
     res.render('tour/insertTour',{hotel,destination});
 });
 // xử lí thêm tour
-router.post('/insert-tour',[uploadImage.single('mainImage'),],async (req,res,next) =>{
+router.post('/insert-tour',[uploadImage.single('mainImage')],async (req,res,next) =>{
     try {
          let {body,file} = req;
         if(file){
             let mainImage = `http://192.168.2.25:3000/images/${file.filename}`;
-            body = {...body,mainImage: mainImage};
+            body = {...body, mainImage: mainImage};
         }
         let {tourName, description, price, mainImage,checking, rating, address, 
             hotel_id,destination_id,domain} =body;

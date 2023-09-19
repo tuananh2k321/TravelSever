@@ -11,7 +11,7 @@ const checkTokenCpanel = (req, res, next) => {
         if (url.includes('/login')) {
             return next();
         } else {
-            return res.redirect('/login')
+            return res.redirect('/user/cpanel/login')
         }
     } else {
         const { token } = session;
@@ -20,7 +20,7 @@ const checkTokenCpanel = (req, res, next) => {
             if (url.includes('/login')) {
                 return next();
             } else {
-                return res.redirect('/login')
+                return res.redirect('/user/cpanel/login')
             }
         } else {
             jwt.verify(token, 'secret', (err, decoded) => {
@@ -28,7 +28,7 @@ const checkTokenCpanel = (req, res, next) => {
                     if (url.includes('/login')) {
                         return next();
                     } else {
-                        return res.redirect('/login')
+                        return res.redirect('/user/cpanel/login')
                     }
                 } else {
                     if (url.includes('/login')) {
@@ -37,7 +37,7 @@ const checkTokenCpanel = (req, res, next) => {
                         const { role } = decoded;
                         if (role < 100) {
                             req.session.destroy();
-                            return res.redirect('/login')
+                            return res.redirect('/user/cpanel/login')
 
                         } else {
                             return next();

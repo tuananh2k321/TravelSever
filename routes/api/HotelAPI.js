@@ -18,7 +18,7 @@ router.post('/addHotel', async (req, res, next) => {
 
 // cập nhật hotels
 // http://localhost:3000/hotel/api/update-hotel/64a94d4b8edee1be600646c2
-router.put('/update-hotel/:id', async (req, res, next) => {
+router.post('/update-hotel/:id', async (req, res, next) => {
     try {
         const {id} = req.params;
         const {hotelName, description, image, rating, address, phoneNumber, } = req.body;
@@ -27,7 +27,7 @@ router.put('/update-hotel/:id', async (req, res, next) => {
         return res.status(200).json({ result: true, hotel: hotel, message: "Update hotel Success" });
         
     } catch (error) {
-        console.log(error);
+        console.log("Update Error: ",error);
         return res.status(400).json({ result: false, error: error, message: "Update hotel Failed" });
     }
 })

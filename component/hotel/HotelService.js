@@ -87,7 +87,7 @@ const updateHotel = async (id, hotelName, description, image, rating, address, p
             item.rating = rating ? rating : item.rating;
             item.address = address ? address : item.address;
             item.phoneNumber = phoneNumber ? phoneNumber : item.phoneNumber;
-            await hotelModel.save(id, item);
+            await hotelModel.findByIdAndUpdate(id, item);
             return true;
         }
     } catch (error) {

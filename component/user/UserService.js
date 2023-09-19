@@ -41,8 +41,29 @@ const deleteByPhoneNumber = async (phoneNumber) => {
     try {
         const user = await UserModel.findOne({ phoneNumber: phoneNumber })
         console.log(user)
-        {
+        if (user) {
             await UserModel.deleteOne(user)
+            return true;
+        } else {
+            return false; 
+        }
+        return true;
+    } catch (error) {
+        console.log("Delete User  error" + error);
+        return false;
+
+    }
+}
+
+const deleteById = async (id) => {
+    try {
+        const user = await UserModel.findOne({ _id: id })
+        console.log(user)
+        if (user) {
+            await UserModel.deleteOne(user)
+            return true;
+        } else {
+            return false; 
         }
         return true;
     } catch (error) {
@@ -125,7 +146,34 @@ const findUserByEmail = async (email) => {
 const getAllUser = async (page, size) => {
     try {
         // return data;
-        return await UserModel.find();
+        const users = UserModel.find()
+        const userArray = (await users).map((user) => user.toObject());
+        const userWithRole1 = []
+        userArray.forEach((user) => {
+            if (user.role === 1) {
+                userWithRole1.push(user)
+            }
+        });
+        return userWithRole1
+        //  data.splice(index, 1);
+    } catch (error) {
+        console.log("List user Got an error: " + error);
+        throw error;
+    }
+}
+
+const getAllAdmin = async (page, size) => {
+    try {
+        // return data;
+        const users = UserModel.find()
+        const userArray = (await users).map((user) => user.toObject());
+        const userWithRole1 = []
+        userArray.forEach((user) => {
+            if (user.role === 2) {
+                userWithRole1.push(user)
+            }
+        });
+        return userWithRole1
         //  data.splice(index, 1);
     } catch (error) {
         console.log("List user Got an error: " + error);
@@ -136,5 +184,5 @@ const getAllUser = async (page, size) => {
 module.exports = {
     login, register, deleteByPhoneNumber,
     updateUser, getAllUser, updatePassword,
-    findUserByEmail, verifyAccount
+    findUserByEmail, verifyAccount, getAllAdmin, deleteById
 };

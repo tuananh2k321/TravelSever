@@ -41,7 +41,7 @@ router.post('/insert-tour',[uploadImage.single('mainImage')],async (req,res,next
     }
 });
 
-router.get('/delete/:id', async (req, res, next) =>{
+router.get('/:id/delete', async (req, res, next) =>{
     try {
         const {id} = req.params;
         await tourController.deleteTour(id);
@@ -51,34 +51,51 @@ router.get('/delete/:id', async (req, res, next) =>{
     }
 });
 
-router.get('/edit/:id', async (req, res, next) =>{
+router.get('/:id/edit-tour', async (req, res, next) =>{
     try {
         const {id} = req.params;
         const tour = await tourController.getTourById(id);
         let hotel = await hotelController.getAllHotels();
         let destination = await destinationController.getAllDestination();
         
+
         for(let index =0; index<hotel.length; index++){
             const element = hotel[index];
             hotel[index].selected =false;
-            if(element._id.toString() == tour.hotel.toString()){
+            if(element._id == tour.hotel_id){
                 hotel[index].selected = true;
             }
         }
 
-        for(let index =0; index<destination.length; index++){
-            const element = destination[index];
-            destination[index].selected =false;
-            if(element._id.toString() == tour.destination.toString()){
-                destination[index].selected = true;
-            }
-        }
 
-        res.render('', {tour, hotel, destination});
+        res.render('tour/editTour', {tour, hotel,destination});
     } catch (error) {
         console.log('edit new  error:',error);
         next(error);
     }
-})
+});
+
+router.post('/:id/edit-tour',[uploadImage.single('mainImage')],async (req,res,next) =>{
+    try {
+         let {body,file} = req;
+         let {id} = req.params;
+        if(file){
+            let mainImage = `http://192.168.2.25:3000/images/${file.filename}`;
+            body = {...body, mainImage: mainImage};
+        }
+        let {tourName, description, price, mainImage,checking, rating, address, 
+            hotel_id,destination_id,domain} =body;
+
+            console.log(tourName, description, price, mainImage,checking, rating, address,
+             hotel_id,destination_id,domain);
+
+        await tourController.updateTour(id, tourName, description, price, mainImage,checking, rating, address,
+              hotel_id,destination_id,domain);
+        return res.redirect('/tour/cpanel/tour-table');
+    } catch (error) {
+        console.log('Add new  error:',error);
+        next(error);
+    }
+});
 
 module.exports = router;

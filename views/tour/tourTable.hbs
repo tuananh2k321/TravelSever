@@ -368,8 +368,8 @@
                           <td> {{this.address}}</td>
                           <td> {{this.domain}}</td>
                           <td>
-                            <a href="" class="btn btn-primary">Edit</a>
-                            <button onclick="confirmDelete({{this._id}})" class="btn btn-danger">Delete</button>
+                            <a href="/tour/cpanel/{{this._id}}/edit-tour" class="btn btn-primary">Edit</a>
+                            <button onclick="confirmDelete('{{this._id}}')"  type="button" class="btn btn-danger">Delete</button>
                         </td>
                         </tr>
                           
@@ -404,25 +404,24 @@
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-
 <script>
-
-  const fetchAPI = async (url, option)=>{
-    const res = await fetch(urlm option);
-    return res.json();
-  }
-
-  const deleteTour = async (id) =>{
-    const url = `/tour/cpanel/delete/${id}`;
-    const option = {
-      method: 'get',
-      headers: {'Content-Type': 'application/json'}
+  const fetchAPI = async (url, option) => {
+        const res = await fetch(url, option)
+        return res.json();
     }
-    try{
-      const deleteResuilt = await fetchAPI(url, option);
-      console.log('delete result: ', deleteResuilt);
 
-      if (deleteResuilt.status) {
+    const deleteProduct = async (id) => {
+        const url = `/tour/cpanel/${id}/delete`;
+
+        const option = {
+            method: 'get',
+            headers: { 'Content-Type': 'application/json' }
+        }
+        try {
+            const result = await fetchAPI(url, option);
+            console.log('delete result: ', result)
+
+            if (result.status) {
                 window.location.reload();
             } else {
                 swal('Xóa thất bại!', {
@@ -430,13 +429,13 @@
                 });
             }
 
-    }catch (e){
-      console.log('error delete: ', e)
+        } catch (e) {
+            console.log('error delete: ', e)
             throw e;
+        }
     }
-  }
 
-  const confirmDelete = (id) => {
+    const confirmDelete = (id) => {
         swal({
             title: "Xác nhận xóa?",
             text: "Bạn có muốn xóa sản phẩm này?",
@@ -446,7 +445,7 @@
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    deleteTour(id);
+                    deleteProduct(id);
                 }
             });
     }

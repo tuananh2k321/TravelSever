@@ -41,4 +41,44 @@ router.post('/insert-tour',[uploadImage.single('mainImage')],async (req,res,next
     }
 });
 
+router.get('/delete/:id', async (req, res, next) =>{
+    try {
+        const {id} = req.params;
+        await tourController.deleteTour(id);
+        return res.json({status: true})
+    } catch (error) {
+        return res.json({status: false})
+    }
+});
+
+router.get('/edit/:id', async (req, res, next) =>{
+    try {
+        const {id} = req.params;
+        const tour = await tourController.getTourById(id);
+        let hotel = await hotelController.getAllHotels();
+        let destination = await destinationController.getAllDestination();
+        
+        for(let index =0; index<hotel.length; index++){
+            const element = hotel[index];
+            hotel[index].selected =false;
+            if(element._id.toString() == tour.hotel.toString()){
+                hotel[index].selected = true;
+            }
+        }
+
+        for(let index =0; index<destination.length; index++){
+            const element = destination[index];
+            destination[index].selected =false;
+            if(element._id.toString() == tour.destination.toString()){
+                destination[index].selected = true;
+            }
+        }
+
+        res.render('', {tour, hotel, destination});
+    } catch (error) {
+        console.log('edit new  error:',error);
+        next(error);
+    }
+})
+
 module.exports = router;

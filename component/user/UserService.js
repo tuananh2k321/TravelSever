@@ -142,6 +142,47 @@ const findUserByEmail = async (email) => {
     }
 }
 
+const searchAdmins = async (keyword) => {
+    try {
+        let query = {
+            name: { $regex: `.*${keyword}.*`, $options: 'i'},
+          }
+        let users = await UserModel.find(query)
+        console.log("users: ",users)
+        const userArray = (await users).map((user) => user.toObject());
+        const userWithRole1 = []
+        userArray.forEach((user) => {
+            if (user.role === 2) {
+                userWithRole1.push(user)
+            }
+        });
+        return userWithRole1
+    } catch (error) {
+      console.log('Search error: ', error);
+      throw error;
+    }
+  };
+
+  const searchUsers = async (keyword) => {
+    try {
+        let query = {
+            name: { $regex: `.*${keyword}.*`, $options: 'i'},
+          }
+        let users = await UserModel.find(query)
+        console.log("users: ",users)
+        const userArray = (await users).map((user) => user.toObject());
+        const userWithRole1 = []
+        userArray.forEach((user) => {
+            if (user.role === 1) {
+                userWithRole1.push(user)
+            }
+        });
+        return userWithRole1
+    } catch (error) {
+      console.log('Search error: ', error);
+      throw error;
+    }
+  };
 
 const getAllUser = async (page, size) => {
     try {
@@ -184,5 +225,6 @@ const getAllAdmin = async (page, size) => {
 module.exports = {
     login, register, deleteByPhoneNumber,
     updateUser, getAllUser, updatePassword,
-    findUserByEmail, verifyAccount, getAllAdmin, deleteById
+    findUserByEmail, verifyAccount, getAllAdmin, deleteById, searchUsers,
+    searchAdmins
 };

@@ -338,53 +338,60 @@
             <h5 class="card-title">General Form Elements</h5>
 
             <!-- General Form Elements -->
-            <form method="post" action="/hotel/cpanel/update-hotel/{{hotel._id}}" enctype="multipart/form-data">
+            <form id="form" method="post" action="/hotel/cpanel/update-hotel/{{hotel._id}}"
+              enctype="multipart/form-data" onsubmit="return onClickForm()">
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Hotel Name</label>
                 <div class="col-sm-10">
-                  <input type="text" name="hotelName" class="form-control" value="{{hotel.hotelName}}">
-                  <div>
-
-                  </div>
+                  <input oninput="validate()" value="{{hotel.hotelName}}" type="text" id="hotelName" name="hotelName"
+                    class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputEmail" class="col-sm-2 col-form-label">Address</label>
                 <div class="col-sm-10">
-                  <input type="text" name="address" class="form-control" value="{{hotel.address}}">
+                  <input oninput="validate()" value="{{hotel.address}}" type="text" id="address" name="address"
+                    class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputNumber" class="col-sm-2 col-form-label">Phone Number</label>
                 <div class="col-sm-10">
-                  <input type="number" name="phoneNumber" class="form-control" value="{{hotel.phoneNumber}}">
+                  <input oninput="validate()" value="{{hotel.phoneNumber}}" type="text" id="phoneNumber"
+                    name="phoneNumber" class="form-control">
+                  <div id="phoneError" style="color: red; font-size: 16px; font-style: italic; margin-top: 5px;">
+                  </div>
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputNumber" class="col-sm-2 col-form-label">Ratings</label>
                 <div class="col-sm-10">
-                  <input type="number" name="rating" class="form-control" value="{{hotel.rating}}">
+                  <input oninput="validate()" value="{{hotel.rating}}" type="number" id="rating" name="rating"
+                    class="form-control">
+                  <div id="ratingError" style="color: red; font-size: 16px; font-style: italic; margin-top: 5px;">
+                  </div>
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputNumber" class="col-sm-2 col-form-label">Image Upload</label>
                 <div class="col-sm-10">
-                  <input onchange="displayImg()" class="form-control" name="image" type="file" id="formFile">
-                  <img style="width: 200px; height: 100px; object-fit: contain; margin-top: 20px;"
-                src="{{hotel.image}}" />
+                  <input onchange="displayImg()" class="form-control" id="image" name="image" type="file" id="formFile">
+                  <img id="img" src="{{hotel.image}}" style="width: 200px; height: 100px; margin-top: 10px; object-fit: fill;"
+                    alt="Image hotel" />
                 </div>
-              </div>
               </div>
               <div class="row mb-3">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Descriptions</label>
                 <div class="col-sm-10">
-                  <textarea class="form-control" name="description" style="height: 200px">{{hotel.description}}</textarea>
+                  <textarea oninput="validate()" class="form-control" id="description" name="description"
+                    style="height: 200px">{{hotel.description}}</textarea>
                 </div>
               </div>
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Submit Button</label>
                 <div class="col-sm-10">
-                  <button type="submit" class="btn btn-primary">Submit Form</button>
+                  <button type="submit" id="submit" class="btn btn-primary">Submit
+                    Form</button>
                 </div>
               </div>
 
@@ -417,30 +424,72 @@
     class="bi bi-arrow-up-short"></i></a>
 
 <script>
-  function validateForm() {
-    var name = document.getElementsByName("hotelName");
-    var address = document.getElementsByName("address");
-    var phone = document.getElementsByName("phoneNumber");
-    var image = document.getElementsByName("image");
-    var rating = document.getElementsByName("rating");
-    var description = document.getElementsByName("description");
 
-    if (name == null || name.length == '') {
-      alert("Tên hotel không được để trống!");
-    }
-    else if (address == null || address.length == '') {
-      alert("Địa chỉ hotel không được để trống!");
+  const hotel = {
+    hotelName: false,
+    address: false,
+    phoneNumber: false,
+    description: false,
+    rating: false,
+    //image: false
+  }
+
+
+  const validate = () => {
+    hotel.hotelName = document.getElementById('hotelName').value != '' && document.getElementById('hotelName').value.trim().length > 0;
+    hotel.address = document.getElementById('address').value != '' && document.getElementById('address').value.trim().length > 0;
+    hotel.phoneNumber = document.getElementById('phoneNumber').value != '' && document.getElementById('phoneNumber').value.trim().length > 0;
+    hotel.description = document.getElementById('description').value != '' && document.getElementById('description').value.trim().length > 0;
+    hotel.rating = document.getElementById('rating').value != '' && document.getElementById('rating').value.trim().length > 0;
+    //hotel.image = document.getElementById('image').value != '' && document.getElementById('image').value.trim().length > 0;
+
+    if (hotel.hotelName && hotel.address && hotel.phoneNumber && hotel.description && hotel.rating) {
+      document.getElementById('submit').removeAttribute('disabled');
+    } else {
+      document.getElementById('submit').setAttribute('disabled', true);
     }
   }
 
-  // hiển thị hình ảnh khi chọn
-    const displayImg = () => {
-        var file = document.getElementById('file').files[0];
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            var image = document.getElementById("img");
-            image.src = e.target.result;
-        }
-        reader.readAsDataURL(file);
+  const onClickForm = () => {
+    let phone = document.getElementById('phoneNumber').value;
+    let rating = document.getElementById('rating').value;
+    let textErrorRating;
+    let textErrorPhoneNumber;
+    const phoneRegex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+
+
+    if (phoneRegex.test(phone) == false) {
+      textErrorPhoneNumber = "The phone number is not in the correct format";
+      document.getElementById('phoneError').innerHTML = textErrorPhoneNumber;
+      console.log(phoneRegex.test(phone));
+      return false;
+    } else {
+      textErrorPhoneNumber = "";
+      document.getElementById('phoneError').innerHTML = textErrorPhoneNumber;
     }
+
+    if (rating < 0 || rating > 5) {
+      textErrorRating = "Rating must be between 0 and 5";
+      console.log(rating < 0 || rating > 5);
+      document.getElementById('ratingError').innerHTML = textErrorRating;
+      return false;
+    } else {
+      textErrorRating = "";
+      document.getElementById('ratingError').innerHTML = textErrorRating;
+    }
+
+    return true
+
+  }
+
+  // hiển thị hình ảnh khi chọn
+  const displayImg = () => {
+    var file = document.getElementById('image').files[0];
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var image = document.getElementById("img");
+      image.src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+  }
 </script>

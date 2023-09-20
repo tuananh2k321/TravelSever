@@ -82,4 +82,17 @@ router.get("/get-all-hotels/search/rating", async (req, res, next) => {
     }
 });
 
+
+// lấy danh sách hotel theo tên
+// http://localhost:3000/hotel/api/get-all-hotels/search/keyword?keyword=abc
+router.get("/get-all-hotels/search/keyword", async (req, res, next) => {
+    try {
+        const {keyword} = req.query;
+        const hotels = await hotelController.searchHotelName(keyword);
+        return res.status(200).json({ result: true, hotels: hotels, message: "Get All list hotel by name Successfully" });
+    } catch (error) {
+        return res.status(400).json({ result: false, hotels: [], message: "Get All list hotel by name Failed" });
+    }
+});
+
 module.exports = router;

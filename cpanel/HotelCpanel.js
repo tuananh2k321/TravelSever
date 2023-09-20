@@ -2,9 +2,7 @@ var express = require('express');
 var router = express.Router();
 const hotelController = require('../component/hotel/HotelController');
 const uploadImage = require('../middleware/UpLoadImage');
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
-
+const validation = require('../middleware/Validation');
 
 
 // http://localhost:3000/hotel/cpanel/hotel-table
@@ -32,7 +30,7 @@ router.get('/delete-hotel/:id', async function (req, res, next) {
 
 // xử lí trang thêm mới hotel
 // http://localhost:3000/hotel/cpanel/add-hotel
-router.post('/add-hotel', [uploadImage.single('image'),], async function (req, res, next) {
+router.post('/add-hotel', [uploadImage.single('image'), validation.checkFormHotel], async function (req, res, next) {
     try {
         let {body, file} = req;
         if(file) {
@@ -66,7 +64,7 @@ router.get('/update-hotel/:id', async function (req, res, next) {
 
 // xử lí trang cập nhật hotel
 // http://localhost:3000/hotel/cpanel/update-hotel/64a94d4b8edee1be600646c2
-router.post('/update-hotel/:id',[uploadImage.single('image'),], async function (req, res, next) {
+router.post('/update-hotel/:id',[uploadImage.single('image'), validation.checkFormHotel], async function (req, res, next) {
     try {
         let {id} = req.params;
         let {body, file} = req;

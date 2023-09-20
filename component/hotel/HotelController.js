@@ -49,4 +49,12 @@ const removeHotel = async (id) => {
     }
 }
 
-module.exports = {getAllHotels, getHotelById, getHotelByRating, addNewHotel, updateHotel, removeHotel}
+const searchHotelName = async (keyword) => {
+    try {
+        return await hotelService.searchHotelName(keyword);
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports = {getAllHotels, getHotelById, getHotelByRating, addNewHotel, updateHotel, removeHotel, searchHotelName}

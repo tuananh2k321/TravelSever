@@ -41,6 +41,8 @@ router.post('/insert-tour',[uploadImage.single('mainImage')],async (req,res,next
     }
 });
 
+
+// xóa tour
 router.get('/:id/delete', async (req, res, next) =>{
     try {
         const {id} = req.params;
@@ -51,6 +53,8 @@ router.get('/:id/delete', async (req, res, next) =>{
     }
 });
 
+
+// trang edit tour
 router.get('/:id/edit-tour', async (req, res, next) =>{
     try {
         const {id} = req.params;
@@ -74,7 +78,7 @@ router.get('/:id/edit-tour', async (req, res, next) =>{
         next(error);
     }
 });
-
+// xử lí edit tour
 router.post('/:id/edit-tour',[uploadImage.single('mainImage')],async (req,res,next) =>{
     try {
          let {body,file} = req;

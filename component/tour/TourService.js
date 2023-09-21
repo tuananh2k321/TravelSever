@@ -53,6 +53,7 @@ const updateTour = async (id,tourName, description, price, mainImage,checking, r
             tour.hotel_id = hotel_id ? hotel_id : tour.hotel_id;
             tour.destination_id = destination_id ? destination_id : tour.destination_id;
             tour.domain = domain ? domain : tour.domain;
+            await tour.save();
             return true;
         }
     } catch (error) {

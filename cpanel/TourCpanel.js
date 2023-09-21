@@ -21,14 +21,15 @@ router.get('/insert-tour',async function(req, res,next) {
     res.render('tour/insertTour',{hotel,destination});
 });
 // xử lí thêm tour
-router.post('/insert-tour',[uploadImage.single('mainImage')],async (req,res,next) =>{
+router.post('/insert-tour',[uploadImage.array('mainImage',10)],async (req,res,next) =>{
     try {
-         let {body,file} = req;
-        if(file){
-            let mainImage = `http://192.168.2.25:3000/images/${file.filename}`;
-            body = {...body, mainImage: mainImage};
-        }
-        let {tourName, description, price, mainImage,checking, rating, address, 
+         let {body,files} = req;
+         let mainImage = [];
+         if (files && files.length > 0) {
+           mainImage = files.map(file => `http://192.168.2.25:3000/images/${file.filename}`);
+         }
+
+        let {tourName, description, price,checking, rating, address, 
             hotel_id,destination_id,domain} =body;
             console.log(tourName, description, price, mainImage,checking, rating, address,
              hotel_id,destination_id,domain);
@@ -41,6 +42,8 @@ router.post('/insert-tour',[uploadImage.single('mainImage')],async (req,res,next
     }
 });
 
+
+// xóa tour
 router.get('/:id/delete', async (req, res, next) =>{
     try {
         const {id} = req.params;
@@ -51,6 +54,8 @@ router.get('/:id/delete', async (req, res, next) =>{
     }
 });
 
+
+// trang edit tour
 router.get('/:id/edit-tour', async (req, res, next) =>{
     try {
         const {id} = req.params;
@@ -74,7 +79,7 @@ router.get('/:id/edit-tour', async (req, res, next) =>{
         next(error);
     }
 });
-
+// xử lí edit tour
 router.post('/:id/edit-tour',[uploadImage.single('mainImage')],async (req,res,next) =>{
     try {
          let {body,file} = req;

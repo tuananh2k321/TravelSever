@@ -10,7 +10,7 @@ const login = async (email, password) => {
 }
 const register = async (phoneNumber, password, name, lastName, email, address, gender, dob, avatar, role,createAt) => {
     try {
-        return await UserService.register(phoneNumber, password, lastName, name, email, address, gender, dob, avatar, role,createAt);
+        return await UserService.register(phoneNumber, password, name, lastName, email, address, gender, dob, avatar, role,createAt);
 
     } catch (error) {
         return false;
@@ -57,6 +57,22 @@ const verifyAccount = async (email) => {
     }
 }
 
+const searchUsers = async (keyword) => {
+    try{
+        return await UserService.searchUsers(keyword);
+    } catch (error) {
+        return false
+    }
+}
+
+const searchAdmins = async (keyword) => {
+    try{
+        return await UserService.searchAdmins(keyword);
+    } catch (error) {
+        return false
+    }
+}
+
 const getAllUser = async (page, size) => {
     try {
         return await UserService.getAllUser(page, size);
@@ -84,5 +100,5 @@ const findUserByEmail = async (email) => {
 module.exports = {
     login, register, deleteByPhoneNumber,
     updateUser, getAllUser, updatePassword, findUserByEmail, verifyAccount,
-    getAllAdmin, deleteById
+    getAllAdmin, deleteById, searchUsers, searchAdmins
 };

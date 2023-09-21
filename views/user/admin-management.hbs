@@ -10,8 +10,8 @@
     </div><!-- End Logo -->
 
     <div class="search-bar">
-        <form class="search-form d-flex align-items-center" method="POST" action="#">
-            <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+        <form class="search-form d-flex align-items-center" method="post" action="/user/cpanel/search-admin">
+            <input type="text" name="keyword" placeholder="Search" title="Enter search keyword">
             <button type="submit" title="Search"><i class="bi bi-search"></i></button>
         </form>
     </div><!-- End Search Bar -->
@@ -346,11 +346,9 @@
 
                 <div class="card">
                     <div class="card-body">
-                        {{!-- <h5 class="card-title">Datatables</h5>
-                        <p>Add lightweight datatables to your project with using the <a
-                                href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple
-                                DataTables</a> library. Just add <code>.datatable</code> class name to any table you
-                            wish to conver to a datatable</p> --}}
+                        {{!-- <h4 class="card-title"></h4>
+                        
+                        <h4 class="card-title"></h4> --}}
 
                         <!-- Table with stripped rows -->
                         <table class="table datatable">
@@ -377,8 +375,8 @@
                                     <td>{{this.email}}</td>
                                     <td>{{this.phoneNumber}}</td>
                                     <td>
-                                         <button onclick="confirmDelete('{{this._id}}')" 
-                                         type="button" class="btn btn-outline-danger">Delete</button>
+                                        <button onclick="confirmDelete('{{this._id}}')" type="button"
+                                            class="btn btn-outline-danger">Delete</button>
                                     </td>
                                 </tr>
                                 {{/each}}
@@ -414,7 +412,7 @@
 
 
 <script>
-  const fetchAPI = async (url, option) => {
+    const fetchAPI = async (url, option) => {
         const res = await fetch(url, option)
         return res.json();
     }

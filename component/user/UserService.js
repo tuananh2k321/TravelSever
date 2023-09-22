@@ -73,7 +73,7 @@ const deleteById = async (id) => {
     }
 }
 
-const updateUser = async (email, phoneNumber, name, address, gender, dob, avatar, role) => {
+const updateUser = async ( name, address, avatar, phoneNumber, email, gender, dob, role) => {
     try {
         const user = await UserModel.findOne({ email: email })
         if (user) {
@@ -87,7 +87,7 @@ const updateUser = async (email, phoneNumber, name, address, gender, dob, avatar
             await user.save();
             console.log("USER:" + user);
 
-            return true;
+            return user;
         } else {
             return false;
         }

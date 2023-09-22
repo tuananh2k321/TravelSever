@@ -5,7 +5,9 @@ const userController = require('../component/user/UserController')
 
 // http://localhost:3000/home-page/cpanel/home
 router.get('/home', [authen.checkTokenCpanel], function(req, res) {
-    res.render('home-page/home');
+    const user = req.session.user
+    console.log("user: ",user);
+    res.render('home-page/home', {user});
 });
 
 // http://localhost:3000/home-page/cpanel/form

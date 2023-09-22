@@ -100,15 +100,37 @@ const updateUser = async ( name, address, avatar, phoneNumber, email, gender, do
 const updatePassword = async (password, email) => {
     try {
         const user = await UserModel.findOne({ email: email })
+        const salt = bcrypt.genSaltSync(10);
         if (user) {
-            user.password = password ? password : user.password;
+            const hash = bcrypt.hashSync(password, salt);
+            user.password = hash ? hash : user.password;
             await user.save();
             console.log("USER:" + user);
-            return true;
+            return user;
         } else {
             return false;
         }
         
+    } catch (error) {
+        console.log("Update User  error" + error)
+        return false;
+    }
+}
+
+const changePassword = async (currentPassword, newPassword, email) => {
+    try {
+        const user = await UserModel.findOne({ email: email })
+        const salt = bcrypt.genSaltSync(10);
+        const result = bcrypt.compareSync(currentPassword, user.password);
+        if (user && result) {
+            const hash = bcrypt.hashSync(newPassword, salt);
+            user.password = hash ? hash : user.password;
+            await user.save();
+            console.log("USER:" + user);
+            return user;
+        } else {
+            return false;
+        }
     } catch (error) {
         console.log("Update User  error" + error)
         return false;
@@ -226,5 +248,5 @@ module.exports = {
     login, register, deleteByPhoneNumber,
     updateUser, getAllUser, updatePassword,
     findUserByEmail, verifyAccount, getAllAdmin, deleteById, searchUsers,
-    searchAdmins
+    searchAdmins, changePassword
 };

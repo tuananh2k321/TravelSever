@@ -1,5 +1,4 @@
 const UserService = require('./UserService');
-const mailer = require('nodemailer')
 
 const login = async (email, password) => {
     try {
@@ -8,9 +7,9 @@ const login = async (email, password) => {
         return false;
     }
 }
-const register = async (phoneNumber, password, name, lastName, email, address, gender, dob, avatar, role,createAt) => {
+const register = async ( name, address, avatar, phoneNumber, email, gender, dob,  role,createAt) => {
     try {
-        return await UserService.register(phoneNumber, password, name, lastName, email, address, gender, dob, avatar, role,createAt);
+        return await UserService.register( name, address, avatar, phoneNumber, email, gender, dob, role,createAt);
 
     } catch (error) {
         return false;

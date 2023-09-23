@@ -105,9 +105,9 @@ router.post("/otp/verify", async (req, res) => {
 //http://localhost:3000/user/api/update
 router.post('/update', async (req, res, next) => {
     try {
-        const { email, name, phoneNumber, address, gender, dob, avatar, role } = req.body;
+        const {  name, address, avatar, phoneNumber, email, gender, dob, role } = req.body;
         console.log(email, name, address, gender, dob, avatar, role, phoneNumber,);
-        const user = await userController.updateUser(email, phoneNumber, name, address, gender, dob, avatar, role,);
+        const user = await userController.updateUser( name, address, avatar, phoneNumber, email, gender, dob, role,);
         console.log(user)
         if (user) {
             return res.status(200).json({ result: true, user: user, message: "Update Success" });

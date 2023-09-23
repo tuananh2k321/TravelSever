@@ -68,6 +68,7 @@ router.post('/login', [authen.checkTokenCpanel], async function(req, res, next) 
     if (result.role === 2) {
         const token = jwt.sign({ _id: result._id }, 'secret');
         req.session.token = token;
+        req.session.user = result;
         console.log('token: ', token);
       
         return res.redirect('/home-page/cpanel/home');
@@ -135,6 +136,57 @@ router.get('/:id/delete',  async function(req, res, next) {
         return res.json({status: false, error: id})
     }
 })
+
+//http://localhost:3000/user/cpanel/update
+router.post('/update/:email',  upload.single("filename"), async (req, res, next) => {
+    try {
+        
+        const {email} = req.params
+        const { name, address, phoneNumber} = req.body;
+
+        const dateTime = giveCurrentDateTime();
+
+        const storageRef = ref(storage, `user-avatar/${req.file.originalname + "       " + dateTime}`);
+
+        // Create file metadata including the content type
+        const metadata = {
+            contentType: req.file.mimetype,
+        };
+
+        // Upload the file in the bucket storage
+        const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
+        //by using uploadBytesResumable we can control the progress of uploading like pause, resume, cancel
+
+        // Grab the public url
+        const downloadURL = await getDownloadURL(snapshot.ref);
+
+        console.log('File successfully uploaded.');
+        // return res.send({
+        //     message: 'file uploaded to firebase storage',
+        //     name: req.file.originalname,
+        //     type: req.file.mimetype,
+        //     downloadURL: downloadURL
+        // })
+
+        console.log( name, address, downloadURL, phoneNumber, email);
+        const user = await userController.updateUser(name, address, downloadURL, phoneNumber, email);
+        req.session.user = user;
+        console.log(user)
+        if (user) {
+            res.render('home-page/profile', {user})
+        } else {
+            res.render('home-page/profile', {user})
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ result: false, user: null });
+    }
+});
+
+// http://localhost:3000/user/cpanel/logout
+// router.get('/logout', function(req, res) {
+//     res.render('user/login');
+// });
 
 
 // http://localhost:3000/user/cpanel/register

@@ -19,16 +19,15 @@ const checkLogin = async (req, res, next) => {
 
 const checkFormHotel = async (req, res, next) => {
     try {
-        const {hotelName, description, image, rating, address, phoneNumber} = req.body;
+        const {hotelName, description, rating, address, phoneNumber} = req.body;
         const phoneRegex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
         const checkHotelName = hotelName != "";
         const checkDescription = description != "";
-        const checkImage = image != "";
         const checkRating = rating != "";
         const checkAddress = address != "";
         const checkPhoneNumber = checkDescription != "";
 
-        if(!checkHotelName || !description || !checkImage || !checkRating || !checkAddress || !checkPhoneNumber){
+        if(!checkHotelName || !description || !checkRating || !checkAddress || !checkPhoneNumber){
             return res.status(400).json({result: false, message: 'Vui lòng nhập đầy đủ thông tin'});
         } else if (phoneRegex.test(phoneNumber) == false){
             return res.status(400).json({result: false, message:'Số điện thoại không hợp lệ'});

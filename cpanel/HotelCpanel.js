@@ -30,13 +30,13 @@ router.get('/delete-hotel/:id', async function (req, res, next) {
 
 // xử lí trang thêm mới hotel
 // http://localhost:3000/hotel/cpanel/add-hotel
-router.post('/add-hotel', [uploadImage.single('image'), validation.checkFormHotel], async function (req, res, next) {
+router.post('/add-hotel', [validation.checkFormHotel], async function (req, res, next) {
     try {
         let {body, file} = req;
-        if(file) {
-            let image = `http://192.168.1.7:3000/images/${file.filename}`;
-            body = {...body, image: image};
-        }
+        // if(file) {
+        //     let image = `http://192.168.1.7:3000/images/${file.filename}`;
+        //     body = {...body, image: image};
+        // }
         let { hotelName, description, image, rating, address, phoneNumber } =body;
         console.log("Add hotel: " ,hotelName, description, image, rating, address, phoneNumber)
         // image = 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aG90ZWx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60'
@@ -64,14 +64,14 @@ router.get('/update-hotel/:id', async function (req, res, next) {
 
 // xử lí trang cập nhật hotel
 // http://localhost:3000/hotel/cpanel/update-hotel/64a94d4b8edee1be600646c2
-router.post('/update-hotel/:id',[uploadImage.single('image'), validation.checkFormHotel], async function (req, res, next) {
+router.post('/update-hotel/:id',[validation.checkFormHotel], async function (req, res, next) {
     try {
         let {id} = req.params;
         let {body, file} = req;
-        if(file) {
-            let image = `http://192.168.1.7:3000/images/${file.filename}`;
-            body = {...body, image: image};
-        }
+        // if(file) {
+        //     let image = `http://192.168.1.7:3000/images/${file.filename}`;
+        //     body = {...body, image: image};
+        // }
         let { hotelName, description, image, rating, address, phoneNumber } = body;
         console.log("=====> All pẩm: ", hotelName, description, image, rating, address, phoneNumber);
         await hotelController.updateHotel(id, hotelName, description, image, rating, address, phoneNumber);

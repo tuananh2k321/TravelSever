@@ -1,10 +1,13 @@
 var express = require('express');
 var router = express.Router();
 const authen = require('../middleware/Authen')
+const userController = require('../component/user/UserController')
 
 // http://localhost:3000/home-page/cpanel/home
 router.get('/home', [authen.checkTokenCpanel], function(req, res) {
-    res.render('home-page/home');
+    const user = req.session.user
+    console.log("user: ",user);
+    res.render('home-page/home', {user});
 });
 
 // http://localhost:3000/home-page/cpanel/form
@@ -19,7 +22,9 @@ router.get('/chart', [authen.checkTokenCpanel], function(req, res) {
 
 // http://localhost:3000/home-page/cpanel/profile
 router.get('/profile', [authen.checkTokenCpanel], function(req, res) {
-    res.render('home-page/profile');
+    const user = req.session.user
+    console.log("user: ",user);
+    res.render('home-page/profile', {user});
 });
 
 // http://localhost:3000/tour/cpanel/error404

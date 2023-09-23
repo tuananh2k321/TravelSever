@@ -10,8 +10,8 @@
   </div><!-- End Logo -->
 
   <div class="search-bar">
-    <form class="search-form d-flex align-items-center" method="POST" action="#">
-      <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+    <form class="search-form d-flex align-items-center" method="get" action="/tour/cpanel/tour-table/search">
+      <input type="text" name="searchName" placeholder="Search" title="Enter search keyword">
       <button type="submit" title="Search"><i class="bi bi-search"></i></button>
     </form>
   </div><!-- End Search Bar -->
@@ -252,23 +252,33 @@
       </ul>
     </li><!-- End Forms Nav -->
 
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a href="../../tour/cpanel/tour-table">
-            <i class="bi bi-circle"></i><span>Tour Tables</span>
-          </a>
-        </li>
-        <li>
-          <a href="../../hotel/cpanel/hotel-table">
-            <i class="bi bi-circle"></i><span>Hotel Tables</span>
-          </a>
-        </li>
-      </ul>
-    </li><!-- End Tables Nav -->
+     <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="../../tour/cpanel/tour-table">
+              <i class="bi bi-circle"></i><span>Tour</span>
+            </a>
+          </li>
+          <li>
+            <a href="../../hotel/cpanel/hotel-table">
+              <i class="bi bi-circle"></i><span>Hotels</span>
+            </a>
+          </li>
+          <li>
+            <a href="/user/cpanel/list-admin">
+              <i class="bi bi-circle"></i><span>Admins</span>
+            </a>
+          </li>
+          <li>
+            <a href="/user/cpanel/list-user">
+              <i class="bi bi-circle"></i><span>Users</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Tables Nav -->
 
     <li class="nav-item">
       <a class="nav-link collapsed" href="chart" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
@@ -347,11 +357,11 @@
               </a>
 
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <li><a onclick="showGenre(this)" class="dropdown-item" href="#">Mặc định</a></li>
+                <li><a onclick="showGenre(this)" class="dropdown-item" href="/tour/cpanel/tour-table">Mặc định</a></li>
                 <li><a onclick="showGenre(this)" class="dropdown-item" href="#">Đánh giá nhiều nhất</a></li>
-                <li><a onclick="showGenre(this)" class="dropdown-item" href="#">Được yêu thích</a></li>
-                <li><a onclick="showGenre(this)" class="dropdown-item" href="#">Khu vực: Đà Lạt</a></li>
-                <li><a onclick="showGenre(this)" class="dropdown-item" href="#">Khu vực: Vũng Tàu</a></li>
+                <li><a onclick="showGenre(this)" class="dropdown-item" href="/tour/cpanel/tour-table/rating">Được yêu thích</a></li>
+                <li><a onclick="showGenre(this)" class="dropdown-item" href="">Khu vực: Đà Lạt</a></li>
+                <li><a onclick="showGenre(this)" class="dropdown-item" href="">Khu vực: Vũng Tàu</a></li>
               </ul>
             </div>
 
@@ -373,7 +383,7 @@
 
                 <tr>
                   <td class="py-1">
-                    <img src="{{this.mainImage}}" alt="image" />
+                    <img src="{{this.mainImage}}" alt="image" width="100" height="100" />
                   </td>
                   <td> {{this.tourName}} </td>
                   <td>
@@ -423,7 +433,7 @@
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
     class="bi bi-arrow-up-short"></i></a>
-
+{{!-- js delete tour --}}
 <script>
   const fetchAPI = async (url, option) => {
     const res = await fetch(url, option)
@@ -475,3 +485,5 @@ function showGenre(item) {
 }
 
 </script>
+
+

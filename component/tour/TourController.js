@@ -29,8 +29,8 @@ const getTourSearchName = async (keyword) => {
     return await tourService.getTourSearhName(keyword);
 }
 
-const getTourRating = async (keyword) => {
-    return await tourService.getTourRating(keyword);
+const getTourRating = async () => {
+    return await tourService.getTourRating();
 }
 const getTourDomain = async (keyword) => {
     return await tourService.getTourDomain(keyword);

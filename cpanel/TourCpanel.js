@@ -103,4 +103,35 @@ router.post('/:id/edit-tour',[uploadImage.single('mainImage')],async (req,res,ne
     }
 });
 
+
+
+
+// http://localhost:3000/tour/cpanel/tour-table/rating
+// get tour theo rating
+router.get('/tour-table/rating',async function(req, res,next) {
+    const tours = await tourController.getTourRating();
+    res.render('tour/tourTable',{tours});
+});
+
+
+// http://localhost:3000/tour/cpanel/tour-table/search?searchName=asd
+router.get('/tour-table/search', async (req, res) => {
+    try {
+        const {searchName} = req.query;
+        if(searchName == null) {
+            return res.render('tour/tourTable');
+        }else {
+            const tours = await tourController.getTourSearchName(searchName);
+            res.render('tour/tourTable',{tours});
+        }
+    } catch (error) {
+        console.log("search error ", error);
+        next(error);
+    }
+    
+  });
+
+
+
+
 module.exports = router;

@@ -6,9 +6,9 @@ const { getAllHotels } = require('../../component/hotel/HotelService');
 //http://localhost:3000/hotel/api/addHotel
 router.post('/addHotel', async (req, res, next) => {
     try {
-        const { hotelName, description, image, rating, address, phoneNumber, } = req.body;
-        console.log(hotelName, description, image, rating, address, phoneNumber)
-        const hotel = await hotelController.addNewHotel(hotelName, description, image, rating, address, phoneNumber);
+        const { hotelName, description, image, rating, listImage, address, phoneNumber } = req.body;
+        console.log(hotelName, description, image, rating, listImage, address, phoneNumber)
+        const hotel = await hotelController.addNewHotel(hotelName, description, image, rating, listImage, address, phoneNumber);
         return res.status(200).json({ result: true, hotel: hotel, message: "Add hotel Success" });
     } catch (error) {
         console.log(error);
@@ -21,9 +21,9 @@ router.post('/addHotel', async (req, res, next) => {
 router.post('/update-hotel/:id', async (req, res, next) => {
     try {
         const {id} = req.params;
-        const {hotelName, description, image, rating, address, phoneNumber, } = req.body;
-        console.log(id, hotelName, description, image, rating, address, phoneNumber)
-        const hotel = await hotelController.updateHotel(id, hotelName, description, image, rating, address, phoneNumber);
+        const {hotelName, description, image, rating, listImage, address, phoneNumber, } = req.body;
+        console.log(id, hotelName, description, image, rating, listImage, address, phoneNumber)
+        const hotel = await hotelController.updateHotel(id, hotelName, description, image, rating, listImage, address, phoneNumber);
         return res.status(200).json({ result: true, hotel: hotel, message: "Update hotel Success" });
         
     } catch (error) {

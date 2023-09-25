@@ -394,6 +394,16 @@
                 </div>
               </div>
               <div class="row mb-3">
+                <label for="inputNumber" class="col-sm-2 col-form-label">Image Collection Upload</label>
+                <div class="col-sm-10">
+                  <input onchange="onChangeCollectionImage()" class="form-control" id="image-collection"
+                    type="file" id="formFile" multiple="multiple">
+                  <img id="image-collection-display" src="{{hotel.listImage}}"
+                    style="width: 200px; height: 100px; margin-top: 10px; object-fit: fill;" alt="Image hotel" />
+                  <input type="hidden" id="imgCollectionUrl" name="listImage" />
+                </div>
+              </div>
+              <div class="row mb-3">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Descriptions</label>
                 <div class="col-sm-10">
                   <textarea onchange="validate()" class="form-control" id="description" name="description"
@@ -536,6 +546,28 @@
         uploadTask.snapshot.ref.getDownloadURL().then(url => {
           console.log('>>>>> File available at:', url);
           document.getElementById('imgUrl').value = url;
+        })
+      }
+    );
+  }
+
+  const onChangeCollectionImage = () => {
+    const file = document.getElementById('image-collection').files[0];
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('image-collection-display').src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+    // upload lên firebase
+    const ref = firebase.storage().ref(`hotel/${new Date().getTime() + '-' + file.name}`);
+    const uploadTask = ref.put(file);
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+      (snapshot) => { },
+      (error) => { console.log('firebase error: ', error) },
+      () => {
+        uploadTask.snapshot.ref.getDownloadURL().then(url => {
+          console.log('>>>>> File collection available at:', url);
+          document.getElementById('imgCollectionUrl').value = url;
         })
       }
     );

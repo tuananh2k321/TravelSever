@@ -37,10 +37,10 @@ router.post('/add-hotel', [validation.checkFormHotel], async function (req, res,
         //     let image = `http://192.168.1.7:3000/images/${file.filename}`;
         //     body = {...body, image: image};
         // }
-        let { hotelName, description, image, rating, address, phoneNumber } =body;
-        console.log("Add hotel: " ,hotelName, description, image, rating, address, phoneNumber)
+        let { hotelName, description, image, rating, listImage, address, phoneNumber } =body;
+        console.log("Add hotel: " ,hotelName, description, image, rating, listImage, address, phoneNumber)
         // image = 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aG90ZWx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60'
-        await hotelController.addNewHotel(hotelName, description, image, rating, address, phoneNumber);
+        await hotelController.addNewHotel(hotelName, description, image, rating, listImage, address, phoneNumber);
         return res.redirect('/hotel/cpanel/hotel-table');
     } catch (error) {
         console.log("Add new hotel error: ", error);
@@ -72,9 +72,9 @@ router.post('/update-hotel/:id',[validation.checkFormHotel], async function (req
         //     let image = `http://192.168.1.7:3000/images/${file.filename}`;
         //     body = {...body, image: image};
         // }
-        let { hotelName, description, image, rating, address, phoneNumber } = body;
-        console.log("=====> All pẩm: ", hotelName, description, image, rating, address, phoneNumber);
-        await hotelController.updateHotel(id, hotelName, description, image, rating, address, phoneNumber);
+        let { hotelName, description, image, rating, listImage, address, phoneNumber } = body;
+        console.log("=====> All pẩm: ", hotelName, description, image, rating, listImage, address, phoneNumber);
+        await hotelController.updateHotel(id, hotelName, description, image, rating, listImage, address, phoneNumber);
         return res.redirect('/hotel/cpanel/hotel-table');
     } catch (error) {
         console.log("Update hotel error: ", error);

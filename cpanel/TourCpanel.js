@@ -1,9 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var tourController = require('../component/tour/TourController')
-const uploadImage = require('../middleware/UpLoadImage');
+
 const hotelController = require('../component/hotel/HotelController')
 const destinationController = require('../component/destination/DestinationController')
+const { getStorage, ref, getDownloadURL, uploadBytesResumable } = require("firebase/storage");
+const multer = require("multer");
+const appFirebase = require("../component/config/FirebaseConfig")
+// Initialize Cloud Storage and get a reference to the service
+const storage = getStorage();
+const storageRef = ref(storage, 'tour/');
+const multerStorage = multer.memoryStorage();
+const uploadImage = multer({ storage: multerStorage });
+
 
 
 // http://localhost:3000/tour/cpanel/tour-table
@@ -25,9 +34,27 @@ router.post('/insert-tour',[uploadImage.array('mainImage',10)],async (req,res,ne
     try {
          let {body,files} = req;
          let mainImage = [];
+
+         
          if (files && files.length > 0) {
-           mainImage = files.map(file => `http://192.168.2.25:3000/images/${file.filename}`);
-         }
+            const uploadedImagePromises = files.map(async (file) => {
+              const filename = `${Date.now()}-${file.originalname}`;
+              const fileRef = ref(storageRef, filename);
+      
+              const metadata = {
+                contentType: file.mimetype,
+              };
+      
+              const snapshot = await uploadBytesResumable(fileRef, file.buffer, metadata);
+              const downloadURL = await getDownloadURL(snapshot.ref);
+      
+              console.log(`File ${file.originalname} successfully uploaded to Firebase Storage.`);
+      
+              return downloadURL;
+            });
+      
+            mainImage = await Promise.all(uploadedImagePromises);
+          }
 
         let {tourName, description, price,checking, rating, address, 
             hotel_id,destination_id,domain} =body;

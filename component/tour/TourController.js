@@ -10,15 +10,15 @@ const getTourById = async (id) => {
     return await tourService.getTourById(id);
 }
 
-const addNewTour = async (tourName, description, price, mainImage,checking, rating, address, 
-    imageMap,specificAddress, hotel_id,domain ) => {
-        return await tourService.addNewTour(tourName, description, price, mainImage,checking, rating, address, imageMap,specificAddress, hotel_id,domain );
+const addNewTour = async (tourName, description, price, mainImage,checking, rating, address
+    , hotel_id,destination_id,domain ) => {
+        return await tourService.addNewTour(tourName, description, price, mainImage,checking, rating, address, hotel_id,destination_id,domain );
 }
 
 const updateTour = async (id,tourName, description, price, mainImage,checking, rating, address, 
-    imageMap,specificAddress, hotel_id,domain) => {
+     hotel_id,destination_id,domain) => {
         return await tourService.updateTour(id,tourName, description, price, mainImage,checking, rating, address, 
-            imageMap,specificAddress, hotel_id,domain);
+             hotel_id,destination_id,domain);
     }
 
 const deleteTour = async (id) => {
@@ -29,8 +29,8 @@ const getTourSearchName = async (keyword) => {
     return await tourService.getTourSearhName(keyword);
 }
 
-const getTourRating = async (keyword) => {
-    return await tourService.getTourRating(keyword);
+const getTourRating = async () => {
+    return await tourService.getTourRating();
 }
 const getTourDomain = async (keyword) => {
     return await tourService.getTourDomain(keyword);

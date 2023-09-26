@@ -10,8 +10,8 @@
   </div><!-- End Logo -->
 
   <div class="search-bar">
-    <form class="search-form d-flex align-items-center" method="get" action="/tour/cpanel/tour-table/search">
-      <input type="text" name="searchName" placeholder="Search" title="Enter search keyword">
+    <form class="search-form d-flex align-items-center" method="POST" action="#">
+      <input type="text" name="query" placeholder="Search" title="Enter search keyword">
       <button type="submit" title="Search"><i class="bi bi-search"></i></button>
     </form>
   </div><!-- End Search Bar -->
@@ -245,8 +245,8 @@
       </a>
       <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="http://localhost:3000/tour/cpanel/insert-tour">
-            <i class="bi bi-circle"></i><span>Thêm tour</span>
+          <a href="../../tour/cpanel/form">
+            <i class="bi bi-circle"></i><span>Form Elements</span>
           </a>
         </li>
       </ul>
@@ -329,12 +329,12 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Data Tables</h1>
+    <h1>Form Elements</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item">Tables</li>
-        <li class="breadcrumb-item active">Data</li>
+        <li class="breadcrumb-item">Forms</li>
+        <li class="breadcrumb-item active">Elements</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
@@ -345,68 +345,122 @@
 
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Datatables</h5>
-            <p>Add lightweight datatables to your project with using the <a
-                href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library.
-              Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p>
+            <h5 class="card-title">General Form Elements</h5>
 
-            <div class="dropdown gap-2 d-md-flex justify-content-md-end">
-              <a class="btn btn-outline-dark me-md-3 dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                Sắp xếp <span class="caret"></span>
-              </a>
+            <!-- General Form Elements -->
+            <form method="post" enctype="multipart/form-data" action="/tour/cpanel/insert-tour">
+              <div class="row mb-3">
+                <label for="inputText" class="col-sm-2 col-form-label">Tour Name</label>
+                <div class="col-sm-10">
+                  <input type="text" name="tourName" class="form-control">
+                  <div>
 
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <li><a onclick="showGenre(this)" class="dropdown-item" href="/tour/cpanel/tour-table">Mặc định</a></li>
-                <li><a onclick="showGenre(this)" class="dropdown-item" href="#">Đánh giá nhiều nhất</a></li>
-                <li><a onclick="showGenre(this)" class="dropdown-item" href="/tour/cpanel/tour-table/rating">Được yêu thích</a></li>
-                <li><a onclick="showGenre(this)" class="dropdown-item" href="">Khu vực: Đà Lạt</a></li>
-                <li><a onclick="showGenre(this)" class="dropdown-item" href="">Khu vực: Vũng Tàu</a></li>
-              </ul>
-            </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputNumber" class="col-sm-2 col-form-label">price</label>
+                <div class="col-sm-10">
+                  <input type="text" name="price" class="form-control">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputText" class="col-sm-2 col-form-label">Address</label>
+                <div class="col-sm-10">
+                  <input type="text" name="address" class="form-control">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputNumber" class="col-sm-2 col-form-label">Ratings</label>
+                <div class="col-sm-10">
+                  <input type="number" name="rating" class="form-control">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputText" class="col-sm-2 col-form-label">Domain</label>
+                <div class="col-sm-10">
+                  <input type="text" name="domain" class="form-control">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputText" class="col-sm-2 col-form-label">Hotel</label>
+                <div class="col-sm-10">
+                  <select name="hotel_id" id="hotel_id" class="form-control">
+                    {{#each hotel}}
+                    <option value="{{this._id}}">{{this.hotelName}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-3 form-group">
+                <legend class="col-form-label col-sm-2 pt-0">Hoạt động</legend>
+                <div class="col-sm-2">
+                  <div class="form-check">
+                    <input name="checking" class="form-check-input " value="Ẩm thực" type="checkbox" id="myCheckbox">
+                    <label name="checking" class="form-check-label" for="myCheckbox">
+                      Ẩm thực
+                    </label>
+                  </div>
 
+                  <div class="form-check">
+                    <input name="checking" class="form-check-input " value="Lễ hội" type="checkbox" id="myCheckbox">
+                    <label name="checking" class="form-check-label" for="myCheckbox">
+                      Lễ hội
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-check">
+                    <input name="checking" class="form-check-input " value="Tham quan" type="checkbox" id="myCheckbox">
+                    <label name="checking" class="form-check-label" for="myCheckbox">
+                      Tham quan
+                    </label>
+                  </div>
 
-            <!-- Table with stripped rows -->
-            <table class="table datatable">
-              <thead>
-                <tr>
-                  <th scope="col">Hình ảnh</th>
-                  <th scope="col">Tên</th>
-                  <th scope="col">Giá</th>
-                  <th scope="col">Đánh giá</th>
-                  <th scope="col">Địa chỉ</th>
-                  <th scope="col">Khu vực</th>
-                </tr>
-              </thead>
-              <tbody>
-                {{#each tours}}
+                  <div class="form-check">
+                    <input name="checking" class="form-check-input " value="VitaminSEA" type="checkbox" id="myCheckbox">
+                    <label name="checking" class="form-check-label" for="myCheckbox">
+                      VitaminSEA
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3 form-group">
+                <legend class="col-form-label col-sm-2 pt-0">Điểm đến</legend>
+                <div class="col-sm-2">
 
-                <tr>
-                  <td class="py-1">
-                    <img src="{{this.mainImage}}" alt="image" width="100" height="100" />
-                  </td>
-                  <td> {{this.tourName}} </td>
-                  <td>
-                    {{!-- <div class="progress">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                    </div> --}}
-                    {{this.price}}
-                  </td>
-                  <td> {{this.rating}} </td>
-                  <td> {{this.address}}</td>
-                  <td> {{this.domain}}</td>
-                  <td>
-                    <a href="/tour/cpanel/{{this._id}}/edit-tour" class="btn btn-primary">Edit</a>
-                    <button onclick="confirmDelete('{{this._id}}')" type="button" class="btn btn-danger">Delete</button>
-                  </td>
-                </tr>
+                  {{#each destination}}
+                  <div class="form-check">
+                    <input name="destination_id" value="{{this._id}}" class="form-check-input" type="checkbox"
+                      name="destination_id">
+                    <label value="{{this._id}}" class="form-check-label">
+                      {{this.destinationName}}
+                    </label>
+                  </div>
+                  {{/each}}
 
-                {{/each}}
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputNumber" class="col-sm-2 col-form-label">Image Upload</label>
+                <div class="col-sm-10">
+                  <input class="form-control" name="mainImage" type="file" id="formFile" multiple="multiple" />
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Descriptions</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" name="description" style="height: 200px"></textarea>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Submit Button</label>
+                <div class="col-sm-10">
+                  <button type="submit" class="btn btn-primary">Submit Form</button>
+                </div>
+              </div>
 
-              </tbody>
-            </table>
-            <!-- End Table with stripped rows -->
+            </form><!-- End General Form Elements -->
 
           </div>
         </div>
@@ -433,57 +487,23 @@
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
     class="bi bi-arrow-up-short"></i></a>
-{{!-- js delete tour --}}
+
 <script>
-  const fetchAPI = async (url, option) => {
-    const res = await fetch(url, option)
-    return res.json();
-  }
+  function validateForm() {
+    var name = document.getElementsByName("hotelName");
+    var address = document.getElementsByName("address");
+    var phone = document.getElementsByName("phoneNumber");
+    var image = document.getElementsByName("image");
+    var rating = document.getElementsByName("rating");
+    var description = document.getElementsByName("description");
 
-  const deleteProduct = async (id) => {
-    const url = `/tour/cpanel/${id}/delete`;
-
-    const option = {
-      method: 'get',
-      headers: { 'Content-Type': 'application/json' }
+    if (name == null || name.length == '') {
+      alert("Tên hotel không được để trống!");
     }
-    try {
-      const result = await fetchAPI(url, option);
-      console.log('delete result: ', result)
-
-      if (result.status) {
-        window.location.reload();
-      } else {
-        swal('Xóa thất bại!', {
-          icon: 'error',
-        });
-      }
-
-    } catch (e) {
-      console.log('error delete: ', e)
-      throw e;
+    else if (address == null || address.length == '') {
+      alert("Địa chỉ hotel không được để trống!");
     }
   }
 
-  const confirmDelete = (id) => {
-    swal({
-      title: "Xác nhận xóa?",
-      text: "Bạn có muốn xóa sản phẩm này?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-          deleteProduct(id);
-        }
-      });
-  }
-
-function showGenre(item) {
-  document.getElementById("dropdownMenuLink").innerHTML = item.innerHTML;
-}
 
 </script>
-
-

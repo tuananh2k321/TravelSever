@@ -21,19 +21,25 @@ const getTourById = async (id) => {
     }
 }
 
-const addNewTour = async (tourName, description, price, mainImage,checking, rating, address, imageMap,specificAddress, hotel_id,domain ) => {
+const addNewTour = async (tourName, description, price, mainImage,checking, rating,
+     address, hotel_id,destination_id,domain ) => {
     try {
-        const newTour = { tourName, description, price, mainImage,checking, rating, address, imageMap,specificAddress, hotel_id,domain};
-        const u = new tourModel(newTour);
-        await u.save();
+        // const newTour = { tourName, description, price, mainImage,checking, rating, address, imageMap,specificAddress, hotel_id,destination_id,domain};
+        // const u = new tourModel(newTour);
+        // await u.save();
+        const newTour = {
+            tourName, description, price, mainImage,checking, rating, address, hotel_id,destination_id,domain
+        }
+         await tourModel.create(newTour); 
         return true;
     } catch (error) {
         console.log("addTour error" + error);
-        return false;
+       
     }
+    return false;
 }
 
-const updateTour = async (id,tourName, description, price, mainImage,checking, rating, address, imageMap,specificAddress, hotel_id,domain) => {
+const updateTour = async (id,tourName, description, price, mainImage,checking, rating, address, hotel_id,destination_id,domain) => {
     try {
         let tour = await tourModel.findById(id);
         if(tour) {
@@ -44,10 +50,10 @@ const updateTour = async (id,tourName, description, price, mainImage,checking, r
             tour.checking = checking ? checking : tour.checking;
             tour.rating = rating ? rating : tour.rating;
             tour.address = address ? address : tour.address;
-            tour.imageMap = imageMap ? imageMap : tour.imageMap;
-            tour.specificAddress = specificAddress ? specificAddress : tour.specificAddress;
             tour.hotel_id = hotel_id ? hotel_id : tour.hotel_id;
+            tour.destination_id = destination_id ? destination_id : tour.destination_id;
             tour.domain = domain ? domain : tour.domain;
+            await tour.save();
             return true;
         }
     } catch (error) {
@@ -76,9 +82,11 @@ const getTourSearhName = async (keyword) => {
    }
 }
 
-const getTourRating = async (keyword) => {
+const getTourRating = async () => {
     try {
-        return await tourModel.find().sort({rating:keyword});
+        return await tourModel.find({ rating: { $exists: true, $ne: null } })
+        .sort({ rating: -1 }); // Sắp xếp theo rating giảm dần
+        
     } catch (error) {
         console.log("getTourRating failed: ", error);
     }

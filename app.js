@@ -10,6 +10,7 @@ const session = require('express-session');
 // API
 var indexRouter = require("./routes/api/Index");
 var tourAPIRouter = require("./routes/api/TourApi");
+var destinationAPIRouter = require("./routes/api/DestinationApi");
 var hotelAPIRouter = require("./routes/api/HotelAPI");
 var userAPIRouter = require("./routes/api/UserApi");
 var favoriteAPIRouter = require("./routes/api/FavoriteApi");
@@ -61,6 +62,9 @@ app.use("/", indexRouter);
 // API
 // http://localhost:3000/tour/api
 app.use("/tour/api", tourAPIRouter);
+
+// http://localhost:3000/destination/api
+app.use("/destination/api", destinationAPIRouter);
 
 // http://localhost:3000/user/api
 app.use("/user/api", userAPIRouter);

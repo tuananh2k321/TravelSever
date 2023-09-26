@@ -41,12 +41,11 @@ const getHotelByRating = async (rating) => {
 }
 
 // thêm hotel mới vào database
-const addNewHotel = async (hotelName, description, image, rating, listImage, address, phoneNumber) => {
+const addNewHotel = async (hotelName, description, rating, listImage, address, phoneNumber) => {
     try {
         const newHotel = {
             hotelName,
             description,
-            image,
             rating,
             listImage,
             address,
@@ -61,13 +60,13 @@ const addNewHotel = async (hotelName, description, image, rating, listImage, add
 };
 
 // cập nhật hotel mới vào database
-const updateHotel = async (id, hotelName, description, image, rating, listImage, address, phoneNumber) => {
+const updateHotel = async (id, hotelName, description, rating, listImage, address, phoneNumber) => {
     try {
         let item = await hotelModel.findById(id);
         if (item) {
             item.hotelName = hotelName ? hotelName : item.hotelName;
             item.description = description ? description : item.description;
-            item.image = image ? image : item.image;
+            // item.image = image ? image : item.image;
             item.rating = rating ? rating : item.rating;
             item.listImage = listImage ? listImage : item.listImage;
             item.address = address ? address : item.address;

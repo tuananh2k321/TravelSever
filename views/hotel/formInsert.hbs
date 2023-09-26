@@ -353,7 +353,7 @@
             <h5 class="card-title">General Form Elements</h5>
 
             <!-- General Form Elements -->
-            <form id="form" method="post" action="/hotel/cpanel/add-hotel"
+            <form id="form" method="post" action="/hotel/cpanel/add-hotel" enctype="multipart/form-data"
               onsubmit="return onClickForm()">
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Hotel Name</label>
@@ -386,21 +386,11 @@
               <div class="row mb-3">
                 <label for="inputNumber" class="col-sm-2 col-form-label">Image Upload</label>
                 <div class="col-sm-10">
-                  <input oninput="validate()" onchange="onChangeImage()" class="form-control" id="image"
+                  <input oninput="validate()" onchange="displayImg()" class="form-control" id="image" name="listImage" multiple="multiple"
                     type="file" id="formFile">
-                  <img id="image-display" src="{{hotel.image}}"
+                  <img id="listImage-display" src="{{hotel.listImage}}"
                     style="width: 200px; height: 100px; margin-top: 10px; object-fit: fill;" alt="Image hotel" />
                   <input type="hidden" id="imgUrl" name="image" />
-                </div>
-              </div>
-              <div class="row mb-3">
-                <label for="inputNumber" class="col-sm-2 col-form-label">Image Collection Upload</label>
-                <div class="col-sm-10">
-                  <input onchange="onChangeCollectionImage()" class="form-control" id="image-collection"
-                    type="file" id="formFile" multiple="multiple">
-                  <img id="image-collection-display" src="{{hotel.listImage}}"
-                    style="width: 200px; height: 100px; margin-top: 10px; object-fit: fill;" alt="Image hotel" />
-                  <input type="hidden" id="imgCollectionUrl" name="listImage" />
                 </div>
               </div>
               <div class="row mb-3">
@@ -510,7 +500,7 @@
     var file = document.getElementById('image').files[0];
     var reader = new FileReader();
     reader.onload = function (e) {
-      var image = document.getElementById("image-display");
+      var image = document.getElementById("listImage-display");
       image.src = e.target.result;
     }
     reader.readAsDataURL(file);

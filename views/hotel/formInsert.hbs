@@ -504,6 +504,9 @@
       image.src = e.target.result;
     }
     reader.readAsDataURL(file);
+      console.log("URL Image: ", file);
+
+    
   }
 
   // upload image fire base
@@ -541,25 +544,4 @@
     );
   }
 
-  const onChangeCollectionImage = () => {
-    const file = document.getElementById('image-collection').files[0];
-    const reader = new FileReader();
-    reader.onload = e => {
-      document.getElementById('image-collection-display').src = e.target.result;
-    }
-    reader.readAsDataURL(file);
-    // upload lên firebase
-    const ref = firebase.storage().ref(`hotel/${new Date().getTime() + '-' + file.name}`);
-    const uploadTask = ref.put(file);
-    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-      (snapshot) => { },
-      (error) => { console.log('firebase error: ', error) },
-      () => {
-        uploadTask.snapshot.ref.getDownloadURL().then(url => {
-          console.log('>>>>> File collection available at:', url);
-          document.getElementById('imgCollectionUrl').value = url;
-        })
-      }
-    );
-  }
 </script>

@@ -95,7 +95,8 @@ const removeHotel = async (id) => {
 const searchHotelName = async (keyword) => {
     try {
         let query = {
-            hotelName: { $regex: keyword, $options: 'i' },
+            // hotelName: { $regex: keyword, $options: 'i' },
+            $or: [ { hotelName: { $regex: keyword, $options: 'i' } }, { address: { $regex: keyword, $options: 'i' }} ]
         }
         let hotel = await hotelModel.find(query);
         return hotel;

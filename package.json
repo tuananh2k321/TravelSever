@@ -12,6 +12,7 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-session": "^1.17.3",
+    "express-validator": "^7.0.1",
     "firebase": "^10.4.0",
     "firebase-admin": "^11.10.1",
     "firebase-functions": "^4.4.1",

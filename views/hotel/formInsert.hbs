@@ -1,0 +1,565 @@
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
+
+  <div class="d-flex align-items-center justify-content-between">
+    <a href="/home-page/cpanel/home" class="logo d-flex align-items-center">
+      <img src="/assets/img/logo.png" alt="">
+      <span class="d-none d-lg-block">Discover</span>
+    </a>
+    <i class="bi bi-list toggle-sidebar-btn"></i>
+  </div><!-- End Logo -->
+
+  <div class="search-bar">
+    <form class="search-form d-flex align-items-center" method="POST" action="#">
+      <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+      <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+    </form>
+  </div><!-- End Search Bar -->
+
+  <nav class="header-nav ms-auto">
+    <ul class="d-flex align-items-center">
+
+      <li class="nav-item d-block d-lg-none">
+        <a class="nav-link nav-icon search-bar-toggle " href="#">
+          <i class="bi bi-search"></i>
+        </a>
+      </li><!-- End Search Icon-->
+
+      {{!-- <li class="nav-item dropdown">
+
+        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+          <i class="bi bi-bell"></i>
+          <span class="badge bg-primary badge-number">4</span>
+        </a><!-- End Notification Icon -->
+
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+          <li class="dropdown-header">
+            You have 4 new notifications
+            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li class="notification-item">
+            <i class="bi bi-exclamation-circle text-warning"></i>
+            <div>
+              <h4>Lorem Ipsum</h4>
+              <p>Quae dolorem earum veritatis oditseno</p>
+              <p>30 min. ago</p>
+            </div>
+          </li>
+
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li class="notification-item">
+            <i class="bi bi-x-circle text-danger"></i>
+            <div>
+              <h4>Atque rerum nesciunt</h4>
+              <p>Quae dolorem earum veritatis oditseno</p>
+              <p>1 hr. ago</p>
+            </div>
+          </li>
+
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li class="notification-item">
+            <i class="bi bi-check-circle text-success"></i>
+            <div>
+              <h4>Sit rerum fuga</h4>
+              <p>Quae dolorem earum veritatis oditseno</p>
+              <p>2 hrs. ago</p>
+            </div>
+          </li>
+
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li class="notification-item">
+            <i class="bi bi-info-circle text-primary"></i>
+            <div>
+              <h4>Dicta reprehenderit</h4>
+              <p>Quae dolorem earum veritatis oditseno</p>
+              <p>4 hrs. ago</p>
+            </div>
+          </li>
+
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li class="dropdown-footer">
+            <a href="#">Show all notifications</a>
+          </li>
+
+        </ul><!-- End Notification Dropdown Items -->
+
+      </li><!-- End Notification Nav -->
+
+      <li class="nav-item dropdown">
+
+        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+          <i class="bi bi-chat-left-text"></i>
+          <span class="badge bg-success badge-number">3</span>
+        </a><!-- End Messages Icon -->
+
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+          <li class="dropdown-header">
+            You have 3 new messages
+            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li class="message-item">
+            <a href="#">
+              <img src="/assets/img/messages-1.jpg" alt="" class="rounded-circle">
+              <div>
+                <h4>Maria Hudson</h4>
+                <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                <p>4 hrs. ago</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li class="message-item">
+            <a href="#">
+              <img src="/assets/img/messages-2.jpg" alt="" class="rounded-circle">
+              <div>
+                <h4>Anna Nelson</h4>
+                <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                <p>6 hrs. ago</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li class="message-item">
+            <a href="#">
+              <img src="/assets/img/messages-3.jpg" alt="" class="rounded-circle">
+              <div>
+                <h4>David Muldon</h4>
+                <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
+                <p>8 hrs. ago</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li class="dropdown-footer">
+            <a href="#">Show all messages</a>
+          </li>
+
+        </ul><!-- End Messages Dropdown Items -->
+
+      </li><!-- End Messages Nav -->
+
+      <li class="nav-item dropdown pe-3">
+
+        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+          <img src="/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+          <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+        </a><!-- End Profile Iamge Icon -->
+
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+          <li class="dropdown-header">
+            <h6>Kevin Anderson</h6>
+            <span>Web Designer</span>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <i class="bi bi-person"></i>
+              <span>My Profile</span>
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <i class="bi bi-gear"></i>
+              <span>Account Settings</span>
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+              <i class="bi bi-question-circle"></i>
+              <span>Need Help?</span>
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="#">
+              <i class="bi bi-box-arrow-right"></i>
+              <span>Sign Out</span>
+            </a>
+          </li>
+
+        </ul><!-- End Profile Dropdown Items -->
+      </li><!-- End Profile Nav --> --}}
+
+    </ul>
+  </nav><!-- End Icons Navigation -->
+
+</header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+  <ul class="sidebar-nav" id="sidebar-nav">
+
+    <li class="nav-item">
+      <a class="nav-link " href="/home-page/cpanel/home">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+      </a>
+    </li><!-- End Dashboard Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="../../tour/cpanel/form">
+            <i class="bi bi-circle"></i><span>Form Elements</span>
+          </a>
+        </li>
+        <li>
+          <a href="../../hotel/cpanel/insert-form">
+            <i class="bi bi-circle"></i><span>Insert Hotel</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Forms Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="../../tour/tour-table">
+            <i class="bi bi-circle"></i><span>Tour</span>
+          </a>
+        </li>
+        <li>
+          <a href="../../hotel/cpanel/hotel-table">
+            <i class="bi bi-circle"></i><span>Hotels</span>
+          </a>
+        </li>
+        <li>
+          <a href="/user/cpanel/list-admin">
+            <i class="bi bi-circle"></i><span>Admins</span>
+          </a>
+        </li>
+        <li>
+          <a href="/home-page/cpanel/home">
+            <i class="bi bi-circle"></i><span>Users</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Tables Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="chart" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="../../tour/cpanel/chart">
+            <i class="bi bi-circle"></i><span>Chart</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Charts Nav -->
+
+    <li class="nav-heading">Pages</li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="../../tour/cpanel/profile">
+        <i class="bi bi-person"></i>
+        <span>Profile</span>
+      </a>
+    </li><!-- End Profile Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="../../user/cpanel/register">
+        <i class="bi bi-card-list"></i>
+        <span>Register</span>
+      </a>
+    </li><!-- End Register Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="../../user/cpanel/login">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>Login</span>
+      </a>
+    </li><!-- End Login Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="../../tour/cpanel/error404">
+        <i class="bi bi-dash-circle"></i>
+        <span>Error 404</span>
+      </a>
+    </li><!-- End Error 404 Page Nav -->
+  </ul>
+
+</aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Form Elements</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item">Forms</li>
+        <li class="breadcrumb-item active">Elements</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">General Form Elements</h5>
+
+            <!-- General Form Elements -->
+            <form id="form" method="post" action="/hotel/cpanel/add-hotel" enctype="multipart/form-data"
+              onsubmit="return onClickForm()">
+              <div class="row mb-3">
+                <label for="inputText" class="col-sm-2 col-form-label">Hotel Name</label>
+                <div class="col-sm-10">
+                  <input onchange="validate()" type="text" id="hotelName" name="hotelName" class="form-control">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputEmail" class="col-sm-2 col-form-label">Address</label>
+                <div class="col-sm-10">
+                  <input onchange="validate()" type="text" id="address" name="address" class="form-control">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputNumber" class="col-sm-2 col-form-label">Phone Number</label>
+                <div class="col-sm-10">
+                  <input onchange="validate()" type="text" id="phoneNumber" name="phoneNumber" class="form-control">
+                  <div id="phoneError" style="color: red; font-size: 16px; font-style: italic; margin-top: 5px;">
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputNumber" class="col-sm-2 col-form-label">Ratings</label>
+                <div class="col-sm-10">
+                  <input onchange="validate()" type="number" id="rating" name="rating" class="form-control">
+                  <div id="ratingError" style="color: red; font-size: 16px; font-style: italic; margin-top: 5px;">
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputNumber" class="col-sm-2 col-form-label">Image Upload</label>
+                <div class="col-sm-10">
+                  <input oninput="validate()" onchange="displayImg()" class="form-control" id="image" name="listImage" multiple="multiple"
+                    type="file" id="formFile">
+                  <img id="listImage-display" src="{{hotel.listImage}}"
+                    style="width: 200px; height: 100px; margin-top: 10px; object-fit: fill;" alt="Image hotel" />
+                  <input type="hidden" id="imgUrl" name="image" />
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Descriptions</label>
+                <div class="col-sm-10">
+                  <textarea onchange="validate()" class="form-control" id="description" name="description"
+                    style="height: 200px"></textarea>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Submit Button</label>
+                <div class="col-sm-10">
+                  <button type="submit" id="submit" class="btn btn-primary" disabled>Submit
+                    Form</button>
+                </div>
+              </div>
+
+            </form><!-- End General Form Elements -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+  <div class="copyright">
+    &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+  </div>
+  <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+  </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+    class="bi bi-arrow-up-short"></i></a>
+
+<script>
+
+  const hotel = {
+    hotelName: false,
+    address: false,
+    phoneNumber: false,
+    description: false,
+    rating: false,
+    image: false
+  }
+
+
+  const validate = () => {
+    hotel.hotelName = document.getElementById('hotelName').value != '' && document.getElementById('hotelName').value.trim().length > 0;
+    hotel.address = document.getElementById('address').value != '' && document.getElementById('address').value.trim().length > 0;
+    hotel.phoneNumber = document.getElementById('phoneNumber').value != '' && document.getElementById('phoneNumber').value.trim().length > 0;
+    hotel.description = document.getElementById('description').value != '' && document.getElementById('description').value.trim().length > 0;
+    hotel.rating = document.getElementById('rating').value != '' && document.getElementById('rating').value.trim().length > 0;
+    hotel.image = document.getElementById('image').value != '' && document.getElementById('image').value.trim().length > 0;
+
+    if (hotel.hotelName && hotel.address && hotel.phoneNumber && hotel.description && hotel.rating && hotel.image) {
+      document.getElementById('submit').removeAttribute('disabled');
+    } else {
+      document.getElementById('submit').setAttribute('disabled', true);
+    }
+  }
+
+  const onClickForm = () => {
+    let phone = document.getElementById('phoneNumber').value;
+    let rating = document.getElementById('rating').value;
+    let textErrorRating;
+    let textErrorPhoneNumber;
+    const phoneRegex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+
+
+    if (phoneRegex.test(phone) == false) {
+      textErrorPhoneNumber = "The phone number is not in the correct format";
+      document.getElementById('phoneError').innerHTML = textErrorPhoneNumber;
+      console.log(phoneRegex.test(phone));
+      return false;
+    } else {
+      textErrorPhoneNumber = "";
+      document.getElementById('phoneError').innerHTML = textErrorPhoneNumber;
+    }
+
+    if (rating < 0 || rating > 5) {
+      textErrorRating = "Rating must be between 0 and 5";
+      console.log(rating < 0 || rating > 5);
+      document.getElementById('ratingError').innerHTML = textErrorRating;
+      return false;
+    } else {
+      textErrorRating = "";
+      document.getElementById('ratingError').innerHTML = textErrorRating;
+    }
+
+    return true
+
+  }
+
+  // hiển thị hình ảnh khi chọn
+  const displayImg = () => {
+    var file = document.getElementById('image').files[0];
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var image = document.getElementById("listImage-display");
+      image.src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+  }
+
+  // upload image fire base
+  const firebaseConfig = {
+    apiKey: "AIzaSyD9ezQlOj2HZzJcdGwsERN4GjYiersb1GM",
+    authDomain: "travelapp-3e538.firebaseapp.com",
+    projectId: "travelapp-3e538",
+    storageBucket: "travelapp-3e538.appspot.com",
+    messagingSenderId: "579542678002",
+    appId: "1:579542678002:web:5dd5b62019867affea136b",
+    measurementId: "G-Z8HBLEHY6X"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  // xử lí khi chọn ảnh upload lên firebase
+  const onChangeImage = () => {
+    const file = document.getElementById('image').files[0];
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('image-display').src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+    // upload lên firebase
+    const ref = firebase.storage().ref(`hotel/${new Date().getTime() + '-' + file.name}`);
+    const uploadTask = ref.put(file);
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+      (snapshot) => { },
+      (error) => { console.log('firebase error: ', error) },
+      () => {
+        uploadTask.snapshot.ref.getDownloadURL().then(url => {
+          console.log('>>>>> File available at:', url);
+          document.getElementById('imgUrl').value = url;
+        })
+      }
+    );
+  }
+
+  const onChangeCollectionImage = () => {
+    const file = document.getElementById('image-collection').files[0];
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('image-collection-display').src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+    // upload lên firebase
+    const ref = firebase.storage().ref(`hotel/${new Date().getTime() + '-' + file.name}`);
+    const uploadTask = ref.put(file);
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+      (snapshot) => { },
+      (error) => { console.log('firebase error: ', error) },
+      () => {
+        uploadTask.snapshot.ref.getDownloadURL().then(url => {
+          console.log('>>>>> File collection available at:', url);
+          document.getElementById('imgCollectionUrl').value = url;
+        })
+      }
+    );
+  }
+</script>

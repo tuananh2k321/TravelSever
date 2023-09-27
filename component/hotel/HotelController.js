@@ -13,7 +13,7 @@ const getHotelById = async (id) => {
     try {
         return await hotelService.getHotelById(id);
     } catch (error) {
-        throw error;
+        console.log("Get hotelById error: ",error);
     }
 }
 
@@ -25,19 +25,19 @@ const getHotelByRating = async (rating) => {
     }
 }
 
-const addNewHotel = async (hotelName, description, image, rating, address, phoneNumber) => {
+const addNewHotel = async (hotelName, description, rating, listImage, address, phoneNumber) => {
     try {
-        return await hotelService.addNewHotel(hotelName, description, image, rating, address, phoneNumber);
+        return await hotelService.addNewHotel(hotelName, description, rating, listImage, address, phoneNumber);
     } catch (error) {
         throw error;
     }
 }
 
-const updateHotel = async (id,hotelName, description, image, rating, address, phoneNumber) => {
+const updateHotel = async (id,hotelName, description, rating, listImage, address, phoneNumber) => {
     try {
-        return await hotelService.updateHotel(id, hotelName, description, image, rating, address, phoneNumber);
+        return await hotelService.updateHotel(id, hotelName, description, rating, listImage, address, phoneNumber);
     } catch (error) {
-        throw error;
+        console.log("Update hotel failed: " + error);
     }
 }
 
@@ -49,4 +49,12 @@ const removeHotel = async (id) => {
     }
 }
 
-module.exports = {getAllHotels, getHotelById, getHotelByRating, addNewHotel, updateHotel, removeHotel}
+const searchHotelName = async (keyword) => {
+    try {
+        return await hotelService.searchHotelName(keyword);
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports = {getAllHotels, getHotelById, getHotelByRating, addNewHotel, updateHotel, removeHotel, searchHotelName}

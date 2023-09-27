@@ -20,6 +20,7 @@ var bookingAPIRouter = require("./routes/api/BookingApi");
 // CPANEL
 var tourCpanelRouter = require("./cpanel/TourCpanel");
 var userCpanelRouter = require("./cpanel/UserCpanel");
+var hotelCpanelRouter = require("./cpanel/HotelCpanel");
 var homePageCpanelRouter = require("./cpanel/HomePageCpanel");
 
 var app = express();
@@ -89,11 +90,11 @@ app.use("/tour/cpanel", tourCpanelRouter);
 // http://localhost:3000/user/cpanel
 app.use("/user/cpanel", userCpanelRouter);
 
+// http://localhost:3000/user/cpanel
+app.use("/hotel/cpanel", hotelCpanelRouter);
+
 // http://localhost:3000/home-page/cpanel
 app.use("/home-page/cpanel", homePageCpanelRouter);
-
-// http://localhost:3000/user/cpanel
-// app.use("/hotel/cpanel", hotelCpanelRouter);
 //
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -6,9 +6,9 @@ const { getAllHotels } = require('../../component/hotel/HotelService');
 //http://localhost:3000/hotel/api/addHotel
 router.post('/addHotel', async (req, res, next) => {
     try {
-        const { hotelName, description, image, rating, address, phoneNumber, } = req.body;
-        console.log(hotelName, description, image, rating, address, phoneNumber)
-        const hotel = await hotelController.addNewHotel(hotelName, description, image, rating, address, phoneNumber);
+        const { hotelName, description, rating, listImage, address, phoneNumber } = req.body;
+        console.log(hotelName, description, rating, listImage, address, phoneNumber)
+        const hotel = await hotelController.addNewHotel(hotelName, description, rating, listImage, address, phoneNumber);
         return res.status(200).json({ result: true, hotel: hotel, message: "Add hotel Success" });
     } catch (error) {
         console.log(error);
@@ -18,16 +18,16 @@ router.post('/addHotel', async (req, res, next) => {
 
 // cập nhật hotels
 // http://localhost:3000/hotel/api/update-hotel/64a94d4b8edee1be600646c2
-router.put('/update-hotel/:id', async (req, res, next) => {
+router.post('/update-hotel/:id', async (req, res, next) => {
     try {
         const {id} = req.params;
-        const {hotelName, description, image, rating, address, phoneNumber, } = req.body;
-        console.log(id, hotelName, description, image, rating, address, phoneNumber)
-        const hotel = await hotelController.updateHotel(id, hotelName, description, image, rating, address, phoneNumber);
+        const {hotelName, description, rating, listImage, address, phoneNumber, } = req.body;
+        console.log(id, hotelName, description, rating, listImage, address, phoneNumber)
+        const hotel = await hotelController.updateHotel(id, hotelName, description, rating, listImage, address, phoneNumber);
         return res.status(200).json({ result: true, hotel: hotel, message: "Update hotel Success" });
         
     } catch (error) {
-        console.log(error);
+        console.log("Update Error: ",error);
         return res.status(400).json({ result: false, error: error, message: "Update hotel Failed" });
     }
 })
@@ -79,6 +79,19 @@ router.get("/get-all-hotels/search/rating", async (req, res, next) => {
         return res.status(200).json({ result: true, hotels: hotels, message: "Get All list hotel by rating Successfully" });
     } catch (error) {
         return res.status(400).json({ result: false, hotels: [], message: "Get All list hotel by rating Failed" });
+    }
+});
+
+
+// lấy danh sách hotel theo tên
+// http://localhost:3000/hotel/api/get-all-hotels/search/keyword?keyword=abc
+router.get("/get-all-hotels/search/keyword", async (req, res, next) => {
+    try {
+        const {keyword} = req.query;
+        const hotels = await hotelController.searchHotelName(keyword);
+        return res.status(200).json({ result: true, hotels: hotels, message: "Get All list hotel by name Successfully" });
+    } catch (error) {
+        return res.status(400).json({ result: false, hotels: [], message: "Get All list hotel by name Failed" });
     }
 });
 

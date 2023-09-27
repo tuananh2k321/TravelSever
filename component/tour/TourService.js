@@ -82,9 +82,11 @@ const getTourSearhName = async (keyword) => {
    }
 }
 
-const getTourRating = async (keyword) => {
+const getTourRating = async () => {
     try {
-        return await tourModel.find().sort({rating:keyword});
+        return await tourModel.find({ rating: { $exists: true, $ne: null } })
+        .sort({ rating: -1 }); // Sắp xếp theo rating giảm dần
+        
     } catch (error) {
         console.log("getTourRating failed: ", error);
     }

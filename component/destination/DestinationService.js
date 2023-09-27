@@ -9,12 +9,12 @@ const getAllDestination = async () => {
     return [];
 }
 
-const addNewDestination = async (destinationName,description, image,address) => {
+const addNewDestination = async (destinationName,content, mainImage,address) => {
     try {
         const newDestination = {
             destinationName,
-            description,
-            image,
+            content,
+            mainImage,
             address
         }
         await destinationModel.create(newDestination);
@@ -25,8 +25,17 @@ const addNewDestination = async (destinationName,description, image,address) => 
       }
 }
 
+const deleteDesById = async (id)=>{
+    try {
+        await destinationModel.findById(id);
+        return true;
+    } catch (error) {
+        console.log("Delete tour: ",error);
+        return false;
+    }
+}
 
 
 module.exports = {
-    getAllDestination,addNewDestination
+    getAllDestination,addNewDestination, deleteDesById
 };

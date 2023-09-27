@@ -5,7 +5,7 @@ const ObjectId = Schema.ObjectId;
 const destinationSchema = new Schema({
   id: { type: ObjectId },
   destinationName: { type: String, required: true },
-  description: { type: String, required: true },
+  content: { type: String, required: true },
   mainImage: { type: Array, required: true },
   address: { type: String, required: true }
 });

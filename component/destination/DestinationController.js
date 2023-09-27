@@ -2,16 +2,35 @@
 const destinationService = require('./DestinationService');
 
 const getAllDestination = async () =>{
-    return await destinationService.getAllDestination();
+    try {
+        return await destinationService.getAllDestination();
+    } catch (error) {
+        throw error;
+    }
+    
 }
 
-const addNewDestination = async (destinationName,description, image,address) => {
-    return await destinationService.addNewDestination(destinationName,description, image,address);
+const addNewDestination = async (destinationName, content, mainImage, address) => {
+    try {
+        await destinationService.addNewDestination(destinationName, content, mainImage, address);
+    } catch (error) {
+        throw error;
+    }
+    
+}
+
+const deleteDesById = async (id)=>{
+    try {
+        return await destinationService.deleteDesById(id);
+    } catch (error) {
+        throw error;
+    }
 }
 
 
 
 module.exports = {
     getAllDestination,
-    addNewDestination
+    addNewDestination,
+    deleteDesById
 };

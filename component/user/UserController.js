@@ -48,6 +48,14 @@ const updatePassword = async (password, email) => {
     }
 }
 
+const changePassword = async (currentPassword, newPassword, email) => {
+    try{
+        return await UserService.changePassword(currentPassword, newPassword, email);
+    } catch (error) {
+        return false
+    }
+}
+
 const verifyAccount = async (email) => {
     try{
         return await UserService.verifyAccount(email);
@@ -99,5 +107,5 @@ const findUserByEmail = async (email) => {
 module.exports = {
     login, register, deleteByPhoneNumber,
     updateUser, getAllUser, updatePassword, findUserByEmail, verifyAccount,
-    getAllAdmin, deleteById, searchUsers, searchAdmins
+    getAllAdmin, deleteById, searchUsers, searchAdmins, changePassword
 };

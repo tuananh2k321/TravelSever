@@ -27,7 +27,7 @@ const addFavorite = async (timestamp, user_id, tour_id, hotel_id) => {
 
 const deleteFavorite = async (id) => {
   try {
-    await favoriteModel.findByIdAndUpdate(id);
+    await favoriteModel.findByIdAndDelete(id);
     return true;
   } catch (error) {
     console.log("delete favorite by id err: ", error);

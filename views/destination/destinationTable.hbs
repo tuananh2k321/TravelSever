@@ -1,0 +1,249 @@
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
+
+  <div class="d-flex align-items-center justify-content-between">
+    <a href="/home-page/cpanel/home" class="logo d-flex align-items-center">
+      <img src="/assets/img/logo.png" alt="">
+      <span class="d-none d-lg-block">Discover</span>
+    </a>
+    <i class="bi bi-list toggle-sidebar-btn"></i>
+  </div><!-- End Logo -->
+
+  <div class="search-bar">
+    <form class="search-form d-flex align-items-center" method="POST" action="#">
+      <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+      <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+    </form>
+  </div><!-- End Search Bar -->
+
+
+</header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+  <ul class="sidebar-nav" id="sidebar-nav">
+
+    <li class="nav-item">
+      <a class="nav-link " href="/home-page/cpanel/home">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+      </a>
+    </li><!-- End Dashboard Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="../../tour/cpanel/form">
+            <i class="bi bi-circle"></i><span>Form Elements</span>
+          </a>
+        </li>
+        <li>
+          <a href="../../hotel/cpanel/insert-form">
+            <i class="bi bi-circle"></i><span>Insert Hotel</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Forms Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="../../tour/tour-table">
+            <i class="bi bi-circle"></i><span>Tour</span>
+          </a>
+        </li>
+        <li>
+          <a href="../../hotel/cpanel/hotel-table">
+            <i class="bi bi-circle"></i><span>Hotels</span>
+          </a>
+        </li>
+        <li>
+          <a href="/user/cpanel/list-admin">
+            <i class="bi bi-circle"></i><span>Admins</span>
+          </a>
+        </li>
+        <li>
+          <a href="/home-page/cpanel/home">
+            <i class="bi bi-circle"></i><span>Users</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Tables Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="chart" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="../../tour/cpanel/chart">
+            <i class="bi bi-circle"></i><span>Chart</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Charts Nav -->
+
+    <li class="nav-heading">Pages</li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="../../tour/cpanel/profile">
+        <i class="bi bi-person"></i>
+        <span>Profile</span>
+      </a>
+    </li><!-- End Profile Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="../../user/cpanel/register">
+        <i class="bi bi-card-list"></i>
+        <span>Register</span>
+      </a>
+    </li><!-- End Register Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="../../user/cpanel/login">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>Login</span>
+      </a>
+    </li><!-- End Login Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="../../tour/cpanel/error404">
+        <i class="bi bi-dash-circle"></i>
+        <span>Error 404</span>
+      </a>
+    </li><!-- End Error 404 Page Nav -->
+  </ul>
+
+</aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Data Tables</h1>
+  </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Datatables</h5>
+
+              <!-- Table with stripped rows -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th scope="col">Row</th>
+                    {{!-- <th scope="col">ID</th> --}}
+                    <th scope="col">Destination Name</th>
+                    <th scope="col">Content</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each destinations}}
+                  <tr>
+                    <th scope="row" id="STT">{{@index}}</th>
+                    {{!-- <td>{{this._id}}</td> --}}
+                    <td>{{this.destinationName}}</td>
+                    <td>{{this.content}}</td>
+                    <td>{{this.address}}</td>
+                    <td>
+                      <img src="{{this.mainImage}}" width="200" height="100" style="object-fit: cover;" />
+                    </td>
+                    <td class="text-right">
+                      <div style="display: flex; justify-content: space-between;">
+                        
+                        <a href="/hotel/cpanel/update-hotel/{{this._id}}" class="btn btn-primary m-1">
+                          <i class='bx bx-edit'></i>
+                        </a>
+                        <button onclick="confirmDelete('{{this._id}}')" type="button" class="btn btn-danger m-1">
+                          <i class='bx bx-trash'></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+  <div class="copyright">
+    &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+  </div>
+  <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+  </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+    class="bi bi-arrow-up-short"></i></a>
+
+<script>
+
+  const fetchAPI = async (url, option) => {
+    const res = await fetch(url, option);
+    return res.json();
+  }
+
+  const deleteDes = async (id) => {
+    const url = `/destination/cpanel/${id}/delete`;
+    const option = {
+      method: 'get',
+      headers: { 'Content-Type': 'application/json' }
+    }
+    try {
+      const result = await fetchAPI(url, option);
+      console.log('Delete result: ', result);
+      if (result.status) {
+        window.location.reload();
+
+      } else {
+        swal('Xóa Thất bại!', {
+          icon: 'error',
+        });
+      }
+    } catch (e) {
+      console.log('Delete error: ', e);
+    }
+  }
+
+  const confirmDelete = (id) => {
+    swal({
+      title: "Xác nhận xóa?",
+      text: "Bạn có chắc muốn xóa destination này không?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          deleteDes(id);
+        }
+      });
+  }
+</script>

@@ -348,115 +348,41 @@
             <h5 class="card-title">General Form Elements</h5>
 
             <!-- General Form Elements -->
-            <form method="post" enctype="multipart/form-data" action="/destination/cpanel/insert-destination">
+            <form id="form" method="post" action="/destination/cpanel/insert-destination" enctype="multipart/form-data">
               <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">Tour Name</label>
+                <label for="inputText" class="col-sm-2 col-form-label">Destination Name</label>
                 <div class="col-sm-10">
-                  <input type="text" name="tourName" class="form-control">
-                  <div>
-
-                  </div>
-                </div>
-              </div>
-              <div class="row mb-3">
-                <label for="inputNumber" class="col-sm-2 col-form-label">price</label>
-                <div class="col-sm-10">
-                  <input type="text" name="price" class="form-control">
+                  <input onchange="validate()" type="text" id="destinationName" name="destinationName" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Address</label>
                 <div class="col-sm-10">
-                  <input type="text" name="address" class="form-control">
+                  <input onchange="validate()" type="text" id="address" name="address" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputNumber" class="col-sm-2 col-form-label">Ratings</label>
+                <label for="inputText" class="col-sm-2 col-form-label">Content</label>
                 <div class="col-sm-10">
-                  <input type="number" name="rating" class="form-control">
-                </div>
-              </div>
-              <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">Domain</label>
-                <div class="col-sm-10">
-                  <input type="text" name="domain" class="form-control">
-                </div>
-              </div>
-              <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">Hotel</label>
-                <div class="col-sm-10">
-                  <select name="hotel_id" id="hotel_id" class="form-control">
-                    {{#each hotel}}
-                    <option value="{{this._id}}">{{this.hotelName}}</option>
-                    {{/each}}
-                  </select>
-                </div>
-              </div>
-              <div class="row mb-3 form-group">
-                <legend class="col-form-label col-sm-2 pt-0">Hoạt động</legend>
-                <div class="col-sm-2">
-                  <div class="form-check">
-                    <input name="checking" class="form-check-input " value="Ẩm thực" type="checkbox" id="myCheckbox">
-                    <label name="checking" class="form-check-label" for="myCheckbox">
-                      Ẩm thực
-                    </label>
-                  </div>
-
-                  <div class="form-check">
-                    <input name="checking" class="form-check-input " value="Lễ hội" type="checkbox" id="myCheckbox">
-                    <label name="checking" class="form-check-label" for="myCheckbox">
-                      Lễ hội
-                    </label>
-                  </div>
-                </div>
-                <div class="col-sm-2">
-                  <div class="form-check">
-                    <input name="checking" class="form-check-input " value="Tham quan" type="checkbox" id="myCheckbox">
-                    <label name="checking" class="form-check-label" for="myCheckbox">
-                      Tham quan
-                    </label>
-                  </div>
-
-                  <div class="form-check">
-                    <input name="checking" class="form-check-input " value="VitaminSEA" type="checkbox" id="myCheckbox">
-                    <label name="checking" class="form-check-label" for="myCheckbox">
-                      VitaminSEA
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="row mb-3 form-group">
-                <legend class="col-form-label col-sm-2 pt-0">Điểm đến</legend>
-                <div class="col-sm-2">
-
-                  {{#each destination}}
-                  <div class="form-check">
-                    <input name="destination_id" value="{{this._id}}" class="form-check-input" type="checkbox"
-                      name="destination_id">
-                    <label value="{{this._id}}" class="form-check-label">
-                      {{this.destinationName}}
-                    </label>
-                  </div>
-                  {{/each}}
-
+                  <input onchange="validate()" type="text" id="content" name="content" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputNumber" class="col-sm-2 col-form-label">Image Upload</label>
                 <div class="col-sm-10">
-                  <input class="form-control" name="mainImage" type="file" id="formFile" multiple="multiple" />
+                  <input oninput="validate()" onchange="displayImg()" class="form-control" id="mainImage" name="mainImage" multiple="multiple"
+                    type="file" id="formFile">
+                  <img id="listmainImage" src="{{destination.mainImage}}"
+                    style="width: 200px; height: 100px; margin-top: 10px; object-fit: fill;" alt="mainImage des" />
+                  <input type="hidden" id="imgUrl" name="mainImage" />
                 </div>
               </div>
-              <div class="row mb-3">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Descriptions</label>
-                <div class="col-sm-10">
-                  <textarea class="form-control" name="description" style="height: 200px"></textarea>
-                </div>
-              </div>
+              
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Submit Button</label>
                 <div class="col-sm-10">
-                  <button type="submit" class="btn btn-primary">Submit Form</button>
+                  <button type="submit" id="submit" class="btn btn-primary">Submit
+                    Form</button>
                 </div>
               </div>
 
@@ -489,21 +415,99 @@
     class="bi bi-arrow-up-short"></i></a>
 
 <script>
-  function validateForm() {
-    var name = document.getElementsByName("hotelName");
-    var address = document.getElementsByName("address");
-    var phone = document.getElementsByName("phoneNumber");
-    var image = document.getElementsByName("image");
-    var rating = document.getElementsByName("rating");
-    var description = document.getElementsByName("description");
 
-    if (name == null || name.length == '') {
-      alert("Tên hotel không được để trống!");
-    }
-    else if (address == null || address.length == '') {
-      alert("Địa chỉ hotel không được để trống!");
+  const destination = {
+    destinationName: false,
+    address: false,
+    content: false,
+    description: false,
+    rating: false,
+    mainImage: false
+  }
+
+
+  const validate = () => {
+    destination.destinationName = document.getElementById('destinationName').value != '' && document.getElementById('destinationName').value.trim().length > 0;
+    destination.address = document.getElementById('address').value != '' && document.getElementById('address').value.trim().length > 0;
+    destination.content = document.getElementById('content').value != '' && document.getElementById('content').value.trim().length > 0;
+    destination.mainImage = document.getElementById('mainImage').value != '' && document.getElementById('mainImage').value.trim().length > 0;
+
+    if (hotel.destinationName && hotel.address && hotel.content && hotel.mainImage) {
+      document.getElementById('submit').removeAttribute('disabled');
+    } else {
+      document.getElementById('submit').setAttribute('disabled', true);
     }
   }
 
 
+  // hiển thị hình ảnh khi chọn
+  const displayImg = () => {
+    var file = document.getElementById('mainImage').files[0];
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var mainImage = document.getElementById("listmainImage");
+      mainImage.src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+  }
+
+  // upload mainImage fire base
+  const firebaseConfig = {
+    apiKey: "AIzaSyD9ezQlOj2HZzJcdGwsERN4GjYiersb1GM",
+    authDomain: "travelapp-3e538.firebaseapp.com",
+    projectId: "travelapp-3e538",
+    storageBucket: "travelapp-3e538.appspot.com",
+    messagingSenderId: "579542678002",
+    appId: "1:579542678002:web:5dd5b62019867affea136b",
+    measurementId: "G-Z8HBLEHY6X"
+  };
+
+
+firebase.initializeApp(firebaseConfig);
+  // xử lí khi chọn ảnh upload lên firebase
+  const onChangeImage = () => {
+    const file = document.getElementById('mainImage').files[0];
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('listmainImage').src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+    // upload lên firebase
+    const ref = firebase.storage().ref(`destination/${new Date().getTime() + '-' + file.name}`);
+    const uploadTask = ref.put(file);
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+      (snapshot) => { },
+      (error) => { console.log('firebase error: ', error) },
+      () => {
+        uploadTask.snapshot.ref.getDownloadURL().then(url => {
+          console.log('>>>>> File available at:', url);
+          document.getElementById('imgUrl').value = url;
+        })
+      }
+    );
+  }
+
+  const onChangeCollectionImage = () => {
+    const file = document.getElementById('image-collection').files[0];
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('image-collection-display').src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+    // upload lên firebase
+    const ref = firebase.storage().ref(`destination/${new Date().getTime() + '-' + file.name}`);
+    const uploadTask = ref.put(file);
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+      (snapshot) => { },
+      (error) => { console.log('firebase error: ', error) },
+      () => {
+        uploadTask.snapshot.ref.getDownloadURL().then(url => {
+          console.log('>>>>> File collection available at:', url);
+          document.getElementById('imgCollectionUrl').value = url;
+        })
+      }
+    );
+  }
 </script>
+
+

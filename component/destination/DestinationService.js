@@ -27,7 +27,7 @@ const addNewDestination = async (destinationName,content, mainImage,address) => 
 
 const deleteDesById = async (id)=>{
     try {
-        await destinationModel.findById(id);
+        await destinationModel.findByIdAndDelete(id);
         return true;
     } catch (error) {
         console.log("Delete tour: ",error);

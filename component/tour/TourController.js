@@ -10,15 +10,16 @@ const getTourById = async (id) => {
     return await tourService.getTourById(id);
 }
 
-const addNewTour = async (tourName, description, price, mainImage,checking, rating, address
-    , hotel_id,destination_id,domain ) => {
-        return await tourService.addNewTour(tourName, description, price, mainImage,checking, rating, address, hotel_id,destination_id,domain );
+const addNewTour = async (tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+    operatingDay, vehicle,description,rating,isState,hotel_id,destination_id  ) => {
+        return await tourService.addNewTour(tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+            operatingDay, vehicle,description,rating,isState,hotel_id,destination_id );
 }
 
-const updateTour = async (id,tourName, description, price, mainImage,checking, rating, address, 
-     hotel_id,destination_id,domain) => {
-        return await tourService.updateTour(id,tourName, description, price, mainImage,checking, rating, address, 
-             hotel_id,destination_id,domain);
+const updateTour = async (id,tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+    operatingDay, vehicle,description,rating,isState,hotel_id,destination_id ) => {
+        return await tourService.updateTour(id,tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+            operatingDay, vehicle,description,rating,isState,hotel_id,destination_id );
     }
 
 const deleteTour = async (id) => {

@@ -359,9 +359,15 @@
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputNumber" class="col-sm-2 col-form-label">price</label>
+                <label for="inputNumber" class="col-sm-2 col-form-label">adultPrice</label>
                 <div class="col-sm-10">
-                  <input type="text" name="price" class="form-control">
+                  <input type="text" name="adultPrice" class="form-control">
+                </div>
+              </div>
+               <div class="row mb-3">
+                <label for="inputNumber" class="col-sm-2 col-form-label">childrenPrice</label>
+                <div class="col-sm-10">
+                  <input type="text" name="childrenPrice" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
@@ -377,9 +383,21 @@
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">Domain</label>
+                <label for="inputText" class="col-sm-2 col-form-label">limitedDay</label>
                 <div class="col-sm-10">
-                  <input type="text" name="domain" class="form-control">
+                  <input type="text" name="limitedDay" class="form-control">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputText" class="col-sm-2 col-form-label">operatingDay</label>
+                <div class="col-sm-10">
+                  <input type="text" name="operatingDay" class="form-control">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputText" class="col-sm-2 col-form-label">vehicle</label>
+                <div class="col-sm-10">
+                  <input type="text" name="vehicle" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
@@ -392,43 +410,18 @@
                   </select>
                 </div>
               </div>
-              <div class="row mb-3 form-group">
-                <legend class="col-form-label col-sm-2 pt-0">Hoạt động</legend>
-                <div class="col-sm-2">
-                  <div class="form-check">
-                    <input name="checking" class="form-check-input " value="Ẩm thực" type="checkbox" id="myCheckbox">
-                    <label name="checking" class="form-check-label" for="myCheckbox">
-                      Ẩm thực
-                    </label>
-                  </div>
-
-                  <div class="form-check">
-                    <input name="checking" class="form-check-input " value="Lễ hội" type="checkbox" id="myCheckbox">
-                    <label name="checking" class="form-check-label" for="myCheckbox">
-                      Lễ hội
-                    </label>
-                  </div>
-                </div>
-                <div class="col-sm-2">
-                  <div class="form-check">
-                    <input name="checking" class="form-check-input " value="Tham quan" type="checkbox" id="myCheckbox">
-                    <label name="checking" class="form-check-label" for="myCheckbox">
-                      Tham quan
-                    </label>
-                  </div>
-
-                  <div class="form-check">
-                    <input name="checking" class="form-check-input " value="VitaminSEA" type="checkbox" id="myCheckbox">
-                    <label name="checking" class="form-check-label" for="myCheckbox">
-                      VitaminSEA
-                    </label>
-                  </div>
+              <div class="row mb-3">
+                <label for="inputText" class="col-sm-2 col-form-label">isSate</label>
+                <div class="col-sm-10">
+                  <select id="isState" name="isState">
+                    <option value="true">true</option>
+                    <option value="false">false</option>
+                  </select>
                 </div>
               </div>
               <div class="row mb-3 form-group">
                 <legend class="col-form-label col-sm-2 pt-0">Điểm đến</legend>
                 <div class="col-sm-2">
-
                   {{#each destination}}
                   <div class="form-check">
                     <input name="destination_id" value="{{this._id}}" class="form-check-input" type="checkbox"
@@ -444,7 +437,7 @@
               <div class="row mb-3">
                 <label for="inputNumber" class="col-sm-2 col-form-label">Image Upload</label>
                 <div class="col-sm-10">
-                  <input class="form-control" name="mainImage" type="file" id="formFile" multiple="multiple" />
+                  <input class="form-control" name="tourImage" type="file" id="formFile" multiple="multiple" />
                 </div>
               </div>
               <div class="row mb-3">

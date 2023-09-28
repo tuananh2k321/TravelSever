@@ -30,10 +30,10 @@ router.get('/insert-tour',async function(req, res,next) {
     res.render('tour/insertTour',{hotel,destination});
 });
 // xử lí thêm tour
-router.post('/insert-tour',[uploadImage.array('mainImage',10)],async (req,res,next) =>{
+router.post('/insert-tour',[uploadImage.array('tourImage',10)],async (req,res,next) =>{
     try {
          let {body,files} = req;
-         let mainImage = [];
+         let tourImage = [];
 
          
          if (files && files.length > 0) {
@@ -53,15 +53,15 @@ router.post('/insert-tour',[uploadImage.array('mainImage',10)],async (req,res,ne
               return downloadURL;
             });
       
-            mainImage = await Promise.all(uploadedImagePromises);
+            tourImage = await Promise.all(uploadedImagePromises);
           }
 
-        let {tourName, description, price,checking, rating, address, 
-            hotel_id,destination_id,domain} =body;
-            console.log(tourName, description, price, mainImage,checking, rating, address,
-             hotel_id,destination_id,domain);
-        await tourController.addNewTour(tourName, description, price, mainImage,checking, rating, address,
-              hotel_id,destination_id,domain);
+        let {tourName, adultPrice, childrenPrice,address, limitedDay,
+            operatingDay, vehicle,description,rating,isState,hotel_id,destination_id} =body;
+            console.log(tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+                operatingDay, vehicle,description,rating,isState,hotel_id,destination_id);
+        await tourController.addNewTour(tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+            operatingDay, vehicle,description,rating,isState,hotel_id,destination_id);
         return res.render('tour/insertTour');
     } catch (error) {
         console.log('Add new  error:',error);
@@ -107,25 +107,40 @@ router.get('/:id/edit-tour', async (req, res, next) =>{
     }
 });
 // xử lí edit tour
-router.post('/:id/edit-tour',[uploadImage.single('mainImage')],async (req,res,next) =>{
+router.post('/:id/edit-tour',[uploadImage.array('tourImage',10)],async (req,res,next) =>{
     try {
-         let {body,file} = req;
-         let {id} = req.params;
-        if(file){
-            let mainImage = `http://192.168.2.25:3000/images/${file.filename}`;
-            body = {...body, mainImage: mainImage};
-        }
-        let {tourName, description, price, mainImage,checking, rating, address, 
-            hotel_id,destination_id,domain} =body;
+        let {body,files} = req;
+        let tourImage = [];
+        let {id} = req.params;
+         if (files && files.length > 0) {
+            const uploadedImagePromises = files.map(async (file) => {
+              const filename = `${Date.now()}-${file.originalname}`;
+              const fileRef = ref(storageRef, filename);
+      
+              const metadata = {
+                contentType: file.mimetype,
+              };
+      
+              const snapshot = await uploadBytesResumable(fileRef, file.buffer, metadata);
+              const downloadURL = await getDownloadURL(snapshot.ref);
+      
+              console.log(`File ${file.originalname} successfully uploaded to Firebase Storage.`);
+      
+              return downloadURL;
+            });
+      
+            tourImage = await Promise.all(uploadedImagePromises);
+          }
+          let {tourName, adultPrice, childrenPrice,address, limitedDay,
+            operatingDay, vehicle,description,rating,isState,hotel_id,destination_id} =body;
+            console.log(tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+                operatingDay, vehicle,description,rating,isState,hotel_id,destination_id);
 
-            console.log(tourName, description, price, mainImage,checking, rating, address,
-             hotel_id,destination_id,domain);
-
-        await tourController.updateTour(id, tourName, description, price, mainImage,checking, rating, address,
-              hotel_id,destination_id,domain);
+        await tourController.updateTour(id,tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+            operatingDay, vehicle,description,rating,isState,hotel_id,destination_id);
         return res.redirect('/tour/cpanel/tour-table');
     } catch (error) {
-        console.log('Add new  error:',error);
+        console.log('update  error:',error);
         next(error);
     }
 });

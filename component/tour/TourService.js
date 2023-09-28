@@ -21,14 +21,15 @@ const getTourById = async (id) => {
     }
 }
 
-const addNewTour = async (tourName, description, price, mainImage,checking, rating,
-     address, hotel_id,destination_id,domain ) => {
+const addNewTour = async (tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+    operatingDay, vehicle,description,rating,isState,hotel_id,destination_id ) => {
     try {
         // const newTour = { tourName, description, price, mainImage,checking, rating, address, imageMap,specificAddress, hotel_id,destination_id,domain};
         // const u = new tourModel(newTour);
         // await u.save();
         const newTour = {
-            tourName, description, price, mainImage,checking, rating, address, hotel_id,destination_id,domain
+            tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+            operatingDay, vehicle,description,rating,isState,hotel_id,destination_id
         }
          await tourModel.create(newTour); 
         return true;
@@ -39,20 +40,24 @@ const addNewTour = async (tourName, description, price, mainImage,checking, rati
     return false;
 }
 
-const updateTour = async (id,tourName, description, price, mainImage,checking, rating, address, hotel_id,destination_id,domain) => {
+const updateTour = async (id,tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+    operatingDay, vehicle,description,rating,isState,hotel_id,destination_id) => {
     try {
         let tour = await tourModel.findById(id);
         if(tour) {
             tour.tourName = tourName ? tourName : tour.tourName;
-            tour.description = description ? description : tour.description;
-            tour.price = price ? price : tour.price;
-            tour.mainImage = mainImage ? mainImage : tour.mainImage;
-            tour.checking = checking ? checking : tour.checking;
-            tour.rating = rating ? rating : tour.rating;
+            tour.adultPrice = adultPrice ? adultPrice : tour.adultPrice;
+            tour.childrenPrice = childrenPrice ? childrenPrice : tour.childrenPrice;
+            tour.tourImage = tourImage ? tourImage : tour.tourImage;
             tour.address = address ? address : tour.address;
+            tour.limitedDay = limitedDay ? limitedDay : tour.limitedDay;
+            tour.operatingDay = operatingDay ? operatingDay : tour.operatingDay;
+            tour.vehicle = vehicle ? vehicle : tour.vehicle;
+            tour.description = description ? description : tour.description;
+            tour.rating = rating ? rating : tour.rating;
+            tour.isState = isState ? isState : tour.isState;
             tour.hotel_id = hotel_id ? hotel_id : tour.hotel_id;
             tour.destination_id = destination_id ? destination_id : tour.destination_id;
-            tour.domain = domain ? domain : tour.domain;
             await tour.save();
             return true;
         }

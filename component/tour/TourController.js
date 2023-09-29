@@ -33,9 +33,7 @@ const getTourSearchName = async (keyword) => {
 const getTourRating = async () => {
     return await tourService.getTourRating();
 }
-const getTourDomain = async (keyword) => {
-    return await tourService.getTourDomain(keyword);
-}
+
 
 module.exports = {
     getAllTour,
@@ -44,6 +42,5 @@ module.exports = {
     deleteTour,
     getTourById,
     getTourSearchName,
-    getTourRating,
-    getTourDomain
+    getTourRating
 };

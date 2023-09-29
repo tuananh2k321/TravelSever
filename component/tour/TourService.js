@@ -98,16 +98,6 @@ const getTourRating = async () => {
     return [];
 }
 
-const getTourDomain = async (keyword) => {
-    try {
-        let query =  {domain:{$regex:new RegExp(keyword,'i')}};
-        let filteredTours = await tourModel.find(query);
-        return filteredTours;
-    } catch (error) {
-        console.log("getTourDomain failed: ", error);
-    }
-    return [];
-}
 
 module.exports = {
     getAllTour,
@@ -116,6 +106,5 @@ module.exports = {
     deleteTour,
     getTourById,
     getTourSearhName,
-    getTourRating,
-    getTourDomain
+    getTourRating
 };

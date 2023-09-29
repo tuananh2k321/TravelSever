@@ -40,6 +40,7 @@ router.post('/:id/delete', async function(req,res,next){
     }
 });
 // http://localhost:3000/api/tourApi/:id
+// get tour theo id
 router.get('/:id',async function(req,res,next)  {
   try {
       const {id} = req.params;
@@ -61,11 +62,10 @@ router.get('/search/name',async function(req,res,next)  {
     }
   });
 
-  // http://localhost:3000/api/tourApi/tourRating/number?keyword=1
-router.get('/tourRating/number',async function(req,res,next)  {
+  // http://localhost:3000/api/tourApi/tourRating
+router.get('/tourRating',async function(req,res,next)  {
     try {
-        const {keyword} = req.query;
-        const tours = await tourController.getTourRating(keyword);
+        const tours = await tourController.getTourRating();
         return res.status(200).json({tours});
     } catch (error) {
         console.log("search: ", error)

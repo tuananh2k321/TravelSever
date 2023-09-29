@@ -3,6 +3,7 @@ var router = express.Router();
 const hotelController = require('../component/hotel/HotelController');
 // const uploadImage = require('../middleware/UpLoadImage');
 const validation = require('../middleware/Validation');
+const authen = require('../middleware/Authen')
 
 const { getStorage, ref, getDownloadURL, uploadBytesResumable } = require("firebase/storage");
 const multer = require("multer");
@@ -14,18 +15,20 @@ const multerStorage = multer.memoryStorage();
 const uploadImage = multer({ storage: multerStorage });
 
 // http://localhost:3000/hotel/cpanel/hotel-table
-router.get('/hotel-table', async function (req, res) {
+router.get('/hotel-table',[authen.checkTokenCpanel], async function (req, res) {
     const hotels = await hotelController.getAllHotels();
-    res.render('hotel/hotelTable', { hotels });
+    const user = req.session.user;
+    res.render('hotel/hotelTable', { hotels, user });
 });
 
 // http://localhost:3000/hotel/cpanel/insert-form
-router.get('/insert-form', async function (req, res) {
-    res.render('hotel/formInsert',);
+router.get('/insert-form', [authen.checkTokenCpanel], async function (req, res) {
+    const user = req.session.user;
+    res.render('hotel/formInsert',{user});
 });
 
 // http://localhost:3000/hotel/cpanel/delete-hotel/:id
-router.get('/delete-hotel/:id', async function (req, res, next) {
+router.get('/delete-hotel/:id', [authen.checkTokenCpanel], async function (req, res, next) {
     try {
         const { id } = req.params;
         await hotelController.removeHotel(id);
@@ -76,12 +79,13 @@ router.post('/add-hotel', [uploadImage.array('listImage',10), validation.checkFo
 
 // hiển thị trang thêm cập nhật hotel
 // http://localhost:3000/hotel/cpanel/update-hotel/64a94d4b8edee1be600646c2
-router.get('/update-hotel/:id', async function (req, res, next) {
+router.get('/update-hotel/:id', [authen.checkTokenCpanel], async function (req, res, next) {
     try {
         const {id} = req.params;
+        const user = req.session.user;
         const hotel = await hotelController.getHotelById(id);
         console.log("Hotel update id: ", hotel);
-        res.render('hotel/formEdit', {hotel});
+        res.render('hotel/formEdit', {hotel, user});
     } catch (error) {
         console.log("Update new hotel error: ", error);
         next(error);
@@ -128,14 +132,15 @@ router.post('/update-hotel/:id',[uploadImage.array('listImage',10), validation.c
 
 // lấy danh sách hotel theo tên hoac theo dia chi
 // http://localhost:3000/hotel/cpanel/get-all-hotels/search/keyword?keyword=abc
-router.get("/search", async (req, res, next) => {
+router.get("/search", [authen.checkTokenCpanel], async (req, res, next) => {
     try {
         const {keyword} = req.query;
+        const user = req.session.user;
         if(keyword == null) {
             return res.render('hotel/hotelTable');
         }else {
             const hotels = await hotelController.searchHotelName(keyword);
-            res.render('hotel/hotelTable',{hotels});
+            res.render('hotel/hotelTable',{hotels, user});
         }
     } catch (error) {
         console.log("search error ", error);

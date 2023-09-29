@@ -38,7 +38,7 @@ router.get('/delete-hotel/:id', async function (req, res, next) {
 
 // xử lí trang thêm mới hotel
 // http://localhost:3000/hotel/cpanel/add-hotel
-router.post('/add-hotel', [uploadImage.array('listImage',10), ], async function (req, res, next) {
+router.post('/add-hotel', [uploadImage.array('listImage',10), validation.checkFormHotel], async function (req, res, next) {
     try {
         let {body,files} = req;
          let listImage = [];
@@ -90,7 +90,7 @@ router.get('/update-hotel/:id', async function (req, res, next) {
 
 // xử lí trang cập nhật hotel
 // http://localhost:3000/hotel/cpanel/update-hotel/64a94d4b8edee1be600646c2
-router.post('/update-hotel/:id',[uploadImage.array('listImage',10), ], async function (req, res, next) {
+router.post('/update-hotel/:id',[uploadImage.array('listImage',10), validation.checkFormHotel], async function (req, res, next) {
     try {
         let {body,files} = req;
         const {id} = req.params;
@@ -122,6 +122,23 @@ router.post('/update-hotel/:id',[uploadImage.array('listImage',10), ], async fun
         return res.redirect('/hotel/cpanel/hotel-table');
     } catch (error) {
         console.log("Update hotel error: ", error);
+        next(error);
+    }
+});
+
+// lấy danh sách hotel theo tên hoac theo dia chi
+// http://localhost:3000/hotel/cpanel/get-all-hotels/search/keyword?keyword=abc
+router.get("/search", async (req, res, next) => {
+    try {
+        const {keyword} = req.query;
+        if(keyword == null) {
+            return res.render('hotel/hotelTable');
+        }else {
+            const hotels = await hotelController.searchHotelName(keyword);
+            res.render('hotel/hotelTable',{hotels});
+        }
+    } catch (error) {
+        console.log("search error ", error);
         next(error);
     }
 });

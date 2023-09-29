@@ -1,3 +1,5 @@
+const {check, body} = require('express-validator');
+
 const checkLogin = async (req, res, next) => { 
     try {
         const {email, password} = req.body
@@ -15,5 +17,51 @@ const checkLogin = async (req, res, next) => {
     }
 }
 
+const checkFormHotel = async (req, res, next) => {
+    try {
+        const {hotelName, description, rating, address, phoneNumber} = req.body;
+        const phoneRegex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+        const checkHotelName = hotelName != "";
+        const checkDescription = description != "";
+        const checkRating = rating != "";
+        const checkAddress = address != "";
+        const checkPhoneNumber = checkDescription != "";
 
-module.exports = {checkLogin}
+        if(!checkHotelName || !description || !checkRating || !checkAddress || !checkPhoneNumber){
+            return res.status(400).json({result: false, message: 'Vui lòng nhập đầy đủ thông tin'});
+        } else if (phoneRegex.test(phoneNumber) == false){
+            return res.status(400).json({result: false, message:'Số điện thoại không hợp lệ'});
+        }else if (rating < 0 || rating > 5){
+            return res.status(400).json({result: false, message:'Rating từ 1 đến 5'});
+        } else {
+            next();
+        }
+    } catch (error) {
+        console.log('Check form hotel error: ',error);
+        return res.status(400).json({result: false})
+    }
+}
+
+const validate = function(req, res, next) {
+    try {
+        const phoneRegex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+        const {body: {hotelName, description, image, rating, address, phoneNumber}} = req;
+        const checkHotelName = hotelName != "" && hotelName.trim().length > 0;
+        const checkDescription = description != "" && description.trim().length > 0;
+        const checkImage = image != "" && image.trim().length > 0;
+        const checkRating = rating != "" && rating.trim().length > 0 && (rating < 0 || rating > 5);
+        const checkAddress = address != "" && address.trim().length > 0;
+        const checkPhoneNumber = phoneNumber != "" && phoneNumber.trim().length > 0 && phoneRegex.test(phoneNumber);
+
+        if(checkHotelName && checkDescription && checkPhoneNumber && checkAddress && checkImage && checkRating) {
+            next();
+        } else {
+            console.log("=======> Validating form hotel error");
+            res.status(400).json({error: true, message: "Validating form hotel false"});
+        }
+    } catch (error) {
+        res.status(400).json({error: true, message: "Validate Failed"});
+    }
+};
+
+module.exports = {checkLogin, checkFormHotel}

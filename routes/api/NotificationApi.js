@@ -13,7 +13,7 @@ router.get('/getNotification', async (req,res,next)=>{
     }
 });
 
-router.post('/addNotification/:user_id', async (req, res, next) =>{
+router.post('/:user_id/addNotification', async (req, res, next) =>{
     try {
         const {image, title, content, timestamp} = req.body;
         const {user_id} = req.params;

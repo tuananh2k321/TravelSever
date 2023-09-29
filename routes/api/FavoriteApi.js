@@ -13,7 +13,7 @@ router.get('/getFavorite', async (req, res, next) =>{
     }
 });
 
-router.get('/addFavorite/:timestamp/:user_id/:tour_id', async(req, res, next)=>{
+router.get('/:timestamp/:user_id/:tour_id/addFavorite', async(req, res, next)=>{
     try {
         const {timestamp, user_id, tour_id} = req.params;
         await favoriteController.addFavorite(timestamp, user_id, tour_id);
@@ -23,7 +23,7 @@ router.get('/addFavorite/:timestamp/:user_id/:tour_id', async(req, res, next)=>{
     }
 });
 
-router.delete('/deleteFavorite/:id', async(req,res, next)=>{
+router.delete('/:id/deleteFavorite', async(req,res, next)=>{
     try {
         const {id} = req.params;
         await favoriteController.deleteFavoritebyid(id);

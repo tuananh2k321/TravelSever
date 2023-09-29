@@ -7,7 +7,7 @@ const schema = new Schema({
     id: { type: ObjectId },
     hotelName: { type: String, required: true },
     description: { type: String, required: true },
-    image: { type: String, required: true },
+    // image: { type: String, required: true },
     rating: { type: Number, required: true },
     listImage: { type: Array, required: true },
     address: { type: String, required: true },

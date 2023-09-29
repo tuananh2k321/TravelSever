@@ -3,7 +3,7 @@ var router = express.Router();
 const destinationController = require('../../component/destination/DestinationController');
 
 
-// http://localhost:3000/destination/api
+// http://localhost:3000/destination/api/get-destination
 router.get('/get-destination', async function(req,res,next){
     try {
         const destinations = await destinationController.getAllDestination();

@@ -71,8 +71,9 @@ router.post('/insert-destination', [uploadImage.array('mainImage', 10)], async (
 
 router.get("/:id/edit-destination", async (req, res, next) => {
     try {
-        const { id } = req.body;
+        const { id } = req.params;
         const destination = await destinationController.getDesById(id);
+        console.log(destination);
         res.render('destination/editdestination', { destination });
     } catch (error) {
         console.log('edit new  error:', error);

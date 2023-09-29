@@ -399,7 +399,7 @@
 
                 <tr>
                   <td class="py-1">
-                    <img src="{{this.tourImage}}" alt="image" width="100" height="100" />
+                    <img src="{{this.tourImage}}" alt="image" width="200" height="100" />
                   </td>
                   <td> {{this.tourName}} </td>
                   <td>
@@ -414,9 +414,15 @@
                   <td> {{this.rating}}</td>
                   <td> {{this.address}}</td>
                   
-                  <td>
-                    <a href="/tour/cpanel/{{this._id}}/edit-tour" class="btn btn-primary">Edit</a>
-                    <button onclick="confirmDelete('{{this._id}}')" type="button" class="btn btn-danger">Delete</button>
+                  <td class="text-right">
+                    <div style="display: flex; justify-content: space-between;">
+                      <a href="/tour/cpanel/{{this._id}}/edit-tour" class="btn btn-primary m-1">
+                        <i class='bx bx-edit'></i>
+                      </a>
+                      <a onclick="confirmDelete('{{this._id}}')" type="button"  class="btn btn-danger m-1">
+                        <i class='bx bx-trash'></i>
+                      </a>
+                    </div>
                   </td>
                 </tr>
 

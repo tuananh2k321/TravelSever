@@ -83,7 +83,7 @@ router.get("/get-all-hotels/search/rating", async (req, res, next) => {
 });
 
 
-// lấy danh sách hotel theo tên
+// lấy danh sách hotel theo tên hoac theo dia chi
 // http://localhost:3000/hotel/api/get-all-hotels/search/keyword?keyword=abc
 router.get("/get-all-hotels/search/keyword", async (req, res, next) => {
     try {

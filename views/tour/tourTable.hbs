@@ -372,10 +372,11 @@
                 <tr>
                   <th scope="col">Hình ảnh</th>
                   <th scope="col">Tên</th>
-                  <th scope="col">Giá</th>
+                  <th scope="col">Giá người lớn</th>
+                  <th scope="col">Giá trẻ em dưới 15</th>
+                  <th scope="col">Trạng thái</th>
                   <th scope="col">Đánh giá</th>
                   <th scope="col">Địa chỉ</th>
-                  <th scope="col">Khu vực</th>
                 </tr>
               </thead>
               <tbody>
@@ -383,7 +384,7 @@
 
                 <tr>
                   <td class="py-1">
-                    <img src="{{this.mainImage}}" alt="image" width="100" height="100" />
+                    <img src="{{this.tourImage}}" alt="image" width="100" height="100" />
                   </td>
                   <td> {{this.tourName}} </td>
                   <td>
@@ -391,11 +392,13 @@
                       <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25"
                         aria-valuemin="0" aria-valuemax="100"></div>
                     </div> --}}
-                    {{this.price}}
+                    {{this.adultPrice}}
                   </td>
-                  <td> {{this.rating}} </td>
+                  <td> {{this.childrenPrice}} </td>
+                  <td> {{this.isState}}</td>
+                  <td> {{this.rating}}</td>
                   <td> {{this.address}}</td>
-                  <td> {{this.domain}}</td>
+                  
                   <td>
                     <a href="/tour/cpanel/{{this._id}}/edit-tour" class="btn btn-primary">Edit</a>
                     <button onclick="confirmDelete('{{this._id}}')" type="button" class="btn btn-danger">Delete</button>

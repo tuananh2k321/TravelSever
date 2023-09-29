@@ -14,11 +14,13 @@ router.get('/get-all-tour', async function(req,res,next){
     }
 });
 // http://localhost:3000/tour/api/inser-tour
-// them
+// them tour
 router.post('/inser-tour', async function(req,res,next){
   try {
-    const { tourName, description, price, mainImage,checking, rating, address, imageMap,specificAddress, hotel_id,destination_id,domain } = req.body;
-    const tour = await tourController.addNewTour(tourName, description, price, mainImage,checking, rating, address, imageMap,specificAddress, hotel_id,destination_id,domain );
+    const { tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+        operatingDay, vehicle,description,rating,isState,hotel_id,destination_id } = req.body;
+    const tour = await tourController.addNewTour(tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+        operatingDay, vehicle,description,rating,isState,hotel_id,destination_id );
     if (tour) {
         return res.status(200).json({ result: true, hotel: tour, message: "Add hotel Success" });
     }
@@ -27,6 +29,7 @@ router.post('/inser-tour', async function(req,res,next){
 }
 });
 //http://localhost:3000/api/tourApi/:id/delete
+// xoa tour
 router.post('/:id/delete', async function(req,res,next){
     try {
         const {id} = req.params;

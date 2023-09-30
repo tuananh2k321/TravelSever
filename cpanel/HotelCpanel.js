@@ -27,6 +27,21 @@ router.get('/insert-form', [authen.checkTokenCpanel], async function (req, res) 
     res.render('hotel/formInsert',{user});
 });
 
+// hiển thị trang chi tiet hotel
+// http://localhost:3000/hotel/cpanel/detail-hotel/6513010dd9a0f3bd36583d8e
+router.get('/detail-hotel/:id', [authen.checkTokenCpanel], async function (req, res, next) {
+    try {
+        const {id} = req.params;
+        const user = req.session.user;
+        const hotel = await hotelController.getHotelById(id);
+        console.log("Hotel update id: ", hotel);
+        res.render('hotel/cardDetail', {hotel, user});
+    } catch (error) {
+        console.log("Get detail hotel error: ", error);
+        next(error);
+    }
+});
+
 // http://localhost:3000/hotel/cpanel/delete-hotel/:id
 router.get('/delete-hotel/:id', [authen.checkTokenCpanel], async function (req, res, next) {
     try {

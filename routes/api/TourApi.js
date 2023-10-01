@@ -72,16 +72,6 @@ router.get('/tourRating',async function(req,res,next)  {
         return res.status(400).json({});
     }
   });
- // http://localhost:3000/api/tourApi/tourDomain/domain?keyword=abc
- router.get('/tourDomain/domain',async function(req,res,next)  {
-    try {
-        const {keyword} = req.query;
-        const tours = await tourController.getTourDomain(keyword);
-        return res.status(200).json({tours});
-    } catch (error) {
-        console.log("search: ", error)
-        return res.status(400).json({});
-    }
-  });
+ 
 
 module.exports = router;

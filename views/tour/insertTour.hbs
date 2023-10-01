@@ -436,17 +436,30 @@
               </div>
               <div class="row mb-3 form-group">
                 <legend class="col-form-label col-sm-2 pt-0">Điểm đến</legend>
-                <div class="col-sm-2">
-                  {{#each destination}}
-                  <div class="form-check">
-                    <input name="destination_id" value="{{this._id}}" class="form-check-input" type="checkbox"
-                      name="destination_id">
-                    <label value="{{this._id}}" class="form-check-label">
-                      {{this.destinationName}}
-                    </label>
-                  </div>
-                  {{/each}}
-
+                <div class="col-sm-10">
+                   <div class="col-sm-10 btn btn-outline-primary" onclick="toggleDialog()">Ấn vào để chọn điểm đến cho tour của bạn</div>
+                          <div id="dialog">
+                            <h2>Danh sách chọn điểm đến</h2>
+                            <div class="search-bar">
+                              <form class="search-form d-flex align-items-center" method="POST" action="#">
+                                <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+                                <div class=" btn btn-outline-primary" type="submit" title="Search"><i class="bi bi-search"></i></div>
+                              </form>
+                            </div><!-- End Search Bar -->
+                              {{#each destination}}
+                                <div class="form-check">
+                                  <input name="destination_id" value="{{this._id}}" class="form-check-input" type="checkbox"
+                                    name="destination_id">
+                                  <label value="{{this._id}}" class="form-check-label">
+                                    {{this.destinationName}}
+                                  </label>
+                                </div>
+                              {{/each}}
+                            <!-- Thêm các checkbox khác tại đây nếu cần -->
+                            <a class="btn btn-danger btn-lg" onclick="handleOK()">OK</a>
+                            <a class="btn btn-secondary btn-lg" onclick="handleCancel()">Cancel</a>
+                        </div>
+                
                 </div>
               </div>
               <div class="row mb-3">
@@ -514,4 +527,32 @@
   }
 
 
+</script>
+<script>
+    // Mảng để lưu trữ các checkbox được chọn
+    var selectedOptions = [];
+
+    // JavaScript để ẩn/hiện hộp thoại
+    function toggleDialog() {
+        var dialog = document.getElementById("dialog");
+        if (dialog.style.display === "block") {
+            dialog.style.display = "none";
+        } else {
+            dialog.style.display = "block";
+        }
+    }
+
+    // JavaScript để xử lý khi nhấp vào nút "OK"
+    function handleOK() {
+        toggleDialog();
+    }
+
+    // JavaScript để xử lý khi nhấp vào nút "Cancel"
+    function handleCancel() {
+       var checkboxes = document.querySelectorAll("input[type=checkbox]");
+        checkboxes.forEach(function(checkbox) {
+            checkbox.checked = selectedOptions[checkbox.id];
+        });
+        toggleDialog();
+    }
 </script>

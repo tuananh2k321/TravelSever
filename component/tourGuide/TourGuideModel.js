@@ -11,6 +11,6 @@ const schema = new Schema({
   workPlaces: { type: String, required: true },
 });
 
-module.exports = mongoose.models.hotel || mongoose.model("tourGuide", schema);
+module.exports = mongoose.models.tourguide || mongoose.model("tourguide", schema);
 //trong đây là số ít bên mông là số nhiều
 // tourGuide ---------> tourGuides

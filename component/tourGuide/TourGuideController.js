@@ -3,7 +3,7 @@ const tourGuideService = require("./TourGuideService");
 
 const getAllTourGuide = async () => {
     try {
-        return await tourGuideService.getAllTourGuide();
+        return await tourGuideService.getAllTourGuides();
     } catch (error) {
         throw error;
     }
@@ -11,7 +11,7 @@ const getAllTourGuide = async () => {
 
 const createNewTourGuide = async (name, phoneNumber, email, avatar, workPlaces) => {
     try {
-        return await tourGuideService.createNewTourGuide(name, phoneNumber, email, avatar, workPlaces);
+        return await tourGuideService.createNewTourGuides(name, phoneNumber, email, avatar, workPlaces);
     } catch (error) {
         throw error;
     }
@@ -21,7 +21,7 @@ const createNewTourGuide = async (name, phoneNumber, email, avatar, workPlaces) 
 
 const removeTourGuide = async (id) => {
     try {
-        return await tourGuideService.removeTourGuide(id);
+        return await tourGuideService.removeTourGuides(id);
     } catch (error) {
         throw error;
     }

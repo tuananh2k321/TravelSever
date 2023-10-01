@@ -11,7 +11,7 @@ router.post('/addTourGuide', async (req, res, next) => {
         const tourGuide = await tourGuideController.createNewTourGuide(name, phoneNumber, email, avatar, workPlaces);
         return res.status(200).json({ result: true, tourGuide: tourGuide, message: "Add tourGuide Success" });
     } catch (error) {
-        console.log(error);
+        console.log("Check erorror", error);
         return res.status(400).json({ result: false, error: error, message: "Add tourGuide Failed" });
     }
 })
@@ -55,9 +55,10 @@ router.delete('/delete-tourGuide/:id', async (req, res, next) => {
 router.get("/get-all-tourGuide", async (req, res) => {
     try {
         const tourGuide = await tourGuideController.getAllTourGuide();
+        console.log(tourGuide);
         return res.status(200).json({ result: true, tourGuide: tourGuide, message: "Get All list tourGuide Successfully" });
     } catch (error) {
-        return res.status(400).json({ result: false, hotels: [], message: "Get All list tourGuide Failed" });
+        return res.status(400).json({ result: false, tourGuide: [], message: "Get All list tourGuide Failed" });
     }
 });
 

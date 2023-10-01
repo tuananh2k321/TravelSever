@@ -1,17 +1,17 @@
 const tourGuideModel = require("./TourGuideModel");
 
 //lấy toàn bộ tourGuide trong database
-const getAllTourGuide = async () => {
+const getAllTourGuides = async () => {
     try {
         return await tourGuideModel.find();
     } catch (error) {
-        console.log("Get all hotels error: " + error);
+        console.log("Get all tourGuide error: " + error);
     }
     return [];
 };
 
 // Create a new tour guide
-const createNewTourGuide = async (
+const createNewTourGuides = async (
     name,
     phoneNumber,
     email,
@@ -34,8 +34,8 @@ const createNewTourGuide = async (
     return false;
 };
 
-// xóa tour guide
-const removeTourGuide = async (id) => {
+// xóa tour guide  
+const removeTourGuides = async (id) => {
     try {
         await tourGuideModel.findByIdAndDelete(id);
         return true;
@@ -47,7 +47,7 @@ const removeTourGuide = async (id) => {
 
 // Update tour guide
 
-// cập nhật hotel mới vào database
+// cập nhật tour guide mới vào database
 const updateTourGuide = async (id, name,
     phoneNumber,
     email,
@@ -65,10 +65,10 @@ const updateTourGuide = async (id, name,
             return true;
         }
     } catch (error) {
-        console.log("Update hotel error: " + error);
+        console.log("Update tour guide error: " + error);
     }
     return false;
 };
 
 
-module.exports = { getAllTourGuide, createNewTourGuide, removeTourGuide, updateTourGuide };
+module.exports = { getAllTourGuides, createNewTourGuides, removeTourGuides, updateTourGuide };

@@ -17,6 +17,7 @@ var favoriteAPIRouter = require("./routes/api/FavoriteApi");
 var notificationAPIRouter = require("./routes/api/NotificationApi");
 var cartAPIRouter = require("./routes/api/CartApi");
 var bookingAPIRouter = require("./routes/api/BookingApi");
+var tourGuideAPIRouter = require("./routes/api/TourGuideApi")
 // CPANEL
 var tourCpanelRouter = require("./cpanel/TourCpanel");
 var userCpanelRouter = require("./cpanel/UserCpanel");
@@ -75,6 +76,8 @@ app.use("/hotel/api", hotelAPIRouter);
 app.use("/booking/api", bookingAPIRouter);
 
 //
+app.use("/tourGuide/api", tourGuideAPIRouter)
+
 app.use("/cart/api", cartAPIRouter);
 
 // http://localhost:3000/favorite/api

@@ -1,3 +1,4 @@
+const TourModel = require('../tour/TourModel');
 const destinationModel = require('./DestinationModel');
 
 const getAllDestination = async () => {
@@ -7,6 +8,17 @@ const getAllDestination = async () => {
         console.log("getAllDestination  failed: ", error);
     }
     return [];
+}
+
+const getDataByArrayOfIds = async(ids) => {
+    try {
+        // Truy vấn dựa vào một mảng các ObjectId
+    const query = { _id: { $in: ids.map(id => Array(id)) } };
+    const result = await destinationModel.find(query);
+    return result;
+    } catch (error) {
+        console.error('Lỗi truy vấn dữ liệu:', error);
+    }
 }
 
 const addNewDestination = async (destinationName, content, mainImage, address) => {
@@ -65,5 +77,5 @@ const updateDestination = async (id, destinationName, content, mainImage, addres
 
 
 module.exports = {
-    getAllDestination, addNewDestination, deleteDesById, updateDestination, getDesById
+    getAllDestination, addNewDestination, deleteDesById, updateDestination, getDesById,getDataByArrayOfIds
 };

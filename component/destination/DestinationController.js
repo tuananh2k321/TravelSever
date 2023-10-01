@@ -10,6 +10,14 @@ const getAllDestination = async () => {
 
 }
 
+const getDataByArrayOfIds = async (ids) => {
+    try {
+        return await destinationService.getDataByArrayOfIds(ids);
+    } catch (error) {
+        throw error;
+    }
+}
+
 const addNewDestination = async (destinationName, content, mainImage, address) => {
     try {
         await destinationService.addNewDestination(destinationName, content, mainImage, address);
@@ -45,5 +53,6 @@ module.exports = {
     addNewDestination,
     deleteDesById,
     updateDestination,
-    getDesById
+    getDesById,
+    getDataByArrayOfIds
 };

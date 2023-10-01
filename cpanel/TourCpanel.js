@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var tourController = require('../component/tour/TourController')
-
+const authen = require('../middleware/Authen')
 const hotelController = require('../component/hotel/HotelController')
 const destinationController = require('../component/destination/DestinationController')
 const { getStorage, ref, getDownloadURL, uploadBytesResumable } = require("firebase/storage");
@@ -19,6 +19,30 @@ const uploadImage = multer({ storage: multerStorage });
 router.get('/tour-table',async function(req, res,next) {
     const tours = await tourController.getAllTour();
     res.render('tour/tourTable',{tours});
+});
+
+
+// hiển thị trang chi tiet tour
+// http://localhost:3000/tour/cpanel/detail-tour/6513010dd9a0f3bd36583d8e
+router.get('/detail-tour/:id', [authen.checkTokenCpanel], async function (req, res, next) {
+    try {
+        const {id} = req.params;
+        const user = req.session.user;
+        const tour = await tourController.getTourById(id);
+        // get hotelName
+        const idToQuery = tour.hotel_id;
+        const datahotel = await hotelController.getHotelById(idToQuery);
+
+        // get destinatioonName
+        const idToQuery1 = tour.destination_id;
+        console.log(">>>>>>>>>>>>>>>>" , idToQuery1);
+        const dataDestination = await destinationController.getDataByArrayOfIds(idToQuery1);
+        console.log(">>>>>>>>>>>>>>>>" , dataDestination);
+        res.render('tour/tourDetail', {tour, user,datahotel,dataDestination});
+    } catch (error) {
+        console.log("Get detail tour error: ", error);
+        next(error);
+    }
 });
 
 

@@ -1,31 +1,31 @@
 <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
+<header id="header" class="header fixed-top d-flex align-items-center">
 
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="/home-page/cpanel/home" class="logo d-flex align-items-center">
-        <img src="/assets/img/logo.png" alt="">
-        <span class="d-none d-lg-block">Discover</span>
-      </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->
+  <div class="d-flex align-items-center justify-content-between">
+    <a href="/home-page/cpanel/home" class="logo d-flex align-items-center">
+      <img src="/assets/img/logo.png" alt="">
+      <span class="d-none d-lg-block">Discover</span>
+    </a>
+    <i class="bi bi-list toggle-sidebar-btn"></i>
+  </div><!-- End Logo -->
 
-    <div class="search-bar">
-      <form class="search-form d-flex align-items-center" method="POST" action="#">
-        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-      </form>
-    </div><!-- End Search Bar -->
+  <div class="search-bar">
+    <form class="search-form d-flex align-items-center" method="POST" action="#">
+      <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+      <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+    </form>
+  </div><!-- End Search Bar -->
 
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
+  <nav class="header-nav ms-auto">
+    <ul class="d-flex align-items-center">
 
-        <li class="nav-item d-block d-lg-none">
+      <li class="nav-item d-block d-lg-none">
         <a class="nav-link nav-icon search-bar-toggle " href="#">
           <i class="bi bi-search"></i>
         </a>
       </li><!-- End Search Icon-->
 
-      
+
       {{#user}}
       <li class="nav-item dropdown pe-3">
 
@@ -49,7 +49,7 @@
               <span>My Profile</span>
             </a>
           </li>
-         
+
           <li>
             <hr class="dropdown-divider">
           </li>
@@ -75,22 +75,22 @@
       </li><!-- End Profile Nav -->
       {{/user}}
 
-      </ul>
-    </nav><!-- End Icons Navigation -->
+    </ul>
+  </nav><!-- End Icons Navigation -->
 
-  </header><!-- End Header -->
+</header><!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
+<aside id="sidebar" class="sidebar">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+  <ul class="sidebar-nav" id="sidebar-nav">
 
-      <li class="nav-item">
-        <a class="nav-link " href="/home-page/cpanel/home">
-          <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
+    <li class="nav-item">
+      <a class="nav-link " href="/home-page/cpanel/home">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+      </a>
+    </li><!-- End Dashboard Nav -->
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
@@ -98,6 +98,7 @@
       </a>
       <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
+<<<<<<< HEAD
           <a href="../../hotel/cpanel/insert-form">
             <i class="bi bi-circle"></i><span>Insert Hotel</span>
           </a>
@@ -114,6 +115,19 @@
         </li>
         </ul>
       </li><!-- End Forms Nav -->
+=======
+          <a href="/tour/cpanel/insert-tour">
+            <i class="bi bi-circle"></i><span>Thêm Tour</span>
+          </a>
+        </li>
+        <li>
+          <a href="/hotel/cpanel/insert-form">
+            <i class="bi bi-circle"></i><span>Insert Hotel</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Forms Nav -->
+>>>>>>> origin/the
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
@@ -121,17 +135,25 @@
       </a>
       <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
+<<<<<<< HEAD
           <a href="../../tour/tour-table">
+=======
+          <a href="/tour/cpanel/tour-table">
+>>>>>>> origin/the
             <i class="bi bi-circle"></i><span>Tour</span>
           </a>
         </li>
         <li>
+<<<<<<< HEAD
             <a href="../../destination/cpanel/get-destination">
               <i class="bi bi-circle"></i><span>Destination</span>
             </a>
           </li>
         <li>
           <a href="../../hotel/cpanel/hotel-table">
+=======
+          <a href="/hotel/cpanel/hotel-table">
+>>>>>>> origin/the
             <i class="bi bi-circle"></i><span>Hotels</span>
           </a>
         </li>
@@ -141,58 +163,62 @@
           </a>
         </li>
         <li>
+<<<<<<< HEAD
           <a href="/home-page/cpanel/home">
+=======
+          <a href="/user/cpanel/list-user">
+>>>>>>> origin/the
             <i class="bi bi-circle"></i><span>Users</span>
           </a>
         </li>
       </ul>
     </li><!-- End Tables Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="chart" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="/tour/cpanel/chart">
-              <i class="bi bi-circle"></i><span>Chart</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Charts Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="chart" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="/tour/cpanel/chart">
+            <i class="bi bi-circle"></i><span>Chart</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Charts Nav -->
 
-      <li class="nav-heading">Pages</li>
+    <li class="nav-heading">Pages</li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="/home-page/cpanel/profile">
-          <i class="bi bi-person"></i>
-          <span>Profile</span>
-        </a>
-      </li><!-- End Profile Page Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="/home-page/cpanel/profile">
+        <i class="bi bi-person"></i>
+        <span>Profile</span>
+      </a>
+    </li><!-- End Profile Page Nav -->
 
-      {{!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="../../user/cpanel/register">
-          <i class="bi bi-card-list"></i>
-          <span>Register</span>
-        </a>
-      </li><!-- End Register Page Nav --> --}}
+    {{!-- <li class="nav-item">
+      <a class="nav-link collapsed" href="../../user/cpanel/register">
+        <i class="bi bi-card-list"></i>
+        <span>Register</span>
+      </a>
+    </li><!-- End Register Page Nav --> --}}
 
-      {{!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="../../user/cpanel/login">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>Login</span>
-        </a>
-      </li><!-- End Login Page Nav --> --}}
+    {{!-- <li class="nav-item">
+      <a class="nav-link collapsed" href="../../user/cpanel/login">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>Login</span>
+      </a>
+    </li><!-- End Login Page Nav --> --}}
 
-      {{!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="../../tour/cpanel/error404">
-          <i class="bi bi-dash-circle"></i>
-          <span>Error 404</span>
-        </a>
-      </li><!-- End Error 404 Page Nav --> --}}
-    </ul>
+    {{!-- <li class="nav-item">
+      <a class="nav-link collapsed" href="../../tour/cpanel/error404">
+        <i class="bi bi-dash-circle"></i>
+        <span>Error 404</span>
+      </a>
+    </li><!-- End Error 404 Page Nav --> --}}
+  </ul>
 
-  </aside><!-- End Sidebar-->
+</aside><!-- End Sidebar-->
 
 <main id="main" class="main">
 
@@ -239,18 +265,30 @@
                 </div>
               </div>
               <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Rating</label>
+                <div class="col-sm-10">
+                  <select onchange="validate()" class="form-select" id="rating" name="rating" aria-label="Default select example">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+              </div>
+              {{!-- <div class="row mb-3">
                 <label for="inputNumber" class="col-sm-2 col-form-label">Ratings</label>
                 <div class="col-sm-10">
                   <input onchange="validate()" type="number" id="rating" name="rating" class="form-control">
                   <div id="ratingError" style="color: red; font-size: 16px; font-style: italic; margin-top: 5px;">
                   </div>
                 </div>
-              </div>
+              </div> --}}
               <div class="row mb-3">
                 <label for="inputNumber" class="col-sm-2 col-form-label">Image Upload</label>
                 <div class="col-sm-10">
-                  <input oninput="validate()" onchange="displayImg()" class="form-control" id="image" name="listImage" multiple="multiple"
-                    type="file" id="formFile">
+                  <input oninput="validate()" onchange="displayImg()" class="form-control" id="image" name="listImage"
+                    multiple="multiple" type="file" id="formFile">
                   <img id="listImage-display" src="{{hotel.listImage}}"
                     style="width: 200px; height: 100px; margin-top: 10px; object-fit: fill;" alt="Image hotel" />
                   <input type="hidden" id="imgUrl" name="image" />
@@ -367,9 +405,9 @@
       image.src = e.target.result;
     }
     reader.readAsDataURL(file);
-      console.log("URL Image: ", file);
+    console.log("URL Image: ", file);
 
-    
+
   }
 
   // upload image fire base

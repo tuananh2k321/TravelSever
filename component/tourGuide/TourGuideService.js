@@ -69,6 +69,16 @@ const updateTourGuide = async (id, name,
     }
     return false;
 };
+//lấy hotel theo id
+const getTourGuide = async (id) => {
+    try {
+        let tourGuide = await tourGuideModel.findById(id);
+        return tourGuide;
+    } catch (error) {
+        console.log("Get tourGuide by id error: " + error);
+    }
+    return null;
+};
 
 
-module.exports = { getAllTourGuides, createNewTourGuides, removeTourGuides, updateTourGuide };
+module.exports = { getAllTourGuides, createNewTourGuides, removeTourGuides, updateTourGuide, getTourGuide };

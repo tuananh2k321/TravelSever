@@ -40,4 +40,13 @@ const updateTourGuide = async (id, name, phoneNumber,
         throw error;
     }
 }
-module.exports = { getAllTourGuide, createNewTourGuide, removeTourGuide, updateTourGuide }
+//lấy hotel theo id
+const getTourGuide = async (id) => {
+    try {
+        return await tourGuideService.getTourGuide(id);
+    } catch (error) {
+        console.log("Get hotelById error: ",error);
+    }
+};
+
+module.exports = { getAllTourGuide, createNewTourGuide, removeTourGuide, updateTourGuide, getTourGuide }

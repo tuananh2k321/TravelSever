@@ -1,31 +1,31 @@
 <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
+<header id="header" class="header fixed-top d-flex align-items-center">
 
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="/home-page/cpanel/home" class="logo d-flex align-items-center">
-        <img src="/assets/img/logo.png" alt="">
-        <span class="d-none d-lg-block">Discover</span>
-      </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->
+  <div class="d-flex align-items-center justify-content-between">
+    <a href="/home-page/cpanel/home" class="logo d-flex align-items-center">
+      <img src="/assets/img/logo.png" alt="">
+      <span class="d-none d-lg-block">Discover</span>
+    </a>
+    <i class="bi bi-list toggle-sidebar-btn"></i>
+  </div><!-- End Logo -->
 
-    <div class="search-bar">
+  <div class="search-bar">
     <form class="search-form d-flex align-items-center" method="get" action="/hotel/cpanel/search">
       <input type="text" name="keyword" placeholder="Search" title="Enter search keyword">
       <button type="submit" title="Search"><i class="bi bi-search"></i></button>
     </form>
   </div><!-- End Search Bar -->
 
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
+  <nav class="header-nav ms-auto">
+    <ul class="d-flex align-items-center">
 
-        <li class="nav-item d-block d-lg-none">
+      <li class="nav-item d-block d-lg-none">
         <a class="nav-link nav-icon search-bar-toggle " href="#">
           <i class="bi bi-search"></i>
         </a>
       </li><!-- End Search Icon-->
 
-      
+
       {{#user}}
       <li class="nav-item dropdown pe-3">
 
@@ -49,7 +49,7 @@
               <span>My Profile</span>
             </a>
           </li>
-         
+
           <li>
             <hr class="dropdown-divider">
           </li>
@@ -75,22 +75,22 @@
       </li><!-- End Profile Nav -->
       {{/user}}
 
-      </ul>
-    </nav><!-- End Icons Navigation -->
+    </ul>
+  </nav><!-- End Icons Navigation -->
 
-  </header><!-- End Header -->
+</header><!-- End Header -->
 
 <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
+<aside id="sidebar" class="sidebar">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+  <ul class="sidebar-nav" id="sidebar-nav">
 
-      <li class="nav-item">
-        <a class="nav-link " href="/home-page/cpanel/home">
-          <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
+    <li class="nav-item">
+      <a class="nav-link " href="/home-page/cpanel/home">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+      </a>
+    </li><!-- End Dashboard Nav -->
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
@@ -148,51 +148,51 @@
       </ul>
     </li><!-- End Tables Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="chart" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="../../tour/cpanel/chart">
-              <i class="bi bi-circle"></i><span>Chart</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Charts Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="chart" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="/tour/cpanel/chart">
+            <i class="bi bi-circle"></i><span>Chart</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Charts Nav -->
 
-      <li class="nav-heading">Pages</li>
+    <li class="nav-heading">Pages</li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="/home-page/cpanel/profile">
-          <i class="bi bi-person"></i>
-          <span>Profile</span>
-        </a>
-      </li><!-- End Profile Page Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="/home-page/cpanel/profile">
+        <i class="bi bi-person"></i>
+        <span>Profile</span>
+      </a>
+    </li><!-- End Profile Page Nav -->
 
-      {{!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="../../user/cpanel/register">
-          <i class="bi bi-card-list"></i>
-          <span>Register</span>
-        </a>
-      </li><!-- End Register Page Nav --> --}}
+    {{!-- <li class="nav-item">
+      <a class="nav-link collapsed" href="../../user/cpanel/register">
+        <i class="bi bi-card-list"></i>
+        <span>Register</span>
+      </a>
+    </li><!-- End Register Page Nav --> --}}
 
-      {{!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="../../user/cpanel/login">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>Login</span>
-        </a>
-      </li><!-- End Login Page Nav --> --}}
+    {{!-- <li class="nav-item">
+      <a class="nav-link collapsed" href="../../user/cpanel/login">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>Login</span>
+      </a>
+    </li><!-- End Login Page Nav --> --}}
 
-      {{!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="../../tour/cpanel/error404">
-          <i class="bi bi-dash-circle"></i>
-          <span>Error 404</span>
-        </a>
-      </li><!-- End Error 404 Page Nav --> --}}
-    </ul>
+    {{!-- <li class="nav-item">
+      <a class="nav-link collapsed" href="../../tour/cpanel/error404">
+        <i class="bi bi-dash-circle"></i>
+        <span>Error 404</span>
+      </a>
+    </li><!-- End Error 404 Page Nav --> --}}
+  </ul>
 
-  </aside><!-- End Sidebar-->
+</aside><!-- End Sidebar-->
 
 <main id="main" class="main">
 
@@ -244,13 +244,13 @@
                   </td>
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
-                      {{!-- <a href="/hotel/cpanel/insert-form" class="btn btn-success m-1">
-                        <i class='bx bx-plus'></i>
-                      </a> --}}
-                      <a href="/hotel/cpanel/update-hotel/{{this._id}}" class="btn btn-primary m-1">
+                      <a href="/hotel/cpanel/detail-hotel/{{this._id}}" title="Detail Hotel" class="btn btn-success m-1">
+                        <i class='bx bx-detail'></i>
+                      </a>
+                      <a href="/hotel/cpanel/update-hotel/{{this._id}}" title="Edit Hotel" class="btn btn-primary m-1">
                         <i class='bx bx-edit'></i>
                       </a>
-                      <a onclick="confirmDelete('{{this._id}}');" class="btn btn-danger m-1">
+                      <a onclick="confirmDelete('{{this._id}}');" title="Delete Hotel" class="btn btn-danger m-1">
                         <i class='bx bx-trash'></i>
                       </a>
                     </div>

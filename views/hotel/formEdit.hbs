@@ -154,7 +154,7 @@
         </a>
         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="../../tour/cpanel/chart">
+            <a href="/tour/cpanel/chart">
               <i class="bi bi-circle"></i><span>Chart</span>
             </a>
           </li>
@@ -197,14 +197,14 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Form Elements</h1>
-    <nav>
+    <h1>Edit Hotel</h1>
+    {{!-- <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
         <li class="breadcrumb-item">Forms</li>
         <li class="breadcrumb-item active">Elements</li>
       </ol>
-    </nav>
+    </nav> --}}
   </div><!-- End Page Title -->
 
   <section class="section">
@@ -242,12 +242,16 @@
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputNumber" class="col-sm-2 col-form-label">Ratings</label>
+                <label class="col-sm-2 col-form-label">Rating</label>
                 <div class="col-sm-10">
-                  <input oninput="validate()" value="{{hotel.rating}}" type="number" id="rating" name="rating"
-                    class="form-control">
-                  <div id="ratingError" style="color: red; font-size: 16px; font-style: italic; margin-top: 5px;">
-                  </div>
+                  <select onchange="validate()" class="form-select" id="rating" name="rating" aria-label="Default select example">
+                    <option value="{{hotel.rating}}" hidden>{{hotel.rating}}</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
                 </div>
               </div>
               <div class="row mb-3">
@@ -255,9 +259,9 @@
                 <div class="col-sm-10">
                   <input onchange="displayImg()" class="form-control" id="image" name="listImage" multiple="multiple"
                     type="file" id="formFile">
-                  <img id="listImage-display" src="{{hotel.listImage}}"
+                  <img id="img" src="{{hotel.listImage}}"
                     style="width: 200px; height: 100px; margin-top: 10px; object-fit: fill;" alt="Image hotel" />
-                  <input type="hidden" id="imgUrl" name="image" />
+                  <input type="hidden" id="imgUrl" name="listImage" />
                 </div>
               </div>
               
@@ -369,7 +373,7 @@
     var file = document.getElementById('image').files[0];
     var reader = new FileReader();
     reader.onload = function (e) {
-      var image = document.getElementById("listImage-display");
+      var image = document.getElementById("img");
       image.src = e.target.result;
     }
     reader.readAsDataURL(file);
@@ -409,4 +413,8 @@
       }
     );
   }
+
+  function mySelect() {
+  document.getElementById("rating").value = "hotel.rating";
+}
 </script>

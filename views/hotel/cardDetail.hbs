@@ -3,21 +3,22 @@
 
     <div class="d-flex align-items-center justify-content-between">
         <a href="/home-page/cpanel/home" class="logo d-flex align-items-center">
-            <img src="/assets/img/logo.png" alt="">
+            <img src="//assets/img/logo.png" alt="">
             <span class="d-none d-lg-block">Discover</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
     <div class="search-bar">
-        <form class="search-form d-flex align-items-center" method="post" action="/user/cpanel/search-admin">
-            <input type="text" name="keyword" placeholder="Search" title="Enter search keyword">
+        <form class="search-form d-flex align-items-center" method="POST" action="#">
+            <input type="text" name="query" placeholder="Search" title="Enter search keyword">
             <button type="submit" title="Search"><i class="bi bi-search"></i></button>
         </form>
     </div><!-- End Search Bar -->
 
     <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
+
             <li class="nav-item d-block d-lg-none">
                 <a class="nav-link nav-icon search-bar-toggle " href="#">
                     <i class="bi bi-search"></i>
@@ -74,8 +75,6 @@
             </li><!-- End Profile Nav -->
             {{/user}}
 
-
-
         </ul>
     </nav><!-- End Icons Navigation -->
 
@@ -99,12 +98,12 @@
             </a>
             <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="../../tour/cpanel/insert-tour">
+                    <a href="/tour/cpanel/insert-tour">
                         <i class="bi bi-circle"></i><span>Thêm Tour</span>
                     </a>
                 </li>
                 <li>
-                    <a href="../../hotel/cpanel/insert-form">
+                    <a href="/hotel/cpanel/insert-form">
                         <i class="bi bi-circle"></i><span>Insert Hotel</span>
                     </a>
                 </li>
@@ -118,29 +117,23 @@
             </a>
             <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="../../tour/cpanel/tour-table">
+                    <a href="/tour/cpanel/tour-table">
                         <i class="bi bi-circle"></i><span>Tour</span>
                     </a>
                 </li>
                 <li>
-                    <a href="../../destination/cpanel/get-destination">
-                    <i class="bi bi-circle"></i><span>Destination</span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="../../hotel/cpanel/hotel-table">
-                        <i class="bi bi-circle"></i><span>Hotel</span>
+                    <a href="/hotel/cpanel/hotel-table">
+                        <i class="bi bi-circle"></i><span>Hotels</span>
                     </a>
                 </li>
                 <li>
                     <a href="/user/cpanel/list-admin">
-                        <i class="bi bi-circle"></i><span>Admin</span>
+                        <i class="bi bi-circle"></i><span>Admins</span>
                     </a>
                 </li>
                 <li>
                     <a href="/user/cpanel/list-user">
-                        <i class="bi bi-circle"></i><span>User</span>
+                        <i class="bi bi-circle"></i><span>Users</span>
                     </a>
                 </li>
             </ul>
@@ -152,7 +145,7 @@
             </a>
             <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="../../tour/cpanel/chart">
+                    <a href="/tour/cpanel/chart">
                         <i class="bi bi-circle"></i><span>Chart</span>
                     </a>
                 </li>
@@ -173,16 +166,16 @@
                 <i class="bi bi-card-list"></i>
                 <span>Register</span>
             </a>
-        </li><!-- End Register Page Nav -->
+        </li><!-- End Register Page Nav --> --}}
 
-        <li class="nav-item">
+        {{!-- <li class="nav-item">
             <a class="nav-link collapsed" href="../../user/cpanel/login">
                 <i class="bi bi-box-arrow-in-right"></i>
                 <span>Login</span>
             </a>
-        </li><!-- End Login Page Nav -->
+        </li><!-- End Login Page Nav --> --}}
 
-        <li class="nav-item">
+        {{!-- <li class="nav-item">
             <a class="nav-link collapsed" href="../../tour/cpanel/error404">
                 <i class="bi bi-dash-circle"></i>
                 <span>Error 404</span>
@@ -195,71 +188,70 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Admins Management</h1>
+        <h1>Detail Hotel</h1>
         {{!-- <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item">Tables</li>
-                <li class="breadcrumb-item active">Data</li>
+                <li class="breadcrumb-item">Components</li>
+                <li class="breadcrumb-item active">Cards</li>
             </ol>
         </nav> --}}
     </div><!-- End Page Title -->
 
     <section class="section">
-        <div class="row">
-            <div class="col-lg-12">
+        <div class="row align-items-top">
+            <div class="col-lg-6">
 
+                <!-- Card with an image on top -->
                 <div class="card">
+                    <img id="image" src="{{hotel.listImage}}" style="object-fit: cover;" class="card-img-top"
+                        alt="Image Hotel">
                     <div class="card-body">
-                        {{!-- <h4 class="card-title"></h4>
-
-                        <h4 class="card-title"></h4> --}}
-
-                        <!-- Table with stripped rows -->
-                        <table class="table datatable">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Row</th>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Avatar</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Phone Number</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                </script>
-                                {{#each result}}
-                                <tr>
-                                    <td>{{@index}}</td>
-                                    <td>{{this._id}}</td>
-                                    <td>{{this.name}}</td>
-                                    <td>
-                                        <img src="{{this.avatar}}" width="200" height="200" />
-                                    </td>
-                                    <td>{{this.email}}</td>
-                                    <td>{{this.phoneNumber}}</td>
-                                    <td>
-                                        <button onclick="confirmDelete('{{this._id}}')" type="button"
-                                            class="btn btn-outline-danger">Delete</button>
-                                    </td>
-                                </tr>
-                                {{/each}}
-                            </tbody>
-                        </table>
-                        <!-- End Table with stripped rows -->
-
+                        <div style="display: flex; align-items: center;">
+                            <h5 class="card-title">{{hotel.hotelName}}</h5>
+                            <div style="display: flex; margin-left: 16px;">
+                                <i class='bx bxs-star' style="color: yellow; font-size: 24px;"></i>
+                                <i class='bx bxs-star' style="color: yellow; font-size: 24px;"></i>
+                                <i class='bx bxs-star' style="color: yellow; font-size: 24px;"></i>
+                                <i class='bx bxs-star' style="color: yellow; font-size: 24px;"></i>
+                                <i class='bx bxs-star' style="color: gray; font-size: 24px;"></i>
+                            </div>
+                        </div>
+                        <p class="card-text">Contact: {{hotel.phoneNumber}}</p>
+                        <p class="card-text">Address: {{hotel.address}}</p>
                     </div>
-                </div>
+                </div><!-- End Card with an image on top -->
 
             </div>
+            <div class="col-lg-6">
+
+                <!-- Default Card -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">About hotel</h5>
+                        {{hotel.description}}
+                    </div>
+                </div><!-- End Default Card -->
+
+
+
+            </div>
+
+            <!-- Card with header and footer -->
+            <div class="card">
+                <div class="card-header">More Image</div>
+                <div style="display: flex; flex-wrap: wrap; ">
+                    <div id="body-image"></div>
+                </div>
+            </div><!-- End Card with header and footer -->
+
         </div>
     </section>
 
 </main><!-- End #main -->
 
 <!-- ======= Footer ======= -->
-{{!-- <footer id="footer" class="footer">
+<footer id="footer" class="footer">
     <div class="copyright">
         &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
     </div>
@@ -270,56 +262,22 @@
         <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
         Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
     </div>
-</footer><!-- End Footer --> --}}
+</footer><!-- End Footer -->
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
         class="bi bi-arrow-up-short"></i></a>
-
+<img src="" />
 
 <script>
-    const fetchAPI = async (url, option) => {
-        const res = await fetch(url, option)
-        return res.json();
+    var image = document.getElementById("image").src;
+    console.log(image);
+    var imageArray = image.split(",");
+    var imageLength = imageArray.length;
+    console.log('image: ', imageLength);
+    for (var i = 0; i < imageLength; i++) {
+        console.log(imageArray[i]);
+        var img = `<img id="image" src="${imageArray[i]}" style="object-fit: cover; width: 400px; height: 250px; margin: 10px; border-radius: 5px;" alt="Image Hotel ${i}">`;
+        document.getElementById('body-image').insertAdjacentHTML('afterend', img);
     }
-
-    const deleteProduct = async (id) => {
-        const url = `/user/cpanel/${id}/delete`;
-
-        const option = {
-            method: 'get',
-            headers: { 'Content-Type': 'application/json' }
-        }
-        try {
-            const result = await fetchAPI(url, option);
-            console.log('delete result: ', result)
-
-            if (result.status) {
-                window.location.reload();
-            } else {
-                swal('Xóa thất bại!', {
-                    icon: 'error',
-                });
-            }
-
-        } catch (e) {
-            console.log('error delete: ', e)
-            throw e;
-        }
-    }
-
-    const confirmDelete = (id) => {
-        swal({
-            title: "Xác nhận xóa?",
-            text: "Bạn có muốn xóa sản phẩm này?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-            .then((willDelete) => {
-                if (willDelete) {
-                    deleteProduct(id);
-                }
-            });
-    }
-
+    console.log(imageArray);
 </script>

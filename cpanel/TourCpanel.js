@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var tourController = require('../component/tour/TourController')
-
+const authen = require('../middleware/Authen')
 const hotelController = require('../component/hotel/HotelController')
 const destinationController = require('../component/destination/DestinationController')
 const { getStorage, ref, getDownloadURL, uploadBytesResumable } = require("firebase/storage");
@@ -18,24 +18,48 @@ const uploadImage = multer({ storage: multerStorage });
 // http://localhost:3000/tour/cpanel/tour-table
 router.get('/tour-table',async function(req, res,next) {
     const tours = await tourController.getAllTour();
-    res.render('tour/tourTable',{tours});
+    const user = req.session.user;
+    res.render('tour/tourTable',{tours,user});
 });
 
 
-// http://localhost:3000/tour/cpanel/insert/tour
+// hiển thị trang chi tiet tour
+// http://localhost:3000/tour/cpanel/detail-tour/6513010dd9a0f3bd36583d8e
+router.get('/detail-tour/:id', [authen.checkTokenCpanel], async function (req, res, next) {
+    try {
+        const {id} = req.params;
+        const user = req.session.user;
+        const tour = await tourController.getTourById(id);
+        // get hotelName
+        const idToQuery = tour.hotel_id;
+        const datahotel = await hotelController.getHotelById(idToQuery);
+
+        // get destinatioonName
+        const idToQuery1 = tour.destination_id;
+        console.log(">>>>>>>>>>>>>>>>" , idToQuery1);
+        const dataDestination = await destinationController.getDataByArrayOfIds(idToQuery1);
+        console.log(">>>>>>>>>>>>>>>>" , dataDestination);
+        res.render('tour/tourDetail', {tour, user,datahotel,dataDestination});
+    } catch (error) {
+        console.log("Get detail tour error: ", error);
+        next(error);
+    }
+});
+
+
+// http://localhost:3000/tour/cpanel/insert-tour
 // trang thêm tour
 router.get('/insert-tour',async function(req, res,next) {
     const hotel = await hotelController.getAllHotels();
+    const user = req.session.user;
     const destination = await destinationController.getAllDestination();
-    res.render('tour/insertTour',{hotel,destination});
+    res.render('tour/insertTour',{hotel,destination,user});
 });
 // xử lí thêm tour
 router.post('/insert-tour',[uploadImage.array('tourImage',10)],async (req,res,next) =>{
     try {
          let {body,files} = req;
          let tourImage = [];
-
-         
          if (files && files.length > 0) {
             const uploadedImagePromises = files.map(async (file) => {
               const filename = `${Date.now()}-${file.originalname}`;
@@ -56,11 +80,11 @@ router.post('/insert-tour',[uploadImage.array('tourImage',10)],async (req,res,ne
             tourImage = await Promise.all(uploadedImagePromises);
           }
 
-        let {tourName, adultPrice, childrenPrice,address, limitedDay,
+        let {tourName, adultPrice, childrenPrice,departmentPlace,departmentDate, limitedDay,
             operatingDay, vehicle,description,rating,isState,hotel_id,destination_id} =body;
-            console.log(tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+            console.log(tourName, adultPrice, childrenPrice, tourImage,departmentPlace,departmentDate, limitedDay,
                 operatingDay, vehicle,description,rating,isState,hotel_id,destination_id);
-        await tourController.addNewTour(tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+        await tourController.addNewTour(tourName, adultPrice, childrenPrice, tourImage,departmentPlace,departmentDate, limitedDay,
             operatingDay, vehicle,description,rating,isState,hotel_id,destination_id);
         return res.render('tour/insertTour');
     } catch (error) {
@@ -87,8 +111,9 @@ router.get('/:id/edit-tour', async (req, res, next) =>{
     try {
         const {id} = req.params;
         const tour = await tourController.getTourById(id);
+        const user = req.session.user;
         let hotel = await hotelController.getAllHotels();
-        let destination = await destinationController.getAllDestination();
+        const destination = await destinationController.getAllDestination();
         
 
         for(let index =0; index<hotel.length; index++){
@@ -100,7 +125,7 @@ router.get('/:id/edit-tour', async (req, res, next) =>{
         }
 
 
-        res.render('tour/editTour', {tour, hotel,destination});
+        res.render('tour/editTour', {tour, hotel,destination,user});
     } catch (error) {
         console.log('edit new  error:',error);
         next(error);
@@ -131,12 +156,12 @@ router.post('/:id/edit-tour',[uploadImage.array('tourImage',10)],async (req,res,
       
             tourImage = await Promise.all(uploadedImagePromises);
           }
-          let {tourName, adultPrice, childrenPrice,address, limitedDay,
+          let {tourName, adultPrice, childrenPrice,departmentPlace,departmentDate, limitedDay,
             operatingDay, vehicle,description,rating,isState,hotel_id,destination_id} =body;
-            console.log(tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+            console.log(tourName, adultPrice, childrenPrice, tourImage,departmentPlace,departmentDate, limitedDay,
                 operatingDay, vehicle,description,rating,isState,hotel_id,destination_id);
 
-        await tourController.updateTour(id,tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+        await tourController.updateTour(id,tourName, adultPrice, childrenPrice, tourImage,departmentPlace,departmentDate, limitedDay,
             operatingDay, vehicle,description,rating,isState,hotel_id,destination_id);
         return res.redirect('/tour/cpanel/tour-table');
     } catch (error) {

@@ -17,9 +17,9 @@ router.get('/get-all-tour', async function(req,res,next){
 // them tour
 router.post('/inser-tour', async function(req,res,next){
   try {
-    const { tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+    const { tourName, adultPrice, childrenPrice, tourImage,departmentPlace,departmentDate, limitedDay,
         operatingDay, vehicle,description,rating,isState,hotel_id,destination_id } = req.body;
-    const tour = await tourController.addNewTour(tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+    const tour = await tourController.addNewTour(tourName, adultPrice, childrenPrice, tourImage,departmentPlace,departmentDate, limitedDay,
         operatingDay, vehicle,description,rating,isState,hotel_id,destination_id );
     if (tour) {
         return res.status(200).json({ result: true, hotel: tour, message: "Add hotel Success" });
@@ -72,16 +72,6 @@ router.get('/tourRating',async function(req,res,next)  {
         return res.status(400).json({});
     }
   });
- // http://localhost:3000/api/tourApi/tourDomain/domain?keyword=abc
- router.get('/tourDomain/domain',async function(req,res,next)  {
-    try {
-        const {keyword} = req.query;
-        const tours = await tourController.getTourDomain(keyword);
-        return res.status(200).json({tours});
-    } catch (error) {
-        console.log("search: ", error)
-        return res.status(400).json({});
-    }
-  });
+ 
 
 module.exports = router;

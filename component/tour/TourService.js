@@ -21,14 +21,14 @@ const getTourById = async (id) => {
     }
 }
 
-const addNewTour = async (tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+const addNewTour = async (tourName, adultPrice, childrenPrice, tourImage,departmentPlace,departmentDate, limitedDay,
     operatingDay, vehicle,description,rating,isState,hotel_id,destination_id ) => {
     try {
         // const newTour = { tourName, description, price, mainImage,checking, rating, address, imageMap,specificAddress, hotel_id,destination_id,domain};
         // const u = new tourModel(newTour);
         // await u.save();
         const newTour = {
-            tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+            tourName, adultPrice, childrenPrice, tourImage,departmentPlace,departmentDate, limitedDay,
             operatingDay, vehicle,description,rating,isState,hotel_id,destination_id
         }
          await tourModel.create(newTour); 
@@ -40,7 +40,7 @@ const addNewTour = async (tourName, adultPrice, childrenPrice, tourImage,address
     return false;
 }
 
-const updateTour = async (id,tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+const updateTour = async (id,tourName, adultPrice, childrenPrice, tourImage,departmentPlace,departmentDate, limitedDay,
     operatingDay, vehicle,description,rating,isState,hotel_id,destination_id) => {
     try {
         let tour = await tourModel.findById(id);
@@ -49,7 +49,8 @@ const updateTour = async (id,tourName, adultPrice, childrenPrice, tourImage,addr
             tour.adultPrice = adultPrice ? adultPrice : tour.adultPrice;
             tour.childrenPrice = childrenPrice ? childrenPrice : tour.childrenPrice;
             tour.tourImage = tourImage ? tourImage : tour.tourImage;
-            tour.address = address ? address : tour.address;
+            tour.departmentPlace = departmentPlace ? departmentPlace : tour.departmentPlace;
+            tour.departmentDate = departmentDate ? departmentDate : tour.departmentDate;
             tour.limitedDay = limitedDay ? limitedDay : tour.limitedDay;
             tour.operatingDay = operatingDay ? operatingDay : tour.operatingDay;
             tour.vehicle = vehicle ? vehicle : tour.vehicle;

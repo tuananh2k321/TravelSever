@@ -10,7 +10,7 @@ const multer = require("multer");
 const appFirebase = require("../component/config/FirebaseConfig")
 // Initialize Cloud Storage and get a reference to the service
 const storage = getStorage();
-const storageRef = ref(storage, 'hotel/');
+const storageRef = ref(storage, 'tour-guide/');
 const multerStorage = multer.memoryStorage();
 const uploadImage = multer({ storage: multerStorage });
 
@@ -59,34 +59,34 @@ router.get('/delete-tourguide/:id', async function (req, res, next) {
 
 // xử lí trang thêm mới tour-guide
 //http://localhost:3000/tourguide/cpanel/add-tour-guide
-router.post('/add-tour-guide', [uploadImage.array('avatar',10)], async function (req, res, next) {
+router.post('/add-tour-guide', [uploadImage.array('avatar', 10)], async function (req, res, next) {
     try {
-        let {body,files} = req;
+        let { body, files } = req;
         let avatar = [];
 
-        
+
         if (files && files.length > 0) {
-           const uploadedImagePromises = files.map(async (file) => {
-             const filename = `${Date.now()}-${file.originalname}`;
-             const fileRef = ref(storageRef, filename);
-     
-             const metadata = {
-               contentType: file.mimetype,
-             };
-     
-             const snapshot = await uploadBytesResumable(fileRef, file.buffer, metadata);
-             const downloadURL = await getDownloadURL(snapshot.ref);
-     
-             console.log(`File ${file.originalname} successfully uploaded to Firebase Storage.`);
-     
-             return downloadURL;
-           });
-     
-           avatar = await Promise.all(uploadedImagePromises);
-         }
+            const uploadedImagePromises = files.map(async (file) => {
+                const filename = `${Date.now()}-${file.originalname}`;
+                const fileRef = ref(storageRef, filename);
+
+                const metadata = {
+                    contentType: file.mimetype,
+                };
+
+                const snapshot = await uploadBytesResumable(fileRef, file.buffer, metadata);
+                const downloadURL = await getDownloadURL(snapshot.ref);
+
+                console.log(`File ${file.originalname} successfully uploaded to Firebase Storage.`);
+
+                return downloadURL;
+            });
+
+            avatar = await Promise.all(uploadedImagePromises);
+        }
         let { name, phoneNumber, email, workPlaces } = body;
         console.log("Add tour guide: ", name, phoneNumber, email, avatar, workPlaces)
-        
+
         await tourGuideController.createNewTourGuide(name, phoneNumber, email, avatar, workPlaces);
         return res.redirect('/tourguide/cpanel/tour-guide');
     } catch (error) {
@@ -112,32 +112,32 @@ router.get('/update-tourguide/:id', async function (req, res, next) {
 
 // xử lí trang cập nhật tourguide
 // http://localhost:3000/tourguide/cpanel/update-tourguide/64a94d4b8edee1be600646c2
-router.post('/update-tourguide/:id', [uploadImage.array('avatar',10)], async function (req, res, next) {
+router.post('/update-tourguide/:id', [uploadImage.array('avatar', 10)], async function (req, res, next) {
     try {
         const { id } = req.params;
         let { body, files } = req;
         let avatar = [];
 
-         
-         if (files && files.length > 0) {
+
+        if (files && files.length > 0) {
             const uploadedImagePromises = files.map(async (file) => {
-              const filename = `${Date.now()}-${file.originalname}`;
-              const fileRef = ref(storageRef, filename);
-      
-              const metadata = {
-                contentType: file.mimetype,
-              };
-      
-              const snapshot = await uploadBytesResumable(fileRef, file.buffer, metadata);
-              const downloadURL = await getDownloadURL(snapshot.ref);
-      
-              console.log(`File ${file.originalname} successfully uploaded to Firebase Storage.`);
-      
-              return downloadURL;
+                const filename = `${Date.now()}-${file.originalname}`;
+                const fileRef = ref(storageRef, filename);
+
+                const metadata = {
+                    contentType: file.mimetype,
+                };
+
+                const snapshot = await uploadBytesResumable(fileRef, file.buffer, metadata);
+                const downloadURL = await getDownloadURL(snapshot.ref);
+
+                console.log(`File ${file.originalname} successfully uploaded to Firebase Storage.`);
+
+                return downloadURL;
             });
-      
+
             avatar = await Promise.all(uploadedImagePromises);
-          }
+        }
 
         let { name, phoneNumber, email, workPlaces } = body;
         console.log("Add tour guide: ", id, name, phoneNumber, email, avatar, workPlaces)

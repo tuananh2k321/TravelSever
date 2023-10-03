@@ -18,7 +18,6 @@ const uploadImage = multer({ storage: multerStorage });
 
 router.get('/tour-guide', [authen.checkTokenCpanel], async function (req, res) {
     const tourGuides = await tourGuideController.getAllTourGuide();
-    console.log('tourGuides>>>>>', tourGuides)
     const user = req.session.user;
     res.render('tour-guide/touGuideTable', { tourGuides, user });
 });
@@ -60,12 +59,34 @@ router.get('/delete-tourguide/:id', async function (req, res, next) {
 
 // xử lí trang thêm mới tour-guide
 //http://localhost:3000/tourguide/cpanel/add-tour-guide
-router.post('/add-tour-guide', async function (req, res, next) {
+router.post('/add-tour-guide', [uploadImage.array('avatar',10)], async function (req, res, next) {
     try {
-        let { body, files } = req;
-        let { name, phoneNumber, email, avatar, workPlaces } = body;
+        let {body,files} = req;
+        let avatar = [];
+
+        
+        if (files && files.length > 0) {
+           const uploadedImagePromises = files.map(async (file) => {
+             const filename = `${Date.now()}-${file.originalname}`;
+             const fileRef = ref(storageRef, filename);
+     
+             const metadata = {
+               contentType: file.mimetype,
+             };
+     
+             const snapshot = await uploadBytesResumable(fileRef, file.buffer, metadata);
+             const downloadURL = await getDownloadURL(snapshot.ref);
+     
+             console.log(`File ${file.originalname} successfully uploaded to Firebase Storage.`);
+     
+             return downloadURL;
+           });
+     
+           avatar = await Promise.all(uploadedImagePromises);
+         }
+        let { name, phoneNumber, email, workPlaces } = body;
         console.log("Add tour guide: ", name, phoneNumber, email, avatar, workPlaces)
-        // image = 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aG90ZWx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60'
+        
         await tourGuideController.createNewTourGuide(name, phoneNumber, email, avatar, workPlaces);
         return res.redirect('/tourguide/cpanel/tour-guide');
     } catch (error) {

@@ -16,8 +16,7 @@ const createNewTourGuides = async (
     phoneNumber,
     email,
     avatar,
-    workPlaces
-) => {
+    workPlaces) => {
     try {
         const newTourGuide = {
             name,
@@ -26,8 +25,8 @@ const createNewTourGuides = async (
             avatar,
             workPlaces,
         };
-        const tourGuide = await tourGuideModel.create(newTourGuide);
-        return tourGuide;
+        await tourGuideModel.create(newTourGuide);
+        return true;
     } catch (error) {
         console.log("Create new tour guide error: " + error);
     }

@@ -16,7 +16,7 @@ const uploadImage = multer({ storage: multerStorage });
 
 
 // http://localhost:3000/tour/cpanel/tour-table
-router.get('/tour-table',async function(req, res,next) {
+router.get('/tour-table', [authen.checkTokenCpanel],async function(req, res,next) {
     const tours = await tourController.getAllTour();
     const user = req.session.user;
     res.render('tour/tourTable',{tours,user});
@@ -49,7 +49,7 @@ router.get('/detail-tour/:id', [authen.checkTokenCpanel], async function (req, r
 
 // http://localhost:3000/tour/cpanel/insert-tour
 // trang thêm tour
-router.get('/insert-tour',async function(req, res,next) {
+router.get('/insert-tour', [authen.checkTokenCpanel],async function(req, res,next) {
     const hotel = await hotelController.getAllHotels();
     const user = req.session.user;
     const destination = await destinationController.getAllDestination();
@@ -95,7 +95,7 @@ router.post('/insert-tour',[uploadImage.array('tourImage',10)],async (req,res,ne
 
 
 // xóa tour
-router.get('/:id/delete', async (req, res, next) =>{
+router.get('/:id/delete', [authen.checkTokenCpanel], async (req, res, next) =>{
     try {
         const {id} = req.params;
         await tourController.deleteTour(id);
@@ -107,7 +107,7 @@ router.get('/:id/delete', async (req, res, next) =>{
 
 
 // trang edit tour
-router.get('/:id/edit-tour', async (req, res, next) =>{
+router.get('/:id/edit-tour', [authen.checkTokenCpanel], async (req, res, next) =>{
     try {
         const {id} = req.params;
         const tour = await tourController.getTourById(id);
@@ -175,14 +175,14 @@ router.post('/:id/edit-tour',[uploadImage.array('tourImage',10)],async (req,res,
 
 // http://localhost:3000/tour/cpanel/tour-table/rating
 // get tour theo rating
-router.get('/tour-table/rating',async function(req, res,next) {
+router.get('/tour-table/rating', [authen.checkTokenCpanel], async function(req, res,next) {
     const tours = await tourController.getTourRating();
     res.render('tour/tourTable',{tours});
 });
 
 
 // http://localhost:3000/tour/cpanel/tour-table/search?searchName=asd
-router.get('/tour-table/search', async (req, res) => {
+router.get('/tour-table/search', [authen.checkTokenCpanel], async (req, res) => {
     try {
         const {searchName} = req.query;
         if(searchName == null) {

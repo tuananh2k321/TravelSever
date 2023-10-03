@@ -6,7 +6,6 @@ const getAllHotels = async () => {
         return await hotelModel
             .find()
             .sort({ rating: -1 })
-            .limit(10);
     } catch (error) {
         console.log("Get all hotels error: " + error);
     }

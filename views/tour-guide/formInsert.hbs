@@ -392,7 +392,7 @@
     }
     reader.readAsDataURL(file);
     // upload lên firebase
-    const ref = firebase.storage().ref(`tour-guide/${new Date().getTime() + '-' + file.name}`);
+    const ref = firebase.storage().ref(`hotel/${new Date().getTime() + '-' + file.name}`);
     const uploadTask = ref.put(file);
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
       (snapshot) => { },

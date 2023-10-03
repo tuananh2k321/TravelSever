@@ -16,8 +16,7 @@ const createNewTourGuides = async (
     phoneNumber,
     email,
     avatar,
-    workPlaces
-) => {
+    workPlaces) => {
     try {
         const newTourGuide = {
             name,
@@ -26,8 +25,8 @@ const createNewTourGuides = async (
             avatar,
             workPlaces,
         };
-        const tourGuide = await tourGuideModel.create(newTourGuide);
-        return tourGuide;
+        await tourGuideModel.create(newTourGuide);
+        return true;
     } catch (error) {
         console.log("Create new tour guide error: " + error);
     }
@@ -69,6 +68,16 @@ const updateTourGuide = async (id, name,
     }
     return false;
 };
+//lấy hotel theo id
+const getTourGuide = async (id) => {
+    try {
+        let tourGuide = await tourGuideModel.findById(id);
+        return tourGuide;
+    } catch (error) {
+        console.log("Get tourGuide by id error: " + error);
+    }
+    return null;
+};
 
 
-module.exports = { getAllTourGuides, createNewTourGuides, removeTourGuides, updateTourGuide };
+module.exports = { getAllTourGuides, createNewTourGuides, removeTourGuides, updateTourGuide, getTourGuide };

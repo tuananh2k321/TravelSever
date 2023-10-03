@@ -243,7 +243,7 @@
               </div>
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Rating</label>
-                <div class="col-sm-10">
+                {{!-- <div class="col-sm-10">
                   <select onchange="validate()" class="form-select" id="rating" name="rating" aria-label="Default select example">
                     <option value="{{hotel.rating}}" hidden>{{hotel.rating}}</option>
                     <option value="1">1</option>
@@ -252,7 +252,15 @@
                     <option value="4">4</option>
                     <option value="5">5</option>
                   </select>
+                </div> --}}
+                <div class="row mb-3">
+                <label for="inputNumber" class="col-sm-2 col-form-label">Ratings</label>
+                <div class="col-sm-10">
+                  <input onchange="validate()" value="{{hotel.rating}}" type="text" id="rating" name="rating" class="form-control">
+                  <div id="ratingError" style="color: red; font-size: 16px; font-style: italic; margin-top: 5px;">
+                  </div>
                 </div>
+              </div>
               </div>
               <div class="row mb-3">
                 <label for="inputNumber" class="col-sm-2 col-form-label">Image Upload</label>

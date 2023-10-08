@@ -16,6 +16,9 @@
     </form>
   </div><!-- End Search Bar -->
 
+
+
+
   <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
 
@@ -252,33 +255,33 @@
       </ul>
     </li><!-- End Forms Nav -->
 
-     <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="../../tour/cpanel/tour-table">
-              <i class="bi bi-circle"></i><span>Tour</span>
-            </a>
-          </li>
-          <li>
-            <a href="../../hotel/cpanel/hotel-table">
-              <i class="bi bi-circle"></i><span>Hotels</span>
-            </a>
-          </li>
-          <li>
-            <a href="/user/cpanel/list-admin">
-              <i class="bi bi-circle"></i><span>Admins</span>
-            </a>
-          </li>
-          <li>
-            <a href="/user/cpanel/list-user">
-              <i class="bi bi-circle"></i><span>Users</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Tables Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="../../tour/cpanel/tour-table">
+            <i class="bi bi-circle"></i><span>Tour</span>
+          </a>
+        </li>
+        <li>
+          <a href="../../hotel/cpanel/hotel-table">
+            <i class="bi bi-circle"></i><span>Hotels</span>
+          </a>
+        </li>
+        <li>
+          <a href="/user/cpanel/list-admin">
+            <i class="bi bi-circle"></i><span>Admins</span>
+          </a>
+        </li>
+        <li>
+          <a href="/user/cpanel/list-user">
+            <i class="bi bi-circle"></i><span>Users</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Tables Nav -->
 
     <li class="nav-item">
       <a class="nav-link collapsed" href="chart" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
@@ -359,7 +362,8 @@
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li><a onclick="showGenre(this)" class="dropdown-item" href="/tour/cpanel/tour-table">Mặc định</a></li>
                 <li><a onclick="showGenre(this)" class="dropdown-item" href="#">Đánh giá nhiều nhất</a></li>
-                <li><a onclick="showGenre(this)" class="dropdown-item" href="/tour/cpanel/tour-table/rating">Được yêu thích</a></li>
+                <li><a onclick="showGenre(this)" class="dropdown-item" href="/tour/cpanel/tour-table/rating">Được yêu
+                    thích</a></li>
                 <li><a onclick="showGenre(this)" class="dropdown-item" href="">Khu vực: Đà Lạt</a></li>
                 <li><a onclick="showGenre(this)" class="dropdown-item" href="">Khu vực: Vũng Tàu</a></li>
               </ul>
@@ -480,10 +484,8 @@
       });
   }
 
-function showGenre(item) {
-  document.getElementById("dropdownMenuLink").innerHTML = item.innerHTML;
-}
+  function showGenre(item) {
+    document.getElementById("dropdownMenuLink").innerHTML = item.innerHTML;
+  }
 
 </script>
-
-

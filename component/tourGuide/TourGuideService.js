@@ -79,5 +79,19 @@ const getTourGuide = async (id) => {
     return null;
 };
 
+// search the tour guide
+const searchTourGuide = async (keyword) => {
+    try {
+        let query = {
 
-module.exports = { getAllTourGuides, createNewTourGuides, removeTourGuides, updateTourGuide, getTourGuide };
+            $or: [{ name: { $regex: keyword, $options: 'i' } }, { workPlaces: { $regex: keyword, $options: 'i' } }]
+        }
+        let tourGuide = await tourGuideModel.find(query);
+        return tourGuide;
+    } catch (error) {
+        console.log("Search tour guide error: " + error);
+    }
+    return null;
+}
+
+module.exports = { getAllTourGuides, createNewTourGuides, removeTourGuides, updateTourGuide, getTourGuide, searchTourGuide };

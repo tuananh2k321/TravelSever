@@ -157,10 +157,11 @@ router.get("/search", [authen.checkTokenCpanel], async (req, res, next) => {
         const { keyword } = req.query;
         const user = req.session.user;
         if (keyword == null) {
-            return res.render('hotel/hotelTable');
+            return res.render('tour-guide/touGuideTable');
         } else {
-            const hotels = await hotelController.searchHotelName(keyword);
-            res.render('hotel/hotelTable', { hotels, user });
+            const tourGuides = await tourGuideController.getTourGuideSearchName(keyword);
+            res.render('tour-guide/touGuideTable', { tourGuides, user });
+            console.log("Tour-guide", tourGuides);
         }
     } catch (error) {
         console.log("search error ", error);

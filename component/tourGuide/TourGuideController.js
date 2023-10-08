@@ -45,8 +45,13 @@ const getTourGuide = async (id) => {
     try {
         return await tourGuideService.getTourGuide(id);
     } catch (error) {
-        console.log("Get hotelById error: ",error);
+        console.log("Get hotelById error: ", error);
     }
 };
 
-module.exports = { getAllTourGuide, createNewTourGuide, removeTourGuide, updateTourGuide, getTourGuide }
+const getTourGuideSearchName = async (keyword) => {
+    return await tourGuideService.searchTourGuide(keyword);
+}
+
+
+module.exports = { getAllTourGuide, createNewTourGuide, removeTourGuide, updateTourGuide, getTourGuide, getTourGuideSearchName }

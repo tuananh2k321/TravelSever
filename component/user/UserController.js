@@ -31,9 +31,36 @@ const deleteById = async (id) => {
         return false;
     }
 }
-const updateUser = async (email, phoneNumber, name, address, gender, dob, avatar, role) => {
+const updateUser = async (email, phoneNumber, name, address, gender, dob, avatar, role, isBan) => {
     try {
-        return await UserService.updateUser(email, phoneNumber, name, address, gender, dob, avatar, role);
+        return await UserService.updateUser(email, phoneNumber, name, address, gender, dob, avatar, role, isBan);
+
+    } catch (error) {
+        return false;
+    }
+}
+
+const updateIsBan = async (email, isBan) => {
+    try {
+        return await UserService.updateIsBan(email, isBan);
+
+    } catch (error) {
+        return false;
+    }
+}
+
+const banUserById = async (id) => {
+    try {
+        return await UserService.banUserById(id);
+
+    } catch (error) {
+        return false;
+    }
+}
+
+const updateRole = async (email, role) => {
+    try {
+        return await UserService.updateRole(email, role);
 
     } catch (error) {
         return false;
@@ -107,5 +134,6 @@ const findUserByEmail = async (email) => {
 module.exports = {
     login, register, deleteByPhoneNumber,
     updateUser, getAllUser, updatePassword, findUserByEmail, verifyAccount,
-    getAllAdmin, deleteById, searchUsers, searchAdmins, changePassword
+    getAllAdmin, deleteById, searchUsers, searchAdmins, changePassword,
+    updateIsBan, updateRole, banUserById
 };

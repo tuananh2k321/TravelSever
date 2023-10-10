@@ -254,8 +254,9 @@
                                     <td>{{this.email}}</td>
                                     <td>{{this.phoneNumber}}</td>
                                     <td>
-                                        <button onclick="confirmDelete('{{this._id}}')" type="button"
-                                            class="btn btn-outline-danger">Delete</button>
+                                       <a onclick="confirmDelete('{{this._id}}')" title="Delete User" class="btn btn-danger m-1">
+                                                <i class='bx bx-trash'></i>
+                                            </a>
                                     </td>
                                 </tr>
                                 {{/each}}

@@ -136,6 +136,16 @@
             </a>
           </li>
           <li>
+            <a href="../../destination/cpanel/get-destination">
+              <i class="bi bi-circle"></i><span>Destination</span>
+            </a>
+         </li>
+          <li>
+          <a href="../../tourguide/cpanel/tour-guide">
+            <i class="bi bi-circle"></i><span>Tour Guide Table</span>
+          </a>
+        </li>
+          <li>
             <a href="/user/cpanel/list-admin">
               <i class="bi bi-circle"></i><span>Admins</span>
             </a>
@@ -239,6 +249,18 @@
                 </div>
               </div>
               <div class="row mb-3">
+                <label for="inputNumber" class="col-sm-2 col-form-label">childrenAge</label>
+                <div class="col-sm-10">
+                  <input value="{{tour.childrenAge}}" type="text" name="childrenAge" class="form-control">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputNumber" class="col-sm-2 col-form-label">adultAge</label>
+                <div class="col-sm-10">
+                  <input value="{{tour.adultAge}}" type="text" name="adultAge" class="form-control">
+                </div>
+              </div>
+              <div class="row mb-3">
                 <label for="inputNumber" class="col-sm-2 col-form-label">departmentPlace</label>
                 <div class="col-sm-10">
                   <input value="{{tour.departmentPlace}}" type="text" name="departmentPlace" class="form-control">
@@ -263,6 +285,18 @@
                 </div>
               </div>
               <div class="row mb-3">
+                <label for="inputNumber" class="col-sm-2 col-form-label">limitedPerson</label>
+                <div class="col-sm-10">
+                  <input value="{{tour.limitedPerson}}" type="text" name="limitedPerson" class="form-control">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputNumber" class="col-sm-2 col-form-label">offer</label>
+                <div class="col-sm-10">
+                  <input value="{{tour.offer}}" type="text" name="offer" class="form-control">
+                </div>
+              </div>
+              <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">vehicle</label>
                 <div class="col-sm-10">
                   <input value="{{tour.vehicle}}" type="text" name="vehicle" class="form-control">
@@ -277,15 +311,112 @@
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Hotel</label>
                 <div class="col-sm-10">
-                  <select name="hotel_id" id="hotel_id" class="form-control">
+                  {{!-- <select name="hotel_id" id="hotel_id" class="form-control">
                     {{#each hotel}}
                     {{#if this.selected}}
-                    <option selected value="{{this._id}}">{{this.hotelName}}</option>
+                      <option selected  value="{{this._id}}">{{this.hotelName}}</option>
                     {{else}}
-                    <option value="{{this._id}}">{{this.hotelName}}</option>
+                      <option  value="{{this._id}}">{{this.hotelName}}</option>
                     {{/if}}
                     {{/each}}
-                  </select>
+                  </select> --}}
+                  <div class="col-sm-10 btn btn-outline-primary" onclick="toggleDialogHotel()">Ấn vào để chọn Hotel cho tour cua ban</div> 
+                   <div id="dialogHotel" class="container">
+                        <div class="row">
+                          <h2>Danh sách chọn TourGuid</h2>
+                                  {{!-- <div class="search-bar">
+                                    <form class="search-form d-flex align-items-center" method="get" action="#">
+                                      <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+                                      <a class=" btn btn-outline-primary"  title="Search"><i class="bi bi-search"></i></a>
+                                    </form>
+                                  </div><!-- End Search Bar --> --}}
+                                    <div class="col-12">
+                                      <table class="table table-bordered">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">Select</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">phoneNumber</th>
+                                            <th scope="col">email</th>
+                                            <th scope="col">workPlaces</th>
+                                          </tr>
+                                        </thead>
+                                       <tbody>
+                                          {{#each hotel}}
+                                          <tr>
+                                             <td>
+                                              <div class="custom-control custom-checkbox">
+                                                  <input  name="hotel_id" value="{{this._id}}" class="form-check-input" type="radio">
+                                                  <label value="{{this._id}}" class="form-check-label">{{@index}}</label>
+                                              </div>
+                                            </td>
+                                            <td> {{this.hotelName}} </td>
+                                            <td> {{this.phoneNumber}}</td>
+                                            <td> {{this.address}}</td>
+                                            <td> {{this.rating}}</td>
+                                          </tr>
+                                          {{/each}}
+
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                  <a class="btn btn-danger btn-lg" onclick="handleOKHotel()">OK</a>
+                                  <a class="btn btn-secondary btn-lg" onclick="handleCancelHotel()">Cancel</a>
+                                  
+                      </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputText" class="col-sm-2 col-form-label">TourGuide</label>
+                <div class="col-sm-10">
+                  <div class="col-sm-10 btn btn-outline-primary" onclick="toggleDialogTourGuide()">Ấn vào để chọn HDV cho tour cua ban</div>
+                  <div id="dialogTourGuide" class="container">
+                        <div class="row">
+                          <h2>Danh sách chọn TourGuid</h2>
+                                  {{!-- <div class="search-bar">
+                                    <form class="search-form d-flex align-items-center" method="get" action="#">
+                                      <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+                                      <a class=" btn btn-outline-primary"  title="Search"><i class="bi bi-search"></i></a>
+                                    </form>
+                                  </div><!-- End Search Bar --> --}}
+                                    <div class="col-12">
+                                      <table class="table table-bordered">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">Select</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">phoneNumber</th>
+                                            <th scope="col">email</th>
+                                            <th scope="col">workPlaces</th>
+                                          </tr>
+                                        </thead>
+                                       <tbody>
+                                          {{#each tourGuide}}
+                                          <tr>
+                                             <td>
+                                              <div class="custom-control custom-checkbox">
+                                                  <input  name="tourGuide_id"  id="{{this._id}}" value="{{this._id}}" class="form-check-input" type="radio"
+                                                  {{#if this.checked}}checked{{/if}}
+                                                    >
+                                                  <label  value="{{this._id}}" class="form-check-label">{{@index}}</label>
+                                              </div>
+                                            </td>
+                                            <td for="{{this._id}}"> {{this.name}} </td>
+                                            <td for="{{this._id}}"> {{this.phoneNumber}}</td>
+                                            <td for="{{this._id}}"> {{this.email}}</td>
+                                            <td for="{{this._id}}"> {{this.workPlaces}}</td>
+                                          </tr>
+                                          {{/each}}
+
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                  <a class="btn btn-danger btn-lg" onclick="handleOKTourGuide()">OK</a>
+                                  <a class="btn btn-secondary btn-lg" onclick="handleCancelTourGuide()">Cancel</a>
+                                  
+                      </div>
                 </div>
               </div>
               <div class="row mb-3">
@@ -297,6 +428,7 @@
                   </select>
                 </div>
               </div>
+              {{!-- destination --}}
               <div class="row mb-3 form-group">
                 <legend class="col-form-label col-sm-2 pt-0">Điểm đến</legend>
                 <div class="col-sm-10">
@@ -310,13 +442,13 @@
                               </form>
                             </div><!-- End Search Bar --> --}}
                               {{#each destination}}
-                                <div class="form-check">
-                                  <input name="destination_id" value="{{this._id}}" class="form-check-input" type="checkbox"
-                                    name="destination_id">
-                                  <label value="{{this._id}}" class="form-check-label">
-                                    {{this.destinationName}}
-                                  </label>
-                                </div>
+                                  <div class="form-check">
+                                    <input  id="{{this._id}}" value="{{this._id}}" class="form-check-input" type="checkbox"
+                                      name="destination_id" {{#if this.checked}}checked{{/if}}>
+                                    <label for="{{this._id}}" class="form-check-label">
+                                      {{this.destinationName}}
+                                    </label>
+                                  </div>
                               {{/each}}
                             <!-- Thêm các checkbox khác tại đây nếu cần -->
                             <a class="btn btn-danger btn-lg" onclick="handleOK()">OK</a>
@@ -515,7 +647,55 @@
         toggleDialog();
     }
 
+  
+</script>
+
+{{!-- dialog tourguide --}}
+<script>
    
+    // JavaScript để ẩn/hiện hộp thoại
+    function toggleDialogTourGuide() {
+        var dialog = document.getElementById("dialogTourGuide");
+        if (dialog.style.display === "block") {
+            dialog.style.display = "none";
+        } else {
+            dialog.style.display = "block";
+        }
+    }
 
+    // JavaScript để xử lý khi nhấp vào nút "OK"
+    function handleOKTourGuide() {
+        toggleDialogTourGuide();
+    }
 
+    // JavaScript để xử lý khi nhấp vào nút "Cancel"
+    function handleCancelTourGuide() {
+       
+        toggleDialogTourGuide();
+    }
+</script>
+
+{{!-- dialog hotel --}}
+<script>
+   
+    // JavaScript để ẩn/hiện hộp thoại
+    function toggleDialogHotel() {
+        var dialog = document.getElementById("dialogHotel");
+        if (dialog.style.display === "block") {
+            dialog.style.display = "none";
+        } else {
+            dialog.style.display = "block";
+        }
+    }
+
+    // JavaScript để xử lý khi nhấp vào nút "OK"
+    function handleOKHotel() {
+        toggleDialogHotel();
+    }
+
+    // JavaScript để xử lý khi nhấp vào nút "Cancel"
+    function handleCancelHotel() {
+       
+        toggleDialogHotel();
+    }
 </script>

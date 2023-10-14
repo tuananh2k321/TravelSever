@@ -127,6 +127,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="../../tourguide/cpanel/tour-guide">
+                        <i class="bi bi-circle"></i><span>Tour Guide Table</span>
+                    </a>
+                </li>
+                <li>
                     <a href="/user/cpanel/list-admin">
                         <i class="bi bi-circle"></i><span>Admins</span>
                     </a>
@@ -218,12 +223,17 @@
                         </div>
                         <p class="card-text">adultPrice: {{tour.adultPrice}}</p>
                         <p class="card-text">childrenPrice: {{tour.childrenPrice}}</p>
+                        <p class="card-text">childrenAge: {{tour.childrenAge}}</p>
+                        <p class="card-text">adultAge: {{tour.adultAge}}</p>
                         <p class="card-text">departmentPlace: {{tour.departmentPlace}}</p>
                         <p class="card-text">departmentDate: {{tour.departmentDate}}</p>
                         <p class="card-text">limitedDay: {{tour.limitedDay}}</p>
                         <p class="card-text">operatingDay: {{tour.operatingDay}}</p>
+                        <p class="card-text">limitedPerson: {{tour.limitedPerson}}</p>
+                        <p class="card-text">offer: {{tour.offer}}</p>
                         <p class="card-text">vehicle: {{tour.vehicle}}</p>
                         <p class="card-text">isState: {{tour.isState}}</p>
+                        <p class="card-text">TourGuide: {{dataTourGuide.name}}</p>
                         <p class="card-text">hotel: {{datahotel.hotelName}}</p>
                         <p class="card-text">destination:
                             {{#each dataDestination}}

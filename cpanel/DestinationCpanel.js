@@ -59,9 +59,9 @@ router.post('/insert-destination', [uploadImage.array('mainImage', 10)], async (
             mainImage = await Promise.all(uploadedImagePromises);
         }
 
-        let { destinationName, content, address } = body;
-        console.log(destinationName, content, mainImage, address);
-        await destinationController.addNewDestination(destinationName, content, mainImage, address);
+        let { destinationName, content, address,area } = body;
+        console.log(destinationName, content, mainImage, address,area);
+        await destinationController.addNewDestination(destinationName, content, mainImage, address,area);
         return res.render('destination/destinationTable');
     } catch (error) {
         console.log('Add new  error:', error);
@@ -107,9 +107,9 @@ router.post('/:id/edit-destination', [uploadImage.array('mainImage', 10),], asyn
 
             mainImage = await Promise.all(uploadedImagePromises);
         }
-        let { destinationName, content, address } = body;
+        let { destinationName, content, address,area } = body;
 
-        await destinationController.updateDestination(id, destinationName, content, mainImage, address);
+        await destinationController.updateDestination(id, destinationName, content, mainImage, address,area);
         return res.render('destination/destinationTable');
     } catch (error) {
         console.log("Update hotel error: ", error);

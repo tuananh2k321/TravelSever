@@ -97,16 +97,20 @@
                 <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="../../tour/cpanel/insert-tour">
-                        <i class="bi bi-circle"></i><span>Thêm Tour</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="../../hotel/cpanel/insert-form">
-                        <i class="bi bi-circle"></i><span>Insert Hotel</span>
-                    </a>
-                </li>
+                <a href="/tour/cpanel/insert-tour">
+              <i class="bi bi-circle"></i><span>Insert Tour</span>
+            </a>
+          </li>
+          <li>
+          <a href="/hotel/cpanel/insert-form">
+            <i class="bi bi-circle"></i><span>Insert Hotel</span>
+          </a>
+          <a href="">
+            <i class="bi bi-circle"></i><span>Insert Destination</span>
+          </a>
+          <a href="">
+            <i class="bi bi-circle"></i><span>Insert TourGuide</span>
+          </a>
             </ul>
         </li><!-- End Forms Nav -->
 
@@ -117,7 +121,7 @@
             </a>
             <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="../../tour/cpanel/tour-table">
+                    <a href="/tour/cpanel/tour-table">
                         <i class="bi bi-circle"></i><span>Tour</span>
                     </a>
                 </li>
@@ -133,12 +137,22 @@
                 </li>
                 <li>
                     <a href="/user/cpanel/list-admin">
-                        <i class="bi bi-circle"></i><span>Admin</span>
+                        <i class="bi bi-circle"></i><span>Admins</span>
                     </a>
                 </li>
                 <li>
                     <a href="/user/cpanel/list-user">
-                        <i class="bi bi-circle"></i><span>User</span>
+                        <i class="bi bi-circle"></i><span>Users</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="bi bi-circle"></i><span>Destinations</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="bi bi-circle"></i><span>TourGuides</span>
                     </a>
                 </li>
             </ul>
@@ -225,6 +239,7 @@
                                     <th scope="col">Avatar</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Phone Number</th>
+                                   <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -239,10 +254,17 @@
                                     </td>
                                     <td>{{this.email}}</td>
                                     <td>{{this.phoneNumber}}</td>
-                                    <td>
-                                        <button onclick="confirmDelete('{{this._id}}')" type="button"
-                                            class="btn btn-outline-danger">Delete</button>
+                                    <td class="text-right">
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <a onclick="confirmDelete('{{this._id}}')" title="Delete User" class="btn btn-danger m-1">
+                                                <i class='bx bx-trash'></i>
+                                            </a>
+                                            <a onclick="confirmBan('{{this._id}}')" title="Ban User" class="btn btn-danger m-1">
+                                                <i class='bi bi-slash-circle'></i>
+                                            </a>
+                                         </div>
                                     </td>
+                                    
                                 </tr>
                                 {{/each}}
                             </tbody>
@@ -282,7 +304,7 @@
         return res.json();
     }
 
-    const deleteProduct = async (id) => {
+    const deleteUser = async (id) => {
         const url = `/user/cpanel/${id}/delete`;
 
         const option = {
@@ -307,6 +329,46 @@
         }
     }
 
+    const banUser = async (id) => {
+        const url = `/user/cpanel/${id}/ban`;
+
+        const option = {
+            method: 'get',
+            headers: { 'Content-Type': 'application/json' }
+        }
+        try {
+            const result = await fetchAPI(url, option);
+            console.log('ban result: ', result)
+
+            if (result.status) {
+                window.location.reload();
+            } else {
+                swal('Ban fail!', {
+                    icon: 'error',
+                });
+            }
+
+        } catch (e) {
+            console.log('error ban: ', e)
+            throw e;
+        }
+    }
+
+    const confirmBan= (id) => {
+        swal({
+            title: "Ban confirm?",
+            text: "You will ban this account?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    banUser(id);
+                }
+            });
+    }
+
     const confirmDelete = (id) => {
         swal({
             title: "Xác nhận xóa?",
@@ -317,7 +379,7 @@
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    deleteProduct(id);
+                    deleteUser(id);
                 }
             });
     }

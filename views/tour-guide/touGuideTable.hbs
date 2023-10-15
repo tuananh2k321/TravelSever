@@ -4,20 +4,17 @@
   <div class="d-flex align-items-center justify-content-between">
     <a href="/home-page/cpanel/home" class="logo d-flex align-items-center">
       <img src="/assets/img/logo.png" alt="">
-      <span class="d-none d-lg-block">NiceAdmin</span>
+      <span class="d-none d-lg-block">Discover</span>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
   </div><!-- End Logo -->
 
   <div class="search-bar">
-    <form class="search-form d-flex align-items-center" method="get" action="/tour/cpanel/tour-table/search">
-      <input type="text" name="searchName" placeholder="Search" title="Enter search keyword">
+    <form class="search-form d-flex align-items-center" method="get" action="/tourguide/cpanel/search">
+      <input type="text" name="keyword" placeholder="Search" title="Enter search keyword">
       <button type="submit" title="Search"><i class="bi bi-search"></i></button>
     </form>
   </div><!-- End Search Bar -->
-
-
-
 
   <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
@@ -101,60 +98,55 @@
       </a>
       <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
+          <a href="/tour/cpanel/insert-tour">
+            <i class="bi bi-circle"></i><span>Thêm Tour</span>
+          </a>
+        </li>
+        <li>
           <a href="/hotel/cpanel/insert-form">
             <i class="bi bi-circle"></i><span>Insert Hotel</span>
           </a>
         </li>
         <li>
-          <a href="/tour/cpanel/insert-tour">
-            <i class="bi bi-circle"></i><span>Insert Tour</span>
-          </a>
-        </li>
-        <li>
-          <a href="/destination/cpanel/insert-destination">
-            <i class="bi bi-circle"></i><span>Insert Destination</span>
+          <a href="/tourguide/cpanel/insert-form">
+            <i class="bi bi-circle"></i><span>Insert Tour Guide</span>
           </a>
         </li>
       </ul>
     </li><!-- End Forms Nav -->
 
-     <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="/tour/cpanel/tour-table">
-              <i class="bi bi-circle"></i><span>Tour</span>
-            </a>
-          </li>
-          <li>
-            <a href="/destination/cpanel/get-destination">
-              <i class="bi bi-circle"></i><span>Destination</span>
-            </a>
-          </li>
-          <li>
-            <a href="/hotel/cpanel/hotel-table">
-              <i class="bi bi-circle"></i><span>Hotels</span>
-            </a>
-          </li>
-          <li>
-            <a href="../../tourguide/cpanel/tour-guide">
-              <i class="bi bi-circle"></i><span>Tour Guide Table</span>
-            </a>
-         </li>
-          <li>
-            <a href="/user/cpanel/list-admin">
-              <i class="bi bi-circle"></i><span>Admins</span>
-            </a>
-          </li>
-          <li>
-            <a href="/user/cpanel/list-user">
-              <i class="bi bi-circle"></i><span>Users</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Tables Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="/tour/cpanel/tour-table">
+            <i class="bi bi-circle"></i><span>Tour</span>
+          </a>
+        </li>
+        <li>
+          <a href="/hotel/cpanel/hotel-table">
+            <i class="bi bi-circle"></i><span>Hotels</span>
+          </a>
+        </li>
+        <li>
+          <a href="/tourguide/cpanel/tour-guide">
+            <i class="bi bi-circle"></i><span>Tour Guide</span>
+          </a>
+        </li>
+        <li>
+          <a href="/user/cpanel/list-admin">
+            <i class="bi bi-circle"></i><span>Admins</span>
+          </a>
+        </li>
+        <li>
+          <a href="/user/cpanel/list-user">
+            <i class="bi bi-circle"></i><span>Users</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Tables Nav -->
 
     <li class="nav-item">
       <a class="nav-link collapsed" href="chart" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
@@ -162,7 +154,7 @@
       </a>
       <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="../../tour/cpanel/chart">
+          <a href="/tour/cpanel/chart">
             <i class="bi bi-circle"></i><span>Chart</span>
           </a>
         </li>
@@ -172,32 +164,32 @@
     <li class="nav-heading">Pages</li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="../../tour/cpanel/profile">
+      <a class="nav-link collapsed" href="/home-page/cpanel/profile">
         <i class="bi bi-person"></i>
         <span>Profile</span>
       </a>
     </li><!-- End Profile Page Nav -->
 
-    <li class="nav-item">
+    {{!-- <li class="nav-item">
       <a class="nav-link collapsed" href="../../user/cpanel/register">
         <i class="bi bi-card-list"></i>
         <span>Register</span>
       </a>
-    </li><!-- End Register Page Nav -->
+    </li><!-- End Register Page Nav --> --}}
 
-    <li class="nav-item">
+    {{!-- <li class="nav-item">
       <a class="nav-link collapsed" href="../../user/cpanel/login">
         <i class="bi bi-box-arrow-in-right"></i>
         <span>Login</span>
       </a>
-    </li><!-- End Login Page Nav -->
+    </li><!-- End Login Page Nav --> --}}
 
-    <li class="nav-item">
+    {{!-- <li class="nav-item">
       <a class="nav-link collapsed" href="../../tour/cpanel/error404">
         <i class="bi bi-dash-circle"></i>
         <span>Error 404</span>
       </a>
-    </li><!-- End Error 404 Page Nav -->
+    </li><!-- End Error 404 Page Nav --> --}}
   </ul>
 
 </aside><!-- End Sidebar-->
@@ -205,14 +197,14 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Data Tables</h1>
-    <nav>
+    <h1>Tour Guide Management</h1>
+    {{!-- <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
         <li class="breadcrumb-item">Tables</li>
         <li class="breadcrumb-item active">Data</li>
       </ol>
-    </nav>
+    </nav> --}}
   </div><!-- End Page Title -->
 
   <section class="section">
@@ -220,81 +212,65 @@
       <div class="col-lg-12">
 
         <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Datatables</h5>
-            <p>Add lightweight datatables to your project with using the <a
-                href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library.
-              Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p>
-
-            <div class="dropdown gap-2 d-md-flex justify-content-md-end">
-              <a class="btn btn-outline-dark me-md-3 dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                Sắp xếp <span class="caret"></span>
-              </a>
-
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <li><a onclick="showGenre(this)" class="dropdown-item" href="/tour/cpanel/tour-table">Mặc định</a></li>
-                <li><a onclick="showGenre(this)" class="dropdown-item" href="#">Đánh giá nhiều nhất</a></li>
-                <li><a onclick="showGenre(this)" class="dropdown-item" href="/tour/cpanel/tour-table/rating">Được yêu
-                    thích</a></li>
-                <li><a onclick="showGenre(this)" class="dropdown-item" href="">Khu vực: Đà Lạt</a></li>
-                <li><a onclick="showGenre(this)" class="dropdown-item" href="">Khu vực: Vũng Tàu</a></li>
-              </ul>
-            </div>
-
+          <div class="card-body" style="position: relative;">
+            {{!-- <h5 class="card-title">Datatables</h5> --}}
+            {{!-- <p>Add lightweight datatables to your project with using the <a href="/hotel/cpanel/insert-form"
+                target="_blank">Add Hotel +</a>.
+              Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p> --}}
 
             <!-- Table with stripped rows -->
-            <table class="table datatable">
+            <table class="table ">
               <thead>
                 <tr>
-                  <th scope="col">Hình ảnh</th>
-                  <th scope="col">Tên</th>
-                  <th scope="col">Giá người lớn</th>
-                  <th scope="col">Giá trẻ em dưới 15</th>
-                  <th scope="col">Trạng thái</th>
-                  <th scope="col">Đánh giá</th>
+                  <th scope="col">Row</th>
+                  <th scope="col">ID</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Phone Number</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">WorkPlaces</th>
+                  <th scope="col">Image</th>
                 </tr>
               </thead>
               <tbody>
-                {{#each tours}}
-
+                {{#each tourGuides}}
                 <tr>
-                  <td class="py-1">
-                    <img src="{{this.tourImage}}" alt="image" width="200" height="100" />
-                  </td>
-                  <td> {{this.tourName}} </td>
+                  <th scope="row" id="STT">{{@index}}</th>
+                  <td>{{this._id}}</td>
+                  <td>{{this.name}}</td>
+                  <td>{{this.phoneNumber}}</td>
+                  <td>{{this.email}}</td>
+                  <td>{{this.workPlaces}}</td>
                   <td>
-                    {{!-- <div class="progress">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                    </div> --}}
-                    {{this.adultPrice}}
+                    <img src="{{this.avatar}}" width="200" height="100" style="object-fit: cover;" />
                   </td>
-                  <td> {{this.childrenPrice}} </td>
-                  <td> {{this.isState}}</td>
-                  <td> {{this.rating}}</td>
-                  
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
-                      <a href="/tour/cpanel/detail-tour/{{this._id}}" class="btn btn-success m-1">
+                      {{!-- <a href="/hotel/cpanel/detail-tourguide/{{this._id}}" title="Detail Hotel"
+                        class="btn btn-success m-1">
                         <i class='bx bx-detail'></i>
-                      </a>
-                      <a href="/tour/cpanel/{{this._id}}/edit-tour" class="btn btn-primary m-1">
+                      </a> --}}
+                      <a href="/tourguide/cpanel/update-tourguide/{{this._id}}" title="Edit Hotel"
+                        class="btn btn-primary m-1">
                         <i class='bx bx-edit'></i>
                       </a>
-                      <a onclick="confirmDelete('{{this._id}}')" type="button" class="btn btn-danger m-1">
+                      <a onclick="confirmDelete('{{this._id}}');" title="Delete Hotel" class="btn btn-danger m-1">
                         <i class='bx bx-trash'></i>
                       </a>
                     </div>
                   </td>
                 </tr>
-
                 {{/each}}
-
               </tbody>
             </table>
             <!-- End Table with stripped rows -->
-
+            {{!-- <a href="/hotel/cpanel/update-hotel/{{this._id}}" class="btn btn-primary w-5"
+              style="position: fixed; top: 0px, right: 0px">
+              <i class='bx bx-edit'></i>
+            </a> --}}
+            {{!-- <a href="/hotel/cpanel/insert-form" class="btn btn-success"
+              style="position: absolute; top: 10px; right: 20px">
+              Add Hotel <i class='bx bx-plus'></i>
+            </a> --}}
           </div>
         </div>
 
@@ -320,55 +296,48 @@
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
     class="bi bi-arrow-up-short"></i></a>
-{{!-- js delete tour --}}
+
 <script>
+
   const fetchAPI = async (url, option) => {
-    const res = await fetch(url, option)
+    const res = await fetch(url, option);
     return res.json();
   }
 
-  const deleteProduct = async (id) => {
-    const url = `/tour/cpanel/${id}/delete`;
-
+  const deleteHotelById = async (id) => {
+    const url = `/tourguide/cpanel/delete-tourguide/${id}`;
     const option = {
       method: 'get',
       headers: { 'Content-Type': 'application/json' }
     }
     try {
       const result = await fetchAPI(url, option);
-      console.log('delete result: ', result)
-
+      console.log('Delete result: ', result);
       if (result.status) {
         window.location.reload();
+
       } else {
-        swal('Xóa thất bại!', {
+        swal('Xóa Thất bại!', {
           icon: 'error',
         });
       }
-
     } catch (e) {
-      console.log('error delete: ', e)
-      throw e;
+      console.log('Delete error: ', e);
     }
   }
 
   const confirmDelete = (id) => {
     swal({
       title: "Xác nhận xóa?",
-      text: "Bạn có muốn xóa sản phẩm này?",
+      text: "Bạn có chắc muốn xóa hotel này không?",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     })
       .then((willDelete) => {
         if (willDelete) {
-          deleteProduct(id);
+          deleteHotelById(id);
         }
       });
   }
-
-  function showGenre(item) {
-    document.getElementById("dropdownMenuLink").innerHTML = item.innerHTML;
-  }
-
 </script>

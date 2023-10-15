@@ -9,10 +9,12 @@ const client = require("twilio")(accountSid, authToken);
 const login = async (email, password) => {
     try {
         const user = await UserModel.findOne({ email: email })
-        if (user) {
-            const result = bcrypt.compareSync(password, user.password);
-            return result ? user : false;
-        }
+            if (user) {
+                const result = bcrypt.compareSync(password, user.password);
+                return result ? user : false;
+            }
+        console.log('user: ', user)
+        
     } catch (error) {
         console.log('Login error' + error)
         return false;
@@ -21,7 +23,7 @@ const login = async (email, password) => {
 //http://localhost:3000/api/user/register
 const register = async (phoneNumber, password, name, lastName, email, address, gender, dob, avatar, role, createAt) => {
     try {
-        const user = await UserModel.findOne({ phoneNumber: phoneNumber })
+        const user = await UserModel.findOne({ email: email })
         if (user) {
             return false;
         } else {
@@ -73,7 +75,7 @@ const deleteById = async (id) => {
     }
 }
 
-const updateUser = async ( name, address, avatar, phoneNumber, email, gender, dob, role) => {
+const updateUser = async ( name, address, avatar, phoneNumber, email, gender, dob) => {
     try {
         const user = await UserModel.findOne({ email: email })
         if (user) {
@@ -83,7 +85,6 @@ const updateUser = async ( name, address, avatar, phoneNumber, email, gender, do
             user.gender = gender ? gender : user.gender;
             user.dob = dob ? dob : user.dob;
             user.avatar = avatar ? avatar : user.avatar;
-            user.role = role ? role : user.role;
             await user.save();
             console.log("USER:" + user);
 
@@ -94,6 +95,58 @@ const updateUser = async ( name, address, avatar, phoneNumber, email, gender, do
     } catch (error) {
         console.log("Update User  error" + error)
         return false;
+    }
+}
+
+const updateIsBan = async (email, isBan) => {
+    try {
+        const user = await UserModel.findOne({ email: email })
+        if (user) {
+            user.isBan = isBan ? isBan : user.isBan;
+            await user.save();
+            console.log("USER:" + user);
+            return user;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.log("updateIsBan error" + error)
+    }
+}
+
+const banUserById = async (id) => {
+    try {
+        const user = await UserModel.findOne({ _id: id })
+        console.log(user)
+        if (user) {
+            user.isBan = true;
+            await user.save();
+            console.log("USER:" + user);
+            return true;
+        } else {
+            return false; 
+        }
+        
+    } catch (error) {
+        console.log("Delete User  error" + error);
+        return false;
+
+    }
+}
+
+const updateRole = async (email, role) => {
+    try {
+        const user = await UserModel.findOne({ email: email })
+        if (user) {
+            user.role = role ? role : user.role;
+            await user.save();
+            console.log("USER:" + user);
+            return user;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.log("updateIsBan error" + error)
     }
 }
 
@@ -158,7 +211,7 @@ const verifyAccount = async (email) => {
 const findUserByEmail = async (email) => {
     const user = await UserModel.findOne({ email: email })
     if (user) {
-        return true;
+        return user;
     } else {
         return false;
     }
@@ -248,5 +301,5 @@ module.exports = {
     login, register, deleteByPhoneNumber,
     updateUser, getAllUser, updatePassword,
     findUserByEmail, verifyAccount, getAllAdmin, deleteById, searchUsers,
-    searchAdmins, changePassword
+    searchAdmins, changePassword, updateIsBan, banUserById, updateRole
 };

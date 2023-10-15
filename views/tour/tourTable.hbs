@@ -16,6 +16,9 @@
     </form>
   </div><!-- End Search Bar -->
 
+
+
+
   <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
 
@@ -233,13 +236,13 @@
   <ul class="sidebar-nav" id="sidebar-nav">
 
     <li class="nav-item">
-      <a class="nav-link "href="/home-page/cpanel/home">
+      <a class="nav-link " href="/home-page/cpanel/home">
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
       </a>
     </li><!-- End Dashboard Nav -->
 
-   <li class="nav-item">
+    <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
         <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
@@ -262,38 +265,33 @@
       </ul>
     </li><!-- End Forms Nav -->
 
-     <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="/tour/cpanel/tour-table">
-              <i class="bi bi-circle"></i><span>Tour</span>
-            </a>
-          </li>
-          <li>
-            <a href="/destination/cpanel/get-destination">
-              <i class="bi bi-circle"></i><span>Destination</span>
-            </a>
-          </li>
-          <li>
-            <a href="/hotel/cpanel/hotel-table">
-              <i class="bi bi-circle"></i><span>Hotels</span>
-            </a>
-          </li>
-          <li>
-            <a href="/user/cpanel/list-admin">
-              <i class="bi bi-circle"></i><span>Admins</span>
-            </a>
-          </li>
-          <li>
-            <a href="/user/cpanel/list-user">
-              <i class="bi bi-circle"></i><span>Users</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Tables Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="../../tour/cpanel/tour-table">
+            <i class="bi bi-circle"></i><span>Tour</span>
+          </a>
+        </li>
+        <li>
+          <a href="../../hotel/cpanel/hotel-table">
+            <i class="bi bi-circle"></i><span>Hotels</span>
+          </a>
+        </li>
+        <li>
+          <a href="/user/cpanel/list-admin">
+            <i class="bi bi-circle"></i><span>Admins</span>
+          </a>
+        </li>
+        <li>
+          <a href="/user/cpanel/list-user">
+            <i class="bi bi-circle"></i><span>Users</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Tables Nav -->
 
     <li class="nav-item">
       <a class="nav-link collapsed" href="chart" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
@@ -374,7 +372,8 @@
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li><a onclick="showGenre(this)" class="dropdown-item" href="/tour/cpanel/tour-table">Mặc định</a></li>
                 <li><a onclick="showGenre(this)" class="dropdown-item" href="#">Đánh giá nhiều nhất</a></li>
-                <li><a onclick="showGenre(this)" class="dropdown-item" href="/tour/cpanel/tour-table/rating">Được yêu thích</a></li>
+                <li><a onclick="showGenre(this)" class="dropdown-item" href="/tour/cpanel/tour-table/rating">Được yêu
+                    thích</a></li>
                 <li><a onclick="showGenre(this)" class="dropdown-item" href="">Khu vực: Đà Lạt</a></li>
                 <li><a onclick="showGenre(this)" class="dropdown-item" href="">Khu vực: Vũng Tàu</a></li>
               </ul>
@@ -413,7 +412,7 @@
                   <td> {{this.isState}}</td>
                   <td> {{this.rating}}</td>
                   <td> {{this.address}}</td>
-                  
+
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
                       <a href="/tour/cpanel/detail-tour/{{this._id}}" class="btn btn-success m-1">
@@ -422,7 +421,7 @@
                       <a href="/tour/cpanel/{{this._id}}/edit-tour" class="btn btn-primary m-1">
                         <i class='bx bx-edit'></i>
                       </a>
-                      <a onclick="confirmDelete('{{this._id}}')" type="button"  class="btn btn-danger m-1">
+                      <a onclick="confirmDelete('{{this._id}}')" type="button" class="btn btn-danger m-1">
                         <i class='bx bx-trash'></i>
                       </a>
                     </div>
@@ -507,10 +506,8 @@
       });
   }
 
-function showGenre(item) {
-  document.getElementById("dropdownMenuLink").innerHTML = item.innerHTML;
-}
+  function showGenre(item) {
+    document.getElementById("dropdownMenuLink").innerHTML = item.innerHTML;
+  }
 
 </script>
-
-

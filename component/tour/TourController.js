@@ -10,16 +10,16 @@ const getTourById = async (id) => {
     return await tourService.getTourById(id);
 }
 
-const addNewTour = async (tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
-    operatingDay, vehicle,description,rating,isState,hotel_id,destination_id  ) => {
-        return await tourService.addNewTour(tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
-            operatingDay, vehicle,description,rating,isState,hotel_id,destination_id );
+const addNewTour = async (tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
+    operatingDay,limitedPerson,offer, vehicle,description,rating,isState,hotel_id,tourGuide_id,destination_id) => {
+        return await tourService.addNewTour(tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
+            operatingDay,limitedPerson,offer, vehicle,description,rating,isState,hotel_id,tourGuide_id,destination_id);
 }
 
-const updateTour = async (id,tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
-    operatingDay, vehicle,description,rating,isState,hotel_id,destination_id ) => {
-        return await tourService.updateTour(id,tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
-            operatingDay, vehicle,description,rating,isState,hotel_id,destination_id );
+const updateTour = async (id,tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
+    operatingDay,limitedPerson,offer, vehicle,description,rating,isState,hotel_id,tourGuide_id,destination_id) => {
+        return await tourService.updateTour(id,tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
+            operatingDay,limitedPerson,offer, vehicle,description,rating,isState,hotel_id,tourGuide_id,destination_id);
     }
 
 const deleteTour = async (id) => {

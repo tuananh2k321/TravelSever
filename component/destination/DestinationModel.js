@@ -7,7 +7,9 @@ const destinationSchema = new Schema({
   destinationName: { type: String, required: true },
   content: { type: String, required: true },
   mainImage: { type: Array, required: true },
-  address: { type: String, required: true }
+  address: { type: String, required: true },
+  area: { type: String, required: true },
+  createdAt: { type: Date, required: true, default: Date.now }
 });
 
 module.exports = mongoose.models.destination || mongoose.model("destination", destinationSchema);

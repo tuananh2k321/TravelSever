@@ -127,6 +127,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="../../tourguide/cpanel/tour-guide">
+                        <i class="bi bi-circle"></i><span>Tour Guide Table</span>
+                    </a>
+                </li>
+                <li>
                     <a href="/user/cpanel/list-admin">
                         <i class="bi bi-circle"></i><span>Admins</span>
                     </a>
@@ -204,7 +209,7 @@
 
                 <!-- Card with an image on top -->
                 <div class="card">
-                    <img src="{{tour.tourImage}}" style="object-fit: cover;" class="card-img-top" alt="Image Hotel">
+                    <img id="image" src="{{tour.tourImage}}" style="object-fit: cover;" class="card-img-top" alt="Image Tour">
                     <div class="card-body">
                         <div style="display: flex; align-items: center;">
                             <h5 class="card-title">{{tour.tourName}}</h5>
@@ -218,11 +223,17 @@
                         </div>
                         <p class="card-text">adultPrice: {{tour.adultPrice}}</p>
                         <p class="card-text">childrenPrice: {{tour.childrenPrice}}</p>
-                        <p class="card-text">address: {{tour.address}}</p>
+                        <p class="card-text">childrenAge: {{tour.childrenAge}}</p>
+                        <p class="card-text">adultAge: {{tour.adultAge}}</p>
+                        <p class="card-text">departmentPlace: {{tour.departmentPlace}}</p>
+                        <p class="card-text">departmentDate: {{tour.departmentDate}}</p>
                         <p class="card-text">limitedDay: {{tour.limitedDay}}</p>
                         <p class="card-text">operatingDay: {{tour.operatingDay}}</p>
+                        <p class="card-text">limitedPerson: {{tour.limitedPerson}}</p>
+                        <p class="card-text">offer: {{tour.offer}}</p>
                         <p class="card-text">vehicle: {{tour.vehicle}}</p>
                         <p class="card-text">isState: {{tour.isState}}</p>
+                        <p class="card-text">TourGuide: {{dataTourGuide.name}}</p>
                         <p class="card-text">hotel: {{datahotel.hotelName}}</p>
                         <p class="card-text">destination:
                             {{#each dataDestination}}
@@ -244,6 +255,12 @@
                 </div><!-- End Default Card -->
 
             
+            </div>
+            <div class="card">
+                <div class="card-header">More Image</div>
+                <div style="display: flex; flex-wrap: wrap; ">
+                    <div id="body-image"></div>
+                </div>
             </div>
 
         </div>
@@ -269,108 +286,16 @@
         class="bi bi-arrow-up-short"></i></a>
 
 <script>
-    const hotel = {
-        hotelName: false,
-        address: false,
-        phoneNumber: false,
-        description: false,
-        rating: false,
-        //image: false
+    var image = document.getElementById("image").src;
+    console.log(image);
+    var imageArray = image.split(",");
+    var imageLength = imageArray.length;
+    console.log('image: ', imageLength);
+    for (var i = 0; i < imageLength; i++) {
+        console.log(imageArray[i]);
+        var img = `<img id="image" src="${imageArray[i]}" style="object-fit: cover; width: 400px; height: 250px; margin: 10px; border-radius: 5px;" alt="Image Hotel ${i}">`;
+        document.getElementById('body-image').insertAdjacentHTML('afterend', img);
     }
-
-
-    const validate = () => {
-        hotel.hotelName = document.getElementById('hotelName').value != '' && document.getElementById('hotelName').value.trim().length > 0;
-        hotel.address = document.getElementById('address').value != '' && document.getElementById('address').value.trim().length > 0;
-        hotel.phoneNumber = document.getElementById('phoneNumber').value != '' && document.getElementById('phoneNumber').value.trim().length > 0;
-        hotel.description = document.getElementById('description').value != '' && document.getElementById('description').value.trim().length > 0;
-        hotel.rating = document.getElementById('rating').value != '' && document.getElementById('rating').value.trim().length > 0;
-        //hotel.image = document.getElementById('image').value != '' && document.getElementById('image').value.trim().length > 0;
-
-        if (hotel.hotelName && hotel.address && hotel.phoneNumber && hotel.description && hotel.rating) {
-            document.getElementById('submit').removeAttribute('disabled');
-        } else {
-            document.getElementById('submit').setAttribute('disabled', true);
-        }
-    }
-
-    const onClickForm = () => {
-        let phone = document.getElementById('phoneNumber').value;
-        let rating = document.getElementById('rating').value;
-        let textErrorRating;
-        let textErrorPhoneNumber;
-        const phoneRegex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
-
-
-        if (phoneRegex.test(phone) == false) {
-            textErrorPhoneNumber = "The phone number is not in the correct format";
-            document.getElementById('phoneError').innerHTML = textErrorPhoneNumber;
-            console.log(phoneRegex.test(phone));
-            return false;
-        } else {
-            textErrorPhoneNumber = "";
-            document.getElementById('phoneError').innerHTML = textErrorPhoneNumber;
-        }
-
-        if (rating < 0 || rating > 5) {
-            textErrorRating = "Rating must be between 0 and 5";
-            console.log(rating < 0 || rating > 5);
-            document.getElementById('ratingError').innerHTML = textErrorRating;
-            return false;
-        } else {
-            textErrorRating = "";
-            document.getElementById('ratingError').innerHTML = textErrorRating;
-        }
-
-        return true
-
-    }
-
-
-    // hiển thị hình ảnh khi chọn
-    const displayImg = () => {
-        var file = document.getElementById('image').files[0];
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            var image = document.getElementById("listImage-display");
-            image.src = e.target.result;
-        }
-        reader.readAsDataURL(file);
-    }
-
-    // upload image fire base
-    const firebaseConfig = {
-        apiKey: "AIzaSyD9ezQlOj2HZzJcdGwsERN4GjYiersb1GM",
-        authDomain: "travelapp-3e538.firebaseapp.com",
-        projectId: "travelapp-3e538",
-        storageBucket: "travelapp-3e538.appspot.com",
-        messagingSenderId: "579542678002",
-        appId: "1:579542678002:web:5dd5b62019867affea136b",
-        measurementId: "G-Z8HBLEHY6X"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    // xử lí khi chọn ảnh upload lên firebase
-    const onChangeImage = () => {
-        const file = document.getElementById('image').files[0];
-        const reader = new FileReader();
-        reader.onload = e => {
-            document.getElementById('image-display').src = e.target.result;
-        }
-        reader.readAsDataURL(file);
-        // upload lên firebase
-        const ref = firebase.storage().ref(`hotel/${new Date().getTime() + '-' + file.name}`);
-        const uploadTask = ref.put(file);
-        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-            (snapshot) => { },
-            (error) => { console.log('firebase error: ', error) },
-            () => {
-                uploadTask.snapshot.ref.getDownloadURL().then(url => {
-                    console.log('>>>>> File available at:', url);
-                    document.getElementById('imgUrl').value = url;
-                })
-            }
-        );
-    }
+    console.log(imageArray);
 </script>
  

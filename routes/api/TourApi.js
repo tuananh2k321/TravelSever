@@ -17,9 +17,9 @@ router.get('/get-all-tour', async function(req,res,next){
 // them tour
 router.post('/inser-tour', async function(req,res,next){
   try {
-    const { tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+    const { tourName, adultPrice, childrenPrice, tourImage,departmentPlace,departmentDate, limitedDay,
         operatingDay, vehicle,description,rating,isState,hotel_id,destination_id } = req.body;
-    const tour = await tourController.addNewTour(tourName, adultPrice, childrenPrice, tourImage,address, limitedDay,
+    const tour = await tourController.addNewTour(tourName, adultPrice, childrenPrice, tourImage,departmentPlace,departmentDate, limitedDay,
         operatingDay, vehicle,description,rating,isState,hotel_id,destination_id );
     if (tour) {
         return res.status(200).json({ result: true, hotel: tour, message: "Add hotel Success" });

@@ -5,7 +5,8 @@ const userController = require('../../component/user/UserController')
 const nodemailer = require('nodemailer');
 
 const accountSid = "AC8e6d6d91ef6f9d54fbefa4e641512eeb";
-const authToken = "725564a0a92f0bd20ac32260d2f5575b";
+const authToken = "38ea6a051552126006de1eb07b582284";
+
 const verifySid = "VAa426a315b4b5f6b338bfc2fb20065568";
 const client = require("twilio")(accountSid, authToken);
 
@@ -14,15 +15,23 @@ const client = require("twilio")(accountSid, authToken);
 //http://localhost:3000/user/api/login
 router.post('/login', async (req, res, next) => {
     try {
-        const { email, password } = req.body;
+        const { email } = req.body;
+        const { password } = req.body;
         console.log(email, password)
-        const user = await userController.login(email, password);
-        if (user) {
-            const token = jwt.sign({ user }, 'secret', { expiresIn: '1h' })
-            return res.status(200).json({ result: true, user: user, token: token, message: "Login Success" });
+        const user = await userController.findUserByEmail(email);
+        console.log(user)
+        if (user.isBan == false) {
+            const userLogin = await userController.login(email, password);
+            if (userLogin) {
+                const token = jwt.sign({ user }, 'secret', { expiresIn: '1h' })
+                return res.status(200).json({ result: true, user: user, token: token, message: "Login Success" });
+            } else {
+                return res.status(200).json({ result: false, user: null, token: null, message: "Incorrect Email or Password" });
+            }
+            
 
         } else {
-            return res.status(400).json({ result: false, user: null, token: null, message: "Login Failed" });
+            return res.status(400).json({ result: false, user: null, token: null, message: "Your Account is banned" });
         }
     } catch (error) {
         console.log(error);
@@ -44,7 +53,7 @@ router.post('/register',  async (req, res, next) => {
         if (user) {
             return res.status(200).json({ result: true, user: user, message: "Register Success" });
         }
-        return res.status(400).json({ result: false, user: null, message: "Register Failed" });
+        return res.status(400).json({ result: false, user: null, message: "Email is exits" });
 
 
         // let result =await textflow.verifyCode(phoneNumber, code)
@@ -105,9 +114,45 @@ router.post("/otp/verify", async (req, res) => {
 //http://localhost:3000/user/api/update
 router.post('/update', async (req, res, next) => {
     try {
-        const {  name, address, avatar, phoneNumber, email, gender, dob, role } = req.body;
-        console.log(email, name, address, gender, dob, avatar, role, phoneNumber,);
-        const user = await userController.updateUser( name, address, avatar, phoneNumber, email, gender, dob, role,);
+        const {  name, address, avatar, phoneNumber, email, gender, dob } = req.body;
+        console.log(email, name, address, gender, dob, avatar, role, phoneNumber, isBan);
+        const user = await userController.updateUser( name, address, avatar, phoneNumber, email, gender, dob);
+        console.log(user)
+        if (user) {
+            return res.status(200).json({ result: true, user: user, message: "Update Success" });
+        } else {
+            return res.status(400).json({ result: false, user: null, message: "User not exist" });
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ result: false, user: null });
+    }
+});
+
+//http://localhost:3000/user/api/updateIsBan
+router.post('/updateIsBan', async (req, res, next) => {
+    try {
+        const {  email, isBan } = req.body;
+        console.log(email, isBan);
+        const user = await userController.updateIsBan(email, isBan);
+        console.log(user)
+        if (user) {
+            return res.status(200).json({ result: true, user: user, message: "Update Success" });
+        } else {
+            return res.status(400).json({ result: false, user: null, message: "User not exist" });
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ result: false, user: null });
+    }
+});
+
+//http://localhost:3000/user/api/updateRole
+router.post('/updateRole', async (req, res, next) => {
+    try {
+        const {  email, role } = req.body;
+        console.log(email, role);
+        const user = await userController.updateRole(email, role);
         console.log(user)
         if (user) {
             return res.status(200).json({ result: true, user: user, message: "Update Success" });

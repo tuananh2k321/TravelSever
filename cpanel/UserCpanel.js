@@ -143,6 +143,19 @@ router.get('/:id/delete', [authen.checkTokenCpanel], async function(req, res, ne
     }
 })
 
+// http://localhost:3000/user/cpanel/:id/ban
+router.get('/:id/ban', [authen.checkTokenCpanel], async function(req, res, next) {
+    const {id} = req.params;
+    try {
+        
+        await userController.banUserById(id)
+        return res.json({status: true, id: id})
+    } catch (error) {
+        console.log(error)
+        return res.json({status: false, error: id})
+    }
+})
+
 //http://localhost:3000/user/cpanel/update
 router.post('/update/:email', [authen.checkTokenCpanel], upload.single("filename"), async (req, res, next) => {
     try {

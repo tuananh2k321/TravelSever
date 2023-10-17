@@ -105,10 +105,10 @@
           <a href="/hotel/cpanel/insert-form">
             <i class="bi bi-circle"></i><span>Insert Hotel</span>
           </a>
-          <a href="">
+          <a href="/destination/cpanel/insert-destination">
             <i class="bi bi-circle"></i><span>Insert Destination</span>
           </a>
-          <a href="">
+          <a href="/tourguide/cpanel/insert-form">
             <i class="bi bi-circle"></i><span>Insert TourGuide</span>
           </a>
             </ul>
@@ -146,12 +146,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="">
-                        <i class="bi bi-circle"></i><span>Destinations</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
+                    <a href="/tourguide/cpanel/tour-guide">
                         <i class="bi bi-circle"></i><span>TourGuides</span>
                     </a>
                 </li>
@@ -239,6 +234,7 @@
                                     <th scope="col">Avatar</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Phone Number</th>
+                                   <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -253,10 +249,17 @@
                                     </td>
                                     <td>{{this.email}}</td>
                                     <td>{{this.phoneNumber}}</td>
-                                    <td>
-                                        <button onclick="confirmDelete('{{this._id}}')" type="button"
-                                            class="btn btn-outline-danger">Delete</button>
+                                    <td class="text-right">
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <a onclick="confirmDelete('{{this._id}}')" title="Delete User" class="btn btn-danger m-1">
+                                                <i class='bx bx-trash'></i>
+                                            </a>
+                                            <a onclick="confirmBan('{{this._id}}')" title="Ban User" class="btn btn-danger m-1">
+                                                <i class='bi bi-slash-circle'></i>
+                                            </a>
+                                         </div>
                                     </td>
+                                    
                                 </tr>
                                 {{/each}}
                             </tbody>
@@ -296,7 +299,7 @@
         return res.json();
     }
 
-    const deleteProduct = async (id) => {
+    const deleteUser = async (id) => {
         const url = `/user/cpanel/${id}/delete`;
 
         const option = {
@@ -321,6 +324,46 @@
         }
     }
 
+    const banUser = async (id) => {
+        const url = `/user/cpanel/${id}/ban`;
+
+        const option = {
+            method: 'get',
+            headers: { 'Content-Type': 'application/json' }
+        }
+        try {
+            const result = await fetchAPI(url, option);
+            console.log('ban result: ', result)
+
+            if (result.status) {
+                window.location.reload();
+            } else {
+                swal('Ban fail!', {
+                    icon: 'error',
+                });
+            }
+
+        } catch (e) {
+            console.log('error ban: ', e)
+            throw e;
+        }
+    }
+
+    const confirmBan= (id) => {
+        swal({
+            title: "Ban confirm?",
+            text: "You will ban this account?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    banUser(id);
+                }
+            });
+    }
+
     const confirmDelete = (id) => {
         swal({
             title: "Xác nhận xóa?",
@@ -331,7 +374,7 @@
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    deleteProduct(id);
+                    deleteUser(id);
                 }
             });
     }

@@ -16,6 +16,9 @@
     </form>
   </div><!-- End Search Bar -->
 
+
+
+
   <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
 
@@ -86,13 +89,13 @@
   <ul class="sidebar-nav" id="sidebar-nav">
 
     <li class="nav-item">
-      <a class="nav-link "href="/home-page/cpanel/home">
+      <a class="nav-link " href="/home-page/cpanel/home">
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
       </a>
     </li><!-- End Dashboard Nav -->
 
-   <li class="nav-item">
+    <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
         <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
@@ -232,7 +235,8 @@
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <li><a onclick="showGenre(this)" class="dropdown-item" href="/tour/cpanel/tour-table">Mặc định</a></li>
                 <li><a onclick="showGenre(this)" class="dropdown-item" href="#">Đánh giá nhiều nhất</a></li>
-                <li><a onclick="showGenre(this)" class="dropdown-item" href="/tour/cpanel/tour-table/rating">Được yêu thích</a></li>
+                <li><a onclick="showGenre(this)" class="dropdown-item" href="/tour/cpanel/tour-table/rating">Được yêu
+                    thích</a></li>
                 <li><a onclick="showGenre(this)" class="dropdown-item" href="">Khu vực: Đà Lạt</a></li>
                 <li><a onclick="showGenre(this)" class="dropdown-item" href="">Khu vực: Vũng Tàu</a></li>
               </ul>
@@ -278,7 +282,7 @@
                       <a href="/tour/cpanel/{{this._id}}/edit-tour" class="btn btn-primary m-1">
                         <i class='bx bx-edit'></i>
                       </a>
-                      <a onclick="confirmDelete('{{this._id}}')" type="button"  class="btn btn-danger m-1">
+                      <a onclick="confirmDelete('{{this._id}}')" type="button" class="btn btn-danger m-1">
                         <i class='bx bx-trash'></i>
                       </a>
                     </div>
@@ -363,10 +367,8 @@
       });
   }
 
-function showGenre(item) {
-  document.getElementById("dropdownMenuLink").innerHTML = item.innerHTML;
-}
+  function showGenre(item) {
+    document.getElementById("dropdownMenuLink").innerHTML = item.innerHTML;
+  }
 
 </script>
-
-

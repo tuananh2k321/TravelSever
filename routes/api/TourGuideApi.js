@@ -62,4 +62,15 @@ router.get("/get-all-tourGuide", async (req, res) => {
     }
 });
 
+
+router.get("/get-all-tourGuide/search/keyword", async (req, res, next) => {
+    try {
+        const { keyword } = req.query;
+        const tourGuide = await tourGuideController.getTourGuideSearchName(keyword);
+        return res.status(200).json({ result: true, tourGuide: tourGuide, message: "Get All list tourGuide by name Successfully" });
+    } catch (error) {
+        return res.status(400).json({ result: false, tourGuide: [], message: "Get All list tourGuide by name Failed" });
+    }
+});
+
 module.exports = router;

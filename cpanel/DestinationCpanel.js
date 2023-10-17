@@ -15,8 +15,9 @@ const uploadImage = multer({ storage: multerStorage });
 
 //http://localhost:3000/destination/cpanel/get-destination
 router.get("/get-destination", [authen.checkTokenCpanel], async (req, res, next) => {
+    const user = req.session.user;
     const destinations = await destinationController.getAllDestination();
-    res.render('destination/destinationTable', { destinations });
+    res.render('destination/destinationTable', { destinations, user });
 })
 
 router.get('/:id/delete', [authen.checkTokenCpanel], async (req, res, next) => {
@@ -31,7 +32,8 @@ router.get('/:id/delete', [authen.checkTokenCpanel], async (req, res, next) => {
 
 //http://localhost:3000/destination/cpanel/insert-destination
 router.get('/insert-destination', [authen.checkTokenCpanel], async (req, res, next) => {
-    res.render('destination/insertdestination',);
+    const user = req.session.user;
+    res.render('destination/insertdestination', {user});
 });
 
 router.post('/insert-destination', [uploadImage.array('mainImage', 10)], async (req, res, next) => {
@@ -74,8 +76,9 @@ router.get("/:id/edit-destination", [authen.checkTokenCpanel], async (req, res, 
     try {
         const { id } = req.params;
         const destination = await destinationController.getDesById(id);
+        const user = req.session.user;
         console.log(destination);
-        res.render('destination/editdestination', { destination });
+        res.render('destination/editdestination', { destination, user });
     } catch (error) {
         console.log('edit new  error:', error);
         next(error);

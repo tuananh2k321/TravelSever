@@ -20,19 +20,22 @@ router.post('/login', async (req, res, next) => {
         console.log(email, password)
         const user = await userController.findUserByEmail(email);
         console.log(user)
-        if (user.isBan == false) {
-            const userLogin = await userController.login(email, password);
-            if (userLogin) {
-                const token = jwt.sign({ user }, 'secret', { expiresIn: '1h' })
-                return res.status(200).json({ result: true, user: user, token: token, message: "Login Success" });
+        if (user.isVerify) {
+            if (user.isBan == false) {
+                const userLogin = await userController.login(email, password);
+                if (userLogin) {
+                    const token = jwt.sign({ user }, 'secret', { expiresIn: '1h' })
+                    return res.status(200).json({ result: true, user: user, token: token, message: "Login Success" });
+                } else {
+                    return res.status(200).json({ result: false, user: null, token: null, message: "Sai tài khoản hoặc mật khẩu" });
+                }
             } else {
-                return res.status(200).json({ result: false, user: null, token: null, message: "Incorrect Email or Password" });
+                return res.status(200).json({ result: false, user: null, token: null, message: "Tài khoản của bạn đã bị cấm" });
             }
-            
-
         } else {
-            return res.status(400).json({ result: false, user: null, token: null, message: "Your Account is banned" });
+            return res.status(200).json({ result: false, user: null, token: null, message: "Email chưa được xác minh" });
         }
+        
     } catch (error) {
         console.log(error);
         // next(error); for web
@@ -53,19 +56,7 @@ router.post('/register',  async (req, res, next) => {
         if (user) {
             return res.status(200).json({ result: true, user: user, message: "Register Success" });
         }
-        return res.status(400).json({ result: false, user: null, message: "Email is exits" });
-
-
-        // let result =await textflow.verifyCode(phoneNumber, code)
-        // if (!result.valid) {
-        //     return res.status(400).json({ result: false, user: null, message: "Register Failed" });
-        // }else{
-        //     const user = await userController.register(phoneNumber, password, name);
-        //     if (user) {
-        //         return res.status(200).json({ result: true, user: user, message: "Register Success" });
-        //     }
-        //     return res.status(400).json({ result: false, user: null, message: "Register Failed" });
-        // }
+        return res.status(200).json({ result: false, user: null, message: "Email is exits" });
 
     } catch (error) {
         return res.status(500).json({ result: false, user: null })
@@ -223,9 +214,9 @@ router.get('/listAdmin', async (req, res, next) => {
 })
 
 
-//http://localhost:3000/user/api/send-mail
-router.post('/send-mail', async (req, res, next) => {
-    const email = req.body.email
+//http://localhost:3000/user/api/send-mail/email=?''
+router.get('/send-mail', async (req, res, next) => {
+    const email = req.query.email
     //const isUser = await userController.findUserByEmail(email)
     if (email) {
         const transporter = nodemailer.createTransport({
@@ -237,7 +228,7 @@ router.post('/send-mail', async (req, res, next) => {
         });
 
         // URL của API xác thực
-        const authenticationUrl = 'https://example.com/authenticate';
+        const authenticationUrl = 'http://localhost:3000/user/api/verifyAccount?email='+email;
 
         // Tạo một đường link trong email với href trỏ đến API xác thực
         const emailHtml = `
@@ -270,8 +261,8 @@ router.post('/send-mail', async (req, res, next) => {
 router.delete('/delete',async (req,res,next)=>{
     try{
 
-        const {phoneNumber} = req.query;
-        const user = await userController.deleteByPhoneNumber(phoneNumber);
+        const {email} = req.query;
+        const user = await userController.deleteByEmail(email);
         if(user){
             res.status(200).json({result:true,message:"Delete Success"})
         }else{

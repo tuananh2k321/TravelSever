@@ -62,7 +62,7 @@ router.get('/search/name',async function(req,res,next)  {
     }
   });
 
-  // http://localhost:3000/api/tourApi/tourRating
+  // http://localhost:3000/tour/api/tourRating
 router.get('/tourRating',async function(req,res,next)  {
     try {
         const tours = await tourController.getTourRating();

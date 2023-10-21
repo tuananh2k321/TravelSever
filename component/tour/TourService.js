@@ -16,7 +16,7 @@ const getTourById = async (id) => {
         let tour = await tourModel.findById(id);
         return tour;
     } catch (error) {
-        console.log("getTourById error" + error);
+        console.log("getTourById " + error);
         return false;
     }
 }

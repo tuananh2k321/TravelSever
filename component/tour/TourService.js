@@ -40,6 +40,21 @@ const addNewTour = async (tourName, adultPrice, childrenPrice,childrenAge,adultA
     return false;
 }
 
+const updateDomain = async (id, isdomain) => {
+    try {
+        let tour = await tourModel.findById(id);
+        if (tour) {
+            tour.isdomain = isdomain ? isdomain : tour.isdomain;
+            await tour.save();
+            return true;
+        }
+    } catch (e) {
+        console.log("Update tour error :",error);
+        return false;
+    }
+}
+
+
 const updateTour = async (id,tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
     operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id) => {
     try {
@@ -112,5 +127,6 @@ module.exports = {
     deleteTour,
     getTourById,
     getTourSearhName,
-    getTourRating
+    getTourRating,
+    updateDomain
 };

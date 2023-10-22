@@ -71,6 +71,23 @@ router.get('/tourRating',async function(req,res,next)  {
         res.status(400).json({result:false,error});
     }
   });
+
+//http://localhost:3000/tour/api/updateDomain
+router.post('/updateDomain', async (req, res) => {
+    try {
+        const id = req.body.id;
+        const isdomain = req.body.isdomain;
+        const result = tourController.updateDomain(id, isdomain)
+        if (result) {
+            return res.status(200).json({ result: true, message: "Update Success" });
+        } else {
+            return res.status(400).json({ result: false,  message: "fail" });
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ result: false});
+    }
+})
  
 
 module.exports = router;

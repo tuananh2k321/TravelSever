@@ -22,6 +22,10 @@ const updateTour = async (id,tourName, adultPrice, childrenPrice,childrenAge,adu
             operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
     }
 
+const updateDomain = async (id, isdomain) => {
+        return await tourService.updateDomain(id, isdomain);
+}
+
 const deleteTour = async (id) => {
     return await tourService.deleteTour(id);
 }
@@ -42,5 +46,6 @@ module.exports = {
     deleteTour,
     getTourById,
     getTourSearchName,
-    getTourRating
+    getTourRating,
+    updateDomain
 };

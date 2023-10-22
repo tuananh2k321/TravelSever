@@ -29,6 +29,9 @@ const deleteTour = async (id) => {
 const getTourSearchName = async (keyword) => {
     return await tourService.getTourSearhName(keyword);
 }
+const getTourSearhDomain = async (keyword) => {
+    return await tourService.getTourSearhDomain(keyword);
+}
 
 const getTourRating = async () => {
     return await tourService.getTourRating();
@@ -42,5 +45,6 @@ module.exports = {
     deleteTour,
     getTourById,
     getTourSearchName,
-    getTourRating
+    getTourRating,
+    getTourSearhDomain
 };

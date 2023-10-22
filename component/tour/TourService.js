@@ -93,11 +93,21 @@ const getTourSearhName = async (keyword) => {
     return false;
    }
 }
+const getTourSearhDomain = async (keyword) => {
+    try {
+        const query = {isdomain:{$regex:new RegExp(keyword,'i')}};
+     // query =  {isdomain:{$regex:new RegExp(keyword,'i')}};
+     let filteredTours = await tourModel.find(query);
+     return filteredTours;
+    } catch (error) {
+     console.error('search failed:', error);
+     return false;
+    }
+ }
 
 const getTourRating = async () => {
     try {
         return await tourModel.find().sort({rating:-1}); //{ rating: { $exists: true, $ne: null } }
-         // Sắp xếp theo rating giảm dần
     } catch (error) {
         console.log("getTourRating failed: ", error);
     }
@@ -112,5 +122,6 @@ module.exports = {
     deleteTour,
     getTourById,
     getTourSearhName,
-    getTourRating
+    getTourRating,
+    getTourSearhDomain
 };

@@ -88,11 +88,11 @@ router.post('/insert-tour',[uploadImage.array('tourImage',10)],async (req,res,ne
           }
 
         let {tourName, adultPrice, childrenPrice,childrenAge,adultAge,departmentPlace,departmentDate, limitedDay,
-            operatingDay,limitedPerson,offer, vehicle,description,rating,isState,hotel_id,tourGuide_id,destination_id} =body;
+            operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id} =body;
             console.log(tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
-                operatingDay,limitedPerson,offer, vehicle,description,rating,isState,hotel_id,tourGuide_id,destination_id);
+                operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
         await tourController.addNewTour(tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
-            operatingDay,limitedPerson,offer, vehicle,description,rating,isState,hotel_id,tourGuide_id,destination_id);
+            operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
         return res.render('tour/insertTour');
     } catch (error) {
         console.log('Add new  error:',error);
@@ -179,12 +179,12 @@ router.post('/:id/edit-tour',[uploadImage.array('tourImage',10)],async (req,res,
             tourImage = await Promise.all(uploadedImagePromises);
           }
           let {tourName, adultPrice, childrenPrice,childrenAge,adultAge,departmentPlace,departmentDate, limitedDay,
-            operatingDay,limitedPerson,offer, vehicle,description,rating,isState,hotel_id,tourGuide_id,destination_id} =body;
+            operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id} =body;
             console.log(tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
-                operatingDay,limitedPerson,offer, vehicle,description,rating,isState,hotel_id,tourGuide_id,destination_id);
+                operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
 
         await tourController.updateTour(id,tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
-            operatingDay,limitedPerson,offer, vehicle,description,rating,isState,hotel_id,tourGuide_id,destination_id);
+            operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
         return res.redirect('/tour/cpanel/tour-table');
     } catch (error) {
         console.log('update  error:',error);

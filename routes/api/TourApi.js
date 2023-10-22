@@ -66,10 +66,9 @@ router.get('/search/name',async function(req,res,next)  {
 router.get('/tourRating',async function(req,res,next)  {
     try {
         const tours = await tourController.getTourRating();
-        return res.status(200).json({tours});
+        res.status(200).json({result : true , tours});
     } catch (error) {
-        console.log("search: ", error)
-        return res.status(400).json({});
+        res.status(400).json({result:false,error});
     }
   });
  

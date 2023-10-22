@@ -11,15 +11,15 @@ const getTourById = async (id) => {
 }
 
 const addNewTour = async (tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
-    operatingDay,limitedPerson,offer, vehicle,description,rating,isState,hotel_id,tourGuide_id,destination_id) => {
+    operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id) => {
         return await tourService.addNewTour(tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
-            operatingDay,limitedPerson,offer, vehicle,description,rating,isState,hotel_id,tourGuide_id,destination_id);
+            operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
 }
 
 const updateTour = async (id,tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
-    operatingDay,limitedPerson,offer, vehicle,description,rating,isState,hotel_id,tourGuide_id,destination_id) => {
+    operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id) => {
         return await tourService.updateTour(id,tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
-            operatingDay,limitedPerson,offer, vehicle,description,rating,isState,hotel_id,tourGuide_id,destination_id);
+            operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
     }
 
 const deleteTour = async (id) => {

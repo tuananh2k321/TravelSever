@@ -61,9 +61,21 @@ router.get('/search/name',async function(req,res,next)  {
         return res.status(400).json({});
     }
   });
+  // http://localhost:3000/tour/api/listDomain/isdomain?keyword=abc
+router.get('/listDomain/isdomain',async function(req,res,next)  {
+    try {
+      //  const keyword = 'Mien Bac';
+        const {keyword} = req.query;
+        const tours = await tourController.getTourSearhDomain(keyword);
+        return res.status(200).json({tours});
+    } catch (error) {
+        console.log("search: ", error)
+        return res.status(400).json({});
+    }
+  });
 
-  // http://localhost:3000/tour/api/tourRating
-router.get('/tourRating',async function(req,res,next)  {
+  // http://localhost:3000/tour/api/list/tourRating
+router.get('/list/tourRating',async function(req,res,next)  {
     try {
         const tours = await tourController.getTourRating();
         res.status(200).json({result : true , tours});

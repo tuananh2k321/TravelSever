@@ -67,7 +67,7 @@ router.get('/listDomain/isdomain',async function(req,res,next)  {
       //  const keyword = 'Mien Bac';
         const {keyword} = req.query;
         const tours = await tourController.getTourSearhDomain(keyword);
-        return res.status(200).json({tours});
+        return res.status(200).json({result : true ,tours});
     } catch (error) {
         console.log("search: ", error)
         return res.status(400).json({});

@@ -4,7 +4,11 @@ const ObjectId = Schema.ObjectId;
 
 const myBookingSchema = new Schema({
   id: { type: ObjectId },
-  timestamp: { type: String, required: true},
+  name: { type: String, required: true},
+  children: { type: Number, required: true},
+  adult: { type: Number, required: true},
+  totalPrice: { type: Number},
+  bookingDate: { type: Date, default: Date.now },
   user_id: { type: ObjectId, ref: "user" },
   tour_id: { type: ObjectId, ref: "tour" },
 });

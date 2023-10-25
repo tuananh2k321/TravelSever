@@ -9,9 +9,9 @@ const getListCart = async () => {
   return [];
 };
 
-const addCart = async (name, user_id) => {
+const addCart = async (name, number, cvv) => {
   try {
-    const newCart = { name, user_id };
+    const newCart = { name, number, cvv };
     await cartModel.create(newCart);
     return true;
   } catch (error) {

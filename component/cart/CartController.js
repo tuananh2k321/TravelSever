@@ -8,9 +8,9 @@ const getListCart = async () => {
   }
 };
 
-const addCart = async (name, user_id) => {
+const addCart = async (name, number, cvv) => {
   try {
-    return await cartService.addCart(name, user_id);
+    return await cartService.addCart(name, number, cvv);
   } catch (error) {
     return false;
   }

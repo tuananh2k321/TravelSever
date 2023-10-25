@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 const tourController = require('../../component/tour/TourController');
+const hotelController = require('../../component/hotel/HotelController');
+const tourGuideController = require('../../component/tourGuide/TourGuideController');
+const destinationController = require('../../component/destination/DestinationController')
 const tourModel = require('../../component/tour/TourModel');
 
 
@@ -39,13 +42,27 @@ router.post('/:id/delete', async function(req,res,next){
         return res.status(400).json({ result: false, message: "Delete tour Success" });
     }
 });
-// http://localhost:3000/api/tourApi/:id
+// http://localhost:3000/tour/api/:id/detail
 // get tour theo id
-router.get('/:id',async function(req,res,next)  {
+router.get('/:id/detail',async function(req,res,next)  {
   try {
       const {id} = req.params;
       const tour = await tourController.getTourById(id);
-  res.status(200).json({result:true,tour});
+      // get hotelName
+      const idToQuery = tour.hotel_id;
+      const datahotel = await hotelController.getHotelById(idToQuery);
+
+      //get tourGuideName
+      const idTourGuide = tour.tourGuide_id;
+      console.log(">>>>>>>>>>>>>>>>" , idTourGuide);
+      const dataTourGuide = await tourGuideController.getTourGuide(idTourGuide);
+
+      // get destinatioonName
+      const idToQuery1 = tour.destination_id;
+      console.log(">>>>>>>>>>>>>>>>" , idToQuery1);
+      const dataDestination = await destinationController.getDesById(idToQuery1);
+      console.log(">>>>>>>>>>>>>>>>" , dataDestination);
+  res.status(200).json({result:true,tour,datahotel,dataDestination,dataTourGuide});
   } catch (error) {
       res.status(400).json({result: false,error});
   }

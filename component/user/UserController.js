@@ -15,9 +15,9 @@ const register = async ( name, address, avatar, phoneNumber, email, gender, dob,
         return false;
     }
 }
-const deleteByPhoneNumber = async (phoneNumber) => {
+const deleteByEmail = async (email) => {
     try {
-        return await UserService.deleteByPhoneNumber(phoneNumber);
+        return await UserService.deleteByEmail(email);
 
     } catch (error) {
         return false;
@@ -132,7 +132,7 @@ const findUserByEmail = async (email) => {
 }
 
 module.exports = {
-    login, register, deleteByPhoneNumber,
+    login, register, deleteByEmail,
     updateUser, getAllUser, updatePassword, findUserByEmail, verifyAccount,
     getAllAdmin, deleteById, searchUsers, searchAdmins, changePassword,
     updateIsBan, updateRole, banUserById

@@ -32,16 +32,16 @@ const register = async (phoneNumber, password, name, lastName, email, address, g
             const newUser = { phoneNumber, password: hash, lastName, name, email, address, gender, dob, avatar, role, createAt };
             const u = new UserModel(newUser);
             await u.save();
-            return true;
+            return u;
         }
     } catch (error) {
         console.log("Register error" + error)
         return false;
     }
 }
-const deleteByPhoneNumber = async (phoneNumber) => {
+const deleteByEmail = async (email) => {
     try {
-        const user = await UserModel.findOne({ phoneNumber: phoneNumber })
+        const user = await UserModel.findOne({ email: email })
         console.log(user)
         if (user) {
             await UserModel.deleteOne(user)
@@ -49,7 +49,6 @@ const deleteByPhoneNumber = async (phoneNumber) => {
         } else {
             return false; 
         }
-        return true;
     } catch (error) {
         console.log("Delete User  error" + error);
         return false;
@@ -298,7 +297,7 @@ const getAllAdmin = async (page, size) => {
 }
 
 module.exports = {
-    login, register, deleteByPhoneNumber,
+    login, register, deleteByEmail,
     updateUser, getAllUser, updatePassword,
     findUserByEmail, verifyAccount, getAllAdmin, deleteById, searchUsers,
     searchAdmins, changePassword, updateIsBan, banUserById, updateRole

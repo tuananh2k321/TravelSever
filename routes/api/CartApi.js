@@ -16,7 +16,8 @@ router.post("/addCart", async (req, res) => {
 
 router.get("/getListCart", async (req, res, next) => {
   try {
-    const cart = await cartController.getListCart();
+    const {userID} = req.query;
+    const cart = await cartController.getListCart(userID);
     console.log(cart);
     res
       .status(200)

@@ -7,6 +7,7 @@ const card = new Schema({
   name: { type: String, required: true },
   number: { type: Number, required: true },
   cvv: { type: Number, required: true },
+  user_id: { type: ObjectId, ref: "user" },
 });
 
 module.exports = mongoose.models.card || mongoose.model("card", card);

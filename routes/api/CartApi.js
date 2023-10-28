@@ -4,8 +4,8 @@ const cartController = require("../../component/cart/CartController");
 
 router.post("/addCart", async (req, res) => {
   try {
-    const { name, number, cvv } = req.body;
-    await cartController.addCart(name, number, cvv);
+    const { name, number, cvv, user_id } = req.body;
+    await cartController.addCart(name, number, cvv, user_id);
     res.status(200).json({ result: true, message: "Add cart Success" });
   } catch (error) {
     return res

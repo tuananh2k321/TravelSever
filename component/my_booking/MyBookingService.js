@@ -9,12 +9,15 @@ const getListBooking = async () => {
   return [];
 };
 
-const addMyBooking = async (timestamp, user_id, tour_id) => {
+const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id) => {
   try {
     const newBooking = {
-      timestamp,
-      user_id,
-      tour_id,
+      name, 
+      children, 
+      adult, 
+      totalPrice, 
+      user_id, 
+      tour_id
     };
     return await mybookingModel.create(newBooking);
     

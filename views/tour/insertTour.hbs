@@ -4,7 +4,7 @@
   <div class="d-flex align-items-center justify-content-between">
     <a href="/home-page/cpanel/home" class="logo d-flex align-items-center">
       <img src="/assets/img/logo.png" alt="">
-      <span class="d-none d-lg-block">NiceAdmin</span>
+      <span class="d-none d-lg-block">Discover</span>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
   </div><!-- End Logo -->
@@ -103,6 +103,11 @@
           </a>
         </li>
         <li>
+          <a href="../../tourguide/cpanel/insert-form">
+            <i class="bi bi-circle"></i><span>Insert TourGuide</span>
+          </a>
+        </li>
+        <li>
           <a href="/tour/cpanel/insert-tour">
             <i class="bi bi-circle"></i><span>Insert Tour</span>
           </a>
@@ -137,7 +142,7 @@
           </li>
           <li>
           <a href="../../tourguide/cpanel/tour-guide">
-            <i class="bi bi-circle"></i><span>Tour Guide Table</span>
+            <i class="bi bi-circle"></i><span>Tour Guide </span>
           </a>
         </li>
           <li>
@@ -169,13 +174,13 @@
     <li class="nav-heading">Pages</li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="../../tour/cpanel/profile">
+      <a class="nav-link collapsed" href="/home-page/cpanel/profile">
         <i class="bi bi-person"></i>
         <span>Profile</span>
       </a>
     </li><!-- End Profile Page Nav -->
 
-    <li class="nav-item">
+    {{!-- <li class="nav-item">
       <a class="nav-link collapsed" href="../../user/cpanel/register">
         <i class="bi bi-card-list"></i>
         <span>Register</span>
@@ -194,7 +199,7 @@
         <i class="bi bi-dash-circle"></i>
         <span>Error 404</span>
       </a>
-    </li><!-- End Error 404 Page Nav -->
+    </li><!-- End Error 404 Page Nav --> --}}
   </ul>
 
 </aside><!-- End Sidebar-->
@@ -202,14 +207,13 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Form Elements</h1>
-    <nav>
+    <h1>Insert Tour</h1>
+    {{!-- <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item">Forms</li>
-        <li class="breadcrumb-item active">Elements</li>
+        <li class="breadcrumb-item active">Insert Tour</li>
       </ol>
-    </nav>
+    </nav> --}}
   </div><!-- End Page Title -->
 
   <section class="section">
@@ -218,8 +222,6 @@
 
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">General Form Elements</h5>
-
             <!-- General Form Elements -->
             <form method="post" enctype="multipart/form-data" action="/tour/cpanel/insert-tour">
               <div class="row mb-3">
@@ -270,6 +272,12 @@
                 <label for="inputText" class="col-sm-2 col-form-label">Ratings</label>
                 <div class="col-sm-10">
                   <input type="text" name="rating" class="form-control">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputText" class="col-sm-2 col-form-label">isdomain</label>
+                <div class="col-sm-10">
+                  <input type="text" name="isdomain" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
@@ -502,19 +510,7 @@
 
 </main><!-- End #main -->
 
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-  <div class="copyright">
-    &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-  </div>
-  <div class="credits">
-    <!-- All the links in the footer should remain intact. -->
-    <!-- You can delete the links only if you purchased the pro version. -->
-    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-  </div>
-</footer><!-- End Footer -->
+
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
     class="bi bi-arrow-up-short"></i></a>

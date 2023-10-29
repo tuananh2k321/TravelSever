@@ -11,16 +11,20 @@ const getTourById = async (id) => {
 }
 
 const addNewTour = async (tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
-    operatingDay,limitedPerson,offer, vehicle,description,rating,isState,hotel_id,tourGuide_id,destination_id) => {
+    operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id) => {
         return await tourService.addNewTour(tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
-            operatingDay,limitedPerson,offer, vehicle,description,rating,isState,hotel_id,tourGuide_id,destination_id);
+            operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
 }
 
 const updateTour = async (id,tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
-    operatingDay,limitedPerson,offer, vehicle,description,rating,isState,hotel_id,tourGuide_id,destination_id) => {
+    operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id) => {
         return await tourService.updateTour(id,tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
-            operatingDay,limitedPerson,offer, vehicle,description,rating,isState,hotel_id,tourGuide_id,destination_id);
+            operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
     }
+
+const updateDomain = async (id, isdomain) => {
+        return await tourService.updateDomain(id, isdomain);
+}
 
 const deleteTour = async (id) => {
     return await tourService.deleteTour(id);
@@ -28,6 +32,9 @@ const deleteTour = async (id) => {
 
 const getTourSearchName = async (keyword) => {
     return await tourService.getTourSearhName(keyword);
+}
+const getTourSearhDomain = async (keyword) => {
+    return await tourService.getTourSearhDomain(keyword);
 }
 
 const getTourRating = async () => {
@@ -42,5 +49,7 @@ module.exports = {
     deleteTour,
     getTourById,
     getTourSearchName,
-    getTourRating
+    getTourRating,
+    updateDomain,
+    getTourSearhDomain
 };

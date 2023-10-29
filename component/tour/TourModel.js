@@ -19,6 +19,7 @@ const tourSchema = new Schema({
   vehicle: { type: String },
   description: { type: String},
   rating: { type: String },
+  isdomain: { type: String },
   isState:{type: Boolean},
   hotel_id: { type: ObjectId, ref: "hotel" },
   tourGuide_id: { type: ObjectId, ref: "tourguide" },

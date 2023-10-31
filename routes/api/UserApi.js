@@ -5,7 +5,7 @@ const userController = require('../../component/user/UserController')
 const nodemailer = require('nodemailer');
 
 const accountSid = "AC8e6d6d91ef6f9d54fbefa4e641512eeb";
-const authToken = "38ea6a051552126006de1eb07b582284";
+const authToken = "c88318ce2934d4fa7d19d7b0e5538bff";
 
 const verifySid = "VAa426a315b4b5f6b338bfc2fb20065568";
 const client = require("twilio")(accountSid, authToken);
@@ -20,21 +20,26 @@ router.post('/login', async (req, res, next) => {
         console.log(email, password)
         const user = await userController.findUserByEmail(email);
         console.log(user)
-        if (user.isVerify) {
-            if (user.isBan == false) {
-                const userLogin = await userController.login(email, password);
-                if (userLogin) {
-                    const token = jwt.sign({ user }, 'secret', { expiresIn: '1h' })
-                    return res.status(200).json({ result: true, user: user, token: token, message: "Login Success" });
+        if (user) {
+            if (user.isVerify) {
+                if (user.isBan == false) {
+                    const userLogin = await userController.login(email, password);
+                    if (userLogin) {
+                        const token = jwt.sign({ user }, 'secret', { expiresIn: '1h' })
+                        return res.status(200).json({ result: true, user: user, token: token, message: "Login Success" });
+                    } else {
+                        return res.status(200).json({ result: false, user: null, token: null, message: "Sai tài khoản hoặc mật khẩu" });
+                    }
                 } else {
-                    return res.status(200).json({ result: false, user: null, token: null, message: "Sai tài khoản hoặc mật khẩu" });
+                    return res.status(200).json({ result: false, user: null, token: null, message: "Tài khoản của bạn đã bị cấm" });
                 }
             } else {
-                return res.status(200).json({ result: false, user: null, token: null, message: "Tài khoản của bạn đã bị cấm" });
+                return res.status(200).json({ result: false, user: null, token: null, message: "Email chưa được xác minh" });
             }
         } else {
-            return res.status(200).json({ result: false, user: null, token: null, message: "Email chưa được xác minh" });
+            return res.status(200).json({ result: false, user: null, token: null, message: "Tài khoản không tồn tại" });
         }
+        
         
     } catch (error) {
         console.log(error);
@@ -71,34 +76,34 @@ router.post('/otp', async (req, res) => {
     // Gửi mã OTP đến số điện thoại
     await client.verify.v2
       .services(verifySid)
-      .verifications.create({ to: phoneNumber, channel: "sms" })
+      .verifications.create({ to: '+84'+phoneNumber, channel: "sms" })
       .then((verification) => {
-        res.json({ message: "OTP sent successfully" });
+        res.json({result: true, phoneNumber: phoneNumber, message: "OTP sent successfully" });
       })
       .catch((error) => {
-        res.status(500).json({ error: error.message });
+        res.status(200).json({result: false, error: error.message, message: "Đã xảy ra lỗi!" });
       });
 });
   
-//http://localhost:3000/user/api/otp/verify
+//http://localhost:3000/user/api/otp/verify?phoneNumber=
 // Xử lý request POST để kiểm tra mã OTP
 router.post("/otp/verify", async (req, res) => {
-    const phoneNumber = req.body.phoneNumber;
+    const phoneNumber = req.query.phoneNumber;
     const otpCode = req.body.otpCode;
 
     // Kiểm tra mã OTP
     await client.verify.v2
         .services(verifySid)
-        .verificationChecks.create({ to: phoneNumber, code: otpCode })
+        .verificationChecks.create({ to: '+84'+phoneNumber, code: otpCode })
         .then((verificationCheck) => {
         if (verificationCheck.status === "approved") {
-            res.json({ message: "OTP verification successful" });
+            res.status(200).json({ result: true, message: "OTP verification successful" });
         } else {
-            res.status(400).json({ error: "Invalid OTP" });
+            res.status(200).json({result: false, message: "OTP không đúng!" });
         }
         })
         .catch((error) => {
-        res.status(500).json({ error: error.message });
+        res.status(200).json({result: false, error: error.message,  message: "Đã xảy ra lỗi!" });
         });
 });
 
@@ -156,16 +161,16 @@ router.post('/updateRole', async (req, res, next) => {
     }
 });
 
-//http://localhost:3000/user/api/updatePassword
-router.post('/updatePassword', async (req, res) => {
+//http://localhost:3000/user/api/updatePasswordByEmail
+router.post('/updatePasswordByEmail', async (req, res) => {
     try {
-        const email = req.query.email.toString();
-        const password = req.body.password.toString()
-        const user = await userController.updatePassword(password, email)
+        const email = req.body.email;
+        const password = req.body.password
+        const user = await userController.updatePasswordByEmail(password, email)
         if (user) {
-            return res.status(200).json({ result: true, user: user, message: "Update Success" });
+            return res.status(200).json({ result: true, user: user, message: "Thay đổi thành công" });
         } else {
-            return res.status(400).json({ result: false, user: null, message: "change password fail" });
+            return res.status(200).json({ result: false, user: null, message: "Thay đổi thất bại" });
         }
     } catch (error) {
         console.log(error);
@@ -179,7 +184,7 @@ router.get('/verifyAccount', async (req, res) => {
         const email = req.query.email.toString()
         const user = await userController.verifyAccount(email)
         if (user) {
-            return res.status(200).json({ result: true, user: user, message: "verify Success" });
+            res.render('user/success');
         } else {
             return res.status(400).json({ result: false, user: null, message: "verify fail" });
         }
@@ -240,6 +245,51 @@ router.get('/send-mail', async (req, res, next) => {
             from: 'haizzj123@gmail.com',
             to: email,
             subject: 'XÁC THỰC EMAIL',
+            html: emailHtml
+        };
+        
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                res.status(200).json({result:true,message:"send fail"})
+            } else {
+                res.status(200).json({result:true,message:"send success"})
+            }
+        });
+    } else {
+        res.status(400).json({result:false,message:"email is not exist!"})
+    }
+    
+})
+
+
+
+
+//http://localhost:3000/user/api/send-mail-change-password?email=''
+router.get('/send-mail-change-password', async (req, res, next) => {
+    const email = req.query.email
+    //const isUser = await userController.findUserByEmail(email)
+    if (email) {
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: 'haizzj123@gmail.com',
+                pass: 'xakpztqusyejqykx'
+            }
+        });
+
+        // URL của API xác thực
+        const authenticationUrl = 'http://localhost:3000/user/cpanel/changePassword';
+
+        // Tạo một đường link trong email với href trỏ đến API xác thực
+        const emailHtml = `
+            <p>Nhấn vào để vào trang đổi mật khẩu</p>
+            <a href="${authenticationUrl}">tại đây</a>
+        `;
+        
+        const mailOptions = {
+            from: 'haizzj123@gmail.com',
+            to: email,
+            subject: 'Thay Đổi Mật Khẩu',
             html: emailHtml
         };
         

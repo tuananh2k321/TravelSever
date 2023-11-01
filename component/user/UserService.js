@@ -149,9 +149,29 @@ const updateRole = async (email, role) => {
     }
 }
 
-const updatePassword = async (password, email) => {
+const updatePasswordByEmail = async (password, email) => {
     try {
         const user = await UserModel.findOne({ email: email })
+        const salt = bcrypt.genSaltSync(10);
+        if (user) {
+            const hash = bcrypt.hashSync(password, salt);
+            user.password = hash ? hash : user.password;
+            await user.save();
+            console.log("USER:" + user);
+            return user;
+        } else {
+            return false;
+        }
+        
+    } catch (error) {
+        console.log("Update User  error" + error)
+        return false;
+    }
+}
+
+const updatePasswordByPhone = async (password, phoneNumber) => {
+    try {
+        const user = await UserModel.findOne({ phoneNumber: phoneNumber })
         const salt = bcrypt.genSaltSync(10);
         if (user) {
             const hash = bcrypt.hashSync(password, salt);
@@ -298,7 +318,7 @@ const getAllAdmin = async (page, size) => {
 
 module.exports = {
     login, register, deleteByEmail,
-    updateUser, getAllUser, updatePassword,
+    updateUser, getAllUser, updatePasswordByEmail, updatePasswordByPhone,
     findUserByEmail, verifyAccount, getAllAdmin, deleteById, searchUsers,
     searchAdmins, changePassword, updateIsBan, banUserById, updateRole
 };

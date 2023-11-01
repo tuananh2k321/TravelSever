@@ -67,9 +67,17 @@ const updateRole = async (email, role) => {
     }
 }
 
-const updatePassword = async (password, email) => {
+const updatePasswordByEmail = async (password, email) => {
     try{
-        return await UserService.updatePassword(password, email);
+        return await UserService.updatePasswordByEmail(password, email);
+    } catch (error) {
+        return false
+    }
+}
+
+const updatePasswordByPhone = async (password, phoneNumber) => {
+    try{
+        return await UserService.updatePasswordByPhone(password, phoneNumber);
     } catch (error) {
         return false
     }
@@ -133,7 +141,7 @@ const findUserByEmail = async (email) => {
 
 module.exports = {
     login, register, deleteByEmail,
-    updateUser, getAllUser, updatePassword, findUserByEmail, verifyAccount,
+    updateUser, getAllUser, updatePasswordByEmail, updatePasswordByPhone, findUserByEmail, verifyAccount,
     getAllAdmin, deleteById, searchUsers, searchAdmins, changePassword,
     updateIsBan, updateRole, banUserById
 };

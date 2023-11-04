@@ -72,7 +72,7 @@ router.get('/search/name',async function(req,res,next)  {
     try {
         const {keyword} = req.query;
         const tours = await tourController.getTourSearchName(keyword);
-        return res.status(200).json({tours});
+        return res.status(200).json({result:true,tours});
     } catch (error) {
         console.log("search: ", error)
         return res.status(400).json({});

@@ -219,42 +219,51 @@
             <h5 class="card-title"></h5>
 
             <!-- General Form Elements -->
-            <form id="form" method="post" action="/destination/cpanel/insert-destination" enctype="multipart/form-data">
+            <form id="form" method="post" action="/destination/cpanel/insert-destination" >
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Destination Name</label>
                 <div class="col-sm-10">
-                  <input onchange="validate()" type="text" id="destinationName" name="destinationName" class="form-control">
+                  <input type="text" id="destinationName" name="destinationName" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Address</label>
                 <div class="col-sm-10">
-                  <input onchange="validate()" type="text" id="address" name="address" class="form-control">
+                  <input  type="text" id="address" name="address" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Area</label>
                 <div class="col-sm-10">
-                  <input onchange="validate()" type="text" id="area" name="area" class="form-control">
+                  <input type="text" id="area" name="area" class="form-control">
                 </div>
+              </div>
+              <div id="contentList">
+                <div class="content">
+                  {{!-- <div class="row mb-3">
+                  <label for="inputText" class="col-sm-2 col-form-label">Content</label>
+                  <div class="col-sm-10">
+                    <input type="text" id="description" name="description" class="form-control" required>
+                  </div>
+                </div> --}}
+                {{!-- <div class="row mb-3">
+                  <label for="inputNumber" class="col-sm-2 col-form-label">Image Upload</label>
+                  <div class="col-sm-10">
+                    <input  onchange="displayImg()" class="form-control" id="destinationImage" name="destinationImage" multiple="multiple"
+                      type="file" id="formFile" required >
+                    <img id="listmainImage" src="{{destination.destinationImage}}"
+                      style="width: 200px; height: 100px; margin-top: 10px; object-fit: fill;" alt="mainImage des" />
+                    <input type="hidden" id="imgUrl" name="destinationImage" required >
+                  </div>
+                </div> --}}
+              </div>
               </div>
               <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">Content</label>
+                <label class="col-sm-2 col-form-label">Submit Button</label>
                 <div class="col-sm-10">
-                  <input onchange="validate()" type="text" id="content" name="content" class="form-control">
+                  <button type="button" id="addNameButton">Thêm tên</button>
                 </div>
               </div>
-              <div class="row mb-3">
-                <label for="inputNumber" class="col-sm-2 col-form-label">Image Upload</label>
-                <div class="col-sm-10">
-                  <input oninput="validate()" onchange="displayImg()" class="form-control" id="mainImage" name="mainImage" multiple="multiple"
-                    type="file" id="formFile">
-                  <img id="listmainImage" src="{{destination.mainImage}}"
-                    style="width: 200px; height: 100px; margin-top: 10px; object-fit: fill;" alt="mainImage des" />
-                  <input type="hidden" id="imgUrl" name="mainImage" />
-                </div>
-              </div>
-              
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Submit Button</label>
                 <div class="col-sm-10">
@@ -299,7 +308,7 @@
     content: false,
     description: false,
     rating: false,
-    mainImage: false
+    destinationImage: false
   }
 
 
@@ -307,7 +316,7 @@
     destination.destinationName = document.getElementById('destinationName').value != '' && document.getElementById('destinationName').value.trim().length > 0;
     destination.address = document.getElementById('address').value != '' && document.getElementById('address').value.trim().length > 0;
     destination.content = document.getElementById('content').value != '' && document.getElementById('content').value.trim().length > 0;
-    destination.mainImage = document.getElementById('mainImage').value != '' && document.getElementById('mainImage').value.trim().length > 0;
+    destination.destinationImage = document.getElementById('destinationImage').value != '' && document.getElementById('destinationImage').value.trim().length > 0;
 
     if (hotel.destinationName && hotel.address && hotel.content && hotel.mainImage) {
       document.getElementById('submit').removeAttribute('disabled');
@@ -319,11 +328,11 @@
 
   // hiển thị hình ảnh khi chọn
   const displayImg = () => {
-    var file = document.getElementById('mainImage').files[0];
+    var file = document.getElementById('destinationImage').files[0];
     var reader = new FileReader();
     reader.onload = function (e) {
-      var mainImage = document.getElementById("listmainImage");
-      mainImage.src = e.target.result;
+      var destinationImage = document.getElementById("listmainImage");
+      destinationImage.src = e.target.result;
     }
     reader.readAsDataURL(file);
   }
@@ -343,7 +352,7 @@
 firebase.initializeApp(firebaseConfig);
   // xử lí khi chọn ảnh upload lên firebase
   const onChangeImage = () => {
-    const file = document.getElementById('mainImage').files[0];
+    const file = document.getElementById('destinationImage').files[0];
     const reader = new FileReader();
     reader.onload = e => {
       document.getElementById('listmainImage').src = e.target.result;
@@ -385,6 +394,41 @@ firebase.initializeApp(firebaseConfig);
       }
     );
   }
+</script>
+/// theem thẻ
+<script>
+  const addNameButton = document.getElementById('addNameButton');
+  const namesList = document.getElementById('contentList');
+
+  let nameCounter = 0; 
+
+  addNameButton.addEventListener('click', () => {
+    nameCounter++;
+
+    const newNameDiv = document.createElement('div');
+    newNameDiv.classList.add('content');
+
+    newNameDiv.innerHTML = `
+     <div class="row mb-3">
+                  <label for="inputText"  class="col-sm-2 col-form-label">Content</label>
+                  <div class="col-sm-10">
+                    <input onchange="validate()" type="text" id="description${nameCounter}" name="description${nameCounter}" required class="form-control">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="inputNumber" class="col-sm-2 col-form-label">Image Upload</label>
+                  <div class="col-sm-10">
+                    <input oninput="validate()" onchange="displayImg()" class="form-control" id="destinationImage${nameCounter}" name="destinationImage${nameCounter}" required multiple="multiple"
+                      type="file" id="formFile">
+                    <img id="listmainImage" src="{{destination.destinationImage}}"
+                      style="width: 200px; height: 100px; margin-top: 10px; object-fit: fill;" alt="mainImage des" />
+                    <input type="hidden" id="imgUrl" name="destinationImage" required/>
+                  </div>
+                </div>
+    `;
+
+    namesList.appendChild(newNameDiv);
+  });
 </script>
 
 

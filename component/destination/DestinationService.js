@@ -21,12 +21,13 @@ const getDataByArrayOfIds = async(ids) => {
     }
 }
 
-const addNewDestination = async (destinationName, content, mainImage, address,area) => {
+const addNewDestination = async (destinationName,contents,  address,area) => {
     try {
         const newDestination = {
             destinationName,
-            content,
-            mainImage,
+            content: {
+                data: contents,
+              },
             address,
             area
         }

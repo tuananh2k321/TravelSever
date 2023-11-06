@@ -18,9 +18,9 @@ const getDataByArrayOfIds = async (ids) => {
     }
 }
 
-const addNewDestination = async (destinationName, content, mainImage, address,area) => {
+const addNewDestination = async (destinationName, contents, address,area) => {
     try {
-        await destinationService.addNewDestination(destinationName, content, mainImage, address,area);
+        await destinationService.addNewDestination(destinationName,contents, address,area);
     } catch (error) {
         throw error;
     }

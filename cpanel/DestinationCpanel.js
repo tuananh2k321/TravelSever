@@ -36,35 +36,44 @@ router.get('/insert-destination', [authen.checkTokenCpanel], async (req, res, ne
     res.render('destination/insertdestination', {user});
 });
 
-router.post('/insert-destination', [uploadImage.array('mainImage', 10)], async (req, res, next) => {
+router.post('/insert-destination', async (req, res, next) => {
     try {
-        let { body, files } = req;
-        let mainImage = [];
+         let {files} = req;
+         const contents = [];
+         
+        for (let i = 1; i <= 10; i++) {
+            const destinationImage = req.body[`destinationImage${i}`];
+            const description = req.body[`description${i}`];
 
-
-        if (files && files.length > 0) {
-            const uploadedImagePromises = files.map(async (file) => {
-                const filename = `${Date.now()}-${file.originalname}`;
-                const fileRef = ref(storageRef, filename);
-
-                const metadata = {
-                    contentType: file.mimetype,
-                };
-
-                const snapshot = await uploadBytesResumable(fileRef, file.buffer, metadata);
-                const downloadURL = await getDownloadURL(snapshot.ref);
-
-                console.log(`File ${file.originalname} successfully uploaded to Firebase Storage.`);
-
-                return downloadURL;
-            });
-
-            mainImage = await Promise.all(uploadedImagePromises);
+            if (files && files.length > 0) {
+                const uploadedImagePromises = files.map(async (file) => {
+                    const filename = `${Date.now()}-${file.originalname}`;
+                    const fileRef = ref(storageRef, filename);
+    
+                    const metadata = {
+                        contentType: file.mimetype,
+                    };
+    
+                    const snapshot = await uploadBytesResumable(fileRef, file.buffer, metadata);
+                    const downloadURL = await getDownloadURL(snapshot.ref);
+    
+                    console.log(`File ${file.originalname} successfully uploaded to Firebase Storage.`);
+    
+                    return downloadURL;
+                });
+    
+                destinationImage = await Promise.all(uploadedImagePromises);
+            }
+            if (destinationImage && description ) {
+                contents.push({ destinationImage, description });
+            }
         }
+        console.log(">>>>>>>>>>>>",contents)
 
-        let { destinationName, content, address,area } = body;
-        console.log(destinationName, content, mainImage, address,area);
-        await destinationController.addNewDestination(destinationName, content, mainImage, address,area);
+       
+        let { destinationName, address,area } = req.body;
+        console.log(destinationName, contents, address,area);
+        await destinationController.addNewDestination(destinationName, contents, address,area);
         return res.render('destination/destinationTable');
     } catch (error) {
         console.log('Add new  error:', error);

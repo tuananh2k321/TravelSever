@@ -45,13 +45,15 @@ router.get('/:user_id/:tour_id/addFavorite', async (req, res, next) => {
     }
 });
 
+
+
 router.delete('/:id/deleteFavorite', async (req, res, next) => {
     try {
         const { id } = req.params;
         await favoriteController.deleteFavoritebyid(id);
         return res.status(200).json({ result: true, message: "Delete favorite Success" })
     } catch (error) {
-        return res.status(400).json({ result: true, message: "Dekete favorite fail" })
+        return res.status(400).json({ result: false, message: "Dekete favorite fail" })
     }
 })
 

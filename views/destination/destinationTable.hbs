@@ -227,6 +227,7 @@
                   <th scope="col">Destination Name</th>
                   {{!-- <th scope="col">Content</th> --}}
                   <th scope="col">Address</th>
+                  <th scope="col">Image</th>
                   <th scope="col">Action</th>
                 </tr>
               </thead>
@@ -238,6 +239,9 @@
                   <td>{{this.destinationName}}</td>
                   {{!-- <td>{{this.content}}</td> --}}
                   <td>{{this.address}}</td>
+                  <td>
+                    <img src="{{this.content.data.[0].destinationImage}}" width="200" height="100" style="object-fit: cover;" />
+                  </td>
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
 

@@ -18,6 +18,7 @@ var notificationAPIRouter = require("./routes/api/NotificationApi");
 var cartAPIRouter = require("./routes/api/CartApi");
 var bookingAPIRouter = require("./routes/api/BookingApi");
 var tourGuideAPIRouter = require("./routes/api/TourGuideApi")
+var commentAPIRouter = require("./routes/api/CommentApi")
 // CPANEL
 var tourCpanelRouter = require("./cpanel/TourCpanel");
 var userCpanelRouter = require("./cpanel/UserCpanel");
@@ -87,6 +88,9 @@ app.use("/favorite/api", favoriteAPIRouter);
 
 // http://localhost:3000/notification/api
 app.use("/notification/api", notificationAPIRouter);
+
+// http://localhost:3000/comment/api
+app.use("/comment/api", commentAPIRouter);
 
 // CPANEL
 // http://localhost:3000/tour/cpanel

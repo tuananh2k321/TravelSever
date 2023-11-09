@@ -4,10 +4,10 @@ const ObjectId = Schema.ObjectId;
 
 const userSchema = new Schema({
   id: { type: ObjectId },
-  name: { type: String, required: true },
-  phoneNumber: { type: String, required: true },
-  password: { type: String, required: true },
-  lastName: { type: String, required: true },
+  name: { type: String, default: "abc" },
+  phoneNumber: { type: String, default: "abc" },
+  password: { type: String, default: "abc" },
+  lastName: { type: String, default: "abc"},
   address: { type: String, default: "Ho Chi Minh City" },
   email: { type: String, required: true },
   gender: { type: Boolean, default: true }, //true female false male

@@ -80,7 +80,8 @@ router.post('/insert-destination', [uploadImage.array('destinationImage',10)], a
             let destinationImage = "";
             const description = contentData.description[i];
                 // Lưu hình ảnh lên Firebase Storage
-            
+              
+                    
             const filename = `${Date.now()}-${imageFile.originalname}`;
             const fileRef = ref(storageRef, filename);
             const metadata = {
@@ -107,10 +108,10 @@ router.post('/insert-destination', [uploadImage.array('destinationImage',10)], a
             // };
                
          //   contents.push(content);
+          
          
-                   
-         destinationImage = downloadURL;
-               
+        destinationImage = downloadURL
+        
         
             if (destinationImage && description ) {
                 contents.push({ destinationImage, description });
@@ -125,7 +126,7 @@ router.post('/insert-destination', [uploadImage.array('destinationImage',10)], a
             //     }
             //     });
             // }
-            await destinationController.addNewDestination(contentData.destinationName , contents , contentData.address , contentData.area);
+            await destinationController.addNewDestination(contentData.destinationName , contents );
             return res.render('destination/destinationTable');
     } catch (error) {
         console.log('Add new  error:', error);

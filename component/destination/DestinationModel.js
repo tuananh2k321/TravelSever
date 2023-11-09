@@ -11,8 +11,6 @@ const destinationSchema = new Schema({
       description: String,
     }],
   },
-  address: { type: String, required: true },
-  area: { type: String, required: true },
   createdAt: { type: Date, required: true, default: Date.now }
 });
 

@@ -4,10 +4,9 @@ const ObjectId = Schema.ObjectId;
 
 const favoriteSchema = new Schema({
   id: { type: ObjectId },
-  timestamp: { type: String, required: true},
+  timestamp: { type: String, required: true },
   user_id: { type: ObjectId, ref: "user" },
   tour_id: { type: ObjectId, ref: "tour" },
-  hotel_id: {type: ObjectId, ref: 'hotel'}
 });
 
 module.exports = mongoose.models.favorite || mongoose.model("favorite", favoriteSchema);

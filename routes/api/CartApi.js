@@ -4,8 +4,8 @@ const cartController = require("../../component/cart/CartController");
 
 router.post("/addCart", async (req, res) => {
   try {
-    const { name, user_id } = req.body;
-    await cartController.addCart(name, user_id);
+    const { name, number, cvv, user_id } = req.body;
+    await cartController.addCart(name, number, cvv, user_id);
     res.status(200).json({ result: true, message: "Add cart Success" });
   } catch (error) {
     return res
@@ -16,7 +16,8 @@ router.post("/addCart", async (req, res) => {
 
 router.get("/getListCart", async (req, res, next) => {
   try {
-    const cart = await cartController.getListCart();
+    const {userID} = req.query;
+    const cart = await cartController.getListCart(userID);
     console.log(cart);
     res
       .status(200)

@@ -55,6 +55,27 @@ const giveCurrentDateTime = () => {
 
 // USER
 
+// http://localhost:3000/user/cpanel/success
+router.get('/success', function(req, res) {
+    res.render('user/success');
+});
+
+// http://localhost:3000/user/cpanel/changePassword
+router.get('/changePassword', function(req, res) {
+    res.render('user/changePassword');
+});
+
+router.post('/changePassword', async function(req, res, next) {
+    const { email, password } = req.body;
+    const result = await userController.updatePasswordByEmail( password, email);
+  
+    if (result) {
+        return res.redirect('/user/cpanel/success');
+    } else {
+        return res.redirect('/user/cpanel/login');
+    }
+  });
+
 // http://localhost:3000/user/cpanel/login
 router.get('/login', function(req, res) {
     res.render('user/login');

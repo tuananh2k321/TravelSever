@@ -7,6 +7,15 @@ const login = async (email, password) => {
         return false;
     }
 }
+
+const loginFB = async (email, name) => {
+    try {
+        return await UserService.loginFB(email, name);
+    } catch (error) {
+        return false;
+    }
+}
+
 const register = async ( name, address, avatar, phoneNumber, email, gender, dob,  role,createAt) => {
     try {
         return await UserService.register( name, address, avatar, phoneNumber, email, gender, dob, role,createAt);
@@ -31,9 +40,9 @@ const deleteById = async (id) => {
         return false;
     }
 }
-const updateUser = async (email, phoneNumber, name, address, gender, dob, avatar, role, isBan) => {
+const updateUser = async (email, name, address, avatar, phoneNumber, dob, lastName) => {
     try {
-        return await UserService.updateUser(email, phoneNumber, name, address, gender, dob, avatar, role, isBan);
+        return await UserService.updateUser(email, name, address, avatar, phoneNumber, dob, lastName);
 
     } catch (error) {
         return false;
@@ -67,9 +76,17 @@ const updateRole = async (email, role) => {
     }
 }
 
-const updatePassword = async (password, email) => {
+const updatePasswordByEmail = async (password, email) => {
     try{
-        return await UserService.updatePassword(password, email);
+        return await UserService.updatePasswordByEmail(password, email);
+    } catch (error) {
+        return false
+    }
+}
+
+const updatePasswordByPhone = async (password, phoneNumber) => {
+    try{
+        return await UserService.updatePasswordByPhone(password, phoneNumber);
     } catch (error) {
         return false
     }
@@ -133,7 +150,7 @@ const findUserByEmail = async (email) => {
 
 module.exports = {
     login, register, deleteByEmail,
-    updateUser, getAllUser, updatePassword, findUserByEmail, verifyAccount,
+    updateUser, getAllUser, updatePasswordByEmail, updatePasswordByPhone, findUserByEmail, verifyAccount,
     getAllAdmin, deleteById, searchUsers, searchAdmins, changePassword,
-    updateIsBan, updateRole, banUserById
+    updateIsBan, updateRole, banUserById, loginFB
 };

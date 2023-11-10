@@ -1,23 +1,29 @@
 const favoriteModel = require("./FavoriteModel");
+const userModel = require("../user/UserModel");
 
-const getListFavorite = async () => {
+const getListFavorite = async (id_user) => {
   try {
-    return await favoriteModel.find();
+    const listFavorite = await favoriteModel.find({ user_id: id_user });
+    if (listFavorite) {
+      return listFavorite
+    } else {
+      console.log("Nothing to return");
+    }
   } catch (error) {
     console.log("gert list err: ", error);
   }
   return [];
 };
 
-const addFavorite = async (timestamp, user_id, tour_id, hotel_id) => {
+const addFavorite = async (timestamp, user_id, tour_id) => {
   try {
     const newFavorite = {
       timestamp,
       user_id,
       tour_id,
-      hotel_id,
     };
     await favoriteModel.create(newFavorite);
+    console.log("new favorite", newFavorite);
     return true;
   } catch (error) {
     console.log("add favorite err", error);

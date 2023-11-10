@@ -74,12 +74,12 @@ app.use("/user/api", userAPIRouter);
 
 // http://localhost:3000/hotel/api
 app.use("/hotel/api", hotelAPIRouter);
-
+// http://localhost:3000/booking/api
 app.use("/booking/api", bookingAPIRouter);
 
 //
 app.use("/tourGuide/api", tourGuideAPIRouter)
-
+// http://localhost:3000/cart/api
 app.use("/cart/api", cartAPIRouter);
 
 // http://localhost:3000/favorite/api

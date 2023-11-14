@@ -67,12 +67,12 @@ router.get('/:id/detail',async function(req,res,next)  {
       res.status(400).json({result: false,error});
   }
 });
-// http://localhost:3000/api/tourApi/search/name?keyword=abc
+// http://localhost:3000/tour/api/search/name?q=abc
 router.get('/search/name',async function(req,res,next)  {
     try {
-        const {keyword} = req.query;
-        const tours = await tourController.getTourSearchName(keyword);
-        return res.status(200).json({tours});
+        const {q} = req.query;
+        const tours = await tourController.getTourSearchName(q);
+        return res.status(200).json({result : true ,tours});
     } catch (error) {
         console.log("search: ", error)
         return res.status(400).json({});

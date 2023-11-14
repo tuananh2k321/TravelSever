@@ -1,8 +1,8 @@
 const notificationService = require('./NotificationService');
 
-const getNotification = async () =>{
+const getNotification = async (user_id) =>{
     try {
-        return await notificationService.getNotification();
+        return await notificationService.getNotificationByIdUser(user_id);
     } catch (error) {
         throw error;
     }

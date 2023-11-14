@@ -17,7 +17,9 @@ var favoriteAPIRouter = require("./routes/api/FavoriteApi");
 var notificationAPIRouter = require("./routes/api/NotificationApi");
 var cartAPIRouter = require("./routes/api/CartApi");
 var bookingAPIRouter = require("./routes/api/BookingApi");
-var tourGuideAPIRouter = require("./routes/api/TourGuideApi")
+var tourGuideAPIRouter = require("./routes/api/TourGuideApi");
+const paymentRoutes = require('./routes/api/PaymentRoutes');
+var commentAPIRouter = require("./routes/api/CommentApi")
 // CPANEL
 var tourCpanelRouter = require("./cpanel/TourCpanel");
 var userCpanelRouter = require("./cpanel/UserCpanel");
@@ -74,12 +76,12 @@ app.use("/user/api", userAPIRouter);
 
 // http://localhost:3000/hotel/api
 app.use("/hotel/api", hotelAPIRouter);
-
+// http://localhost:3000/booking/api
 app.use("/booking/api", bookingAPIRouter);
 
 //
 app.use("/tourGuide/api", tourGuideAPIRouter)
-
+// http://localhost:3000/cart/api
 app.use("/cart/api", cartAPIRouter);
 
 // http://localhost:3000/favorite/api
@@ -87,6 +89,11 @@ app.use("/favorite/api", favoriteAPIRouter);
 
 // http://localhost:3000/notification/api
 app.use("/notification/api", notificationAPIRouter);
+// http://localhost:3000/payments
+app.use('/payments', paymentRoutes);
+
+// http://localhost:3000/comment/api
+app.use("/comment/api", commentAPIRouter);
 
 // CPANEL
 // http://localhost:3000/tour/cpanel

@@ -21,14 +21,13 @@ const getDataByArrayOfIds = async(ids) => {
     }
 }
 
-const addNewDestination = async (destinationName, content, mainImage, address,area) => {
+const addNewDestination = async (destinationName,contents) => {
     try {
         const newDestination = {
             destinationName,
-            content,
-            mainImage,
-            address,
-            area
+            content: {
+                data: contents,
+              }
         }
         await destinationModel.create(newDestination);
         return true;
@@ -59,15 +58,12 @@ const getDesById = async (id) => {
 }
 
 
-const updateDestination = async (id, destinationName, content, mainImage, address,area) => {
+const updateDestination = async (id, destinationName, content) => {
     try {
         let destination = await destinationModel.findById(id);
         if (destination) {
             destination.destinationName = destinationName ? destinationName : destination.destinationName;
             destination.content = content ? content : destination.content;
-            destination.mainImage = mainImage ? mainImage : destination.mainImage;
-            destination.address = address ? address : destination.address;
-            destination.area = area ? area : destination.area;
             await destination.save();
             return true;
         }

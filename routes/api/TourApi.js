@@ -67,6 +67,19 @@ router.get('/:id/detail',async function(req,res,next)  {
       res.status(400).json({result: false,error});
   }
 });
+
+// http://localhost:3000/tour/api/list/name?keyword=abc
+router.get('/list/name',async function(req,res,next)  {
+    try {
+        const {keyword} = req.query;
+        const tours = await tourController.getTourListName(keyword);
+        return res.status(200).json({tours});
+    } catch (error) {
+        console.log("search: ", error)
+        return res.status(400).json({});
+    }
+  });
+
 // http://localhost:3000/tour/api/search/name?q=abc
 router.get('/search/name',async function(req,res,next)  {
     try {

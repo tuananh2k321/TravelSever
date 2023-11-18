@@ -6,6 +6,7 @@ const commentSchema = new Schema({
   id: { type: ObjectId },
   content: { type: String },
   image: [{ type: String}],
+  rating: { type: Number },
   user_id: { type: ObjectId, ref: "user" },
   tour_id: { type: ObjectId, ref: "tour" },
 });

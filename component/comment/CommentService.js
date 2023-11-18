@@ -1,8 +1,8 @@
 const commentModel = require('./CommentModel');
 const userModel = require('../user/UserModel');
-const addComment = async (content, image, user_id, tour_id) => {
+const addComment = async (content, image, rating, user_id, tour_id) => {
     try {
-            const comment = {content, image, user_id, tour_id };
+            const comment = {content, image, rating, user_id, tour_id };
             const u = new commentModel(comment);
             await u.save();
             return u;

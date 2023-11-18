@@ -68,7 +68,7 @@ router.get("/push-notification-new-tour", async (req, res, next) => {
     };
 
     const image = 'https://firebasestorage.googleapis.com/v0/b/travelapp-3e538.appspot.com/o/user-avatar%2Flogo.png?alt=media&token=94c7da08-1361-4b42-9f7c-b993c03b85f1'
-    const title = "Phản hồi của khách hàng!"
+    const title = "Tour mới!"
     const content = "Hãy ghi ra những trải nghiệm trong chặng hành trình của bạn!"
     const timeStamp = currentTime
     const type = "new-tour"

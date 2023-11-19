@@ -18,6 +18,15 @@ const getAllCommentOfTour = async ( tour_id) => {
     }
 }
 
+const getTopCommentOfTour = async ( tour_id) => {
+    try {
+        return await commentService.getTopCommentOfTour( tour_id);
+
+    } catch (error) {
+        return false;
+    }
+}
+
 module.exports = {
-    addComment, getAllCommentOfTour
+    addComment, getAllCommentOfTour, getTopCommentOfTour
 };

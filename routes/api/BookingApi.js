@@ -104,6 +104,18 @@ router.get('/tourIsBooking', async (req, res, next) => {
     }
 });
 
+// http://localhost:3000/booking/api/tourIsBooking
+router.get('/tourIsBooking/:id', async (req, res, next) => {
+    try {
+        const {id} = req.params;
+        const bookings = bookingController.tourIsBooking(id);
+        const soLan = (await bookings).length;
+        res.status(200).json({ result: true, soLan: soLan, message: "Get booking Success" })
+    } catch (error) {
+        res.status(400).json({ result: false, error, message: "Get totalPrice Booking fail" })
+    }
+});
+
 
 
 module.exports = router;

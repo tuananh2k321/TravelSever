@@ -1,8 +1,8 @@
 const commentService = require('./CommentService')
 
-const addComment = async ( content, image, user_id, tour_id) => {
+const addComment = async ( content, image, rating, user_id, tour_id) => {
     try {
-        return await commentService.addComment(  content, image, user_id, tour_id);
+        return await commentService.addComment(  content, image, rating, user_id, tour_id);
 
     } catch (error) {
         return false;
@@ -18,6 +18,15 @@ const getAllCommentOfTour = async ( tour_id) => {
     }
 }
 
+const getTopCommentOfTour = async ( tour_id) => {
+    try {
+        return await commentService.getTopCommentOfTour( tour_id);
+
+    } catch (error) {
+        return false;
+    }
+}
+
 module.exports = {
-    addComment, getAllCommentOfTour
+    addComment, getAllCommentOfTour, getTopCommentOfTour
 };

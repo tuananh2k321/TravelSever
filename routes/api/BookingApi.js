@@ -36,4 +36,16 @@ router.delete("/deleteBooking/:id", async (req, res, next) => {
     }
   });
 
+
+  // http://localhost:3000/booking/api/getAllBooking
+router.get('/getAllBooking', async (req, res, next) => {
+    try {
+        const booking = await bookingController.getAllBooking();
+        console.log("check booking", booking);
+        res.status(200).json({ result: true, booking: booking, message: "Get booking Success" })
+    } catch (error) {
+        res.status(400).json({ result: false, error, message: "Get favorite fail" })
+    }
+});
+
 module.exports = router;

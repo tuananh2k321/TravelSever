@@ -10,6 +10,10 @@ const getTourById = async (id) => {
     return await tourService.getTourById(id);
 }
 
+const getTourListName = async (keyword) => {
+    return await tourService.getTourListName(keyword);
+}
+
 const addNewTour = async (tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
     operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id) => {
         return await tourService.addNewTour(tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
@@ -51,5 +55,6 @@ module.exports = {
     getTourSearchName,
     getTourRating,
     updateDomain,
-    getTourSearhDomain
+    getTourSearhDomain,
+    getTourListName
 };

@@ -20,6 +20,28 @@ const login = async (email, password) => {
         return false;
     }
 }
+
+//http://localhost:3000/api/user/login
+const loginFB = async (email, name) => {
+    try {
+        const user = await UserModel.findOne({ email: email })
+        if (user) {
+            console.log('user: ', user)
+            return user;
+        } else {
+            const newUser = {email, name};
+            const u = new UserModel(newUser);
+            await u.save();
+            return u;
+        }
+        
+        
+    } catch (error) {
+        console.log('Login error' + error)
+        return false;
+    }
+}
+
 //http://localhost:3000/api/user/register
 const register = async (phoneNumber, password, name, lastName, email, address, gender, dob, avatar, role, createAt) => {
     try {
@@ -74,16 +96,16 @@ const deleteById = async (id) => {
     }
 }
 
-const updateUser = async ( name, address, avatar, phoneNumber, email, gender, dob) => {
+const updateUser = async (email, name, address, avatar, phoneNumber, dob, lastName) => {
     try {
         const user = await UserModel.findOne({ email: email })
         if (user) {
             user.name = name ? name : user.name;
             user.phoneNumber = phoneNumber ? phoneNumber : user.phoneNumber;
             user.address = address ? address : user.address;
-            user.gender = gender ? gender : user.gender;
             user.dob = dob ? dob : user.dob;
             user.avatar = avatar ? avatar : user.avatar;
+            user.lastName = lastName ? lastName : user.lastName;
             await user.save();
             console.log("USER:" + user);
 
@@ -320,5 +342,5 @@ module.exports = {
     login, register, deleteByEmail,
     updateUser, getAllUser, updatePasswordByEmail, updatePasswordByPhone,
     findUserByEmail, verifyAccount, getAllAdmin, deleteById, searchUsers,
-    searchAdmins, changePassword, updateIsBan, banUserById, updateRole
+    searchAdmins, changePassword, updateIsBan, banUserById, updateRole, loginFB
 };

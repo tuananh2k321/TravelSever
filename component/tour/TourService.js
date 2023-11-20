@@ -11,6 +11,17 @@ const getAllTour = async () => {
     return [];
 }
 
+const getTourListName = async (keyword) => {
+    try {
+     let query =  {tourName:{$regex:new RegExp(keyword,'i')}};
+     let filteredTours = await tourModel.find(query);
+     return filteredTours;
+    } catch (error) {
+     console.error('search failed:', error);
+     return false;
+    }
+ }
+
 const getTourById = async (id) => {
     try {
         let tour = await tourModel.findById(id);
@@ -139,5 +150,6 @@ module.exports = {
     getTourSearhName,
     getTourRating,
     updateDomain,
-    getTourSearhDomain
+    getTourSearhDomain,
+    getTourListName
 };

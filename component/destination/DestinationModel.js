@@ -5,10 +5,12 @@ const ObjectId = Schema.ObjectId;
 const destinationSchema = new Schema({
   id: { type: ObjectId },
   destinationName: { type: String, required: true },
-  content: { type: String, required: true },
-  mainImage: { type: Array, required: true },
-  address: { type: String, required: true },
-  area: { type: String, required: true },
+  content: {
+    data: [{
+      destinationImage: String,
+      description: String,
+    }],
+  },
   createdAt: { type: Date, required: true, default: Date.now }
 });
 

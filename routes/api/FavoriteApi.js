@@ -10,7 +10,7 @@ function getCurrentDateTimeString() {
     return `${dateString} ${timeString}`;
 }
 
-//http://localhost:3000/favorite/api
+//http://localhost:3000/favorite/api/getFavorite
 router.get('/getFavorite', async (req, res, next) => {
     try {
         const { id_user } = req.query;
@@ -24,7 +24,11 @@ router.get('/getFavorite', async (req, res, next) => {
             return tour; // Đối tượng bao gồm tour và idFavorite
         });
         const favoriteList = await Promise.all(favoriteListPromises);
-        res.status(200).json({ result: true, favorite: favoriteList, message: "Get favorite Success" });
+
+        
+            res.status(200).json({ result: true, favorite: favoriteList, message: "Get favorite Success" });
+        
+         
     } catch (error) {
         res.status(400).json({ result: false, error, message: "Get favorite fail" });
     }
@@ -45,13 +49,15 @@ router.get('/:user_id/:tour_id/addFavorite', async (req, res, next) => {
     }
 });
 
+
+
 router.delete('/:id/deleteFavorite', async (req, res, next) => {
     try {
         const { id } = req.params;
         await favoriteController.deleteFavoritebyid(id);
         return res.status(200).json({ result: true, message: "Delete favorite Success" })
     } catch (error) {
-        return res.status(400).json({ result: true, message: "Dekete favorite fail" })
+        return res.status(400).json({ result: false, message: "Dekete favorite fail" })
     }
 })
 

@@ -112,6 +112,7 @@ app.use("/home-page/cpanel", homePageCpanelRouter);
 app.use("/destination/cpanel", destinationCpanelRouter);
 // http://localhost:3000/tourguide/cpanel
 app.use("/tourguide/cpanel", tourGuideCpanelRouter)
+
 //
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

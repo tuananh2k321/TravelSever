@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const bookingController = require('../../component/my_booking/MyBookingController');
-const tourController = require('../../component/tour/TourController')
+const tourController = require('../../component/tour/TourController');
+const tourModel = require('../../component/tour/TourModel');
 
 // http://localhost:3000/booking/api/addBooking
 router.post('/addBooking', async (req, res, next) => {
@@ -64,6 +65,7 @@ router.get('/tourIsBooking', async (req, res, next) => {
         let dem = {};
         let ketQua = [];
         const bookings = await bookingController.getAllBooking();
+        const tours = await tourController.getAllTour();
         bookings.forEach(function (obj) {
             let keyString = obj['tour_id'].toString();
         //    let price = obj['totalPrice'].toString();
@@ -85,6 +87,12 @@ router.get('/tourIsBooking', async (req, res, next) => {
                     soLan: dem[item].soLan,
                     totalPrice: dem[item].totalPrice
                 };
+                // Tìm tên tour dựa vào _id (hoặc tour_id) từ collection Tour
+                const tour = tours.find(t => t._id == item);
+                if (tour) {
+                resultObj.tour_name = tour.tourName;
+                }
+
                 ketQua.push(resultObj);
             }
         }

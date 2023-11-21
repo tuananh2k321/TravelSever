@@ -20,6 +20,7 @@ var bookingAPIRouter = require("./routes/api/BookingApi");
 var tourGuideAPIRouter = require("./routes/api/TourGuideApi");
 const paymentRoutes = require('./routes/api/PaymentRoutes');
 var commentAPIRouter = require("./routes/api/CommentApi")
+var tokenAPIRouter = require("./routes/api/TokenNotificationApi")
 // CPANEL
 var tourCpanelRouter = require("./cpanel/TourCpanel");
 var userCpanelRouter = require("./cpanel/UserCpanel");
@@ -96,6 +97,9 @@ app.use('/payments', paymentRoutes);
 // http://localhost:3000/comment/api
 app.use("/comment/api", commentAPIRouter);
 
+// http://localhost:3000/tokenNotification/api
+app.use("/tokenNotification/api", tokenAPIRouter);
+
 // CPANEL
 // http://localhost:3000/tour/cpanel
 app.use("/tour/cpanel", tourCpanelRouter);
@@ -115,6 +119,8 @@ app.use("/destination/cpanel", destinationCpanelRouter);
 app.use("/tourguide/cpanel", tourGuideCpanelRouter)
 //http://localhost:3000/booking/cpanel
 app.use("/booking/cpanel", bookingCpanelRouter)
+
+//
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

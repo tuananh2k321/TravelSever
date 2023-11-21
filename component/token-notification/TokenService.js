@@ -14,14 +14,28 @@ const getToken = async () => {
   return [];
 };
 
+const getTokenByUserId = async (userId) => {
+  try {
+    const token = await tokenModel.find({ userId: userId });
+    if (token) {
+      return token;
+    } else {
+      console.log("Nothing to return");
+    }
+  } catch (error) {
+    console.log("gert list err: ", error);
+  }
+  return [];
+};
 
-const addToken= async (token) => {
+
+const addToken= async (token, userId) => {
   try {
     const checkToken = await tokenModel.findOne({ token: token })
     if (checkToken) {
         console.log("token exists")
     } else {
-        const newToken = {token};
+        const newToken = {token, userId};
         const u = new tokenModel(newToken);
         await u.save();
         return u;
@@ -33,4 +47,4 @@ const addToken= async (token) => {
 };
 
 
-module.exports = { getToken, addToken};
+module.exports = { getToken, addToken, getTokenByUserId};

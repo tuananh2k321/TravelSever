@@ -14,7 +14,7 @@ admin.initializeApp({
 router.get("/push-notification-feedback", async (req, res, next) => {
   try {
     const { userId, tourId } = req.query;
-    const tokens = await tokenController.getToken();
+    const tokens = await tokenController.getTokenByUserId(userId);
     const tokensArray = tokens.map((tokenObj) => tokenObj.token);
     console.log(tokensArray);
 
@@ -53,11 +53,13 @@ router.get("/push-notification-feedback", async (req, res, next) => {
   }
 });
 
-//http://localhost:3000/notification/api/push-notification-new-tour?registrationToken=""&userId=""
+//http://localhost:3000/notification/api/push-notification-new-tour?userId=""&tourId=""
 router.get("/push-notification-new-tour", async (req, res, next) => {
   try {
-    const { registrationToken, userId, tourId } = req.query;
-
+    const {userId, tourId } = req.query;
+    const tokens = await tokenController.getToken();
+    const tokensArray = tokens.map((tokenObj) => tokenObj.token);
+    console.log(tokensArray);
     const currentTime = new Date().toLocaleTimeString();
     const message = {
       notification: {
@@ -68,7 +70,7 @@ router.get("/push-notification-new-tour", async (req, res, next) => {
         score: "850",
         time: currentTime,
       },
-      token: registrationToken,
+      tokens: tokensArray,
     };
 
     const image = 'https://firebasestorage.googleapis.com/v0/b/travelapp-3e538.appspot.com/o/user-avatar%2Flogo.png?alt=media&token=94c7da08-1361-4b42-9f7c-b993c03b85f1'
@@ -79,7 +81,7 @@ router.get("/push-notification-new-tour", async (req, res, next) => {
     const notification = await notificationService.addNotificationNewTour(image, title, content, timeStamp,type, userId, tourId)
     console.log(notification)
     if (notification) {
-      const response = await admin.messaging().send(message);
+      const response = await admin.messaging().sendEachForMulticast(message);
       console.log("Successfully sent message:", response);
       res.status(200).json({ result: true, notification: notification, message: "success" });
     } else {

@@ -231,7 +231,7 @@
 
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
-                      <a href="#" class="btn btn-success m-1">
+                      <a onclick="confirmPush('{{this.user_id._id}}','{{this.tour_id._id}}')" type="button" class="btn btn-success m-1">
                         <i class='bx bx-bell'></i>
                       </a>
                     </div>
@@ -263,8 +263,8 @@
     return res.json();
   }
 
-  const deleteProduct = async (id) => {
-    const url = `/tour/cpanel/${id}/delete`;
+  const pushNotification = async (user_id, tour_id) => {
+    const url = `/booking/cpanel/push-notification-feedback?userId=${user_id}&tourId=${tour_id}`;
 
     const option = {
       method: 'get',
@@ -273,13 +273,6 @@
     try {
       const result = await fetchAPI(url, option);
       console.log('delete result: ', result)
-
-      if (result.tourisState==true && result.status) {
-        swal('Không thể xóa!', {
-          icon: 'error',
-        });
-      }
-
     } catch (e) {
       console.log('error delete: ', e)
       throw e;
@@ -287,20 +280,20 @@
   }
 
 
-  const confirmDelete = (id) => {
+  const confirmPush = (user_id, tour_id) => {
     swal({
-      title: "Xác nhận xóa?",
-      text: "Bạn có muốn xóa sản phẩm này?",
+      title: "Xác nhận gửi thông báo?",
+      text: "Bạn có muốn gửi thông báo này?",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     })
       .then((willDelete) => {
         if (willDelete) {
-          deleteProduct(id);
+          pushNotification(user_id, tour_id);
           swal({
-            title: "Deleted!",
-            text: "Xóa thành công!!",
+            title: "Success!",
+            text: "Gửi thành công!!",
             icon: "success"
           }).then((wil) => {
             window.location.reload();

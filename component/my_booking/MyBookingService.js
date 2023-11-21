@@ -34,4 +34,24 @@ const deleteBooking = async (id) => {
   return false;
 };
 
-module.exports = { getListBooking, addMyBooking, deleteBooking };
+
+
+const tourIsBooking = async (tourId) => {
+  try {
+    return await mybookingModel.find({tour_id: tourId});
+  } catch (error) {
+    console.log("get tourIsBooking", error);
+  }
+  return [];
+};
+
+const getAllBooking = async () => {
+  try {
+    return await mybookingModel.find();
+  } catch (error) {
+    console.log("get all booking", error);
+  }
+  return [];
+};
+
+module.exports = { getListBooking, addMyBooking, deleteBooking, getAllBooking, tourIsBooking };

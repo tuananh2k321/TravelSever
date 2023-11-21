@@ -27,7 +27,8 @@ var hotelCpanelRouter = require("./cpanel/HotelCpanel");
 var homePageCpanelRouter = require("./cpanel/HomePageCpanel");
 var destinationCpanelRouter = require("./cpanel/DestinationCpanel");
 
-var tourGuideCpanelRouter = require("./cpanel/TouGuideCpanel")
+var tourGuideCpanelRouter = require("./cpanel/TouGuideCpanel");
+var bookingCpanelRouter = require('./cpanel/MyBookingCpanel');
 var app = express();
 
 // view engine setup
@@ -112,7 +113,8 @@ app.use("/home-page/cpanel", homePageCpanelRouter);
 app.use("/destination/cpanel", destinationCpanelRouter);
 // http://localhost:3000/tourguide/cpanel
 app.use("/tourguide/cpanel", tourGuideCpanelRouter)
-//
+//http://localhost:3000/booking/cpanel
+app.use("/booking/cpanel", bookingCpanelRouter)
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

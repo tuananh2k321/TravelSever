@@ -1,0 +1,316 @@
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
+
+  <div class="d-flex align-items-center justify-content-between">
+    <a href="/home-page/cpanel/home" class="logo d-flex align-items-center">
+      <img src="/assets/img/logo.png" alt="">
+      <span class="d-none d-lg-block">Discover</span>
+    </a>
+    <i class="bi bi-list toggle-sidebar-btn"></i>
+  </div><!-- End Logo -->
+
+  <div class="search-bar">
+    <form class="search-form d-flex align-items-center" method="get" action="#">
+      <input type="text" name="searchName" placeholder="Search" title="Enter search keyword">
+      <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+    </form>
+  </div><!-- End Search Bar -->
+
+
+
+
+  <nav class="header-nav ms-auto">
+    <ul class="d-flex align-items-center">
+
+      <li class="nav-item d-block d-lg-none">
+        <a class="nav-link nav-icon search-bar-toggle " href="#">
+          <i class="bi bi-search"></i>
+        </a>
+      </li><!-- End Search Icon-->
+
+
+      {{#user}}
+      <li class="nav-item dropdown pe-3">
+
+        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+          <img src="{{this.avatar}}" alt="Profile" class="rounded-circle">
+          <span class="d-none d-md-block dropdown-toggle ps-2">{{this.name}}</span>
+        </a><!-- End Profile Iamge Icon -->
+
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+          <li class="dropdown-header">
+            <h6>{{this.name}}</h6>
+            <span>Travel Application Manager</span>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="/home-page/cpanel/profile">
+              <i class="bi bi-person"></i>
+              <span>My Profile</span>
+            </a>
+          </li>
+
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+              <i class="bi bi-question-circle"></i>
+              <span>Need Help?</span>
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="/user/cpanel/logout">
+              <i class="bi bi-box-arrow-right"></i>
+              <span>Sign Out</span>
+            </a>
+          </li>
+
+        </ul><!-- End Profile Dropdown Items -->
+      </li><!-- End Profile Nav -->
+      {{/user}}
+
+    </ul>
+  </nav><!-- End Icons Navigation -->
+
+</header><!-- End Header -->
+
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+  <ul class="sidebar-nav" id="sidebar-nav">
+
+    <li class="nav-item">
+      <a class="nav-link " href="/home-page/cpanel/home">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+      </a>
+    </li><!-- End Dashboard Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="/hotel/cpanel/insert-form">
+            <i class="bi bi-circle"></i><span>Insert Hotel</span>
+          </a>
+        </li>
+        <li>
+          <a href="/tour/cpanel/insert-tour">
+            <i class="bi bi-circle"></i><span>Insert Tour</span>
+          </a>
+        </li>
+        <li>
+          <a href="../../tourguide/cpanel/insert-form">
+            <i class="bi bi-circle"></i><span>Insert TourGuide</span>
+          </a>
+        </li>
+        <li>
+          <a href="/destination/cpanel/insert-destination">
+            <i class="bi bi-circle"></i><span>Insert Destination</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Forms Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="/tour/cpanel/tour-table">
+            <i class="bi bi-circle"></i><span>Tour</span>
+          </a>
+        </li>
+        <li>
+          <a href="/destination/cpanel/get-destination">
+            <i class="bi bi-circle"></i><span>Destination</span>
+          </a>
+        </li>
+        <li>
+          <a href="/hotel/cpanel/hotel-table">
+            <i class="bi bi-circle"></i><span>Hotels</span>
+          </a>
+        </li>
+        <li>
+          <a href="../../tourguide/cpanel/tour-guide">
+            <i class="bi bi-circle"></i><span>Tour Guide </span>
+          </a>
+        </li>
+        <li>
+          <a href="/user/cpanel/list-admin">
+            <i class="bi bi-circle"></i><span>Admins</span>
+          </a>
+        </li>
+        <li>
+          <a href="/user/cpanel/list-user">
+            <i class="bi bi-circle"></i><span>Users</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Tables Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="chart" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-bar-chart"></i><span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="../../tour/cpanel/chart">
+            <i class="bi bi-circle"></i><span>Chart</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Charts Nav -->
+
+    <li class="nav-heading">Pages</li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="/home-page/cpanel/profile">
+        <i class="bi bi-person"></i>
+        <span>Profile</span>
+      </a>
+    </li><!-- End Profile Page Nav -->
+  </ul>
+
+</aside><!-- End Sidebar-->
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>MyBooking Management</h1>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-body">
+            {{!-- <div class="dropdown gap-2 d-md-flex justify-content-md-end">
+              <a class="btn btn-outline-dark me-md-3 dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Sắp xếp <span class="caret"></span>
+              </a>
+            </div> --}}
+
+
+            <!-- Table with stripped rows -->
+            <table class="table datatable">
+              <thead >
+                <tr class="col-lg-12">
+                  <th class="col-lg-3" scope="col">Hình ảnh Tour</th>
+                  <th class="col-lg-3" scope="col">Tên Tour</th>
+                  <th class="col-lg-3" scope="col">Hình ảnh User</th>
+                  <th class="col-lg-3" scope="col">Tên User</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each allMybooking}}
+
+                <tr>
+                  <td class="py-1">
+                    <img src="{{this.tour_id.tourImage}}" alt="Không có ảnh" width="200" height="100" />
+                  </td>
+                  <td> {{this.tour_id.tourName}} </td>
+                  <td class="py-1">
+                    <img src="{{this.user_id.avatar}}" alt="Không có ảnh" width="200" height="100" />
+                  </td>
+                  <td> {{this.user_id.name}} </td>
+
+                  <td class="text-right">
+                    <div style="display: flex; justify-content: space-between;">
+                      <a href="#" class="btn btn-success m-1">
+                        <i class='bx bx-bell'></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+                {{/each}}
+
+              </tbody>
+            </table>
+            <!-- End Table with stripped rows -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+
+
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+    class="bi bi-arrow-up-short"></i></a>
+{{!-- js delete tour --}}
+<script>
+  const fetchAPI = async (url, option) => {
+    const res = await fetch(url, option)
+    return res.json();
+  }
+
+  const deleteProduct = async (id) => {
+    const url = `/tour/cpanel/${id}/delete`;
+
+    const option = {
+      method: 'get',
+      headers: { 'Content-Type': 'application/json' }
+    }
+    try {
+      const result = await fetchAPI(url, option);
+      console.log('delete result: ', result)
+
+      if (result.tourisState==true && result.status) {
+        swal('Không thể xóa!', {
+          icon: 'error',
+        });
+      }
+
+    } catch (e) {
+      console.log('error delete: ', e)
+      throw e;
+    }
+  }
+
+
+  const confirmDelete = (id) => {
+    swal({
+      title: "Xác nhận xóa?",
+      text: "Bạn có muốn xóa sản phẩm này?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          deleteProduct(id);
+          swal({
+            title: "Deleted!",
+            text: "Xóa thành công!!",
+            icon: "success"
+          }).then((wil) => {
+            window.location.reload();
+          })
+        }
+      });
+  }
+
+  function showGenre(item) {
+    document.getElementById("dropdownMenuLink").innerHTML = item.innerHTML;
+  }
+
+</script>

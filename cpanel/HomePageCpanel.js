@@ -3,26 +3,34 @@ var router = express.Router();
 const authen = require('../middleware/Authen')
 const userController = require('../component/user/UserController')
 const bookingController = require('../component/my_booking/MyBookingController')
+const tourController = require('../component/tour/TourController')
 
 // http://localhost:3000/home-page/cpanel/home
 router.get('/home', [authen.checkTokenCpanel],async function(req, res) {
     const user = req.session.user
     
     try {
-        
         const bookings = await bookingController.getAllBooking();
+        const tours = await tourController.getAllTour();
         let totalPriceBooking = 0;
         let totalBooking = bookings.length; // số lượng booking
         for(let i = 0 ; i < bookings.length ; i++){
             totalPriceBooking = totalPriceBooking +  bookings[i].totalPrice; // tổng doanh thu
         }
-       
+
+        // let tour = [];
+        // for(const i= 0 ;i < tours.length ; i++ ){
+        //     if(tours[i]._id != bookings.tour_id){
+        //         tour.push(tours[i]);
+        //     }
+        // }
         res.render('home-page/home', {user,totalPriceBooking, totalBooking});
     } catch (error) {
         next(error);
     }
     
 });
+
 
 // http://localhost:3000/home-page/cpanel/form
 router.get('/form', [authen.checkTokenCpanel], function(req, res) {

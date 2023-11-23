@@ -109,8 +109,19 @@ router.get('/tourIsBooking', async (req, res, next) => {
             }
         }
 
+        // Sort the ketQua array based on totalPrice in descending order
+        ketQua.sort((a, b) => b.totalPrice - a.totalPrice);
+
+        // Get the tour_id with the highest totalPrice
+        const highestTotalPriceTourId = ketQua.length > 0 ? ketQua[0].tour_name : null;
+
+        // Now highestTotalPriceTourId contains the tour_id with the highest totalPrice
+        console.log("Tour ID with the highest totalPrice:", highestTotalPriceTourId);
+
+
+
         
-        res.status(200).json({ result: true, tourIsBooking: ketQua, message: "Get booking Success" })
+        res.status(200).json({ result: true, tourIsBooking: ketQua,top:highestTotalPriceTourId, message: "Get booking Success" })
     } catch (error) {
         res.status(400).json({ result: false, error, message: "Get totalPrice Booking fail" })
     }

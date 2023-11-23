@@ -5,7 +5,7 @@ const tourModel = require('../tour/TourModel');
 
 const getListBooking = async (userID) => {
   try {
-    return await mybookingModel.find({ user_id: userID }).populate('tour_id');
+    return await mybookingModel.find({user_id: userID}).populate('tour_id').sort({bookingDate: -1});
   } catch (error) {
     console.log("get list booking", error);
   }

@@ -316,6 +316,26 @@
             </div>
 
           </div><!-- End abcd Card -->
+           
+          <!-- Tour co doanh thu cao nhat -->
+          <div class="col-xxl-3 col-md-6">
+            <div class="card info-card sales-card">
+              <div class="card-body">
+                <h5 class="card-title">Tour có doanh thu cao nhất</h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-cart"></i>
+                  </div>
+                  <div class="ps-3">
+                    <p id="top1"></p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div><!-- End Sales Card -->
+            
 
           <!-- Reports -->
           <div class="col-12">
@@ -350,6 +370,7 @@
               </div>
             </div>
           </div><!-- End Reports -->
+          
         </div>
       </div><!-- End Left side columns -->
 
@@ -378,7 +399,6 @@
 <!--Chart-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
 
 {{!-- <script>
   
@@ -419,6 +439,8 @@
 
 <script>
       const ctx1 = document.getElementById("chart1").getContext('2d');
+      
+      let topTour = document.getElementById("top1").innerHTML;
     // Hàm để lấy dữ liệu từ server-side và vẽ biểu đồ
     async function fetchDataAndDrawChart() {
       function truncateText(text, maxLength) {
@@ -428,6 +450,9 @@
       try {
         const response = await fetch('/booking/api/tourIsBooking');
         const data = await response.json();
+        
+        topTour = data.top;
+        console.log("top",topTour)
         let tourIsBooking = data.tourIsBooking;
         let labels = tourIsBooking.map(item => item.tour_name);
         let values = tourIsBooking.map(item => item.soLan);

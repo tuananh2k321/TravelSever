@@ -2,12 +2,26 @@ var express = require('express');
 var router = express.Router();
 const authen = require('../middleware/Authen')
 const userController = require('../component/user/UserController')
+const bookingController = require('../component/my_booking/MyBookingController')
 
 // http://localhost:3000/home-page/cpanel/home
-router.get('/home', [authen.checkTokenCpanel], function(req, res) {
+router.get('/home', [authen.checkTokenCpanel],async function(req, res) {
     const user = req.session.user
-    console.log("user: ",user);
-    res.render('home-page/home', {user});
+    
+    try {
+        
+        const bookings = await bookingController.getAllBooking();
+        let totalPriceBooking = 0;
+        let totalBooking = bookings.length; // số lượng booking
+        for(let i = 0 ; i < bookings.length ; i++){
+            totalPriceBooking = totalPriceBooking +  bookings[i].totalPrice; // tổng doanh thu
+        }
+       
+        res.render('home-page/home', {user,totalPriceBooking, totalBooking});
+    } catch (error) {
+        next(error);
+    }
+    
 });
 
 // http://localhost:3000/home-page/cpanel/form
@@ -31,6 +45,8 @@ router.get('/profile', [authen.checkTokenCpanel], function(req, res) {
 router.get('/error404', function(req, res) {
     res.render('home-page/error404');
 });
+
+
 
 
 

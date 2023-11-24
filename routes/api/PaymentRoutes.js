@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const stripe = require('stripe')('sk_test_51OAMNGANZv3Twwu9rEXzQetkmIAcG41lDeiQlhumcjDjfbwrzW0ggqiOTbSYENXILEYIrN9hwnCOTWDvEXD9X1pE00KKauC5TV');
-// http://localhost:3000/payments/intents
+// http://localhost:3000/payments/intent
 router.post('/intent', async (req, res) => {
     try {
       const paymentIntent = await stripe.paymentIntents.create({
         amount: req.body.amount,
-        currency: 'usd',
+        currency: 'vnd',
         automatic_payment_methods: {
           enabled: true,
         },

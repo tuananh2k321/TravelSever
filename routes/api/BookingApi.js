@@ -8,8 +8,8 @@ const tourModel = require('../../component/tour/TourModel');
 // http://localhost:3000/booking/api/addBooking
 router.post('/addBooking', async (req, res, next) => {
     try {
-        const { name, children, adult, totalPrice, user_id, tour_id } = req.body;
-        const booking = await bookingService.addMyBooking(name, children, adult, totalPrice, user_id, tour_id);
+        const { name, children, adult, totalPrice, user_id, tour_id, guestInfo } = req.body;
+        const booking = await bookingService.addMyBooking(name, children, adult, totalPrice, user_id, tour_id, guestInfo);
         console.log(booking);
         if (booking) {
             res.status(200).json({ result: true, message: "Add booking Success" })
@@ -21,6 +21,25 @@ router.post('/addBooking', async (req, res, next) => {
         res.status(400).json({ result: false, message: error })
     }
 });
+
+// http://localhost:3000/booking/api/addReason?id=""
+router.post('/addReason', async (req, res, next) => {
+    try {
+        const { reason } = req.body;
+        const {id} = req.query
+        const booking = await bookingService.addReason(id, reason );
+        console.log(booking);
+        if (booking) {
+            res.status(200).json({ result: true, message: "Add reason Success" })
+        } else {
+            res.status(400).json({ result: false, message: "Add reason fail" })
+        }
+
+    } catch (error) {
+        res.status(400).json({ result: false, message: error })
+    }
+});
+
 // http://localhost:3000/booking/api/getListBooking?userID=6538c6fb748be49fbcde2a1f
 router.get('/getListBooking', async (req, res, next) => {
     try {

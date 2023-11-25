@@ -8,9 +8,9 @@ const getListBooking = async (userID) => {
   }
 };
 
-const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id) => {
+const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id, guestInfo) => {
   try {
-    return await myBookingService.addMyBooking(name, children, adult, totalPrice, user_id, tour_id);
+    return await myBookingService.addMyBooking(name, children, adult, totalPrice, user_id, tour_id, guestInfo);
   } catch (error) {
     return error;
   }

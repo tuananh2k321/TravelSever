@@ -13,15 +13,18 @@ const getListBooking = async (userID) => {
   return [];
 };
 
-const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id) => {
+const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id, guestInfo) => {
   try {
+    const currentTime = new Date().toLocaleTimeString();
     const newBooking = {
       name,
       children,
       adult,
       totalPrice,
       user_id,
-      tour_id
+      tour_id,
+      guestInfo,
+      
     };
     const b = new MyBookingModel(newBooking);
     const save_b = await b.save()
@@ -110,5 +113,33 @@ const getBookingById = async (id) => {
   }
 }
 
+const confirmBooking = async (id) => {
+  try {
+    const booking = await MyBookingModel.findOne({ _id: id })
+    if (booking) {
+      booking.confirm = true;
+      const b = await booking.save();
+      return b
+    }
+  } catch (error) { 
+    console.log("confirmBooking", error);
+  }
+}
 
-module.exports = { getListBooking, addMyBooking, deleteBooking, getAllBooking, tourIsBooking, getAllTourBooking,getBookingById };
+const addReason = async (id, reason) => {
+  try {
+    const booking = await MyBookingModel.findOne({ _id: id })
+    if (booking) {
+      booking.reason = reason? reason: booking.reason;
+      const b = await booking.save();
+      return b
+    } else {
+      console.log("null")
+    }
+  } catch (error) { 
+    console.log("confirmBooking", error);
+  }
+}
+
+
+module.exports = { getListBooking, addMyBooking, deleteBooking, getAllBooking, tourIsBooking, getAllTourBooking,getBookingById, confirmBooking, addReason };

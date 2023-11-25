@@ -32,6 +32,14 @@ const getAllBooking = async () => {
       return false;
   }
 }
+const getAllTourBooking = async () => {
+  try {
+      return await myBookingService.getAllTourBooking();
+
+  } catch (error) {
+      return false;
+  }
+}
 
 const tourIsBooking = async (tourId) => {
   try {
@@ -49,4 +57,4 @@ const getBookingById = async (id) => {
   }
 };
 
-module.exports = { getListBooking, addMyBooking, deleteBookingbyID,getAllBooking,tourIsBooking, getBookingById };
+module.exports = { getListBooking, addMyBooking, deleteBookingbyID,getAllBooking,tourIsBooking, getBookingById,getAllTourBooking };

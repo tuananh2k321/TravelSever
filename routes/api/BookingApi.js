@@ -56,7 +56,7 @@ router.get('/get-All-Booking', async (req, res, next) => {
 // http://localhost:3000/booking/api/getAllBooking
 router.get('/getAllBooking', async (req, res, next) => {
     try {
-        const bookings = await bookingController.getAllBooking();
+        const bookings = await bookingController.getAllTourBooking();
         let totalPriceBooking = 0;
         let totalBooking = bookings.length;
         for(let i = 0 ; i < bookings.length ; i++){
@@ -76,7 +76,7 @@ router.get('/tourIsBooking', async (req, res, next) => {
     try {
         let dem = {};
         let ketQua = [];
-        const bookings = await bookingController.getAllBooking();
+        const bookings = await bookingController.getAllTourBooking();
         const tours = await tourController.getAllTour();
         bookings.forEach(function (obj) {
             let keyString = obj['tour_id'].toString();
@@ -109,20 +109,20 @@ router.get('/tourIsBooking', async (req, res, next) => {
             }
         }
 
-        // Sort the ketQua array based on totalPrice in descending order
-        // ketQua.sort((a, b) => b.totalPrice - a.totalPrice);
+      //  Sort the ketQua array based on totalPrice in descending order
+        ketQua.sort((a, b) => b.totalPrice - a.totalPrice);
 
-        // // Get the tour_id with the highest totalPrice
-        // const highestTotalPriceTourId = ketQua.length > 0 ? ketQua[0].tour_name : null;
+        // Get the tour_id with the highest totalPrice
+        const highestTotalPriceTourId = ketQua.length > 0 ? ketQua[0].tour_name : null;
 
-        // // Now highestTotalPriceTourId contains the tour_id with the highest totalPrice
-        // console.log("Tour ID with the highest totalPrice:", highestTotalPriceTourId);
+        // Now highestTotalPriceTourId contains the tour_id with the highest totalPrice
+        console.log("Tour ID with the highest totalPrice:", highestTotalPriceTourId);
         console.log("Tour ID with the highest totalPrice:", ketQua);
 
 
 
         
-        res.status(200).json({ result: true, tourIsBooking: ketQua,top:highestTotalPriceTourId, message: "Get booking Success" })
+        res.status(200).json({ result: true, tourIsBooking: ketQua, message: "Get booking Success" })
     } catch (error) {
         res.status(400).json({ result: false, error, message: "Get totalPrice Booking fail" })
     }

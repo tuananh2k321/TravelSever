@@ -239,6 +239,9 @@
                       <a onclick="confirmPush('{{this.user_id._id}}','{{this.tour_id._id}}')" type="button" class="btn btn-success m-1">
                         <i class='bx bx-bell'></i>
                       </a>
+                      <a href="#" class="btn btn-primary m-1">
+                        <iconify-icon icon="ic:baseline-check"></iconify-icon>
+                      </a>
                     </div>
                   </td>
                 </tr>
@@ -287,8 +290,8 @@
 
   const confirmPush = (user_id, tour_id) => {
     swal({
-      title: "Xác nhận gửi thông báo?",
-      text: "Bạn có muốn gửi thông báo này?",
+      title: "Xác nhận gửi Feedback?",
+      text: "Bạn có muốn gửi Feedback đến tour này?",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -298,7 +301,7 @@
           pushNotification(user_id, tour_id);
           swal({
             title: "Success!",
-            text: "Gửi thành công!!",
+            text: "Gửi Feedback thành công!!",
             icon: "success"
           }).then((wil) => {
             window.location.reload();
@@ -312,3 +315,4 @@
   }
 
 </script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>

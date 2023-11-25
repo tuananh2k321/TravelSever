@@ -9,6 +9,8 @@ const myBookingSchema = new Schema({
   adult: { type: Number, required: true},
   totalPrice: { type: Number},
   bookingDate: { type: Date, default: Date.now },
+  confirm: {type: Boolean, required: true},
+  reason: {type: String, default:""},
   user_id: { type: ObjectId, ref: "user" },
   tour_id: { type: ObjectId, ref: "tour" },
 });

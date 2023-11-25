@@ -140,6 +140,23 @@ router.get('/tourIsBooking/:id', async (req, res, next) => {
     }
 });
 
+// http://localhost:3000/booking/api/getBookingById?id=""
+router.get('/getBookingById', async (req, res, next) => {
+    try {
+        const {id} = req.query;
+        const booking = await bookingController.getBookingById(id);
+        // console.log('Booking: '+ booking)
+        if (booking) {
+            res.status(200).json({ result: true, booking: booking, message: "Get booking Success" })
+        } else {
+            res.status(200).json({ result: false, booking: null, message: "Get booking fail" })
+        }
+        
+    } catch (error) {
+        res.status(400).json({ result: false, error, message: error })
+    }
+});
+
 
 
 module.exports = router;

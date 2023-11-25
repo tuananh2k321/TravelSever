@@ -75,6 +75,18 @@ const tourIsBooking = async (tourId) => {
   return [];
 };
 
+const getBookingById = async (id) => {
+  try {
+    const booking = await mybookingModel.findOne({_id: id});
+    //console.log('Booking: '+ booking)
+    if (booking) {
+      return booking;
+    } else {
+      return false
+    }
+  } catch (error) {
+    console.log("getBookingById", error);
+  }
+}
 
-
-module.exports = { getListBooking, addMyBooking, deleteBooking, getAllBooking, tourIsBooking };
+module.exports = { getListBooking, addMyBooking, deleteBooking, getAllBooking, tourIsBooking, getBookingById };

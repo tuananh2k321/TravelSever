@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const bookingController = require('../../component/my_booking/MyBookingController');
+const bookingService = require('../../component/my_booking/MyBookingService');
 const tourController = require('../../component/tour/TourController');
 const tourModel = require('../../component/tour/TourModel');
 
@@ -8,16 +9,22 @@ const tourModel = require('../../component/tour/TourModel');
 router.post('/addBooking', async (req, res, next) => {
     try {
         const { name, children, adult, totalPrice, user_id, tour_id } = req.body;
-        await bookingController.addMyBooking(name, children, adult, totalPrice, user_id, tour_id);
-        res.status(200).json({ result: true, message: "Add booking Success" })
+        const booking = await bookingService.addMyBooking(name, children, adult, totalPrice, user_id, tour_id);
+        console.log(booking);
+        if (booking) {
+            res.status(200).json({ result: true, message: "Add booking Success" })
+        } else {
+            res.status(400).json({ result: false, message: "Add booking fail" })
+        }
+
     } catch (error) {
-        res.status(400).json({ result: false, message: "Add booking fail" })
+        res.status(400).json({ result: false, message: error })
     }
 });
 // http://localhost:3000/booking/api/getListBooking?userID=6538c6fb748be49fbcde2a1f
 router.get('/getListBooking', async (req, res, next) => {
     try {
-        const {userID} = req.query;
+        const { userID } = req.query;
         const booking = await bookingController.getListBooking(userID);
         console.log("check booking", booking);
         res.status(200).json({ result: true, booking: booking, message: "Get booking Success" })
@@ -28,22 +35,22 @@ router.get('/getListBooking', async (req, res, next) => {
 
 router.delete("/deleteBooking/:id", async (req, res, next) => {
     try {
-      const { id } = req.params;
-      await bookingController.deleteBookingbyID(id);
-      return res
-        .status(200)
-        .json({ result: true, message: "Delete booking Success" });
+        const { id } = req.params;
+        await bookingController.deleteBookingbyID(id);
+        return res
+            .status(200)
+            .json({ result: true, message: "Delete booking Success" });
     } catch (error) {
-      return res.status(400).json({ result: true, message: "Delete booking fail" });
+        return res.status(400).json({ result: true, message: "Delete booking fail" });
     }
-  });
+});
 
 
-  // http://localhost:3000/booking/api/getAllBooking
+// http://localhost:3000/booking/api/getAllBooking
 router.get('/get-All-Booking', async (req, res, next) => {
     try {
         const reponse = await bookingController.getAllBooking();
-        
+
         console.log("check booking", reponse[0].user_id);
         res.status(200).json({ result: true, reponse, message: "Get booking Success" })
     } catch (error) {
@@ -52,19 +59,19 @@ router.get('/get-All-Booking', async (req, res, next) => {
 });
 
 
-  // chart
+// chart
 // http://localhost:3000/booking/api/getAllBooking
 router.get('/getAllBooking', async (req, res, next) => {
     try {
         const bookings = await bookingController.getAllBooking();
         let totalPriceBooking = 0;
         let totalBooking = bookings.length;
-        for(let i = 0 ; i < bookings.length ; i++){
-            totalPriceBooking = totalPriceBooking +  bookings[i].totalPrice;
-           
+        for (let i = 0; i < bookings.length; i++) {
+            totalPriceBooking = totalPriceBooking + bookings[i].totalPrice;
+
         }
-        res.status(200).json({ result: true, totalPriceBooking: totalPriceBooking,totalBooking : totalBooking, message: "Get booking Success" })
-       // res.status(200).json({ result: true, totalPriceBooking:bookings, })
+        res.status(200).json({ result: true, totalPriceBooking: totalPriceBooking, totalBooking: totalBooking, message: "Get booking Success" })
+        // res.status(200).json({ result: true, totalPriceBooking:bookings, })
     } catch (error) {
         res.status(400).json({ result: false, error, message: "Get totalPrice Booking fail" })
     }
@@ -80,19 +87,19 @@ router.get('/tourIsBooking', async (req, res, next) => {
         const tours = await tourController.getAllTour();
         bookings.forEach(function (obj) {
             let keyString = obj['tour_id'].toString();
-        //    let price = obj['totalPrice'].toString();
-        if (dem[keyString]) {
-            dem[keyString].soLan++;
-            dem[keyString].totalPrice += obj['totalPrice']; // Assuming there is a 'price' property in your object
-        } else {
-            dem[keyString] = {
-                soLan: 1,
-                totalPrice: obj['totalPrice']
-            };
-        }
-    });
-          // Tạo đối tượng kết quả và thêm vào mảng kết quả
-          for (let item in dem) {
+            //    let price = obj['totalPrice'].toString();
+            if (dem[keyString]) {
+                dem[keyString].soLan++;
+                dem[keyString].totalPrice += obj['totalPrice']; // Assuming there is a 'price' property in your object
+            } else {
+                dem[keyString] = {
+                    soLan: 1,
+                    totalPrice: obj['totalPrice']
+                };
+            }
+        });
+        // Tạo đối tượng kết quả và thêm vào mảng kết quả
+        for (let item in dem) {
             if (dem.hasOwnProperty(item)) {
                 let resultObj = {
                     tour_id: item,
@@ -102,7 +109,7 @@ router.get('/tourIsBooking', async (req, res, next) => {
                 // Tìm tên tour dựa vào _id (hoặc tour_id) từ collection Tour
                 const tour = tours.find(t => t._id == item);
                 if (tour) {
-                resultObj.tour_name = tour.tourName;
+                    resultObj.tour_name = tour.tourName;
                 }
 
                 ketQua.push(resultObj);
@@ -121,8 +128,8 @@ router.get('/tourIsBooking', async (req, res, next) => {
 
 
 
-        
-        res.status(200).json({ result: true, tourIsBooking: ketQua,top:highestTotalPriceTourId, message: "Get booking Success" })
+
+        res.status(200).json({ result: true, tourIsBooking: ketQua, top: highestTotalPriceTourId, message: "Get booking Success" })
     } catch (error) {
         res.status(400).json({ result: false, error, message: "Get totalPrice Booking fail" })
     }
@@ -131,7 +138,7 @@ router.get('/tourIsBooking', async (req, res, next) => {
 // http://localhost:3000/booking/api/tourIsBooking
 router.get('/tourIsBooking/:id', async (req, res, next) => {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
         const bookings = bookingController.tourIsBooking(id);
         const soLan = (await bookings).length;
         res.status(200).json({ result: true, soLan: soLan, message: "Get booking Success" })
@@ -143,7 +150,7 @@ router.get('/tourIsBooking/:id', async (req, res, next) => {
 // http://localhost:3000/booking/api/getBookingById?id=""
 router.get('/getBookingById', async (req, res, next) => {
     try {
-        const {id} = req.query;
+        const { id } = req.query;
         const booking = await bookingController.getBookingById(id);
         // console.log('Booking: '+ booking)
         if (booking) {
@@ -151,7 +158,7 @@ router.get('/getBookingById', async (req, res, next) => {
         } else {
             res.status(200).json({ result: false, booking: null, message: "Get booking fail" })
         }
-        
+
     } catch (error) {
         res.status(400).json({ result: false, error, message: error })
     }

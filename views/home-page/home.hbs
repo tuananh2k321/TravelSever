@@ -322,24 +322,7 @@
 
           </div><!-- End abcd Card -->
            
-          <!-- Tour co doanh thu cao nhat -->
-          <div class="col-xxl-3 col-md-6">
-            <div class="card info-card sales-card">
-              <div class="card-body">
-                <h5 class="card-title">Tour có doanh thu cao nhất</h5>
-
-                <div class="d-flex align-items-center">
-                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-cart"></i>
-                  </div>
-                  <div class="ps-3">
-                    <p id="top1"></p>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div><!-- End Sales Card -->
+      
             
 
           <!-- Reports -->
@@ -405,35 +388,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-{{!-- <script>
-  
-  const ctx = document.getElementById("chart").getContext('2d');
-  const myChart = new Chart(ctx, {
-    type: 'horizontalBar',
-    data: {
-      labels: ["rice", "yam", "aaaa", "potato",
-        "beans", "maize", "oil", "asdas", "dwefds","fausdf","ànuanfu"],
-      datasets: [{
-        label: 'Tour',
-        backgroundColor: ["rgba(201, 203, 207, 0.2)","rgba(255, 99, 132, 0.2)", "rgba(255, 159, 64, 0.2)",
-          "rgba(255, 205, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(54, 162, 235, 0.2)",
-          "rgba(153, 102, 255, 0.2)", "rgba(201, 203, 207, 0.2)"
-        ],
-        borderColor: 'rgb(47, 128, 237)',
-        data: [300, 400, 222, 500, 800, 1000, 200, 290, 560, 800 , 190],
-      }]
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true,
-          }
-        }]
-      }
-    },
-  });
-</script> --}}
+
 <style>
   .chart-container {
     width: 80%;
@@ -444,8 +399,6 @@
 
 <script>
       const ctx1 = document.getElementById("chart1").getContext('2d');
-      
-      let topTour = document.getElementById("top1").innerHTML;
     // Hàm để lấy dữ liệu từ server-side và vẽ biểu đồ
     async function fetchDataAndDrawChart() {
       function truncateText(text, maxLength) {

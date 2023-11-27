@@ -3,7 +3,7 @@ const userModel = require("../user/UserModel");
 const NotificationModel = require("./NotificationModel");
 const getNotificationByIdUser = async (id_user) => {
   try {
-    const listComment = await notificationModel.find({ user_id: id_user });
+    const listComment = await notificationModel.find({ user_id: id_user }).sort({timestamp: -1});
     if (listComment) {
       return listComment;
     } else {

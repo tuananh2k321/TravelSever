@@ -10,7 +10,7 @@ router.get('/home', [authen.checkTokenCpanel],async function(req, res) {
     const user = req.session.user
     
     try {
-        const bookings = await bookingController.getAllBooking();
+        const bookings = await bookingController.getAllTourBooking();
         const tours = await tourController.getAllTour();
         let totalPriceBooking = 0;
         let totalBooking = bookings.length; // số lượng booking

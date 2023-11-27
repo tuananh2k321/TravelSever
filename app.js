@@ -20,6 +20,7 @@ var bookingAPIRouter = require("./routes/api/BookingApi");
 var tourGuideAPIRouter = require("./routes/api/TourGuideApi");
 const paymentRoutes = require('./routes/api/PaymentRoutes');
 var commentAPIRouter = require("./routes/api/CommentApi")
+var tokenAPIRouter = require("./routes/api/TokenNotificationApi")
 // CPANEL
 var tourCpanelRouter = require("./cpanel/TourCpanel");
 var userCpanelRouter = require("./cpanel/UserCpanel");
@@ -27,7 +28,8 @@ var hotelCpanelRouter = require("./cpanel/HotelCpanel");
 var homePageCpanelRouter = require("./cpanel/HomePageCpanel");
 var destinationCpanelRouter = require("./cpanel/DestinationCpanel");
 
-var tourGuideCpanelRouter = require("./cpanel/TouGuideCpanel")
+var tourGuideCpanelRouter = require("./cpanel/TouGuideCpanel");
+var bookingCpanelRouter = require('./cpanel/MyBookingCpanel');
 var app = express();
 
 // view engine setup
@@ -95,6 +97,9 @@ app.use('/payments', paymentRoutes);
 // http://localhost:3000/comment/api
 app.use("/comment/api", commentAPIRouter);
 
+// http://localhost:3000/tokenNotification/api
+app.use("/tokenNotification/api", tokenAPIRouter);
+
 // CPANEL
 // http://localhost:3000/tour/cpanel
 app.use("/tour/cpanel", tourCpanelRouter);
@@ -112,6 +117,8 @@ app.use("/home-page/cpanel", homePageCpanelRouter);
 app.use("/destination/cpanel", destinationCpanelRouter);
 // http://localhost:3000/tourguide/cpanel
 app.use("/tourguide/cpanel", tourGuideCpanelRouter)
+//http://localhost:3000/booking/cpanel
+app.use("/booking/cpanel", bookingCpanelRouter)
 
 //
 // catch 404 and forward to error handler

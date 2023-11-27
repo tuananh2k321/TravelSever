@@ -9,6 +9,14 @@ const myBookingSchema = new Schema({
   adult: { type: Number, required: true},
   totalPrice: { type: Number},
   bookingDate: { type: Date, default: Date.now },
+  confirm: {type: Boolean, default: false},
+  reason: {type: String, default:""},
+  guestInfo: [{
+    name: { type: String, required: true},
+    birthDate: { type: String, default: Date.now},
+    gender: { type: String, required: true},
+    type: { type: String, default: 'nguoi lon'}
+  }],
   user_id: { type: ObjectId, ref: "user" },
   tour_id: { type: ObjectId, ref: "tour" },
 });

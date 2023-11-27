@@ -19,18 +19,25 @@ router.get('/getFavorite', async (req, res, next) => {
 
         // Sử dụng Promise.all để lấy danh sách tour theo các tour_id trong favorite
         const favoriteListPromises = favorite.map(async (item) => {
-            const tour = await tourController.getTourById(item.tour_id);
-            tour._id = item._id;
-            return tour; // Đối tượng bao gồm tour và idFavorite
+            try {
+                const tour = await tourController.getTourById(item.tour_id);
+                tour._id = item._id;
+                return tour;
+            } catch (error) {
+                // Xử lý lỗi ở đây
+                console.error(`Error fetching tour: ${error.message}`);
+                throw error; // Đảm bảo rằng lỗi được truyền xuống Promise.all
+            }
         });
         const favoriteList = await Promise.all(favoriteListPromises);
 
         
-            res.status(200).json({ result: true, favorite: favoriteList, message: "Get favorite Success" });
+        res.status(200).json({ result: true, favorite: favoriteList, message: "Get favorite Success" });
         
          
-    } catch (error) {
-        res.status(400).json({ result: false, error, message: "Get favorite fail" });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({ result: false, error: err });
     }
 });
 

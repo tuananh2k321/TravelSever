@@ -8,9 +8,9 @@ const getListBooking = async (userID) => {
   }
 };
 
-const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id) => {
+const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id, guestInfo) => {
   try {
-    return await myBookingService.addMyBooking(name, children, adult, totalPrice, user_id, tour_id);
+    return await myBookingService.addMyBooking(name, children, adult, totalPrice, user_id, tour_id, guestInfo);
   } catch (error) {
     return error;
   }
@@ -24,14 +24,22 @@ const deleteBookingbyID = async (id) => {
   }
 };
 
-
 const getAllBooking = async () => {
   try {
-    return await myBookingService.getAllBooking();
+      return await myBookingService.getAllBooking();
+
   } catch (error) {
-    throw error;
+      return false;
   }
-};
+}
+const getAllTourBooking = async () => {
+  try {
+      return await myBookingService.getAllTourBooking();
+
+  } catch (error) {
+      return false;
+  }
+}
 
 const tourIsBooking = async (tourId) => {
   try {
@@ -41,4 +49,12 @@ const tourIsBooking = async (tourId) => {
   }
 };
 
-module.exports = { getListBooking, addMyBooking, deleteBookingbyID,getAllBooking,tourIsBooking };
+const getBookingById = async (id) => {
+  try {
+    return await myBookingService.getBookingById(id);
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { getListBooking, addMyBooking, deleteBookingbyID,getAllBooking,tourIsBooking, getBookingById,getAllTourBooking };

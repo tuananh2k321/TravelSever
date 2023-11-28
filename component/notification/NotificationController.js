@@ -16,4 +16,12 @@ const addNotification = async (image, title, content, timestamp, user_id) =>{
     }
 }
 
-module.exports = {getNotification, addNotification}
+const deleteNotification = async (id) =>{
+    try {
+        await notificationService.deleteById(id);
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports = {getNotification, addNotification, deleteNotification}

@@ -65,4 +65,20 @@ const addNotificationNewTour = async (image, title, content, timestamp, type, us
   return false;
 };
 
-module.exports = { getNotificationByIdUser, addNotification, addNotificationNewTour };
+const deleteById = async (id) => {
+  try {
+      const notifi = await NotificationModel.findOne({ _id: id })
+      console.log(notifi)
+      if (notifi) {
+          await NotificationModel.deleteOne(notifi)
+          return true;
+      } else {
+          return false; 
+      }
+  } catch (error) {
+      console.log("Delete notifi  error" + error);
+      return false;
+  }
+}
+
+module.exports = { getNotificationByIdUser, addNotification, addNotificationNewTour, deleteById };

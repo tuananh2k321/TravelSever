@@ -207,6 +207,26 @@ router.get("/getNotification", async (req, res, next) => {
   }
 });
 
+//http://localhost:3000/notification/api/deleteNotifi?id=""
+router.get("/deleteNotifi", async (req, res, next) => {
+  try {
+    const {id} = req.query
+    const notify = await notificationController.deleteNotification(id);
+    if (notify) {
+      res
+      .status(200)
+      .json({ result: true, notify: notify, message: "Success" });
+    } else {
+      res
+      .status(200)
+      .json({ result: true, notify: null, message: "fail" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ result: false, error, message: "fail" });
+  }
+});
+
 
 
 module.exports = router;

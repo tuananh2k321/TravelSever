@@ -12,9 +12,9 @@ const myBookingSchema = new Schema({
   confirm: {type: Boolean, default: false},
   reason: {type: String, default:""},
   guestInfo: [{
-    name: { type: String, required: true},
+    name: { type: String, default: "abc"},
     birthDate: { type: String, default: Date.now},
-    gender: { type: String, required: true},
+    gender: { type: String, default: "abc"},
     type: { type: String, default: 'nguoi lon'}
   }],
   user_id: { type: ObjectId, ref: "user" },

@@ -57,6 +57,14 @@ const getBookingById = async (id) => {
   }
 };
 
+const handleCanceledBooking = async (id) => {
+  try {
+    return await myBookingService.handleCanceledBooking(id);
+  } catch (error) {
+    throw error;
+  }
+};
+
 const getBookingByIdUser = async (id) => {
   try {
     return await myBookingService.getBookingByIdUser(id);
@@ -66,4 +74,5 @@ const getBookingByIdUser = async (id) => {
 };
 
 module.exports = { getListBooking, addMyBooking, deleteBookingbyID,
-  getAllBooking,tourIsBooking, getBookingById,getAllTourBooking, getBookingByIdUser };
+  getAllBooking,tourIsBooking, getBookingById,
+  getAllTourBooking, getBookingByIdUser, handleCanceledBooking };

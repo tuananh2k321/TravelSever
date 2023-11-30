@@ -129,14 +129,14 @@ router.get('/get-handle-booking-app', async (req, res, next) => {
     }
 });
 
-// http://localhost:3000/booking/api/get-new-booking-app?idUser=""
+// http://localhost:3000/booking/api/get-confirmed-booking-app?idUser=""
 router.get('/get-confirmed-booking-app', async (req, res, next) => {
     try {
         const {idUser} = req.query
         const response = await bookingController.getBookingByIdUser(idUser);
 
         // Lọc danh sách có response.isCancel === true
-        const newBookings = response.filter(booking => booking.confirm === false);
+        const newBookings = response.filter(booking => booking.confirm === true && booking.handleCancel === false);
 
         console.log("Canceled Bookings:", newBookings);
 

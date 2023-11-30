@@ -92,9 +92,9 @@ router.get('/get-canceled-booking', async (req, res, next) => {
         res.status(400).json({ result: false, error, message: "Get bookings failed" });
     }
 });
-
-// http://localhost:3000/booking/api/get-new-booking
-router.get('/get-new-booking', async (req, res, next) => {
+// cpanel
+// http://localhost:3000/booking/api/get-new-booking-cpanel
+router.get('/get-new-booking-cpanel', async (req, res, next) => {
     try {
         const response = await bookingController.getAllBooking();
 
@@ -105,6 +105,24 @@ router.get('/get-new-booking', async (req, res, next) => {
 
         res.status(200).json({ result: true, newBookings: newBookings, message: "Get new bookings success" });
     } catch (error) {
+        res.status(400).json({ result: false, error, message: "Get bookings failed" });
+    }
+});
+
+// http://localhost:3000/booking/api/get-new-booking-app?idUser=""
+router.get('/get-new-booking-app', async (req, res, next) => {
+    try {
+        const {idUser} = req.query
+        const response = await bookingController.getBookingByIdUser(idUser);
+
+        // Lọc danh sách có response.isCancel === true
+        const newBookings = response.filter(booking => booking.confirm === false);
+
+        console.log("Canceled Bookings:", newBookings);
+
+        res.status(200).json({ result: true, newBookings: newBookings, message: "Get new bookings success" });
+    } catch (error) {
+        console.log(error)
         res.status(400).json({ result: false, error, message: "Get bookings failed" });
     }
 });

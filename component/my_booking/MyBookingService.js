@@ -113,6 +113,20 @@ const getBookingById = async (id) => {
   }
 }
 
+const getBookingByIdUser = async (id) => {
+  try {
+    const booking = await mybookingModel.find({ user_id: id });
+    console.log('Booking: '+ booking)
+    if (booking) {
+      return booking;
+    } else {
+      return false
+    }
+  } catch (error) {
+    console.log("getBookingById", error);
+  }
+}
+
 const confirmBooking = async (id) => {
   try {
     const booking = await MyBookingModel.findOne({ _id: id })
@@ -170,4 +184,4 @@ const addReason = async (id, reason) => {
 
 module.exports = { getListBooking, addMyBooking, 
   deleteBooking, getAllBooking, tourIsBooking, getAllTourBooking,
-  getBookingById, confirmBooking, addReason, completedBooking, canceledBooking };
+  getBookingById, confirmBooking, addReason, completedBooking, canceledBooking, getBookingByIdUser };

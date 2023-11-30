@@ -57,4 +57,13 @@ const getBookingById = async (id) => {
   }
 };
 
-module.exports = { getListBooking, addMyBooking, deleteBookingbyID,getAllBooking,tourIsBooking, getBookingById,getAllTourBooking };
+const getBookingByIdUser = async (id) => {
+  try {
+    return await myBookingService.getBookingByIdUser(id);
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { getListBooking, addMyBooking, deleteBookingbyID,
+  getAllBooking,tourIsBooking, getBookingById,getAllTourBooking, getBookingByIdUser };

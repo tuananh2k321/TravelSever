@@ -115,7 +115,8 @@ const getBookingById = async (id) => {
 
 const getBookingByIdUser = async (id) => {
   try {
-    const booking = await mybookingModel.find({ user_id: id });
+    //const booking = await mybookingModel.find({ user_id: id });
+    const booking = await mybookingModel.find({ user_id: id }).populate('tour_id').sort({ bookingDate: -1 });
     console.log('Booking: '+ booking)
     if (booking) {
       return booking;

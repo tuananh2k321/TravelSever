@@ -180,6 +180,19 @@ const handleCanceledBooking = async (id) => {
   }
 }
 
+const cancelRequired = async (id) => {
+  try {
+    const booking = await MyBookingModel.findOne({ _id: id })
+    if (booking) {
+      booking.handleCancel = false;
+      const b = await booking.save();
+      return b
+    }
+  } catch (error) { 
+    console.log("confirmBooking", error);
+  }
+}
+
 const addReason = async (id, reason) => {
   try {
     const booking = await MyBookingModel.findOne({ _id: id })
@@ -199,4 +212,4 @@ const addReason = async (id, reason) => {
 module.exports = { getListBooking, addMyBooking, 
   deleteBooking, getAllBooking, tourIsBooking, getAllTourBooking,
   getBookingById, confirmBooking, addReason, completedBooking, 
-  canceledBooking, getBookingByIdUser, handleCanceledBooking };
+  canceledBooking, getBookingByIdUser, handleCanceledBooking, cancelRequired };

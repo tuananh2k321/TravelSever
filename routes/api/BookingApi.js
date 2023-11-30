@@ -65,17 +65,82 @@ router.delete("/deleteBooking/:id", async (req, res, next) => {
 });
 
 
-// http://localhost:3000/booking/api/getAllBooking
+// http://localhost:3000/booking/api/get-All-Booking
 router.get('/get-All-Booking', async (req, res, next) => {
     try {
         const reponse = await bookingController.getAllBooking();
-
+        
         console.log("check booking", reponse[0].user_id);
         res.status(200).json({ result: true, reponse, message: "Get booking Success" })
     } catch (error) {
         res.status(400).json({ result: false, error, message: "Get favorite fail" })
     }
 });
+
+// http://localhost:3000/booking/api/get-canceled-booking
+router.get('/get-canceled-booking', async (req, res, next) => {
+    try {
+        const response = await bookingController.getAllBooking();
+
+        // Lọc danh sách có response.isCancel === true
+        const canceledBookings = response.filter(booking => booking.isCancel === true);
+
+        console.log("Canceled Bookings:", canceledBookings);
+
+        res.status(200).json({ result: true, canceledBookings: canceledBookings, message: "Get canceled bookings success" });
+    } catch (error) {
+        res.status(400).json({ result: false, error, message: "Get bookings failed" });
+    }
+});
+
+// http://localhost:3000/booking/api/get-new-booking
+router.get('/get-new-booking', async (req, res, next) => {
+    try {
+        const response = await bookingController.getAllBooking();
+
+        // Lọc danh sách có response.isCancel === true
+        const newBookings = response.filter(booking => booking.confirm === false);
+
+        console.log("Canceled Bookings:", newBookings);
+
+        res.status(200).json({ result: true, newBookings: newBookings, message: "Get new bookings success" });
+    } catch (error) {
+        res.status(400).json({ result: false, error, message: "Get bookings failed" });
+    }
+});
+
+// http://localhost:3000/booking/api/get-confirmed-booking
+router.get('/get-confirmed-booking', async (req, res, next) => {
+    try {
+        const response = await bookingController.getAllBooking();
+
+        // Lọc danh sách có response.isCancel === true
+        const newBookings = response.filter(booking => booking.confirm === true);
+
+        console.log("Canceled Bookings:", newBookings);
+
+        res.status(200).json({ result: true, newBookings: newBookings, message: "Get new bookings success" });
+    } catch (error) {
+        res.status(400).json({ result: false, error, message: "Get bookings failed" });
+    }
+});
+
+// http://localhost:3000/booking/api/get-completed-booking
+router.get('/get-completed-booking', async (req, res, next) => {
+    try {
+        const response = await bookingController.getAllBooking();
+
+        // Lọc danh sách có response.isCancel === true
+        const completedBookings = response.filter(booking => booking.isComplete === true);
+
+        console.log("Canceled Bookings:", completedBookings);
+
+        res.status(200).json({ result: true, completedBookings: completedBookings, message: "Get completed bookings success" });
+    } catch (error) {
+        res.status(400).json({ result: false, error, message: "Get bookings failed" });
+    }
+});
+
 
 
 // chart

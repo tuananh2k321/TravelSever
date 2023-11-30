@@ -17,6 +17,9 @@ const myBookingSchema = new Schema({
     gender: { type: String, default: "abc"},
     type: { type: String, default: 'nguoi lon'}
   }],
+  isCancel: {type: Boolean, default: false},
+  isCompleted: {type: Boolean, default: false},
+  expertlyDate: {type: String, default: ""},
   user_id: { type: ObjectId, ref: "user" },
   tour_id: { type: ObjectId, ref: "tour" },
 });

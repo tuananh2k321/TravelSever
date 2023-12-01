@@ -14,7 +14,7 @@ admin.initializeApp({
 //http://localhost:3000/notification/api/push-notification-feedback?userId=""&tourId=""
 router.get("/push-notification-feedback", async (req, res, next) => {
   try {
-    const { userId, tourId } = req.query;
+    const { userId, tourId, bookingId } = req.query;
     const tokens = await tokenController.getTokenByUserId(userId);
     const tokensArray = tokens.map((tokenObj) => tokenObj.token);
     console.log(tokensArray);
@@ -38,7 +38,7 @@ router.get("/push-notification-feedback", async (req, res, next) => {
     const timeStamp = currentTime
     const type = "feedback"
     const notification = await notificationService.addNotification(image, title, content, timeStamp,type, userId, tourId)
-    await bookingService.completedBooking(id)
+    await bookingService.completedBooking(bookingId)
     console.log(notification)
     if (notification) {
       const response = await admin.messaging().sendEachForMulticast(message);

@@ -14,11 +14,11 @@ const bookingService = require("../component/my_booking/MyBookingService");
 //     messagingSenderId: '579542678002'
 //   });
 
-//http://localhost:3000/booking/cpanel/push-notification-feedback?userId=""&tourId=""
+//http://localhost:3000/booking/cpanel/push-notification-feedback?userId=""&tourId=""&bookingId=""
 router.get("/push-notification-feedback", async (req, res, next) => {
   try {
-    const { userId, tourId } = req.query;
-    const tokens = await tokenController.getToken();
+    const { userId, tourId, bookingId } = req.query;
+    const tokens = await tokenController.getTokenByUserId(userId);
     const tokensArray = tokens.map((tokenObj) => tokenObj.token);
     console.log(tokensArray);
 
@@ -41,6 +41,7 @@ router.get("/push-notification-feedback", async (req, res, next) => {
     const timeStamp = currentTime
     const type = "feedback"
     const notification = await notificationService.addNotification(image, title, content, timeStamp,type, userId, tourId)
+    await bookingService.completedBooking(bookingId)
     console.log(notification)
     if (notification) {
         const response = await admin.messaging().sendEachForMulticast(message);
@@ -163,7 +164,7 @@ router.get('/get-new-booking-cpanel', async (req, res, next) => {
       const response = await MyBookingController.getAllBooking();
 
       // Lọc danh sách có response.isCancel === true
-      const newBookings = response.filter(booking => booking.confirm === false);
+      const newBookings = response.filter(booking => booking.confirm === false );
 
       console.log("Canceled Bookings:", newBookings);
 
@@ -230,13 +231,36 @@ router.get('/get-completed-booking', async (req, res, next) => {
       const response = await MyBookingController.getAllBooking();
 
       // Lọc danh sách có response.isCancel === true
-      const completedBookings = response.filter(booking => booking.isComplete === true);
+      const completedBookings = response.filter((booking) => booking.isCompleted === true && booking.confirm == true);
       const user = req.session.user;
       // console.log("Canceled Bookings:", completedBookings);
 
       res.render('mybooking/bookingComplete', { completedBookings, user});
   } catch (error) {
       res.status(400).json({ result: false, error, message: "Get bookings failed" });
+  }
+});
+
+
+// http://localhost:3000/booking/cpanel/get-uncompleted-booking
+router.get("/get-uncompleted-booking", async (req, res, next) => {
+  try {
+    const response = await MyBookingController.getAllBooking();
+
+    // Lọc danh sách có response.isCancel === true
+    const uncompletedBookings = await response.filter((booking) => booking.isCompleted === false && booking.confirm == true);
+    const user = req.session.user;
+    // console.log("departmentDate:", completedBookings[0].tour_id.departmentDate);
+    // console.log(
+    //   "expectedDate:",
+    //   completedBookings[0].tour_id.departmentDate +
+    //     completedBookings[0].tour_id.limitedDay.match(/\d+/)
+    // );
+    res.render('mybooking/bookingUnComplete', { uncompletedBookings, user});
+  } catch (error) {
+    res
+      .status(400)
+      .json({ result: false, error, message: "Get bookings failed" });
   }
 });
 

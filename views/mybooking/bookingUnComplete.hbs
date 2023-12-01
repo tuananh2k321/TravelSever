@@ -194,7 +194,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Chờ xác nhận Tour</h1>
+    <h1>Tour đang tiến hành</h1>
     <div class="gap-4 d-md-flex justify-content-md-end">
       <select id="myDropdown" onchange="goToPage(this)">
       <option value="">Chọn trang</option>
@@ -204,7 +204,6 @@
       <option value="../cpanel/get-canceled-booking">Chờ hủy</option>
     </select>
     </div>
-    
   </div><!-- End Page Title -->
 
   <section class="section">
@@ -223,21 +222,19 @@
 
             <!-- Table with stripped rows -->
             <table class="table">
-              <thead>
+              <thead >
                 <tr class="col-lg-12">
-                  <th class="col-lg-2" scope="col">Ngày đặt tour</th>
-                  <th class="col-lg-2" scope="col">Hình ảnh Tour</th>
+                  <th class="col-lg-3" scope="col">Hình ảnh Tour</th>
                   <th class="col-lg-3" scope="col">Tên Tour</th>
-                  <th class="col-lg-2" scope="col">Ảnh người đăng ký</th>
-                  <th class="col-lg-2" scope="col">Người đăng ký</th>
-                  {{!-- <th class="col-lg-3" scope="col">Trạng thái xác nhận</th> --}}
+                  <th class="col-lg-3" scope="col">Hình ảnh User</th>
+                  <th class="col-lg-3" scope="col">Tên User</th>
+                  {{!-- <th class="col-lg-3" scope="col">Lý do</th> --}}
                 </tr>
               </thead>
               <tbody>
-                {{#each newBookings}}
+                {{#each uncompletedBookings}}
 
                 <tr>
-                  <td> {{this.bookingDate}} </td>
                   <td class="py-1">
                     <img src="{{this.tour_id.tourImage}}" alt="Không có ảnh" width="200" height="100" />
                   </td>
@@ -246,19 +243,17 @@
                     <img src="{{this.user_id.avatar}}" alt="Không có ảnh" width="200" height="100" />
                   </td>
                   <td> {{this.user_id.name}} </td>
-                  {{!-- <td> {{this.confirm}} </td> --}}
+                  {{!-- <td> {{this.reason}} </td> --}}
 
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
-                      <a href="/booking/cpanel/getBookingById?id={{this._id}}" class="btn btn-success m-1">
-                        <i class='bx bx-detail'></i>
-                      </a>
-                      <a onclick="confirm('{{this.user_id._id}}','{{this.tour_id._id}}', '{{this._id}}')" type="button"
-                        class="btn btn-primary m-1">
+                      <a onclick="confirmFeedback('{{this.user_id._id}}','{{this.tour_id._id}}','{{this._id}}')" type="button" class="btn btn-success m-1">
+                        <i class='bx bx-bell'></i>
+                      </a>  
+                      {{!-- <a onclick="confirm('{{this.user_id._id}}','{{this.tour_id._id}}', '{{this._id}}')" type="button" class="btn btn-primary m-1">
                         <iconify-icon icon="ic:baseline-check"></iconify-icon>
-                      </a>
-                      {{!-- <a onclick="confirmDelete('{{this.user_id._id}}','{{this.tour_id._id}}', '{{this._id}}')"
-                        type="button" class="btn btn-danger m-1">
+                      </a> --}}
+                      {{!-- <a onclick="confirmDelete('{{this.user_id._id}}','{{this.tour_id._id}}', '{{this._id}}')" type="button" class="btn btn-danger m-1">
                         <i class='bx bx-trash'></i>
                       </a> --}}
                     </div>
@@ -290,10 +285,8 @@
     return res.json();
   }
 
-
-
-  const comfirmBooking = async (user_id, tour_id, id) => {
-    const url = `/booking/cpanel/push-notification-confirm?userId=${user_id}&tourId=${tour_id}&id=${id}`;
+  const pushFeedback = async (user_id, tour_id, booking_id) => {
+    const url = `/booking/cpanel/push-notification-feedback?userId=${user_id}&tourId=${tour_id}&bookingId=${booking_id}`;
 
     const option = {
       method: 'get',
@@ -301,75 +294,30 @@
     }
     try {
       const result = await fetchAPI(url, option);
-      console.log('comfirm result: ', result)
+      console.log('delete result: ', result)
     } catch (e) {
-      console.log('error comfirm: ', e)
+      console.log('error delete: ', e)
       throw e;
     }
   }
 
 
-  const confirm = (user_id, tour_id, id) => {
+  const confirmFeedback = (user_id, tour_id, booking_id) => {
     swal({
-      title: "Thông báo Xác nhận",
-      text: "Bạn có muốn gửi thông báo xác nhận này?",
+      title: "Xác nhận gửi Feedback?",
+      text: "Bạn có muốn gửi Feedback đến tour này?",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     })
-      .then((comfirmm) => {
-        if (comfirmm) {
-          comfirmBooking(user_id, tour_id, id);
+      .then((willDelete) => {
+        if (willDelete) {
+          pushFeedback(user_id, tour_id, booking_id);
           swal({
             title: "Success!",
-            text: "Gửi thông báo xác nhận thành công!!",
+            text: "Gửi Feedback thành công!!",
             icon: "success"
-          }).then((wil) => {
-            if(wil){
-              window.location.reload();
-            }
-            
-          })
-        }
-      });
-  }
-
-
-
-
-  const deleteBooking = async (user_id, tour_id, id) => {
-    const url = `/booking/cpanel/push-notification-delete?userId=${user_id}&tourId=${tour_id}&id=${id}`;
-
-    const option = {
-      method: 'get',
-      headers: { 'Content-Type': 'application/json' }
-    }
-    try {
-      const result = await fetchAPI(url, option);
-      console.log('comfirm result: ', result)
-    } catch (e) {
-      console.log('error comfirm: ', e)
-      throw e;
-    }
-  }
-
-
-  const confirmDelete = (user_id, tour_id, id) => {
-    swal({
-      title: "Xác nhận xóa tour đã đặt này ?",
-      text: "Bạn chắc chắn muốn xóa và gửi thông báo đến người dùng?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((will1) => {
-        if (will1) {
-          deleteBooking(user_id, tour_id, id);
-          swal({
-            title: "Success!",
-            text: "Gửi xóa và gửi thông báo thành công!!",
-            icon: "success"
-          }).then((wil) => {
+          }).then(() => {
             window.location.reload();
           })
         }
@@ -380,8 +328,6 @@
   function showGenre(item) {
     document.getElementById("dropdownMenuLink").innerHTML = item.innerHTML;
   }
-
-
   function goToPage(select) {
   var selectedOption = select.options[select.selectedIndex].value;
   

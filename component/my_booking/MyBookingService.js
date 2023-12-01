@@ -145,7 +145,8 @@ const getBookingById = async (id) => {
 
 const getBookingByIdUser = async (id) => {
   try {
-    const booking = await mybookingModel.find({ user_id: id });
+    //const booking = await mybookingModel.find({ user_id: id });
+    const booking = await mybookingModel.find({ user_id: id }).populate('tour_id').sort({ bookingDate: -1 });
     console.log('Booking: '+ booking)
     if (booking) {
       return booking;
@@ -196,6 +197,32 @@ const canceledBooking = async (id) => {
   }
 }
 
+const handleCanceledBooking = async (id) => {
+  try {
+    const booking = await MyBookingModel.findOne({ _id: id })
+    if (booking) {
+      booking.handleCancel = true;
+      const b = await booking.save();
+      return b
+    }
+  } catch (error) { 
+    console.log("confirmBooking", error);
+  }
+}
+
+const cancelRequired = async (id) => {
+  try {
+    const booking = await MyBookingModel.findOne({ _id: id })
+    if (booking) {
+      booking.handleCancel = false;
+      const b = await booking.save();
+      return b
+    }
+  } catch (error) { 
+    console.log("confirmBooking", error);
+  }
+}
+
 const addReason = async (id, reason) => {
   try {
     const booking = await MyBookingModel.findOne({ _id: id })
@@ -214,4 +241,5 @@ const addReason = async (id, reason) => {
 
 module.exports = { getListBooking, addMyBooking, 
   deleteBooking, getAllBooking, tourIsBooking, getAllTourBooking,
-  getBookingById, confirmBooking, addReason, completedBooking, canceledBooking, getBookingByIdUser };
+  getBookingById, confirmBooking, addReason, completedBooking, 
+  canceledBooking, getBookingByIdUser, handleCanceledBooking, cancelRequired };

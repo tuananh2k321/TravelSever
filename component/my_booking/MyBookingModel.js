@@ -18,6 +18,7 @@ const myBookingSchema = new Schema({
     type: { type: String, default: 'nguoi lon'}
   }],
   isCancel: {type: Boolean, default: false},
+  handleCancel: {type: Boolean, default: false},
   isCompleted: {type: Boolean, default: false},
   expertlyDate: {type: String, default: ""},
   user_id: { type: ObjectId, ref: "user" },

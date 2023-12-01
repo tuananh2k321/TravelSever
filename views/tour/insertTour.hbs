@@ -230,7 +230,7 @@
             <!-- General Form Elements -->
             <form method="post" enctype="multipart/form-data" action="/tour/cpanel/insert-tour">
               <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">Tour Name</label>
+                <label for="inputText" class="col-sm-2 col-form-label">Tên Tour</label>
                 <div class="col-sm-10">
                   <input type="text" name="tourName" class="form-control">
                   <div>
@@ -238,92 +238,92 @@
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputNumber" class="col-sm-2 col-form-label">adultPrice</label>
+                <label for="inputNumber" class="col-sm-2 col-form-label">Giá người lớn</label>
                 <div class="col-sm-10">
                   <input type="text" name="adultPrice" class="form-control">
                 </div>
               </div>
                <div class="row mb-3">
-                <label for="inputNumber" class="col-sm-2 col-form-label">childrenPrice</label>
+                <label for="inputNumber" class="col-sm-2 col-form-label">Giá trẻ em</label>
                 <div class="col-sm-10">
                   <input type="text" name="childrenPrice" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputNumber" class="col-sm-2 col-form-label">childrenAge</label>
+                <label for="inputNumber" class="col-sm-2 col-form-label">Độ tuổi trẻ em</label>
                 <div class="col-sm-10">
                   <input type="text" name="childrenAge" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputNumber" class="col-sm-2 col-form-label">adultAge</label>
+                <label for="inputNumber" class="col-sm-2 col-form-label">Độ tuổi người lớn</label>
                 <div class="col-sm-10">
                   <input type="text" name="adultAge" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">departmentPlace</label>
+                <label for="inputText" class="col-sm-2 col-form-label">Nơi khởi hành</label>
                 <div class="col-sm-10">
                   <input type="text" name="departmentPlace" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">departmentDate</label>
+                <label for="inputText" class="col-sm-2 col-form-label">Ngày khởi hành</label>
                 <div class="col-sm-10">
                   <input type="text" name="departmentDate" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">Ratings</label>
+                <label for="inputText" class="col-sm-2 col-form-label">Xếp hạng</label>
                 <div class="col-sm-10">
                   <input type="text" name="rating" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">isdomain</label>
+                <label for="inputText" class="col-sm-2 col-form-label">Vùng Miền</label>
                 <div class="col-sm-10">
                   <input type="text" name="isdomain" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">limitedDay</label>
+                <label for="inputText" class="col-sm-2 col-form-label">Thời gian đi</label>
                 <div class="col-sm-10">
                   <input type="text" name="limitedDay" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">operatingDay</label>
+                <label for="inputText" class="col-sm-2 col-form-label">Ngày hoạt động</label>
                 <div class="col-sm-10">
                   <input type="text" name="operatingDay" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">limitedPerson</label>
+                <label for="inputText" class="col-sm-2 col-form-label">Giới hạn người</label>
                 <div class="col-sm-10">
                   <input type="text" name="limitedPerson" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">offer</label>
+                <label for="inputText" class="col-sm-2 col-form-label">Giảm giá</label>
                 <div class="col-sm-10">
                   <input type="text" name="offer" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">vehicle</label>
+                <label for="inputText" class="col-sm-2 col-form-label">Phương tiện</label>
                 <div class="col-sm-10">
                   <input type="text" name="vehicle" class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">Hotel</label>
+                <label for="inputText" class="col-sm-2 col-form-label">Khách sạn</label>
                 <div class="col-sm-10">
                   {{!-- <select name="hotel_id" id="hotel_id" class="form-control">
                     {{#each hotel}}
                     <option value="{{this._id}}">{{this.hotelName}}</option>
                     {{/each}}
                   </select> --}}
-                  <div class="col-sm-10 btn btn-outline-primary" onclick="toggleDialogHotel()">Ấn vào để chọn Hotel cho tour cua ban</div> 
+                  <div class="col-sm-10 btn btn-outline-primary" id="hotelName" onclick="toggleDialogHotel()">Ấn vào để chọn Hotel cho tour của bạn</div> 
                    <div id="dialogHotel" class="container">
                         <div class="row">
                           <h2>Danh sách chọn Hotels</h2>
@@ -337,19 +337,19 @@
                                       <table class="table table-bordered">
                                         <thead>
                                           <tr>
-                                            <th scope="col">Select</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">phoneNumber</th>
-                                            <th scope="col">email</th>
-                                            <th scope="col">workPlaces</th>
+                                            <th scope="col"></th>
+                                            <th scope="col">Tên</th>
+                                            <th scope="col">Số điện thoại</th>
+                                            <th scope="col">địa chỉ</th>
+                                            <th scope="col">xếp hạng</th>
                                           </tr>
                                         </thead>
                                        <tbody>
                                           {{#each hotel}}
-                                          <tr>
+                                          <tr class="{{#if this.isSelected}}selected{{/if}}">
                                              <td>
                                               <div class="custom-control custom-checkbox">
-                                                  <input  name="hotel_id" value="{{this._id}}" class="form-check-input" type="radio">
+                                                  <input  name="hotel_id" placeholder="{{this.hotelName}}" value="{{this._id}}" class="form-check-input" type="radio">
                                                   <label value="{{this._id}}" class="form-check-label">{{@index}}</label>
                                               </div>
                                             </td>
@@ -371,14 +371,14 @@
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">TourGuide</label>
+                <label for="inputText" class="col-sm-2 col-form-label">Hướng dẫn viên</label>
                 <div class="col-sm-10">
                   {{!-- <select name="id_tourGuide" id="id_tourGuide" class="form-control">
                     {{#each tourGuide}}
                     <option value="{{this._id}}">{{this.name}}</option>
                     {{/each}}
                   </select> --}}
-                    <div class="col-sm-10 btn btn-outline-primary" onclick="toggleDialogTourGuide()">Ấn vào để chọn HDV cho tour cua ban</div> 
+                    <div class="col-sm-10 btn btn-outline-primary" id="tourGuide" onclick="toggleDialogTourGuide()">Ấn vào để chọn HDV cho tour cua ban</div> 
                 </div>
                  <div id="dialogTourGuide" class="container">
                         <div class="row">
@@ -393,11 +393,11 @@
                                       <table class="table table-bordered">
                                         <thead>
                                           <tr>
-                                            <th scope="col">Select</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">phoneNumber</th>
+                                            <th scope="col"></th>
+                                            <th scope="col">Tên</th>
+                                            <th scope="col">Số điện thoại</th>
                                             <th scope="col">email</th>
-                                            <th scope="col">workPlaces</th>
+                                            <th scope="col">Nơi làm việc</th>
                                           </tr>
                                         </thead>
                                        <tbody>
@@ -405,7 +405,7 @@
                                           <tr>
                                              <td>
                                               <div class="custom-control custom-checkbox">
-                                                  <input  name="tourGuide_id" value="{{this._id}}" class="form-check-input" type="radio">
+                                                  <input  name="tourGuide_id" value="{{this._id}}" placeholder="{{this.name}}" class="form-check-input" type="radio">
                                                   <label value="{{this._id}}" class="form-check-label">{{@index}}</label>
                                               </div>
                                             </td>
@@ -427,11 +427,11 @@
               </div>
               {{!-- isStatee --}}
               <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">isSate</label>
+                <label for="inputText" class="col-sm-2 col-form-label">Trạng thái</label>
                 <div class="col-sm-10">
                   <select id="isState" name="isState">
-                    <option value="true">true</option>
-                    <option value="false">false</option>
+                    <option value="true">Hoạt động</option>
+                    <option value="false">Không Hoạt động</option>
                   </select>
                 </div>
               </div>
@@ -439,7 +439,7 @@
               <div class="row mb-3 form-group">
                 <legend class="col-form-label col-sm-2 pt-0">Điểm đến</legend>
                 <div class="col-sm-10">
-                  <div class="col-sm-10 btn btn-outline-primary" onclick="toggleDialog()">Ấn vào để chọn điểm đến cho tour của bạn</div> 
+                  <div class="col-sm-10 btn btn-outline-primary" id="destination" onclick="toggleDialog()">Ấn vào để chọn điểm đến cho tour của bạn</div> 
                   </div>
                       <div id="dialog" class="container">
                         <div class="row">
@@ -454,10 +454,8 @@
                                       <table class="table table-bordered">
                                         <thead>
                                           <tr>
-                                            <th scope="col">Checkbox</th>
+                                            <th scope="col"></th>
                                             <th scope="col">Name</th>
-                                            <th scope="col">Address</th>
-                                            <th scope="col">Area</th>
                                           </tr>
                                         </thead>
                                        <tbody>
@@ -465,14 +463,12 @@
                                           <tr>
                                              <td>
                                               <div class="custom-control custom-checkbox">
-                                                  <input  name="destination_id" value="{{this._id}}" class="form-check-input" type="checkbox"
-                                                    name="destination_id">
+                                                  <input  name="destination_id" placeholder="{{this.destinationName}}" value="{{this._id}}" class="form-check-input" type="radio"
+                                                   >
                                                   <label value="{{this._id}}" class="form-check-label">{{@index}}</label>
                                               </div>
                                             </td>
                                             <td> {{this.destinationName}} </td>
-                                            <td> {{this.address}}</td>
-                                            <td> {{this.area}}</td>
                                           </tr>
                                           {{/each}}
 
@@ -486,21 +482,21 @@
                       </div>
               </div>
               <div class="row mb-3">
-                <label for="inputNumber" class="col-sm-2 col-form-label">Image Upload</label>
+                <label for="inputNumber" class="col-sm-2 col-form-label">Thêm hình ảnh</label>
                 <div class="col-sm-10">
                   <input class="form-control" name="tourImage" type="file" id="formFile" multiple="multiple" />
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Descriptions</label>
+                <label for="inputPassword" class="col-sm-2 col-form-label">Mô tả</label>
                 <div class="col-sm-10">
                   <textarea class="form-control" name="description" style="height: 200px"></textarea>
                 </div>
               </div>
               <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">Submit Button</label>
+                <label class="col-sm-2 col-form-label">Xác nhận </label>
                 <div class="col-sm-10">
-                  <button type="submit" class="btn btn-primary">Submit Form</button>
+                  <button type="submit" class="btn btn-primary">Xác nhận</button>
                 </div>
               </div>
 
@@ -538,15 +534,29 @@
 
     // JavaScript để xử lý khi nhấp vào nút "OK"
     function handleOK() {
+       const radioButtons = document.querySelectorAll('input[name="destination_id"]:checked');
+
+    // Kiểm tra xem có radio button nào được chọn hay không
+    if (radioButtons.length > 0) {
+        // Lấy giá trị của radio button đã chọn
+        const selectedTourGuide = radioButtons[0].placeholder;
+        document.getElementById("destination").innerHTML = selectedTourGuide;
+        // Thực hiện các hành động khác nếu cần
+        
+    } else {
+        // Hiển thị thông báo hoặc thực hiện hành động khác nếu không có radio button nào được chọn
+        console.log('Vui lòng chọn một khách sạn.');
+    }
         toggleDialog();
     }
 
     // JavaScript để xử lý khi nhấp vào nút "Cancel"
     function handleCancel() {
-       var checkboxes = document.querySelectorAll("input[type=checkbox]");
-        checkboxes.forEach(function(checkbox) {
-            checkbox.checked = selectedOptions[checkbox.id];
-        });
+    //   var checkboxes = document.querySelectorAll("input[type=checkbox]");
+      //  checkboxes.forEach(function(checkbox) {
+       //     checkbox.checked = selectedOptions[checkbox.id];
+      //  });
+      
         toggleDialog();
     }
 </script>
@@ -566,6 +576,19 @@
 
     // JavaScript để xử lý khi nhấp vào nút "OK"
     function handleOKTourGuide() {
+        const radioButtons = document.querySelectorAll('input[name="tourGuide_id"]:checked');
+
+    // Kiểm tra xem có radio button nào được chọn hay không
+    if (radioButtons.length > 0) {
+        // Lấy giá trị của radio button đã chọn
+        const selectedTourGuide = radioButtons[0].placeholder;
+        document.getElementById("tourGuide").innerHTML = selectedTourGuide;
+        // Thực hiện các hành động khác nếu cần
+    } else {
+        // Hiển thị thông báo hoặc thực hiện hành động khác nếu không có radio button nào được chọn
+        console.log('Vui lòng chọn một khách sạn.');
+    }
+    
         toggleDialogTourGuide();
     }
 
@@ -589,14 +612,37 @@
         }
     }
 
+
     // JavaScript để xử lý khi nhấp vào nút "OK"
     function handleOKHotel() {
+      // Lấy tất cả các radio button với name là "hotel_id"
+    const radioButtons = document.querySelectorAll('input[name="hotel_id"]:checked');
+
+    // Kiểm tra xem có radio button nào được chọn hay không
+    if (radioButtons.length > 0) {
+        // Lấy giá trị của radio button đã chọn
+        const selectedHotelId = radioButtons[0].placeholder;
+         document.getElementById("hotelName").innerHTML = selectedHotelId;
+        // Thực hiện các hành động khác nếu cần
+        
+    } else {
+        // Hiển thị thông báo hoặc thực hiện hành động khác nếu không có radio button nào được chọn
+        console.log('Vui lòng chọn một khách sạn.');
+    }
         toggleDialogHotel();
+        
+       
     }
 
     // JavaScript để xử lý khi nhấp vào nút "Cancel"
     function handleCancelHotel() {
-       
+       // Hủy chọn bằng cách xóa class 'selected'
+   
         toggleDialogHotel();
+         
     }
+    
+
+
+    
 </script>

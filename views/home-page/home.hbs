@@ -280,16 +280,15 @@
             <div class="card info-card customers-card">
 
               <div class="card-body">
-                <h5 class="card-title">Tour doanh thu thấp nhất</h5>
+                <h5 class="card-title">Tour doanh thu cao nhất</h5>
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-people"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>1244</h6>
-                    <span class="text-danger small pt-1 fw-bold">12%</span> <span
-                      class="text-muted small pt-2 ps-1">decrease</span>
+                    <h6 id="">1244</h6>
+                    
 
                   </div>
                 </div>
@@ -321,6 +320,50 @@
             </div>
 
           </div><!-- End abcd Card -->
+          <div class="col-xxl-12 col-xl-12">
+
+            <div class="card info-card customers-card">
+
+              <div class="card-body">
+                <h5 class="card-title">Tour doanh thu cao nhất</h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-people"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6 id="highestTotalPriceTourId">1244</h6>
+                    <div  class="row mb-3">Doanh thu : <p id="highestTotalPrice"></p> </div> 
+                    <div>Số lượt đặt : <p id="highestSoLan"></p> </div> 
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div><!-- End Customers Card -->
+           <div class="col-xxl-12 col-xl-12">
+
+            <div class="card info-card customers-card">
+
+              <div class="card-body">
+                <h5 class="card-title">Tour doanh thu thấp nhất</h5>
+
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class="bi bi-people"></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6 id="lowestTotalPriceTourId">1244</h6>
+                    <div  class="row mb-3">Doanh thu : <p id="lowestTotalPrice"></p> </div> 
+                    <div>Số lượt đặt : <p id="lowestSoLan"></p> </div> 
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div><!-- End Customers Card -->
            
       
             
@@ -409,7 +452,7 @@
         const response = await fetch('/booking/api/tourIsBooking');
         const data = await response.json();
         
-        topTour = data.top;
+         topTour = data.top;
         console.log("top",topTour)
         let tourIsBooking = data.tourIsBooking;
         let labels = tourIsBooking.map(item => item.tour_name);
@@ -461,6 +504,17 @@ function truncateText(text, maxLength) {
         const response = await fetch('/booking/api/tourIsBooking');
         const data = await response.json();
         let tourIsBooking = data.tourIsBooking;
+        let highestTotalPriceTourId = data.top;
+        
+        document.getElementById("highestTotalPriceTourId").innerHTML = highestTotalPriceTourId.tour_name;
+        document.getElementById("highestTotalPrice").innerHTML = highestTotalPriceTourId.totalPrice;
+        document.getElementById("highestSoLan").innerHTML = highestTotalPriceTourId.soLan;
+
+        
+        let lowestTotalPriceTourId = data.lose;
+        document.getElementById("lowestTotalPriceTourId").innerHTML = lowestTotalPriceTourId.tour_name;
+        document.getElementById("lowestTotalPrice").innerHTML = lowestTotalPriceTourId.totalPrice;
+        document.getElementById("lowestSoLan").innerHTML = lowestTotalPriceTourId.soLan;
         let labels = tourIsBooking.map(item => item.tour_name);
         let values = tourIsBooking.map(item => item.totalPrice);
 

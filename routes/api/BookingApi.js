@@ -343,14 +343,7 @@ router.get("/getAllBooking", async (req, res, next) => {
     for (let i = 0; i < bookings.length; i++) {
       totalPriceBooking = totalPriceBooking + bookings[i].totalPrice;
     }
-    res
-      .status(200)
-      .json({
-        result: true,
-        totalPriceBooking: totalPriceBooking,
-        totalBooking: totalBooking,
-        message: "Get booking Success",
-      });
+    res.status(200).json({result: true,totalPriceBooking: totalPriceBooking,totalBooking: totalBooking,message: "Get booking Success",});
     // res.status(200).json({ result: true, totalPriceBooking:bookings, })
   } catch (error) {
     res

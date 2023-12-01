@@ -15,7 +15,7 @@ const getListBooking = async (userID) => {
 
 const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id, guestInfo) => {
   try {
-    const currentTime = new Date().toLocaleTimeString();
+    const bookingDate = new Date().toLocaleString();
     const newBooking = {
       name,
       children,
@@ -24,7 +24,7 @@ const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id,
       user_id,
       tour_id,
       guestInfo,
-      
+      bookingDate
     };
     const b = new MyBookingModel(newBooking);
     const save_b = await b.save()
@@ -128,6 +128,21 @@ const getBookingByIdUser = async (id) => {
   }
 }
 
+const getCompletedBooking = async () => {
+  try {
+    //const booking = await mybookingModel.find({ user_id: id });
+    const booking = await mybookingModel.find().populate('tour_id').sort({ bookingDate: -1 });
+    //console.log('Booking: '+ booking)
+    if (booking) {
+      return booking;
+    } else {
+      return false
+    }
+  } catch (error) {
+    console.log("getBookingById", error);
+  }
+}
+
 const confirmBooking = async (id) => {
   try {
     const booking = await MyBookingModel.findOne({ _id: id })
@@ -140,6 +155,19 @@ const confirmBooking = async (id) => {
     console.log("confirmBooking", error);
   }
 }
+
+// const expectedDate = async (id) => {
+//   try {
+//     const booking = await MyBookingModel.findOne({ _id: id })
+//     if (booking) {
+//       booking.confirm = true;
+//       const b = await booking.save();
+//       return b
+//     }
+//   } catch (error) { 
+//     console.log("confirmBooking", error);
+//   }
+// }
 
 const completedBooking = async (id) => {
   try {
@@ -212,4 +240,6 @@ const addReason = async (id, reason) => {
 module.exports = { getListBooking, addMyBooking, 
   deleteBooking, getAllBooking, tourIsBooking, getAllTourBooking,
   getBookingById, confirmBooking, addReason, completedBooking, 
-  canceledBooking, getBookingByIdUser, handleCanceledBooking, cancelRequired };
+  canceledBooking, getBookingByIdUser, handleCanceledBooking, cancelRequired,
+  getCompletedBooking
+};

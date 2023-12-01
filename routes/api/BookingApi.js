@@ -280,7 +280,7 @@ router.get("/get-uncompleted-booking", async (req, res, next) => {
 
     // Lọc danh sách có response.isCancel === true
     const completedBookings = await response.filter(
-      (booking) => booking.isCompleted === false
+      (booking) => booking.isCompleted === false &&  booking.confirm === true
     );
 
     console.log("departmentDate:", completedBookings[0].tour_id.departmentDate);
@@ -313,12 +313,12 @@ router.get("/get-completed-booking", async (req, res, next) => {
         (booking) => booking.isCompleted === true
       );
   
-      console.log("departmentDate:", completedBookings[0].tour_id.departmentDate);
-      console.log(
-        "expectedDate:",
-        completedBookings[0].tour_id.departmentDate +
-          completedBookings[0].tour_id.limitedDay.match(/\d+/)
-      );
+    //   console.log("departmentDate:", completedBookings[0].tour_id.departmentDate);
+    //   console.log(
+    //     "expectedDate:",
+    //     completedBookings[0].tour_id.departmentDate +
+    //       completedBookings[0].tour_id.limitedDay.match(/\d+/)
+    //   );
       res
         .status(200)
         .json({

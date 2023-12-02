@@ -64,7 +64,32 @@ const updateDomain = async (id, isdomain) => {
         return false;
     }
 }
-
+const departmentHour = async (id, departmentHour) => {
+    try {
+        let tour = await tourModel.findById(id);
+        if (tour) {
+            tour.departmentHour = departmentHour ? departmentHour : tour.departmentHour;
+            await tour.save();
+            return true;
+        }
+    } catch (e) {
+        console.log("Update tour error :",error);
+        return false;
+    }
+}
+const expectedDate = async (id, expectedDate) => {
+    try {
+        let tour = await tourModel.findById(id);
+        if (tour) {
+            tour.expectedDate = expectedDate ? expectedDate : tour.expectedDate;
+            await tour.save();
+            return true;
+        }
+    } catch (e) {
+        console.log("Update tour error :",error);
+        return false;
+    }
+}
 
 const updateTour = async (id,tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
     operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id) => {
@@ -151,5 +176,6 @@ module.exports = {
     getTourRating,
     updateDomain,
     getTourSearhDomain,
-    getTourListName
+    getTourListName,
+    departmentHour
 };

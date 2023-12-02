@@ -29,6 +29,9 @@ const updateTour = async (id,tourName, adultPrice, childrenPrice,childrenAge,adu
 const updateDomain = async (id, isdomain) => {
         return await tourService.updateDomain(id, isdomain);
 }
+const departmentHour = async (id, departmentHour) => {
+    return await tourService.departmentHour(id, departmentHour);
+}
 
 const deleteTour = async (id) => {
     return await tourService.deleteTour(id);
@@ -56,5 +59,6 @@ module.exports = {
     getTourRating,
     updateDomain,
     getTourSearhDomain,
-    getTourListName
+    getTourListName,
+    departmentHour
 };

@@ -168,7 +168,42 @@ router.post("/updateDomain", async (req, res) => {
     return res.status(500).json({ result: false });
   }
 });
+//http://localhost:3000/tour/api/departmentDate
+router.post("/departmentDate", async (req, res) => {
+  try {
+    const id = req.body.id;
+    const departmentDate = req.body.departmentDate;
+    let tour = await tourModel.findById(id);
+    const ngayThangNamDate = new Date(departmentDate);
+    if (tour) {
+        tour.departmentDate = ngayThangNamDate ? ngayThangNamDate : tour.departmentDate;
+        await tour.save();
+        return res.status(200).json({ result: true, message: "Update Success" });
+    }else {
+      return res.status(400).json({ result: false, message: "fail" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ result: false });
+  }
+});
 
+//http://localhost:3000/tour/api/departmentHour
+router.post("/departmentHour", async (req, res) => {
+  try {
+    const id = req.body.id;
+    const departmentHour = req.body.departmentHour;
+    const result = tourController.departmentHour(id, departmentHour);
+    if (result) {
+      return res.status(200).json({ result: true, message: "Update Success" });
+    } else {
+      return res.status(400).json({ result: false, message: "fail" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ result: false });
+  }
+});
 // http://localhost:3000/tour/api/list/sortBy?sortBy=asc
 router.get("/list/sortBy", async function (req, res, next) {
   try {
@@ -220,5 +255,4 @@ router.get("/list/search", async function (req, res, next) {
       console.log(error);
     }
   });
-
 module.exports = router;

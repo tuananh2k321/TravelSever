@@ -15,7 +15,11 @@ const getListBooking = async (userID) => {
 
 const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id, guestInfo) => {
   try {
-    const currentTime = new Date().toLocaleTimeString();
+    const bookingDate = new Date().toLocaleString();
+    const tour = await tourModel.findById(tour_id);
+    if (!tour) {
+      return res.status(400).json({ message: "Không tìm thấy tour này" });
+    }
     const newBooking = {
       name,
       children,
@@ -24,12 +28,15 @@ const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id,
       user_id,
       tour_id,
       guestInfo,
-      
+      bookingDate
     };
     const b = new MyBookingModel(newBooking);
     const save_b = await b.save()
     //const booking = await mybookingModel.create(newBooking);
     console.log("create booking", save_b);
+    //cập nhật số lượng được đặt tour
+    tour.limitedPerson -= (Number(children) + Number(adult));
+    await tour.save();
     if (save_b) {
       return save_b;
     } else {
@@ -39,7 +46,7 @@ const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id,
 
   } catch (error) {
     console.log(error)
-   }
+  }
 };
 const deleteBooking = async (id) => {
   try {
@@ -113,6 +120,36 @@ const getBookingById = async (id) => {
   }
 }
 
+const getBookingByIdUser = async (id) => {
+  try {
+    //const booking = await mybookingModel.find({ user_id: id });
+    const booking = await mybookingModel.find({ user_id: id }).populate('tour_id').sort({ bookingDate: -1 });
+    console.log('Booking: ' + booking)
+    if (booking) {
+      return booking;
+    } else {
+      return false
+    }
+  } catch (error) {
+    console.log("getBookingById", error);
+  }
+}
+
+const getCompletedBooking = async () => {
+  try {
+    //const booking = await mybookingModel.find({ user_id: id });
+    const booking = await mybookingModel.find().populate('tour_id').sort({ bookingDate: -1 });
+    //console.log('Booking: '+ booking)
+    if (booking) {
+      return booking;
+    } else {
+      return false
+    }
+  } catch (error) {
+    console.log("getBookingById", error);
+  }
+}
+
 const confirmBooking = async (id) => {
   try {
     const booking = await MyBookingModel.findOne({ _id: id })
@@ -121,7 +158,72 @@ const confirmBooking = async (id) => {
       const b = await booking.save();
       return b
     }
-  } catch (error) { 
+  } catch (error) {
+    console.log("confirmBooking", error);
+  }
+}
+
+// const expectedDate = async (id) => {
+//   try {
+//     const booking = await MyBookingModel.findOne({ _id: id })
+//     if (booking) {
+//       booking.confirm = true;
+//       const b = await booking.save();
+//       return b
+//     }
+//   } catch (error) { 
+//     console.log("confirmBooking", error);
+//   }
+// }
+
+const completedBooking = async (id) => {
+  try {
+    const booking = await MyBookingModel.findOne({ _id: id })
+    if (booking) {
+      booking.isCompleted = true;
+      const b = await booking.save();
+      return b
+    }
+  } catch (error) {
+    console.log("confirmBooking", error);
+  }
+}
+
+const canceledBooking = async (id) => {
+  try {
+    const booking = await MyBookingModel.findOne({ _id: id })
+    if (booking) {
+      booking.isCancel = true;
+      const b = await booking.save();
+      return b
+    }
+  } catch (error) {
+    console.log("confirmBooking", error);
+  }
+}
+
+const handleCanceledBooking = async (id) => {
+  try {
+    const booking = await MyBookingModel.findOne({ _id: id })
+    if (booking) {
+      booking.handleCancel = true;
+      const b = await booking.save();
+      return b
+    }
+  } catch (error) {
+    console.log("confirmBooking", error);
+  }
+}
+
+const cancelRequired = async (id) => {
+  try {
+    const booking = await MyBookingModel.findOne({ _id: id })
+    if (booking) {
+      booking.handleCancel = false;
+      const b = await booking.save();
+      return b
+    }
+  } catch (error) {
     console.log("confirmBooking", error);
   }
 }
@@ -130,16 +232,22 @@ const addReason = async (id, reason) => {
   try {
     const booking = await MyBookingModel.findOne({ _id: id })
     if (booking) {
-      booking.reason = reason? reason: booking.reason;
+      booking.reason = reason ? reason : booking.reason;
       const b = await booking.save();
       return b
     } else {
       console.log("null")
     }
-  } catch (error) { 
+  } catch (error) {
     console.log("confirmBooking", error);
   }
 }
 
 
-module.exports = { getListBooking, addMyBooking, deleteBooking, getAllBooking, tourIsBooking, getAllTourBooking,getBookingById, confirmBooking, addReason };
+module.exports = {
+  getListBooking, addMyBooking,
+  deleteBooking, getAllBooking, tourIsBooking, getAllTourBooking,
+  getBookingById, confirmBooking, addReason, completedBooking,
+  canceledBooking, getBookingByIdUser, handleCanceledBooking, cancelRequired,
+  getCompletedBooking
+};

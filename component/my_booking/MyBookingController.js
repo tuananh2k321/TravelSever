@@ -57,4 +57,38 @@ const getBookingById = async (id) => {
   }
 };
 
-module.exports = { getListBooking, addMyBooking, deleteBookingbyID,getAllBooking,tourIsBooking, getBookingById,getAllTourBooking };
+const handleCanceledBooking = async (id) => {
+  try {
+    return await myBookingService.handleCanceledBooking(id);
+  } catch (error) {
+    throw error;
+  }
+};
+
+const cancelRequired = async (id) => {
+  try {
+    return await myBookingService.cancelRequired(id);
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getBookingByIdUser = async (id) => {
+  try {
+    return await myBookingService.getBookingByIdUser(id);
+  } catch (error) {
+    throw error;
+  }
+};
+
+const getCompletedBooking = async () => {
+  try {
+    return await myBookingService.getCompletedBooking();
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { getListBooking, addMyBooking, deleteBookingbyID,
+  getAllBooking,tourIsBooking, getBookingById,
+  getAllTourBooking, getBookingByIdUser, handleCanceledBooking, cancelRequired, getCompletedBooking };

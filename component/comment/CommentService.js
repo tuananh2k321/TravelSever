@@ -2,7 +2,7 @@ const commentModel = require('./CommentModel');
 const userModel = require('../user/UserModel');
 const addComment = async (content, image, rating, user_id, tour_id) => {
     try {
-      const timeStamp = new Date().toLocaleTimeString();
+      const timeStamp = new Date().toLocaleString();
             const comment = {content, image, rating, timeStamp, user_id, tour_id };
             const u = new commentModel(comment);
             await u.save();

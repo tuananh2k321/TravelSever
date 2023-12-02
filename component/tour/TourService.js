@@ -140,6 +140,24 @@ const getTourRating = async () => {
     return [];
 }
 
+const availablePerson = async (tourId, quantity) => {
+    try {
+        const tour =  await tourModel.findOne({_id: tourId}); 
+        if (tour) {
+            if ( tour.availablePerson > quantity) {
+                tour.availablePerson = tour.availablePerson - quantity
+                return true
+            } else {
+                console.log("đã hết lượt")
+                return false
+            }
+        }
+    } catch (error) {
+        console.log("getTourRating failed: ", error);
+    }
+    return [];
+}
+
 
 module.exports = {
     getAllTour,
@@ -151,5 +169,6 @@ module.exports = {
     getTourRating,
     updateDomain,
     getTourSearhDomain,
-    getTourListName
+    getTourListName,
+    availablePerson
 };

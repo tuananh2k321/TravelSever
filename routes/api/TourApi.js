@@ -174,9 +174,30 @@ router.post("/departmentDate", async (req, res) => {
     const id = req.body.id;
     const departmentDate = req.body.departmentDate;
     let tour = await tourModel.findById(id);
-    const ngayThangNamDate = new Date(departmentDate);
     if (tour) {
-        tour.departmentDate = ngayThangNamDate ? ngayThangNamDate : tour.departmentDate;
+        tour.departmentDate = departmentDate ? departmentDate : tour.departmentDate;
+        await tour.save();
+        return res.status(200).json({ result: true, message: "Update Success" });
+    }else {
+      return res.status(400).json({ result: false, message: "fail" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ result: false });
+  }
+});
+
+//http://localhost:3000/tour/api/expectedDate
+router.post("/expectedDate", async (req, res) => {
+  try {
+    const id = req.body.id;
+    let tour = await tourModel.findById(id);
+    const chuoiDate = tour.limitedDay.toString();
+    // Cắt chuỗi và lấy số
+    const soNgay = parseInt(chuoiDate.match(/\d+/)[0]);
+    const expectedDate = tour.departmentDate.setDate(tour.departmentDate.getDate() + soNgay);
+    if (tour) {
+        tour.expectedDate = expectedDate ? expectedDate : tour.expectedDate;
         await tour.save();
         return res.status(200).json({ result: true, message: "Update Success" });
     }else {

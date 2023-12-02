@@ -7,6 +7,7 @@ const MyBookingModel = require("./MyBookingModel");
 const HotelModel = require("../hotel/HotelModel");
 const TourGuideModel = require("../tourGuide/TourGuideModel");
 
+const tourService = require('../tour/TourService')
 const getListBooking = async (userID) => {
   try {
     return await mybookingModel.find({ user_id: userID }).populate('tour_id').sort({ bookingDate: -1 });
@@ -16,33 +17,37 @@ const getListBooking = async (userID) => {
   return [];
 };
 
-const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id, guestInfo) => {
+const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id, guestInfo, quantity) => {
   try {
     const bookingDate = new Date().toLocaleString();
-    const newBooking = {
-      name,
-      children,
-      adult,
-      totalPrice,
-      user_id,
-      tour_id,
-      guestInfo,
-      bookingDate
-    };
-    const b = new MyBookingModel(newBooking);
-    const save_b = await b.save()
-    //const booking = await mybookingModel.create(newBooking);
-    console.log("create booking", save_b);
-    if (save_b) {
-      return save_b;
+    const slotPerson = await tourService.availablePerson(tour_id, quantity)
+    if(slotPerson) {
+      const newBooking = {
+        name,
+        children,
+        adult,
+        totalPrice,
+        user_id,
+        tour_id,
+        guestInfo,
+        bookingDate
+      };
+      const b = new MyBookingModel(newBooking);
+      const save_b = await b.save()
+      //const booking = await mybookingModel.create(newBooking);
+      console.log("create booking", save_b);
+      if (save_b) {
+        return save_b;
+      } else {
+        return false
+      }
     } else {
+      console.log("Không đủ slot")
       return false
     }
-
-
   } catch (error) {
     console.log(error)
-   }
+  }
 };
 const deleteBooking = async (id) => {
   try {
@@ -147,7 +152,7 @@ const getBookingByIdUser = async (id) => {
   try {
     //const booking = await mybookingModel.find({ user_id: id });
     const booking = await mybookingModel.find({ user_id: id }).populate('tour_id').sort({ bookingDate: -1 });
-    console.log('Booking: '+ booking)
+    console.log('Booking: ' + booking)
     if (booking) {
       return booking;
     } else {
@@ -181,7 +186,7 @@ const confirmBooking = async (id) => {
       const b = await booking.save();
       return b
     }
-  } catch (error) { 
+  } catch (error) {
     console.log("confirmBooking", error);
   }
 }
@@ -207,7 +212,7 @@ const completedBooking = async (id) => {
       const b = await booking.save();
       return b
     }
-  } catch (error) { 
+  } catch (error) {
     console.log("confirmBooking", error);
   }
 }
@@ -220,7 +225,7 @@ const canceledBooking = async (id) => {
       const b = await booking.save();
       return b
     }
-  } catch (error) { 
+  } catch (error) {
     console.log("confirmBooking", error);
   }
 }
@@ -233,7 +238,7 @@ const handleCanceledBooking = async (id) => {
       const b = await booking.save();
       return b
     }
-  } catch (error) { 
+  } catch (error) {
     console.log("confirmBooking", error);
   }
 }
@@ -246,7 +251,7 @@ const cancelRequired = async (id) => {
       const b = await booking.save();
       return b
     }
-  } catch (error) { 
+  } catch (error) {
     console.log("confirmBooking", error);
   }
 }
@@ -255,21 +260,22 @@ const addReason = async (id, reason) => {
   try {
     const booking = await MyBookingModel.findOne({ _id: id })
     if (booking) {
-      booking.reason = reason? reason: booking.reason;
+      booking.reason = reason ? reason : booking.reason;
       const b = await booking.save();
       return b
     } else {
       console.log("null")
     }
-  } catch (error) { 
+  } catch (error) {
     console.log("confirmBooking", error);
   }
 }
 
 
-module.exports = { getListBooking, addMyBooking, 
+module.exports = {
+  getListBooking, addMyBooking,
   deleteBooking, getAllBooking, tourIsBooking, getAllTourBooking,
-  getBookingById, confirmBooking, addReason, completedBooking, 
+  getBookingById, confirmBooking, addReason, completedBooking,
   canceledBooking, getBookingByIdUser, handleCanceledBooking, cancelRequired,
   getCompletedBooking
 };

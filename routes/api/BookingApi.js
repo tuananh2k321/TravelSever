@@ -8,7 +8,7 @@ const tourModel = require("../../component/tour/TourModel");
 // http://localhost:3000/booking/api/addBooking
 router.post("/addBooking", async (req, res, next) => {
   try {
-    const { name, children, adult, totalPrice, user_id, tour_id, guestInfo } =
+    const { name, children, adult, totalPrice, user_id, tour_id, guestInfo, quantity } =
       req.body;
     const booking = await bookingService.addMyBooking(
       name,
@@ -17,7 +17,8 @@ router.post("/addBooking", async (req, res, next) => {
       totalPrice,
       user_id,
       tour_id,
-      guestInfo
+      guestInfo,
+      quantity
     );
     console.log(booking);
     if (booking) {
@@ -280,7 +281,7 @@ router.get("/get-uncompleted-booking", async (req, res, next) => {
 
     // Lọc danh sách có response.isCancel === true
     const completedBookings = await response.filter(
-      (booking) => booking.isCompleted === false
+      (booking) => booking.isCompleted === false &&  booking.confirm === true
     );
 
     console.log("departmentDate:", completedBookings[0].tour_id.departmentDate);

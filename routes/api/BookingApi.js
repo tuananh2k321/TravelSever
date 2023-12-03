@@ -102,6 +102,7 @@ router.get("/get-All-Booking", async (req, res, next) => {
   }
 });
 
+// Xu ly huy tour
 // http://localhost:3000/booking/api/get-canceled-booking
 router.get("/get-canceled-booking", async (req, res, next) => {
   try {
@@ -109,7 +110,7 @@ router.get("/get-canceled-booking", async (req, res, next) => {
 
     // Lọc danh sách có response.isCancel === true
     const canceledBookings = response.filter(
-      (booking) => booking.isCancel === true && booking.handleCancel === true
+      (booking) => booking.isCancel === true
     );
 
     console.log("Canceled Bookings:", canceledBookings);
@@ -128,6 +129,80 @@ router.get("/get-canceled-booking", async (req, res, next) => {
   }
 });
 
+// http://localhost:3000/booking/api/get-handle-cancel-cpanel
+router.get("/get-handle-cancel-cpanel", async (req, res, next) => {
+  try {
+    const response = await bookingController.getAllBooking();
+
+    // Lọc danh sách có response.isCancel === true
+    const newBookings = response.filter(
+      (booking) => booking.confirm === false && booking.handleCancel === true
+    );
+
+    console.log("Canceled Bookings:", newBookings);
+
+    res
+      .status(200)
+      .json({
+        result: true,
+        newBookings: newBookings,
+        message: "Get new bookings success",
+      });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(400)
+      .json({ result: false, error, message: "Get bookings failed" });
+  }
+});
+
+// http://localhost:3000/booking/api/get-handle-cancel-booking-app?idUser=""
+router.get("/get-handle-cancel-booking-app", async (req, res, next) => {
+  try {
+    const { idUser } = req.query;
+    const response = await bookingController.getBookingByIdUser(idUser);
+
+    // Lọc danh sách có response.isCancel === true
+    const newBookings = response.filter(
+      (booking) => booking.handleCancel === true && booking.confirm == false
+    );
+
+    console.log("Canceled Bookings:", newBookings);
+
+    res
+      .status(200)
+      .json({
+        result: true,
+        newBookings: newBookings,
+        message: "Get new bookings success",
+      });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(400)
+      .json({ result: false, error, message: "Get bookings failed" });
+  }
+});
+
+// http://localhost:3000/booking/api/cancel-required?id=""
+router.get("/cancel-required", async (req, res, next) => {
+  try {
+    const { id } = req.query;
+    const response = await bookingController.cancelRequired(id);
+    if (response) {
+      res.status(200).json({ result: true, message: " success" });
+    } else {
+      res.status(200).json({ result: true, message: " fail" });
+    }
+  } catch (error) {
+    console.log(error);
+    res
+      .status(400)
+      .json({ result: false, error, message: "Get bookings failed" });
+  }
+});
+
+// Xu li dat tour
 // cpanel
 // http://localhost:3000/booking/api/get-new-booking-cpanel
 router.get("/get-new-booking-cpanel", async (req, res, next) => {
@@ -211,51 +286,7 @@ router.get("/get-confirmed-booking-app", async (req, res, next) => {
   }
 });
 
-// http://localhost:3000/booking/api/get-handle-cancel-booking-app?idUser=""
-router.get("/get-handle-cancel-booking-app", async (req, res, next) => {
-  try {
-    const { idUser } = req.query;
-    const response = await bookingController.getBookingByIdUser(idUser);
 
-    // Lọc danh sách có response.isCancel === true
-    const newBookings = response.filter(
-      (booking) => booking.handleCancel === true
-    );
-
-    console.log("Canceled Bookings:", newBookings);
-
-    res
-      .status(200)
-      .json({
-        result: true,
-        newBookings: newBookings,
-        message: "Get new bookings success",
-      });
-  } catch (error) {
-    console.log(error);
-    res
-      .status(400)
-      .json({ result: false, error, message: "Get bookings failed" });
-  }
-});
-
-// http://localhost:3000/booking/api/cancel-required?id=""
-router.get("/cancel-required", async (req, res, next) => {
-  try {
-    const { id } = req.query;
-    const response = await bookingController.cancelRequired(id);
-    if (response) {
-      res.status(200).json({ result: true, message: " success" });
-    } else {
-      res.status(200).json({ result: true, message: " fail" });
-    }
-  } catch (error) {
-    console.log(error);
-    res
-      .status(400)
-      .json({ result: false, error, message: "Get bookings failed" });
-  }
-});
 
 // http://localhost:3000/booking/api/get-confirmed-booking
 router.get("/get-confirmed-booking", async (req, res, next) => {
@@ -281,6 +312,7 @@ router.get("/get-confirmed-booking", async (req, res, next) => {
   }
 });
 
+// kiem tra tour da hoan thanh hay chua
 // http://localhost:3000/booking/api/get-uncompleted-booking
 router.get("/get-uncompleted-booking", async (req, res, next) => {
   try {

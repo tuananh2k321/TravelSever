@@ -13,7 +13,8 @@ const getListBooking = async (userID) => {
   return [];
 };
 
-const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id, guestInfo, quantity) => {
+const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id, guestInfo, 
+  quantity, departmentDate, departmentHour, expectedDate) => {
   try {
     const bookingDate = new Date().toLocaleString();
     const slotPerson = await tourService.availablePerson(tour_id, quantity)
@@ -26,7 +27,10 @@ const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id,
         user_id,
         tour_id,
         guestInfo,
-        bookingDate
+        bookingDate,
+        departmentDate,
+        departmentHour,
+        expectedDate
       };
       const b = new MyBookingModel(newBooking);
       const save_b = await b.save()

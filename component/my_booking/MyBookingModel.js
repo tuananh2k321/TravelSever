@@ -21,6 +21,8 @@ const myBookingSchema = new Schema({
   handleCancel: {type: Boolean, default: false},
   isCompleted: {type: Boolean, default: false},
   expectedDate: {type: String, default: ""},
+  departmentDate: {type: String, default:""},
+  departmentHour: {type: String, default:""},
   user_id: { type: ObjectId, ref: "user" },
   tour_id: { type: ObjectId, ref: "tour" },
 });

@@ -232,7 +232,7 @@
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Tên Tour</label>
                 <div class="col-sm-10">
-                  <input type="text" name="tourName" class="form-control">
+                  <input type="text" name="tourName" class="form-control" placeholder="Tên">
                   <div>
                   </div>
                 </div>
@@ -240,79 +240,85 @@
               <div class="row mb-3">
                 <label for="inputNumber" class="col-sm-2 col-form-label">Giá người lớn</label>
                 <div class="col-sm-10">
-                  <input type="text" name="adultPrice" class="form-control">
+                  <input type="text" name="adultPrice" class="form-control" placeholder="100000">
                 </div>
               </div>
                <div class="row mb-3">
                 <label for="inputNumber" class="col-sm-2 col-form-label">Giá trẻ em</label>
                 <div class="col-sm-10">
-                  <input type="text" name="childrenPrice" class="form-control">
+                  <input type="text" name="childrenPrice" class="form-control" placeholder="100000">
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputNumber" class="col-sm-2 col-form-label">Độ tuổi trẻ em</label>
                 <div class="col-sm-10">
-                  <input type="text" name="childrenAge" class="form-control">
+                  <input type="text" name="childrenAge" class="form-control" placeholder="7-14">
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputNumber" class="col-sm-2 col-form-label">Độ tuổi người lớn</label>
                 <div class="col-sm-10">
-                  <input type="text" name="adultAge" class="form-control">
+                  <input type="text" name="adultAge" class="form-control" placeholder="15-">
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Nơi khởi hành</label>
                 <div class="col-sm-10">
-                  <input type="text" name="departmentPlace" class="form-control">
+                  <input type="text" name="departmentPlace" class="form-control" placeholder="tphcm">
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Ngày khởi hành</label>
                 <div class="col-sm-10">
-                  <input type="text" name="departmentDate" class="form-control">
+                  <input type="text" name="ngayThangNam" class="form-control" placeholder="yyyy/mm/dd">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="inputText" class="col-sm-2 col-form-label">Giờ khởi hành</label>
+                <div class="col-sm-10">
+                  <input type="text" name="departmentHour" class="form-control" placeholder="04:00">
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Xếp hạng</label>
                 <div class="col-sm-10">
-                  <input type="text" name="rating" class="form-control">
+                  <input type="text" name="rating" class="form-control" placeholder="0">
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Vùng Miền</label>
                 <div class="col-sm-10">
-                  <input type="text" name="isdomain" class="form-control">
+                  <input type="text" name="isdomain" class="form-control" placeholder="Miền Nam">
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Thời gian đi</label>
                 <div class="col-sm-10">
-                  <input type="text" name="limitedDay" class="form-control">
+                  <input type="text" name="limitedDay" class="form-control" placeholder="2 ngày 1 đêm">
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Ngày hoạt động</label>
                 <div class="col-sm-10">
-                  <input type="text" name="operatingDay" class="form-control">
+                  <input type="text" name="operatingDay" class="form-control" placeholder="tháng 10">
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Giới hạn người</label>
                 <div class="col-sm-10">
-                  <input type="text" name="limitedPerson" class="form-control">
+                  <input type="text" name="limitedPerson" class="form-control" placeholder="10">
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Giảm giá</label>
                 <div class="col-sm-10">
-                  <input type="text" name="offer" class="form-control">
+                  <input type="text" name="offer" class="form-control" placeholder="5%">
                 </div>
               </div>
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Phương tiện</label>
                 <div class="col-sm-10">
-                  <input type="text" name="vehicle" class="form-control">
+                  <input type="text" name="vehicle" class="form-control" placeholder="xe">
                 </div>
               </div>
               <div class="row mb-3">
@@ -594,7 +600,10 @@
 
     // JavaScript để xử lý khi nhấp vào nút "Cancel"
     function handleCancelTourGuide() {
-       
+       var checkboxes = document.querySelectorAll("input[type=radio]");
+        checkboxes.forEach(function(radio) {
+            radio.checked = selectedOptions[radio.id];
+        });
         toggleDialogTourGuide();
     }
 </script>

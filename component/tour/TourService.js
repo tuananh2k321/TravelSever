@@ -32,15 +32,15 @@ const getTourById = async (id) => {
     }
 }
 
-const addNewTour = async (tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
-    operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id ) => {
+const addNewTour = async (tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate,departmentHour,expectedDate, limitedDay,
+    operatingDay,limitedPerson,availablePerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id) => {
     try {
         // const newTour = { tourName, description, price, mainImage,checking, rating, address, imageMap,specificAddress, hotel_id,destination_id,domain};
         // const u = new tourModel(newTour);
         // await u.save();
         const newTour = {
-            tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
-                operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id
+            tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate,departmentHour,expectedDate, limitedDay,
+                operatingDay,limitedPerson,availablePerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id
         }
          await tourModel.create(newTour); 
         return true;
@@ -96,8 +96,8 @@ const updateAvailablePerson = async (id) => {
 }
 
 
-const updateTour = async (id,tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
-    operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id) => {
+const updateTour = async (id,tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate,departmentHour,expectedDate, limitedDay,
+    operatingDay,limitedPerson,availablePerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id) => {
     try {
         let tour = await tourModel.findById(id);
         if(tour) {
@@ -109,9 +109,12 @@ const updateTour = async (id,tourName, adultPrice, childrenPrice,childrenAge,adu
             tour.tourImage = tourImage ? tourImage : tour.tourImage;
             tour.departmentPlace = departmentPlace ? departmentPlace : tour.departmentPlace;
             tour.departmentDate = departmentDate ? departmentDate : tour.departmentDate;
+            tour.departmentHour = departmentHour ? departmentHour : tour.departmentHour;
+            tour.expectedDate = expectedDate ? expectedDate : tour.expectedDate;
             tour.limitedDay = limitedDay ? limitedDay : tour.limitedDay;
             tour.operatingDay = operatingDay ? operatingDay : tour.operatingDay;
             tour.limitedPerson = limitedPerson ? limitedPerson : tour.limitedPerson;
+            tour.availablePerson = availablePerson ? availablePerson : tour.availablePerson;
             tour.offer = offer ? offer : tour.offer;
             tour.vehicle = vehicle ? vehicle : tour.vehicle;
             tour.description = description ? description : tour.description;

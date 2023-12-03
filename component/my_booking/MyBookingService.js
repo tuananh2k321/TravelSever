@@ -3,7 +3,7 @@ const mybookingModel = require("./MyBookingModel");
 const userModel = require('../user/UserModel');
 const tourModel = require('../tour/TourModel');
 const MyBookingModel = require("./MyBookingModel");
-
+const tourService = require('../tour/TourService')
 const getListBooking = async (userID) => {
   try {
     return await mybookingModel.find({ user_id: userID }).populate('tour_id').sort({ bookingDate: -1 });
@@ -13,37 +13,34 @@ const getListBooking = async (userID) => {
   return [];
 };
 
-const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id, guestInfo) => {
+const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id, guestInfo, quantity) => {
   try {
     const bookingDate = new Date().toLocaleString();
-    const tour = await tourModel.findById(tour_id);
-    if (!tour) {
-      return res.status(400).json({ message: "Không tìm thấy tour này" });
-    }
-    const newBooking = {
-      name,
-      children,
-      adult,
-      totalPrice,
-      user_id,
-      tour_id,
-      guestInfo,
-      bookingDate
-    };
-    const b = new MyBookingModel(newBooking);
-    const save_b = await b.save()
-    //const booking = await mybookingModel.create(newBooking);
-    console.log("create booking", save_b);
-    //cập nhật số lượng được đặt tour
-    tour.limitedPerson -= (Number(children) + Number(adult));
-    await tour.save();
-    if (save_b) {
-      return save_b;
+    const slotPerson = await tourService.availablePerson(tour_id, quantity)
+    if(slotPerson) {
+      const newBooking = {
+        name,
+        children,
+        adult,
+        totalPrice,
+        user_id,
+        tour_id,
+        guestInfo,
+        bookingDate
+      };
+      const b = new MyBookingModel(newBooking);
+      const save_b = await b.save()
+      //const booking = await mybookingModel.create(newBooking);
+      console.log("create booking", save_b);
+      if (save_b) {
+        return save_b;
+      } else {
+        return false
+      }
     } else {
+      console.log("Không đủ slot")
       return false
     }
-
-
   } catch (error) {
     console.log(error)
   }

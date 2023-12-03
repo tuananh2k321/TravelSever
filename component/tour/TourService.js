@@ -77,19 +77,24 @@ const departmentHour = async (id, departmentHour) => {
         return false;
     }
 }
-const expectedDate = async (id, expectedDate) => {
+
+
+const updateAvailablePerson = async (id) => {
     try {
         let tour = await tourModel.findById(id);
         if (tour) {
-            tour.expectedDate = expectedDate ? expectedDate : tour.expectedDate;
+            tour.availablePerson = tour.limitedPerson;
             await tour.save();
             return true;
+        } else {
+            return false
         }
     } catch (e) {
         console.log("Update tour error :",error);
         return false;
     }
 }
+
 
 const updateTour = async (id,tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
     operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id) => {
@@ -165,6 +170,25 @@ const getTourRating = async () => {
     return [];
 }
 
+const availablePerson = async (tourId, quantity) => {
+    try {
+        const tour =  await tourModel.findOne({_id: tourId}); 
+        if (tour) {
+            console.log(tour.availablePerson +" "+quantity)
+            if ( tour.availablePerson >= quantity) {
+                tour.availablePerson = tour.availablePerson - quantity
+                await tour.save();
+                return true
+            } else {
+                console.log("đã hết lượt")
+                return false
+            }
+        }
+    } catch (error) {
+        console.log("getTourRating failed: ", error);
+    }
+}
+
 
 module.exports = {
     getAllTour,
@@ -177,5 +201,7 @@ module.exports = {
     updateDomain,
     getTourSearhDomain,
     getTourListName,
-    departmentHour
+    departmentHour,
+    availablePerson,
+    updateAvailablePerson
 };

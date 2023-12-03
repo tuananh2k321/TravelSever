@@ -5,7 +5,7 @@ const hotelController = require("../../component/hotel/HotelController");
 const tourGuideController = require("../../component/tourGuide/TourGuideController");
 const destinationController = require("../../component/destination/DestinationController");
 const tourModel = require("../../component/tour/TourModel");
-
+const tourService = require("../../component/tour/TourService");
 // http://localhost:3000/tour/api/get-all-tour
 router.get("/get-all-tour", async function (req, res, next) {
   try {
@@ -238,6 +238,23 @@ router.post("/departmentHour", async (req, res) => {
     return res.status(500).json({ result: false });
   }
 });
+
+//http://localhost:3000/tour/api/updateAvailable
+router.post("/updateAvailable", async (req, res) => {
+  try {
+    const id = req.body.id;
+    const result = tourService.updateAvailablePerson(id);
+    if (result) {
+      return res.status(200).json({ result: true, message: "Update Success" });
+    } else {
+      return res.status(400).json({ result: false, message: "fail" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ result: false });
+  }
+});
+
 // http://localhost:3000/tour/api/list/sortBy?sortBy=asc
 router.get("/list/sortBy", async function (req, res, next) {
   try {

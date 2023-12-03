@@ -65,6 +65,22 @@ const updateDomain = async (id, isdomain) => {
     }
 }
 
+const updateAvailablePerson = async (id) => {
+    try {
+        let tour = await tourModel.findById(id);
+        if (tour) {
+            tour.availablePerson = tour.limitedPerson;
+            await tour.save();
+            return true;
+        } else {
+            return false
+        }
+    } catch (e) {
+        console.log("Update tour error :",error);
+        return false;
+    }
+}
+
 
 const updateTour = async (id,tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate, limitedDay,
     operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id) => {
@@ -144,8 +160,10 @@ const availablePerson = async (tourId, quantity) => {
     try {
         const tour =  await tourModel.findOne({_id: tourId}); 
         if (tour) {
-            if ( tour.availablePerson > quantity) {
+            console.log(tour.availablePerson +" "+quantity)
+            if ( tour.availablePerson >= quantity) {
                 tour.availablePerson = tour.availablePerson - quantity
+                await tour.save();
                 return true
             } else {
                 console.log("đã hết lượt")
@@ -155,7 +173,6 @@ const availablePerson = async (tourId, quantity) => {
     } catch (error) {
         console.log("getTourRating failed: ", error);
     }
-    return [];
 }
 
 
@@ -170,5 +187,6 @@ module.exports = {
     updateDomain,
     getTourSearhDomain,
     getTourListName,
-    availablePerson
+    availablePerson,
+    updateAvailablePerson
 };

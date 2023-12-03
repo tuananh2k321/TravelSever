@@ -17,7 +17,7 @@ const tourSchema = new Schema({
   expectedDate: { type: String }, // 23/12/2023 + 3 ngay 2 dem = 26/12/2023
   operatingDay: { type: String },
   limitedPerson: { type: Number},
-  availablePerson: { type: Number},
+  availablePerson: { type: Number}, //availablePerson = limitedPerson
   offer: { type: String },
   vehicle: { type: String },
   description: { type: String},

@@ -364,8 +364,8 @@ router.get("/getAllBooking", async (req, res, next) => {
   }
 });
 
-// http://localhost:3000/booking/api/tourIsBooking
-router.get("/tourIsBooking", async (req, res, next) => {
+// http://localhost:3000/booking/api/getTourIsBooking
+router.get("/getTourIsBooking", async (req, res, next) => {
   try {
     let dem = {};
     let ketQua = [];
@@ -407,14 +407,11 @@ router.get("/tourIsBooking", async (req, res, next) => {
 
     // Get the tour_id with the highest totalPrice
     const highestTotalPriceTourId =
-      ketQua.length > 0 ? ketQua[0].tour_name : null;
+      ketQua.length > 0 ? ketQua[0] : null;
 
-    // Now highestTotalPriceTourId contains the tour_id with the highest totalPrice
-    console.log(
-      "Tour ID with the highest totalPrice:",
-      highestTotalPriceTourId
-    );
-    console.log("Tour ID with the highest totalPrice:", ketQua);
+      // Get the tour_id with the lowest totalPrice
+    const lowestTotalPriceTourId = ketQua.length > 0 ? ketQua[ketQua.length - 1] : null;
+   
 
     res
       .status(200)
@@ -422,6 +419,7 @@ router.get("/tourIsBooking", async (req, res, next) => {
         result: true,
         tourIsBooking: ketQua,
         top: highestTotalPriceTourId,
+        lose:lowestTotalPriceTourId,
         message: "Get booking Success",
       });
   } catch (error) {

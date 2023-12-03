@@ -225,7 +225,7 @@
 
             {{#totalBooking}}
           <!-- TTổng số lượt đặt -->
-          <div class="col-xxl-3 col-md-6">
+          <div class="col-xxl-6 col-md-6">
             <div class="card info-card sales-card">
               <div class="card-body">
                 <h5 class="card-title">Tổng số lượt đặt</h5>
@@ -235,11 +235,8 @@
                     <i class="bi bi-cart"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>{{this}}</h6>
-                    <span class="text-muted small pt-2 ps-1">tăng</span>
-                    <span class="text-success small pt-1 fw-bold">12%</span>
-                    
-
+                    <h6>Tổng lượt đặt: {{this}}</h6>
+     
                   </div>
                 </div>
               </div>
@@ -251,7 +248,7 @@
 
           <!-- Tổng doanh thu -->
            {{#totalPriceBooking}}
-          <div class="col-xxl-3 col-md-6">
+          <div class="col-xxl-6 col-md-6">
             <div class="card info-card revenue-card">
 
               <div class="card-body">
@@ -262,11 +259,7 @@
                     <i class="bi bi-currency-dollar"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>{{this}} Đồng</h6>
-                     <span
-                      class="text-muted small pt-2 ps-1">tăng</span>
-                      <span class="text-success small pt-1 fw-bold">8%</span>
-
+                    <h6>Tổng doanh thu: {{this}} Đồng</h6>
                   </div>
                 </div>
               </div>
@@ -274,23 +267,40 @@
             </div>
           </div><!-- End Revenue Card -->
           {{/totalPriceBooking}}
-          <!-- Customers Card -->
-          <div class="col-xxl-3 col-xl-12">
+          
+          <div class="col-xxl-6 col-md-6">
 
             <div class="card info-card customers-card">
 
               <div class="card-body">
-                <h5 class="card-title">Tour doanh thu thấp nhất</h5>
+                <h5 class="card-title">Tour doanh thu cao nhất</h5>
 
                 <div class="d-flex align-items-center">
-                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  {{!-- <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-people"></i>
-                  </div>
+                  </div> --}}
                   <div class="ps-3">
-                    <h6>1244</h6>
-                    <span class="text-danger small pt-1 fw-bold">12%</span> <span
-                      class="text-muted small pt-2 ps-1">decrease</span>
+                    <h6 style="font-size: 20px; max-width: 450px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" id="highestTotalPriceTourId">Đang lấy thông tin...</h6>
+                    
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 20px;">
+                        <i class="bi bi-currency-dollar"></i>
+                      </div>
+                      <div class="ps-3">
+                        <div>Doanh thu: <p id="highestTotalPrice"></p></div>
+                      </div>
+                    </div>
 
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 20px;">
+                        <i class="bi bi-cart"></i>
+                      </div>
+                      <div class="ps-3">
+                        <div>Số lượt đặt: <p id="highestSoLan"></p></div>
+                      </div>
+                    </div>
+
+                    {{!-- <div>Số lượt đặt : <p id="highestSoLan"></p> </div>  --}}
                   </div>
                 </div>
 
@@ -298,29 +308,47 @@
             </div>
 
           </div><!-- End Customers Card -->
-          <!-- abcd Card -->
-          <div class="col-xxl-3 col-xl-12">
+           <div class="col-xxl-6 col-md-6">
 
             <div class="card info-card customers-card">
+
               <div class="card-body">
-                <h5 class="card-title">Tour lượt đặt thấp nhất</h5>
+                <h5 class="card-title">Tour doanh thu thấp nhất</h5>
 
                 <div class="d-flex align-items-center">
-                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  {{!-- <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-people"></i>
-                  </div>
+                  </div> --}}
                   <div class="ps-3">
-                    <h6>1244</h6>
-                    <span class="text-danger small pt-1 fw-bold">12%</span> <span
-                      class="text-muted small pt-2 ps-1">decrease</span>
+                    <h6 style="font-size: 20px; max-width: 450px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;" id="lowestTotalPriceTourId">Đang lấy thông tin...</h6>
 
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 20px;">
+                        <i class="bi bi-currency-dollar"></i>
+                      </div>
+                      <div class="ps-3">
+                        <div>Doanh thu: <p id="lowestTotalPrice"></p></div>
+                      </div>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 20px;">
+                        <i class="bi bi-cart"></i>
+                      </div>
+                      <div class="ps-3">
+                        <div>Số lượt đặt: <p id="lowestSoLan"></p></div>
+                      </div>
+                    </div>
+
+                    {{!-- <div >Doanh thu : <p id="lowestTotalPrice"></p> </div> 
+                    <div>Số lượt đặt : <p id="lowestSoLan"></p> </div>  --}}
                   </div>
                 </div>
 
               </div>
             </div>
 
-          </div><!-- End abcd Card -->
+          </div><!-- End Customers Card -->
            
       
             
@@ -329,7 +357,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Reports</h5>
+                <h5 class="card-title">Biểu đồ doanh thu</h5>
 
                 <!-- Line Chart -->
                 <div class="card chart-container">
@@ -347,7 +375,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Reports</h5>
+                <h5 class="card-title">Biểu đồ số lượt đặt</h5>
 
                 <!-- Line Chart -->
                 <div class="card chart-container">
@@ -391,8 +419,8 @@
 
 <style>
   .chart-container {
-    width: 80%;
-    height: 80%;
+    width: 55%;
+    height: 55%;
     margin: auto;
   },
 </style>
@@ -409,7 +437,7 @@
         const response = await fetch('/booking/api/tourIsBooking');
         const data = await response.json();
         
-        topTour = data.top;
+         topTour = data.top;
         console.log("top",topTour)
         let tourIsBooking = data.tourIsBooking;
         let labels = tourIsBooking.map(item => item.tour_name);
@@ -461,6 +489,17 @@ function truncateText(text, maxLength) {
         const response = await fetch('/booking/api/tourIsBooking');
         const data = await response.json();
         let tourIsBooking = data.tourIsBooking;
+        let highestTotalPriceTourId = data.top;
+        
+        document.getElementById("highestTotalPriceTourId").innerHTML = highestTotalPriceTourId.tour_name;
+        document.getElementById("highestTotalPrice").innerHTML = highestTotalPriceTourId.totalPrice;
+        document.getElementById("highestSoLan").innerHTML = highestTotalPriceTourId.soLan;
+
+        
+        let lowestTotalPriceTourId = data.lose;
+        document.getElementById("lowestTotalPriceTourId").innerHTML = lowestTotalPriceTourId.tour_name;
+        document.getElementById("lowestTotalPrice").innerHTML = lowestTotalPriceTourId.totalPrice;
+        document.getElementById("lowestSoLan").innerHTML = lowestTotalPriceTourId.soLan;
         let labels = tourIsBooking.map(item => item.tour_name);
         let values = tourIsBooking.map(item => item.totalPrice);
 

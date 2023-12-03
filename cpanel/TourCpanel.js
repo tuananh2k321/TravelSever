@@ -87,12 +87,39 @@ router.post('/insert-tour', [uploadImage.array('tourImage', 10)], async (req, re
             tourImage = await Promise.all(uploadedImagePromises);
         }
 
-        let { tourName, adultPrice, childrenPrice, childrenAge, adultAge, departmentPlace, departmentDate, limitedDay,
-            operatingDay, limitedPerson, offer, vehicle, description, rating, isdomain, isState, hotel_id, tourGuide_id, destination_id } = body;
-        console.log(tourName, adultPrice, childrenPrice, childrenAge, adultAge, tourImage, departmentPlace, departmentDate, limitedDay,
-            operatingDay, limitedPerson, offer, vehicle, description, rating, isdomain, isState, hotel_id, tourGuide_id, destination_id);
-        await tourController.addNewTour(tourName, adultPrice, childrenPrice, childrenAge, adultAge, tourImage, departmentPlace, departmentDate, limitedDay,
-            operatingDay, limitedPerson, offer, vehicle, description, rating, isdomain, isState, hotel_id, tourGuide_id, destination_id);
+        let { tourName, adultPrice, childrenPrice,childrenAge,adultAge,departmentPlace,ngayThangNam,departmentHour, limitedDay,
+            operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id } = body;
+
+
+            // ddingj dangj date
+            const ngayThangNamDate = new Date(ngayThangNam);  
+            const departmentDate = ngayThangNamDate.toLocaleDateString('en-GB');// định dạng dd/mm/yyyy
+
+            //expectedDate
+            const chuoiDate = limitedDay.toString();
+            // Cắt chuỗi và lấy số
+            const soNgay = parseInt(chuoiDate.match(/\d+/)[0]);
+            
+            // Tách chuỗi thành mảng [ngày, tháng, năm]
+            const [ngay, thang, nam] = departmentDate.split('/');
+        
+        // Tạo đối tượng Date từ mảng trên (chú ý rằng tháng trong JavaScript là từ 0 đến 11)
+            const ngayThangNamDate1 = new Date(nam, thang - 1, ngay);
+        
+            
+             ngayThangNamDate.setDate(ngayThangNamDate1.getDate() + soNgay);
+             
+             // Định dạng ngày tháng năm thành chuỗi "dd/mm/yyyy"
+            const expectedDate = ngayThangNamDate.toLocaleDateString('en-GB');
+
+
+            // availablePerson
+            const availablePerson = limitedPerson;
+
+        console.log(tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate,departmentHour,expectedDate, limitedDay,
+            operatingDay,limitedPerson,availablePerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
+        await tourController.addNewTour(tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate,departmentHour,expectedDate, limitedDay,
+            operatingDay,limitedPerson,availablePerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
         return res.render('tour/insertTour');
     } catch (error) {
         console.log('Add new  error:', error);
@@ -126,31 +153,34 @@ router.get('/:id/edit-tour', [authen.checkTokenCpanel], async (req, res, next) =
         const { id } = req.params;
         const tour = await tourController.getTourById(id);
         const user = req.session.user;
-        let hotel = await hotelController.getAllHotels();
+        const hotel = await hotelController.getAllHotels();
         const destination = await destinationController.getAllDestination();
         const tourGuide = await tourGuideController.getAllTourGuide();
 
         // check destination (false:ko đc chọn , true:đc chọn)
-        for (let index = 0; index < destination.length; index++) { // vòng lập duyệt phần tử mà destination có
-            const element = destination[index]; // gán cho destination  tại vị trí index là element
-            destination[index].checked = false;  // gán cho destination  tại vị trí index có checkes là false
-            for (let i = 0; i < tour.destination_id.length; i++) { // vòng lập chạy hết dữ liệu mà tour.destination_id có
-                if (element._id == tour.destination_id[i]) {   // nếu element có id == với tour.destination_id[i] tại một giá trị nào đó
-                    destination[index].checked = true; // gán cho destination tại vị trí index có cheked là true
-                }
+        for (let i = 0; i < destination.length; i++) {// vòng lập duyệt phần tử mà tourguidee có
+            const element = destination[i];
+            destination[i].radio2 = false;
+            if (element._id = tour.tourGuide_id) { // nếu có 1 giá trị mà element._id = với id_tourGuide trong tour hiện tại 
+                destination[i].radio2 = true; // thì gán thành true
             }
-
         }
 
         // check TourGuide (false:ko đc chọn , true:đc chọn)
 
         for (let i = 0; i < tourGuide.length; i++) {// vòng lập duyệt phần tử mà tourguidee có
             const element = tourGuide[i];
-            tourGuide[i].checked = false;
-            if (element._id == tour.tourGuide_id) { // nếu có 1 giá trị mà element._id = với id_tourGuide trong tour hiện tại 
-                tourGuide[i].checked = true; // thì gán thành true
-                console.log(">>>>>>>>>>>>>>>", element._id)
-                break;  // dừng lại
+            tourGuide[i].radio = false;
+            if (element._id = tour.tourGuide_id) { // nếu có 1 giá trị mà element._id = với id_tourGuide trong tour hiện tại 
+                tourGuide[i].radio = true; // thì gán thành true
+            }
+        }
+
+        for (let i = 0; i < hotel.length; i++) {// vòng lập duyệt phần tử mà tourguidee có
+            const element = hotel[i];
+            hotel[i].radio1 = false;
+            if (element._id = tour.hotel_id) { // nếu có 1 giá trị mà element._id = với id_tourGuide trong tour hiện tại 
+                hotel[i].radio1 = true; // thì gán thành true
             }
         }
 
@@ -185,13 +215,42 @@ router.post('/:id/edit-tour', [uploadImage.array('tourImage', 10)], async (req, 
 
             tourImage = await Promise.all(uploadedImagePromises);
         }
-        let { tourName, adultPrice, childrenPrice, childrenAge, adultAge, departmentPlace, departmentDate, limitedDay,
-            operatingDay, limitedPerson, offer, vehicle, description, rating, isdomain, isState, hotel_id, tourGuide_id, destination_id } = body;
-        console.log(tourName, adultPrice, childrenPrice, childrenAge, adultAge, tourImage, departmentPlace, departmentDate, limitedDay,
-            operatingDay, limitedPerson, offer, vehicle, description, rating, isdomain, isState, hotel_id, tourGuide_id, destination_id);
+        let { tourName, adultPrice, childrenPrice,childrenAge,adultAge,departmentPlace,ngayThangNam,departmentHour, limitedDay,
+            operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id } = body;
 
-        await tourController.updateTour(id, tourName, adultPrice, childrenPrice, childrenAge, adultAge, tourImage, departmentPlace, departmentDate, limitedDay,
-            operatingDay, limitedPerson, offer, vehicle, description, rating, isdomain, isState, hotel_id, tourGuide_id, destination_id);
+
+             // ddingj dangj date
+             const ngayThangNamDate = new Date(ngayThangNam);  
+             const departmentDate = ngayThangNamDate.toLocaleDateString('en-GB');// định dạng dd/mm/yyyy
+ 
+             //expectedDate
+             const chuoiDate = limitedDay.toString();
+             // Cắt chuỗi và lấy số
+             const soNgay = parseInt(chuoiDate.match(/\d+/)[0]);
+             
+             // Tách chuỗi thành mảng [ngày, tháng, năm]
+             const [ngay, thang, nam] = departmentDate.split('/');
+         
+         // Tạo đối tượng Date từ mảng trên (chú ý rằng tháng trong JavaScript là từ 0 đến 11)
+             const ngayThangNamDate1 = new Date(nam, thang - 1, ngay);
+         
+             
+              ngayThangNamDate.setDate(ngayThangNamDate1.getDate() + soNgay);
+              
+              // Định dạng ngày tháng năm thành chuỗi "dd/mm/yyyy"
+             const expectedDate = ngayThangNamDate.toLocaleDateString('en-GB');
+ 
+ 
+             // availablePerson
+             const availablePerson = limitedPerson;
+
+
+
+        console.log(tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate,departmentHour,expectedDate, limitedDay,
+            operatingDay,limitedPerson,availablePerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
+
+        await tourController.updateTour(id, tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate,departmentHour,expectedDate, limitedDay,
+            operatingDay,limitedPerson,availablePerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
         return res.redirect('/tour/cpanel/tour-table');
     } catch (error) {
         console.log('update  error:', error);

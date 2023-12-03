@@ -11,7 +11,7 @@ const tourSchema = new Schema({
   adultAge: { type: String},
   tourImage: { type: Array },
   departmentPlace: { type: String },
-  departmentDate: { type: String }, // 23/12/2023
+  departmentDate: { type:  String}, // 23/12/2023
   departmentHour: { type: String }, // 14:00
   limitedDay: { type: String }, // 3 ngay 2 dem
   expectedDate: { type: String }, // 23/12/2023 + 3 ngay 2 dem = 26/12/2023

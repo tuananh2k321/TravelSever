@@ -168,6 +168,76 @@ router.post("/updateDomain", async (req, res) => {
     return res.status(500).json({ result: false });
   }
 });
+//http://localhost:3000/tour/api/departmentDate
+router.post("/departmentDate", async (req, res) => {
+  try {
+    const id = req.body.id;
+    const departmentDate = req.body.departmentDate;
+    const ngayThangNamDate = new Date(departmentDate);  
+    const ngayThangNamDaFormat = ngayThangNamDate.toLocaleDateString('en-GB');// định dạng dd/mm/yyyy
+    let tour = await tourModel.findById(id);
+    if (tour) {
+        tour.departmentDate = ngayThangNamDaFormat ? ngayThangNamDaFormat : tour.departmentDate;
+        await tour.save();
+        return res.status(200).json({ result: true, message: "Update Success" });
+    }else {
+      return res.status(400).json({ result: false, message: "fail" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ result: false });
+  }
+});
+
+//http://localhost:3000/tour/api/expectedDate
+router.post("/expectedDate", async (req, res) => {
+  try {
+    const id = req.body.id;
+    let tour = await tourModel.findById(id);
+    const chuoiDate = tour.limitedDay.toString();
+    // Cắt chuỗi và lấy số
+    const soNgay = parseInt(chuoiDate.match(/\d+/)[0]);
+    
+    // Tách chuỗi thành mảng [ngày, tháng, năm]
+    const [ngay, thang, nam] = tour.departmentDate.split('/');
+
+// Tạo đối tượng Date từ mảng trên (chú ý rằng tháng trong JavaScript là từ 0 đến 11)
+    const ngayThangNamDate = new Date(nam, thang - 1, ngay);
+
+    
+     ngayThangNamDate.setDate(ngayThangNamDate.getDate() + soNgay);
+     
+     // Định dạng ngày tháng năm thành chuỗi "dd/mm/yyyy"
+    const expectedDate = ngayThangNamDate.toLocaleDateString('en-GB');
+    if (tour) {
+        tour.expectedDate = expectedDate ? expectedDate : tour.expectedDate;
+        await tour.save();
+        return res.status(200).json({ result: true, message: "Update Success" });
+    }else {
+      return res.status(400).json({ result: false, message: "fail" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ result: false });
+  }
+});
+
+//http://localhost:3000/tour/api/departmentHour
+router.post("/departmentHour", async (req, res) => {
+  try {
+    const id = req.body.id;
+    const departmentHour = req.body.departmentHour;
+    const result = tourController.departmentHour(id, departmentHour);
+    if (result) {
+      return res.status(200).json({ result: true, message: "Update Success" });
+    } else {
+      return res.status(400).json({ result: false, message: "fail" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ result: false });
+  }
+});
 
 //http://localhost:3000/tour/api/updateAvailable
 router.post("/updateAvailable", async (req, res) => {
@@ -236,5 +306,4 @@ router.get("/list/search", async function (req, res, next) {
       console.log(error);
     }
   });
-
 module.exports = router;

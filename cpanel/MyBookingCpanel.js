@@ -264,4 +264,89 @@ router.get("/get-uncompleted-booking", async (req, res, next) => {
   }
 });
 
+
+// http://localhost:3000/booking/cpanel/get-handle-cancel-cpanel
+router.get("/get-handle-cancel-cpanel", async (req, res, next) => {
+  try {
+    const response = await MyBookingController.getAllBooking();
+
+    // Lọc danh sách có response.isCancel === true
+    const handleCancel = response.filter(
+      (booking) => booking.confirm === false && booking.handleCancel === true && booking.isCancel == false);
+
+      const user = req.session.user;
+      // console.log("Canceled Bookings:", canceledBookings, response  );
+
+      res.render('mybooking/bookingHandleCancel', { handleCancel, user});
+
+    
+  } catch (error) {
+    console.log(error);
+    res
+      .status(400)
+      .json({ result: false, error, message: "Get bookings failed" });
+  }
+});
+
+
+
+//http://localhost:3000/booking/cpanel/push-notification-cancel?userId=""&tourId=""&id=""
+router.get("/push-notification-cancel", async (req, res, next) => {
+  try {
+    const { userId, tourId, id } = req.query;
+    const tokens = await tokenController.getTokenByUserId(userId);
+    const tokensArray = tokens.map((tokenObj) => tokenObj.token);
+    console.log(tokensArray);
+
+    const currentTime = new Date().toLocaleTimeString();
+    const message = {
+      notification: {
+        title: "Hủy tour thành công!",
+        body: "Hãy sớm đặt lại tour nhé!",
+      },
+      data: {
+        score: "850",
+        time: currentTime,
+      },
+      tokens: tokensArray,
+    };
+
+    const image = 'https://firebasestorage.googleapis.com/v0/b/travelapp-3e538.appspot.com/o/user-avatar%2Flogo.png?alt=media&token=94c7da08-1361-4b42-9f7c-b993c03b85f1'
+    const title = "Hủy tour thành công!"
+    const content = "Hãy sớm đặt lại tour nhé!"
+    const timeStamp = currentTime
+    const type = "delete"
+    const notification = await notificationService.addNotification(image, title, content, timeStamp,type, userId, tourId)
+    await bookingService.canceledBooking(id)
+    console.log(notification)
+    if (notification) {
+      const response = await admin.messaging().sendEachForMulticast(message);
+      //console.log("Successfully sent message:", response);
+      res.status(200).json({ result: true, notification: notification, message: "success" });
+    } else {
+      res.status(400).json({ result: true, notification: null, message: "fail" });
+    }
+    
+    
+  } catch (error) {
+    console.log("Error sending message:", error);
+    res.status(400).json({ result: false, error: error, message: "fail" });
+  }
+});
+
+//http://localhost:3000/booking/cpanel/deleteBooking/:id
+router.delete("/deleteBooking/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await MyBookingController.deleteBookingbyID(id);
+    return res
+      .status(200)
+      .json({ result: true, message: "Delete booking Success" });
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ result: true, message: "Delete booking fail" });
+  }
+});
+
 module.exports = router;

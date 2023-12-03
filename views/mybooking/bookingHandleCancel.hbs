@@ -194,7 +194,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Đã hủy Tour</h1>
+    <h1>Chờ xác nhận hủy Tour</h1>
     <div class="gap-4 d-md-flex justify-content-md-end">
       <select id="myDropdown" onchange="goToPage(this)">
       <option value="">Chọn trang</option>
@@ -234,7 +234,7 @@
                 </tr>
               </thead>
               <tbody>
-                {{#each canceledBookings}}
+                {{#each handleCancel}}
 
                 <tr>
                   {{!-- <td> {{this.bookingDate}} </td> --}}
@@ -253,9 +253,10 @@
                       <a href="/booking/cpanel/getBookingById?id={{this._id}}" class="btn btn-success m-1">
                         <i class='bx bx-detail'></i>
                       </a>
-                      <a onclick="confirmDelete('{{this._id}}')" type="button" class="btn btn-danger m-1">
-                        <i class='bx bx-trash'></i>
+                      <a onclick="confirmCancel('{{this.user_id._id}}','{{this.tour_id._id}}', '{{this._id}}')" type="button" class="btn btn-primary m-1">
+                        <iconify-icon icon="ic:baseline-check"></iconify-icon>
                       </a>
+                      
                     </div>
                   </td>
                 </tr>
@@ -287,8 +288,8 @@
 
   
 
-const comfirmBooking= async (user_id, tour_id, id) => {
-    const url = `/booking/cpanel/push-notification-confirm?userId=${user_id}&tourId=${tour_id}&id=${id}`;
+const cancelBooking= async (user_id, tour_id, id) => {
+    const url = `/booking/cpanel/push-notification-cancel?userId=${user_id}&tourId=${tour_id}&id=${id}`;
 
     const option = {
       method: 'get',
@@ -304,20 +305,20 @@ const comfirmBooking= async (user_id, tour_id, id) => {
   }
 
 
-  const confirm = (user_id, tour_id, id) => {
+  const confirmCancel = (user_id, tour_id, id) => {
     swal({
-      title: "Thông báo Xác nhận",
-      text: "Bạn có muốn gửi thông báo xác nhận này?",
+      title: "Thông báo hủy tour",
+      text: "Bạn có muốn gửi thông báo xác nhận hủy tour này?",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     })
       .then((comfirmm) => {
         if (comfirmm) {
-          comfirmBooking(user_id, tour_id, id);
+          cancelBooking(user_id, tour_id, id);
           swal({
             title: "Success!",
-            text: "Gửi thông báo xác nhận thành công!!",
+            text: "Gửi thông báo xác nhận hủy tour thành công!!",
             icon: "success"
           }).then((wil) => {
             window.location.reload();
@@ -328,44 +329,9 @@ const comfirmBooking= async (user_id, tour_id, id) => {
 
 
 
+  
 
-const deleteBooking= async (id) => {
-    const url = `/booking/api/deleteBooking/${id}`;
 
-    const option = {
-      method: 'delete',
-      headers: { 'Content-Type': 'application/json' }
-    }
-    try {
-      const result = await fetchAPI(url, option);
-      console.log('comfirm result: ', result)
-    } catch (e) {
-      console.log('error comfirm: ', e)
-      throw e;
-    }
-  }
-
-  const confirmDelete = (id) => {
-    swal({
-      title: "Xác nhận xóa?",
-      text: "Bạn có muốn xóa tour này?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-          deleteBooking(id);
-          swal({
-            title: "Deleted!",
-            text: "Xóa thành công!!",
-            icon: "success"
-          }).then((wil) => {
-            window.location.reload();
-          })
-        }
-      });
-  }
 
 
   function showGenre(item) {

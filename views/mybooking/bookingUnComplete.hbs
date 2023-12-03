@@ -224,10 +224,13 @@
             <table class="table">
               <thead >
                 <tr class="col-lg-12">
-                  <th class="col-lg-3" scope="col">Hình ảnh Tour</th>
-                  <th class="col-lg-3" scope="col">Tên Tour</th>
-                  <th class="col-lg-3" scope="col">Hình ảnh User</th>
-                  <th class="col-lg-3" scope="col">Tên User</th>
+                  <th class="col-lg-1" scope="col">Hình ảnh Tour</th>
+                  <th class="col-lg-2" scope="col">Tên Tour</th>
+                  <th class="col-lg-1" scope="col">Hình ảnh khách</th>
+                  <th class="col-lg-2" scope="col">Tên khách</th>
+                  <th class="col-lg-2" scope="col">Ngày khỏi hành</th>
+                  <th class="col-lg-2" scope="col">Giờ khỏi hành</th>
+                  <th class="col-lg-2" scope="col">Dự kiến kết thúc</th>
                   {{!-- <th class="col-lg-3" scope="col">Lý do</th> --}}
                 </tr>
               </thead>
@@ -236,26 +239,26 @@
 
                 <tr>
                   <td class="py-1">
-                    <img src="{{this.tour_id.tourImage}}" alt="Không có ảnh" width="200" height="100" />
+                    <img src="{{this.tour_id.tourImage}}" alt="Không có ảnh" width="150" height="100" />
                   </td>
                   <td> {{this.tour_id.tourName}} </td>
                   <td class="py-1">
-                    <img src="{{this.user_id.avatar}}" alt="Không có ảnh" width="200" height="100" />
+                    <img src="{{this.user_id.avatar}}" alt="Không có ảnh" width="150" height="100" />
                   </td>
                   <td> {{this.user_id.name}} </td>
+                  <td> {{this.departmentDate}} </td>
+                  <td> {{this.departmentHour}} </td>
+                  <td> {{this.expectedDate}} </td>
                   {{!-- <td> {{this.reason}} </td> --}}
 
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
-                      <a onclick="confirmFeedback('{{this.user_id._id}}','{{this.tour_id._id}}','{{this._id}}')" type="button" class="btn btn-success m-1">
+                      <a href="/booking/cpanel/getBookingById?id={{this._id}}" class="btn btn-success m-1">
+                        <i class='bx bx-detail'></i>
+                      </a>
+                      <a onclick="confirmFeedback('{{this.user_id._id}}','{{this.tour_id._id}}','{{this._id}}')" type="button" class="btn btn-primary m-1">
                         <i class='bx bx-bell'></i>
                       </a>  
-                      {{!-- <a onclick="confirm('{{this.user_id._id}}','{{this.tour_id._id}}', '{{this._id}}')" type="button" class="btn btn-primary m-1">
-                        <iconify-icon icon="ic:baseline-check"></iconify-icon>
-                      </a> --}}
-                      {{!-- <a onclick="confirmDelete('{{this.user_id._id}}','{{this.tour_id._id}}', '{{this._id}}')" type="button" class="btn btn-danger m-1">
-                        <i class='bx bx-trash'></i>
-                      </a> --}}
                     </div>
                   </td>
                 </tr>

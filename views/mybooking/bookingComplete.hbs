@@ -224,10 +224,12 @@
             <table class="table">
               <thead >
                 <tr class="col-lg-12">
-                  <th class="col-lg-3" scope="col">Hình ảnh Tour</th>
-                  <th class="col-lg-3" scope="col">Tên Tour</th>
-                  <th class="col-lg-3" scope="col">Hình ảnh User</th>
-                  <th class="col-lg-3" scope="col">Tên User</th>
+                  <th class="col-lg-2" scope="col">Hình ảnh Tour</th>
+                  <th class="col-lg-2" scope="col">Tên Tour</th>
+                  <th class="col-lg-2" scope="col">Hình ảnh khách</th>
+                  <th class="col-lg-2" scope="col">Tên khách</th>
+                  <th class="col-lg-2" scope="col">Số lượng khách</th>
+                  <th class="col-lg-2" scope="col">Tổng tiền</th>
                   {{!-- <th class="col-lg-3" scope="col">Lý do</th> --}}
                 </tr>
               </thead>
@@ -243,22 +245,42 @@
                     <img src="{{this.user_id.avatar}}" alt="Không có ảnh" width="200" height="100" />
                   </td>
                   <td> {{this.user_id.name}} </td>
-                  {{!-- <td> {{this.reason}} </td> --}}
+                  <td id="sumPeople"></td>
+                  <td id="formatPrice"></td>
+
 
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
-                      {{!-- <a onclick="confirmPush('{{this.user_id._id}}','{{this.tour_id._id}}')" type="button" class="btn btn-success m-1">
-                        <i class='bx bx-bell'></i>
-                      </a>   --}}
-                      {{!-- <a onclick="confirm('{{this.user_id._id}}','{{this.tour_id._id}}', '{{this._id}}')" type="button" class="btn btn-primary m-1">
-                        <iconify-icon icon="ic:baseline-check"></iconify-icon>
-                      </a> --}}
-                      {{!-- <a onclick="confirmDelete('{{this.user_id._id}}','{{this.tour_id._id}}', '{{this._id}}')" type="button" class="btn btn-danger m-1">
-                        <i class='bx bx-trash'></i>
-                      </a> --}}
+                      <a href="/booking/cpanel/getBookingById?id={{this._id}}" class="btn btn-success m-1">
+                        <i class='bx bx-detail'></i>
+                      </a>
                     </div>
                   </td>
                 </tr>
+
+
+
+
+                <script>
+                  const childrenValue = '{{this.children}}';
+                    const adultValue = '{{this.adult}}';
+
+                  function calculateSum() {
+                      var sum = Number(childrenValue) + Number(adultValue);
+                      document.getElementById("sumPeople").innerHTML = sum;
+                    }
+                  calculateSum(); // Call the function to calculate and display the sum
+
+
+                  const price = '{{this.totalPrice}}';
+                  function formatPrice() {
+                    const VND = new Intl.NumberFormat('vi-VN', {style: 'currency',currency: 'VND',}).format(price);
+                    document.getElementById("formatPrice").innerHTML = VND;
+                  }
+                  formatPrice();
+                  
+                </script>
+
                 {{/each}}
 
               </tbody>
@@ -285,128 +307,7 @@
     return res.json();
   }
 
-  const pushNotification = async (user_id, tour_id) => {
-    const url = `/booking/cpanel/push-notification-feedback?userId=${user_id}&tourId=${tour_id}`;
-
-    const option = {
-      method: 'get',
-      headers: { 'Content-Type': 'application/json' }
-    }
-    try {
-      const result = await fetchAPI(url, option);
-      console.log('delete result: ', result)
-    } catch (e) {
-      console.log('error delete: ', e)
-      throw e;
-    }
-  }
-
-
-  const confirmPush = (user_id, tour_id) => {
-    swal({
-      title: "Xác nhận gửi Feedback?",
-      text: "Bạn có muốn gửi Feedback đến tour này?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-          pushNotification(user_id, tour_id);
-          swal({
-            title: "Success!",
-            text: "Gửi Feedback thành công!!",
-            icon: "success"
-          }).then((wil) => {
-            window.location.reload();
-          })
-        }
-      });
-  }
-
-
-
-
-const comfirmBooking= async (user_id, tour_id, id) => {
-    const url = `/booking/cpanel/push-notification-confirm?userId=${user_id}&tourId=${tour_id}&id=${id}`;
-
-    const option = {
-      method: 'get',
-      headers: { 'Content-Type': 'application/json' }
-    }
-    try {
-      const result = await fetchAPI(url, option);
-      console.log('comfirm result: ', result)
-    } catch (e) {
-      console.log('error comfirm: ', e)
-      throw e;
-    }
-  }
-
-
-  const confirm = (user_id, tour_id, id) => {
-    swal({
-      title: "Thông báo Xác nhận",
-      text: "Bạn có muốn gửi thông báo xác nhận này?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((comfirmm) => {
-        if (comfirmm) {
-          comfirmBooking(user_id, tour_id, id);
-          swal({
-            title: "Success!",
-            text: "Gửi thông báo xác nhận thành công!!",
-            icon: "success"
-          }).then((wil) => {
-            window.location.reload();
-          })
-        }
-      });
-  }
-
-
-
-
-const deleteBooking= async (user_id, tour_id, id) => {
-    const url = `/booking/cpanel/push-notification-delete?userId=${user_id}&tourId=${tour_id}&id=${id}`;
-
-    const option = {
-      method: 'get',
-      headers: { 'Content-Type': 'application/json' }
-    }
-    try {
-      const result = await fetchAPI(url, option);
-      console.log('comfirm result: ', result)
-    } catch (e) {
-      console.log('error comfirm: ', e)
-      throw e;
-    }
-  }
-
-
-  const confirmDelete = (user_id, tour_id, id) => {
-    swal({
-      title: "Xác nhận xóa tour đã đặt này ?",
-      text: "Bạn chắc chắn muốn xóa và gửi thông báo đến người dùng?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((will1) => {
-        if (will1) {
-          deleteBooking(user_id, tour_id, id);
-          swal({
-            title: "Success!",
-            text: "Gửi xóa và gửi thông báo thành công!!",
-            icon: "success"
-          }).then((wil) => {
-            window.location.reload();
-          })
-        }
-      });
-  }
+    
 
 
   function showGenre(item) {
@@ -422,3 +323,4 @@ const deleteBooking= async (user_id, tour_id, id) => {
 
 </script>
 <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+

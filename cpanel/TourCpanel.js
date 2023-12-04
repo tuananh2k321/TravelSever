@@ -297,11 +297,12 @@ router.get('/tour-table-false', [authen.checkTokenCpanel], async function (req, 
     res.render('tour/tourTableFalse', { tours, user });
 });
 
-// http://localhost:3000/tour/api/get-closed-tour
-router.get("/get-closed-tour", async function (req, res, next) {
+// http://localhost:3000/tour/cpanel/get-booking-tour
+router.get("/get-booking-tour", async function (req, res, next) {
     try {
-      const tours = await tourService.getClosedTour();
-      res.status(200).json({ result: true, tours });
+      const tours = await tourService.getBookingTour();
+      const user = req.session.user;
+      res.render('tour/tourTableBooking', { tours, user });
     } catch (error) {
       res.status(400).json({ result: false, error });
     }

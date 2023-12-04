@@ -434,7 +434,7 @@
     }
 
       try {
-        const response = await fetch('/booking/api/tourIsBooking');
+        const response = await fetch('/booking/api/getTourIsBooking');
         const data = await response.json();
         
          topTour = data.top;
@@ -476,20 +476,21 @@
 </script>
 <script>
     const ctx = document.getElementById("chart").getContext('2d');
-function truncateText(text, maxLength) {
+  function truncateText(text, maxLength) {
   return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
 }
     // Hàm để lấy dữ liệu từ server-side và vẽ biểu đồ
-    async function fetchDataAndDrawChart() {
+    async function fetchDataAndDrawChart1() {
       function truncateText(text, maxLength) {
       return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
     }
 
       try {
-        const response = await fetch('/booking/api/tourIsBooking');
+        const response = await fetch('/booking/api/getTourIsBooking');
         const data = await response.json();
         let tourIsBooking = data.tourIsBooking;
         let highestTotalPriceTourId = data.top;
+        console.log(tourIsBooking)
         
         document.getElementById("highestTotalPriceTourId").innerHTML = highestTotalPriceTourId.tour_name;
         document.getElementById("highestTotalPrice").innerHTML = highestTotalPriceTourId.totalPrice;
@@ -499,7 +500,7 @@ function truncateText(text, maxLength) {
         let lowestTotalPriceTourId = data.lose;
         document.getElementById("lowestTotalPriceTourId").innerHTML = lowestTotalPriceTourId.tour_name;
         document.getElementById("lowestTotalPrice").innerHTML = lowestTotalPriceTourId.totalPrice;
-        document.getElementById("lowestSoLan").innerHTML = lowestTotalPriceTourId.soLan;
+        document.getElementById("lowestSoLan").innerHTML = lowestTotalPriceTourId.soLan; 
         let labels = tourIsBooking.map(item => item.tour_name);
         let values = tourIsBooking.map(item => item.totalPrice);
 
@@ -543,6 +544,6 @@ function truncateText(text, maxLength) {
     }
 
     // Gọi hàm để lấy dữ liệu và vẽ biểu đồ khi trang được tải
-    fetchDataAndDrawChart();
+    fetchDataAndDrawChart1();
   </script>
   

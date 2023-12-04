@@ -327,12 +327,12 @@ router.get("/get-uncompleted-booking", async (req, res, next) => {
       (booking) => booking.isCompleted === false &&  booking.confirm === true
     );
 
-    console.log("departmentDate:", completedBookings[0].tour_id.departmentDate);
-    console.log(
-      "expectedDate:",
-      completedBookings[0].tour_id.departmentDate +
-        completedBookings[0].tour_id.limitedDay.match(/\d+/)
-    );
+    // console.log("departmentDate:", completedBookings[0].tour_id.departmentDate);
+    // console.log(
+    //   "expectedDate:",
+    //   completedBookings[0].tour_id.departmentDate +
+    //     completedBookings[0].tour_id.limitedDay.match(/\d+/)
+    // );
     res
       .status(200)
       .json({

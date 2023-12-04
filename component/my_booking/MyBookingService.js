@@ -17,12 +17,31 @@ const getListBooking = async (userID) => {
   return [];
 };
 
+const slotPerson = async (tourId, quantity) => {
+  try {
+      const tour =  await tourModel.findOne({_id: tourId}); 
+      if (tour) {
+          console.log(tour.availablePerson +" "+quantity)
+          if ( tour.availablePerson >= quantity) {
+              tour.availablePerson = tour.availablePerson - quantity
+              await tour.save();
+              return true
+          } else {
+              console.log("đã hết lượt")
+              return false
+          }
+      }
+  } catch (error) {
+      console.log("getTourRating failed: ", error);
+  }
+}
+
 const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id, guestInfo, 
   quantity, departmentDate, departmentHour, expectedDate) => {
   try {
     const bookingDate = new Date().toLocaleString();
-    const slotPerson = await tourService.availablePerson(tour_id, quantity)
-    if(slotPerson) {
+    const isAvailable = await slotPerson(tour_id, quantity)
+    if(isAvailable) {
       const newBooking = {
         name,
         children,

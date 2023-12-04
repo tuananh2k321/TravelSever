@@ -105,7 +105,7 @@ const departmentHour = async (id, departmentHour) => {
 
 const updateAvailablePerson = async (id) => {
     try {
-        let tour = await tourModel.findById(id);
+        let tour = await tourModel.findOne({_id: id});
         if (tour) {
             tour.availablePerson = tour.limitedPerson;
             await tour.save();
@@ -197,24 +197,7 @@ const getTourRating = async () => {
     return [];
 }
 
-const availablePerson = async (tourId, quantity) => {
-    try {
-        const tour =  await tourModel.findOne({_id: tourId}); 
-        if (tour) {
-            console.log(tour.availablePerson +" "+quantity)
-            if ( tour.availablePerson >= quantity) {
-                tour.availablePerson = tour.availablePerson - quantity
-                await tour.save();
-                return true
-            } else {
-                console.log("đã hết lượt")
-                return false
-            }
-        }
-    } catch (error) {
-        console.log("getTourRating failed: ", error);
-    }
-}
+
 
 
 module.exports = {
@@ -229,7 +212,6 @@ module.exports = {
     getTourSearhDomain,
     getTourListName,
     departmentHour,
-    availablePerson,
     updateAvailablePerson,
     closeTour
 };

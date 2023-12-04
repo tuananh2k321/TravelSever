@@ -4,6 +4,7 @@ const notificationController = require("../../component/notification/Notificatio
 const notificationService= require("../../component/notification/NotificationService");
 const tokenController = require("../../component/token-notification/TokenService");
 const bookingService = require("../../component/my_booking/MyBookingService");
+const tourService = require("../../component/tour/TourService");
 const serviceAccount = require('../../component/notification/travelapp-3e538-firebase-adminsdk-5rk78-49812ee71f.json');
 const admin = require('firebase-admin');
 admin.initializeApp({
@@ -39,6 +40,7 @@ router.get("/push-notification-feedback", async (req, res, next) => {
     const type = "feedback"
     const notification = await notificationService.addNotification(image, title, content, timeStamp,type, userId, tourId)
     await bookingService.completedBooking(bookingId)
+    await tourService.updateIsBooking(tourId)
     console.log(notification)
     if (notification) {
       const response = await admin.messaging().sendEachForMulticast(message);
@@ -171,6 +173,7 @@ router.get("/push-notification-cancel", async (req, res, next) => {
     const type = "delete"
     const notification = await notificationService.addNotification(image, title, content, timeStamp,type, userId, tourId)
     await bookingService.canceledBooking(id)
+    await tourService.updateIsBooking(tourId)
     console.log(notification)
     if (notification) {
       const response = await admin.messaging().sendEachForMulticast(message);
@@ -179,7 +182,6 @@ router.get("/push-notification-cancel", async (req, res, next) => {
     } else {
       res.status(400).json({ result: true, notification: null, message: "fail" });
     }
-    
     
   } catch (error) {
     console.log("Error sending message:", error);

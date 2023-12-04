@@ -7,7 +7,8 @@ const MyBookingModel = require("./MyBookingModel");
 const HotelModel = require("../hotel/HotelModel");
 const TourGuideModel = require("../tourGuide/TourGuideModel");
 
-const tourService = require('../tour/TourService')
+const tourService = require('../tour/TourService');
+const TourModel = require("../tour/TourModel");
 const getListBooking = async (userID) => {
   try {
     return await mybookingModel.find({ user_id: userID }).populate('tour_id').sort({ bookingDate: -1 });
@@ -36,12 +37,23 @@ const slotPerson = async (tourId, quantity) => {
   }
 }
 
+const getTourById = async (id) => {
+  try {
+      let tour = await tourModel.findById(id);
+      return tour;
+  } catch (error) {
+      console.log("getTourById " + error);
+      return false;
+  }
+}
+
 const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id, guestInfo, 
   quantity, departmentDate, departmentHour, expectedDate) => {
   try {
     const bookingDate = new Date().toLocaleString();
     const isAvailable = await slotPerson(tour_id, quantity)
-    if(isAvailable) {
+    const tour = await getTourById(tour_id)
+    if(isAvailable && tour) {
       const newBooking = {
         name,
         children,
@@ -55,6 +67,8 @@ const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id,
         departmentHour,
         expectedDate
       };
+      tour.isBooking = true
+      await tour.save()
       const b = new MyBookingModel(newBooking);
       const save_b = await b.save()
       //const booking = await mybookingModel.create(newBooking);

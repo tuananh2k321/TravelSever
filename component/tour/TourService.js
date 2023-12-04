@@ -4,7 +4,7 @@ const myBookingService = require('../my_booking/MyBookingService')
 
 const getAllTour = async () => {
     try {
-        return await tourModel.find().sort({createdAt:-1});
+        return await tourModel.find({isState: true}).sort({createdAt:-1});
     } catch (error) {
         console.log("getAllTour failed: ", error);
     }
@@ -20,9 +20,18 @@ const getClosedTour = async () => {
     return [];
 }
 
+const getBookingTour = async () => {
+    try {
+        return await tourModel.find({isBooking: true});
+    } catch (error) {
+        console.log("getAllTour failed: ", error);
+    }
+    return [];
+}
+
 const getTourListName = async (keyword) => {
     try {
-     let query =  {tourName:{$regex:new RegExp(keyword,'i')}};
+     let query =  {tourName:{$regex:new RegExp(keyword,'i')}, isState: true};
      let filteredTours = await tourModel.find(query);
      return filteredTours;
     } catch (error) {
@@ -97,6 +106,21 @@ const updateDomain = async (id, isdomain) => {
         return false;
     }
 }
+
+const updateIsBooking = async (id) => {
+    try {
+        let tour = await tourModel.findById(id);
+        if (tour) {
+            tour.isBooking = false;
+            await tour.save();
+            return true;
+        }
+    } catch (e) {
+        console.log("updateIsBooking error :",error);
+        return false;
+    }
+}
+
 const departmentHour = async (id, departmentHour) => {
     try {
         let tour = await tourModel.findById(id);
@@ -133,7 +157,7 @@ const updateTour = async (id,tourName, adultPrice, childrenPrice,childrenAge,adu
     operatingDay,limitedPerson,availablePerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id) => {
     try {
         let tour = await tourModel.findById(id);
-        if(tour) {
+        if(tour.isBooking == false) {
             tour.tourName = tourName ? tourName : tour.tourName;
             tour.adultPrice = adultPrice ? adultPrice : tour.adultPrice;
             tour.childrenPrice = childrenPrice ? childrenPrice : tour.childrenPrice;
@@ -167,8 +191,11 @@ const updateTour = async (id,tourName, adultPrice, childrenPrice,childrenAge,adu
 }
 const deleteTour = async (id) => {
     try {
-        await tourModel.findByIdAndDelete(id);
-        return true;
+        const tour = await tourModel.findOne({_id: id})
+        if (tour.isBooking == false) {
+            await tourModel.findByIdAndDelete(id);
+            return true;
+        }
     } catch (error) {
         console.log("Delete tour: ",error);
         return false;
@@ -177,7 +204,7 @@ const deleteTour = async (id) => {
 
 const getTourSearhName = async (keyword) => {
    try {
-    let query =  {tourName:{$regex:new RegExp(keyword,'i')}};
+    let query =  {tourName:{$regex:new RegExp(keyword,'i')}, isState: true};
     let filteredTours = await tourModel.find(query);
     return filteredTours;
    } catch (error) {
@@ -187,7 +214,7 @@ const getTourSearhName = async (keyword) => {
 }
 const getTourSearhDomain = async (keyword) => {
     try {
-        const query = {isdomain:{$regex:new RegExp(keyword,'i')}};
+        const query = {isdomain:{$regex:new RegExp(keyword,'i')}, isState: true};
      // query =  {isdomain:{$regex:new RegExp(keyword,'i')}};
      let filteredTours = await tourModel.find(query);
      return filteredTours;
@@ -199,14 +226,12 @@ const getTourSearhDomain = async (keyword) => {
 
 const getTourRating = async () => {
     try {
-        return await tourModel.find().sort({rating:-1}); //{ rating: { $exists: true, $ne: null } }
+        return await tourModel.find({isState: true}).sort({rating:-1}); //{ rating: { $exists: true, $ne: null } }
     } catch (error) {
         console.log("getTourRating failed: ", error);
     }
     return [];
 }
-
-
 
 
 module.exports = {
@@ -223,5 +248,6 @@ module.exports = {
     departmentHour,
     updateAvailablePerson,
     closeTour,
-    getClosedTour
+    getClosedTour,
+    updateIsBooking
 };

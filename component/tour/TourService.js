@@ -11,6 +11,15 @@ const getAllTour = async () => {
     return [];
 }
 
+const getClosedTour = async () => {
+    try {
+        return await tourModel.find({isState: false});
+    } catch (error) {
+        console.log("getAllTour failed: ", error);
+    }
+    return [];
+}
+
 const getTourListName = async (keyword) => {
     try {
      let query =  {tourName:{$regex:new RegExp(keyword,'i')}};
@@ -213,5 +222,6 @@ module.exports = {
     getTourListName,
     departmentHour,
     updateAvailablePerson,
-    closeTour
+    closeTour,
+    getClosedTour
 };

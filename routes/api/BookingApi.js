@@ -110,7 +110,7 @@ router.get("/get-canceled-booking", async (req, res, next) => {
 
     // Lọc danh sách có response.isCancel === true
     const canceledBookings = response.filter(
-      (booking) => booking.isCancel === true
+      (booking) => booking.isCancel === true && booking.handleCancel === true
     );
 
     console.log("Canceled Bookings:", canceledBookings);
@@ -136,7 +136,7 @@ router.get("/get-handle-cancel-cpanel", async (req, res, next) => {
 
     // Lọc danh sách có response.isCancel === true
     const newBookings = response.filter(
-      (booking) => booking.confirm === false && booking.handleCancel === true
+      (booking) => booking.confirm === false && booking.handleCancel === true && booking.isCancel === false
     );
 
     console.log("Canceled Bookings:", newBookings);
@@ -164,7 +164,7 @@ router.get("/get-handle-cancel-booking-app", async (req, res, next) => {
 
     // Lọc danh sách có response.isCancel === true
     const newBookings = response.filter(
-      (booking) => booking.handleCancel === true && booking.confirm == false
+      (booking) => booking.handleCancel === true && booking.confirm === false
     );
 
     console.log("Canceled Bookings:", newBookings);
@@ -211,7 +211,7 @@ router.get("/get-new-booking-cpanel", async (req, res, next) => {
 
     // Lọc danh sách có response.isCancel === true
     const newBookings = response.filter(
-      (booking) => booking.confirm === false && booking.handleCancel === true
+      (booking) => booking.confirm === false && booking.handleCancel === false
     );
 
     console.log("Canceled Bookings:", newBookings);
@@ -354,7 +354,7 @@ router.get("/get-completed-booking", async (req, res, next) => {
   
       // Lọc danh sách có response.isCancel === true
       const completedBookings = await response.filter(
-        (booking) => booking.isCompleted === true
+        (booking) => booking.isCompleted === true && booking.confirm == true
       );
   
     //   console.log("departmentDate:", completedBookings[0].tour_id.departmentDate);

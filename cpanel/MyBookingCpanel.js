@@ -159,12 +159,12 @@ router.get("/push-notification-delete", async (req, res, next) => {
 
 // cpanel
 // http://localhost:3000/booking/cpanel/get-new-booking-cpanel
-router.get('/get-new-booking-cpanel', async (req, res, next) => {
+router.get('/get-new-booking-cpanel', [authen.checkTokenCpanel], async (req, res, next) => {
   try {
       const response = await MyBookingController.getAllBooking();
 
       // Lọc danh sách có response.isCancel === true
-      const newBookings = response.filter(booking => booking.confirm === false );
+      const newBookings = response.filter(booking => booking.confirm === false && booking.handleCancel === false && booking.isCompleted == false);
 
       console.log("Canceled Bookings:", newBookings);
 
@@ -194,7 +194,7 @@ router.get('/getBookingById', async (req, res, next) => {
 });
 
 // http://localhost:3000/booking/cpanel/get-confirmed-booking
-router.get('/get-confirmed-booking', async (req, res, next) => {
+router.get('/get-confirmed-booking', [authen.checkTokenCpanel], async (req, res, next) => {
   try {
       const response = await MyBookingController.getAllBooking();
       const user = req.session.user;
@@ -210,7 +210,7 @@ router.get('/get-confirmed-booking', async (req, res, next) => {
 });
 
 // http://localhost:3000/booking/cpanel/get-canceled-booking
-router.get('/get-canceled-booking', async (req, res, next) => {
+router.get('/get-canceled-booking', [authen.checkTokenCpanel], async (req, res, next) => {
   try {
       const response = await MyBookingController.getAllBooking();
 
@@ -226,7 +226,7 @@ router.get('/get-canceled-booking', async (req, res, next) => {
 });
 
 // http://localhost:3000/booking/cpanel/get-completed-booking
-router.get('/get-completed-booking', async (req, res, next) => {
+router.get('/get-completed-booking', [authen.checkTokenCpanel], async (req, res, next) => {
   try {
       const response = await MyBookingController.getAllBooking();
 
@@ -243,7 +243,7 @@ router.get('/get-completed-booking', async (req, res, next) => {
 
 
 // http://localhost:3000/booking/cpanel/get-uncompleted-booking
-router.get("/get-uncompleted-booking", async (req, res, next) => {
+router.get("/get-uncompleted-booking", [authen.checkTokenCpanel], async (req, res, next) => {
   try {
     const response = await MyBookingController.getAllBooking();
 
@@ -266,7 +266,7 @@ router.get("/get-uncompleted-booking", async (req, res, next) => {
 
 
 // http://localhost:3000/booking/cpanel/get-handle-cancel-cpanel
-router.get("/get-handle-cancel-cpanel", async (req, res, next) => {
+router.get("/get-handle-cancel-cpanel", [authen.checkTokenCpanel], async (req, res, next) => {
   try {
     const response = await MyBookingController.getAllBooking();
 

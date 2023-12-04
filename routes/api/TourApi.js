@@ -172,12 +172,30 @@ router.post("/updateDomain", async (req, res) => {
 router.post("/departmentDate", async (req, res) => {
   try {
     const id = req.body.id;
+    console.log(id);
     const departmentDate = req.body.departmentDate;
     const ngayThangNamDate = new Date(departmentDate);  
     const ngayThangNamDaFormat = ngayThangNamDate.toLocaleDateString('en-GB');// định dạng dd/mm/yyyy
     let tour = await tourModel.findById(id);
+    console.log(tour);
+    const chuoiDate = tour.limitedDay.toString();
+    // Cắt chuỗi và lấy số
+    const soNgay = parseInt(chuoiDate.match(/\d+/)[0]);
+    
+    // Tách chuỗi thành mảng [ngày, tháng, năm]
+    const [ngay, thang, nam] = ngayThangNamDaFormat.split('/');
+
+// Tạo đối tượng Date từ mảng trên (chú ý rằng tháng trong JavaScript là từ 0 đến 11)
+    const ngayThangNamDate1 = new Date(nam, thang - 1, ngay);
+
+    
+     ngayThangNamDate1.setDate(ngayThangNamDate1.getDate() + soNgay);
+     
+     // Định dạng ngày tháng năm thành chuỗi "dd/mm/yyyy"
+    const expectedDate = ngayThangNamDate1.toLocaleDateString('en-GB');
     if (tour) {
         tour.departmentDate = ngayThangNamDaFormat ? ngayThangNamDaFormat : tour.departmentDate;
+        tour.expectedDate = expectedDate ? expectedDate : tour.expectedDate;
         await tour.save();
         return res.status(200).json({ result: true, message: "Update Success" });
     }else {

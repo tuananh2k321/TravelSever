@@ -5,6 +5,7 @@ const authen = require('../middleware/Authen')
 const hotelController = require('../component/hotel/HotelController')
 const destinationController = require('../component/destination/DestinationController')
 const tourGuideController = require('../component/tourGuide/TourGuideController')
+const tourService = require("../component/tour/TourService");
 const { getStorage, ref, getDownloadURL, uploadBytesResumable } = require("firebase/storage");
 const multer = require("multer");
 const appFirebase = require("../component/config/FirebaseConfig")
@@ -18,7 +19,8 @@ const uploadImage = multer({ storage: multerStorage });
 
 // http://localhost:3000/tour/cpanel/tour-table
 router.get('/tour-table', [authen.checkTokenCpanel], async function (req, res, next) {
-    const tours = await tourController.getAllTour();
+    const response = await tourController.getAllTour();
+    const tours = response.filter((tours)=> tours.isState == true)
     const user = req.session.user;
     res.render('tour/tourTable', { tours, user });
 });
@@ -287,6 +289,22 @@ router.get('/tour-table/search', [authen.checkTokenCpanel], async (req, res) => 
 });
 
 
+// http://localhost:3000/tour/cpanel/tour-table
+router.get('/tour-table-false', [authen.checkTokenCpanel], async function (req, res, next) {
+    const response = await tourService.getClosedTour();
+    const tours = response.filter((tours)=> tours.isState == false)
+    const user = req.session.user;
+    res.render('tour/tourTableFalse', { tours, user });
+});
 
+// http://localhost:3000/tour/api/get-closed-tour
+router.get("/get-closed-tour", async function (req, res, next) {
+    try {
+      const tours = await tourService.getClosedTour();
+      res.status(200).json({ result: true, tours });
+    } catch (error) {
+      res.status(400).json({ result: false, error });
+    }
+  });
 
 module.exports = router;

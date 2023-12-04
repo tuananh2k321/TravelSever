@@ -250,7 +250,7 @@
                             <dialog id="myDialog">
                                 <form id="myForm" >
                                     <label  for="inputField">Input:</label>
-                                    <input placeholder="{{tour._id}}" type="text" id="inputField" name="inputField">
+                                    <input placeholder="{{tour._id}}" type="date" id="inputField" name="inputField">
                                     <button type="button"  onclick="saveChanges()" >Save Changes</button>
                                     <button type="button" onclick="closeDialog()">Cancel</button>
                                 </form>
@@ -336,9 +336,7 @@
             // Ví dụ: lấy giá trị từ trường input
             const inputValue  = document.getElementById('inputField').value;
            const idValue  = document.getElementById('inputField').placeholder;
-           console.log("idValue",idValue)
-            // Hàm để lấy dữ liệu từ server-side và vẽ biểu đồ
-
+           
             //Gủi dữliệu lên api
             fetch("http://localhost:3000/tour/api/departmentDate", {
                 method:'post',
@@ -350,7 +348,7 @@
             .then(response => {
                 console.log("response",response)
                 if(!response.ok){
-                    
+                    alert('Ngày tháng năm phải lớn hơn ngày dự kiến kết thúc tour.');
                     throw new Error('response failed')
                 }
                 return response.json();

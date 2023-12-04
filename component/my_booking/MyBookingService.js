@@ -2,7 +2,11 @@ const { async } = require("@firebase/util");
 const mybookingModel = require("./MyBookingModel");
 const userModel = require('../user/UserModel');
 const tourModel = require('../tour/TourModel');
+
 const MyBookingModel = require("./MyBookingModel");
+const HotelModel = require("../hotel/HotelModel");
+const TourGuideModel = require("../tourGuide/TourGuideModel");
+
 const tourService = require('../tour/TourService')
 const getListBooking = async (userID) => {
   try {
@@ -13,7 +17,8 @@ const getListBooking = async (userID) => {
   return [];
 };
 
-const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id, guestInfo, quantity) => {
+const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id, guestInfo, 
+  quantity, departmentDate, departmentHour, expectedDate) => {
   try {
     const bookingDate = new Date().toLocaleString();
     const slotPerson = await tourService.availablePerson(tour_id, quantity)
@@ -26,7 +31,10 @@ const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id,
         user_id,
         tour_id,
         guestInfo,
-        bookingDate
+        bookingDate,
+        departmentDate,
+        departmentHour,
+        expectedDate
       };
       const b = new MyBookingModel(newBooking);
       const save_b = await b.save()
@@ -108,10 +116,37 @@ const getBookingById = async (id) => {
     const booking = await mybookingModel.findOne({ _id: id });
     //console.log('Booking: '+ booking)
     if (booking) {
-      return booking;
-    } else {
-      return false
-    }
+
+        const userId = booking.user_id;
+        const tourId = booking.tour_id;
+        // const hotelId = booking.hotel_id;
+        // const tourGuideId = booking.tourGuide_id;
+        // console.log('hotelId ,', hotelId)
+        // Tìm người dùng tương ứng với user_id
+        const user = await userModel.findOne({ _id: userId });
+        const tour = await tourModel.findOne({ _id: tourId })
+        // const hotel = await HotelModel.findOne({ _id: hotelId })
+        // const tourguide = await TourGuideModel.findOne({ _id: tourGuideId })
+
+        if (user) {
+          booking.user_id = user;
+        }
+        if (tour) {
+          booking.tour_id = tour;
+        }
+        // if (hotel) {
+        //   booking.hotel_id = hotel;
+        // }
+        // if (tourguide) {
+        //   booking.tourGuide_id = tourguide;
+        // }
+        return booking
+      }
+    // if (booking) {
+    //   return booking;
+    // } else {
+    //   return false
+    // }
   } catch (error) {
     console.log("getBookingById", error);
   }

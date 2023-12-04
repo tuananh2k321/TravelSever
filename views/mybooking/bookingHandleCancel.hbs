@@ -10,11 +10,14 @@
   </div><!-- End Logo -->
 
   <div class="search-bar">
-    <form class="search-form d-flex align-items-center" method="get" action="/hotel/cpanel/search">
-      <input type="text" name="keyword" placeholder="Search" title="Enter search keyword">
+    <form class="search-form d-flex align-items-center" method="get" action="#">
+      <input type="text" name="searchName" placeholder="Search" title="Enter search keyword">
       <button type="submit" title="Search"><i class="bi bi-search"></i></button>
     </form>
   </div><!-- End Search Bar -->
+
+
+
 
   <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
@@ -92,7 +95,7 @@
       </a>
     </li><!-- End Dashboard Nav -->
 
-     <li class="nav-item">
+    <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
         <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
@@ -103,13 +106,13 @@
           </a>
         </li>
         <li>
-          <a href="/tourguide/cpanel/insert-form">
-            <i class="bi bi-circle"></i><span>Insert TourGuide</span>
+          <a href="/tour/cpanel/insert-tour">
+            <i class="bi bi-circle"></i><span>Insert Tour</span>
           </a>
         </li>
         <li>
-          <a href="/tour/cpanel/insert-tour">
-            <i class="bi bi-circle"></i><span>Insert Tour</span>
+          <a href="../../tourguide/cpanel/insert-form">
+            <i class="bi bi-circle"></i><span>Insert TourGuide</span>
           </a>
         </li>
         <li>
@@ -120,7 +123,7 @@
       </ul>
     </li><!-- End Forms Nav -->
 
-      <li class="nav-item">
+    <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
         <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
@@ -169,7 +172,7 @@
       </a>
       <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="/tour/cpanel/chart">
+          <a href="../../tour/cpanel/chart">
             <i class="bi bi-circle"></i><span>Chart</span>
           </a>
         </li>
@@ -184,27 +187,6 @@
         <span>Profile</span>
       </a>
     </li><!-- End Profile Page Nav -->
-
-    {{!-- <li class="nav-item">
-      <a class="nav-link collapsed" href="/user/cpanel/register">
-        <i class="bi bi-card-list"></i>
-        <span>Register</span>
-      </a>
-    </li><!-- End Register Page Nav --> --}}
-
-    {{!-- <li class="nav-item">
-      <a class="nav-link collapsed" href="/user/cpanel/login">
-        <i class="bi bi-box-arrow-in-right"></i>
-        <span>Login</span>
-      </a>
-    </li><!-- End Login Page Nav --> --}}
-
-    {{!-- <li class="nav-item">
-      <a class="nav-link collapsed" href="/tour/cpanel/error404">
-        <i class="bi bi-dash-circle"></i>
-        <span>Error 404</span>
-      </a>
-    </li><!-- End Error 404 Page Nav --> --}}
   </ul>
 
 </aside><!-- End Sidebar-->
@@ -212,14 +194,17 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Hotel Management</h1>
-    {{!-- <nav>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item">Tables</li>
-        <li class="breadcrumb-item active">Data</li>
-      </ol>
-    </nav> --}}
+    <h1>Chờ xác nhận hủy Tour</h1>
+    <div class="gap-4 d-md-flex justify-content-md-end">
+      <select id="myDropdown" onchange="goToPage(this)">
+      <option value="">Chọn trang</option>
+      <option value="../cpanel/get-new-booking-cpanel">Chờ xác nhận</option>
+      <option value="../cpanel/get-uncompleted-booking">Đang tiến hành</option>
+      <option value="../cpanel/get-completed-booking">Đã hoàn thành</option>
+      <option value="../cpanel/get-handle-cancel-cpanel">Chờ hủy</option>
+      <option value="../cpanel/get-canceled-booking">Đã hủy</option>
+    </select>
+    </div>
   </div><!-- End Page Title -->
 
   <section class="section">
@@ -227,62 +212,60 @@
       <div class="col-lg-12">
 
         <div class="card">
-          <div class="card-body" style="position: relative;">
-            {{!-- <h5 class="card-title">Datatables</h5> --}}
-            {{!-- <p>Add lightweight datatables to your project with using the <a href="/hotel/cpanel/insert-form"
-                target="_blank">Add Hotel +</a>.
-              Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p> --}}
+          <div class="card-body">
+            {{!-- <div class="dropdown gap-2 d-md-flex justify-content-md-end">
+              <a class="btn btn-outline-dark me-md-3 dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Sắp xếp <span class="caret"></span>
+              </a>
+            </div> --}}
+
 
             <!-- Table with stripped rows -->
-            <table class="table ">
-              <thead>
-                <tr>
-                  <th scope="col">Row</th>
-                  <th scope="col">ID</th>
-                  <th scope="col">Hotel Name</th>
-                  <th scope="col">Address</th>
-                  <th scope="col">Phone Number</th>
-                  <th scope="col">Image</th>
-                  <th scope="col">Action</th>
+            <table class="table">
+              <thead >
+                <tr class="col-lg-12">
+                  {{!-- <th class="col-lg-2" scope="col">Ngày đặt tour</th> --}}
+                  <th class="col-lg-2" scope="col">Hình ảnh Tour</th>
+                  <th class="col-lg-3" scope="col">Tên Tour</th>
+                  <th class="col-lg-2" scope="col">Ảnh người đăng ký</th>
+                  <th class="col-lg-2" scope="col">Người đăng ký</th>
+                  <th class="col-lg-3" scope="col">Lý do hủy</th>
                 </tr>
               </thead>
               <tbody>
-                {{#each hotels}}
+                {{#each handleCancel}}
+
                 <tr>
-                  <th scope="row" id="STT">{{@index}}</th>
-                  <td>{{this._id}}</td>
-                  <td>{{this.hotelName}}</td>
-                  <td>{{this.address}}</td>
-                  <td>{{this.phoneNumber}}</td>
-                  <td>
-                    <img src="{{this.listImage}}" width="200" height="100" style="object-fit: cover;" />
+                  {{!-- <td> {{this.bookingDate}} </td> --}}
+                  <td class="py-1">
+                    <img src="{{this.tour_id.tourImage}}" alt="Không có ảnh" width="200" height="100" />
                   </td>
+                  <td> {{this.tour_id.tourName}} </td>
+                  <td class="py-1">
+                    <img src="{{this.user_id.avatar}}" alt="Không có ảnh" width="200" height="100" />
+                  </td>
+                  <td> {{this.user_id.name}} </td>
+                  <td> {{this.reason}} </td>
+
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
-                      <a href="/hotel/cpanel/detail-hotel/{{this._id}}" title="Detail Hotel" class="btn btn-success m-1">
+                      <a href="/booking/cpanel/getBookingById?id={{this._id}}" class="btn btn-success m-1">
                         <i class='bx bx-detail'></i>
                       </a>
-                      <a href="/hotel/cpanel/update-hotel/{{this._id}}" title="Edit Hotel" class="btn btn-primary m-1">
-                        <i class='bx bx-edit'></i>
+                      <a onclick="confirmCancel('{{this.user_id._id}}','{{this.tour_id._id}}', '{{this._id}}')" type="button" class="btn btn-primary m-1">
+                        <iconify-icon icon="ic:baseline-check"></iconify-icon>
                       </a>
-                      <a onclick="confirmDelete('{{this._id}}');" title="Delete Hotel" class="btn btn-danger m-1">
-                        <i class='bx bx-trash'></i>
-                      </a>
+                      
                     </div>
                   </td>
                 </tr>
                 {{/each}}
+
               </tbody>
             </table>
             <!-- End Table with stripped rows -->
-            {{!-- <a href="/hotel/cpanel/update-hotel/{{this._id}}" class="btn btn-primary w-5"
-              style="position: fixed; top: 0px, right: 0px">
-              <i class='bx bx-edit'></i>
-            </a> --}}
-            {{!-- <a href="/hotel/cpanel/insert-form" class="btn btn-success"
-              style="position: absolute; top: 10px; right: 20px">
-              Add Hotel <i class='bx bx-plus'></i>
-            </a> --}}
+
           </div>
         </div>
 
@@ -292,64 +275,76 @@
 
 </main><!-- End #main -->
 
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-  <div class="copyright">
-    &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-  </div>
-  <div class="credits">
-    <!-- All the links in the footer should remain intact. -->
-    <!-- You can delete the links only if you purchased the pro version. -->
-    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-  </div>
-</footer><!-- End Footer -->
+
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
     class="bi bi-arrow-up-short"></i></a>
-
+{{!-- js delete tour --}}
 <script>
-
   const fetchAPI = async (url, option) => {
-    const res = await fetch(url, option);
+    const res = await fetch(url, option)
     return res.json();
   }
 
-  const deleteHotelById = async (id) => {
-    const url = `/hotel/cpanel/delete-hotel/${id}`;
+  
+
+const cancelBooking= async (user_id, tour_id, id) => {
+    const url = `/booking/cpanel/push-notification-cancel?userId=${user_id}&tourId=${tour_id}&id=${id}`;
+
     const option = {
       method: 'get',
       headers: { 'Content-Type': 'application/json' }
     }
     try {
       const result = await fetchAPI(url, option);
-      console.log('Delete result: ', result);
-      if (result.status) {
-        window.location.reload();
-
-      } else {
-        swal('Xóa Thất bại!', {
-          icon: 'error',
-        });
-      }
+      console.log('comfirm result: ', result)
     } catch (e) {
-      console.log('Delete error: ', e);
+      console.log('error comfirm: ', e)
+      throw e;
     }
   }
 
-  const confirmDelete = (id) => {
+
+  const confirmCancel = (user_id, tour_id, id) => {
     swal({
-      title: "Xác nhận xóa?",
-      text: "Bạn có chắc muốn xóa hotel này không?",
+      title: "Thông báo hủy tour",
+      text: "Bạn có muốn gửi thông báo xác nhận hủy tour này?",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     })
-      .then((willDelete) => {
-        if (willDelete) {
-          deleteHotelById(id);
+      .then((comfirmm) => {
+        if (comfirmm) {
+          cancelBooking(user_id, tour_id, id);
+          swal({
+            title: "Success!",
+            text: "Gửi thông báo xác nhận hủy tour thành công!!",
+            icon: "success"
+          }).then((wil) => {
+            window.location.reload();
+          })
         }
       });
   }
+
+
+
+  
+
+
+
+
+  function showGenre(item) {
+    document.getElementById("dropdownMenuLink").innerHTML = item.innerHTML;
+  }
+
+  function goToPage(select) {
+  var selectedOption = select.options[select.selectedIndex].value;
+  
+  if (selectedOption !== "") {
+    window.location.href = selectedOption;
+  }
+}
+
 </script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>

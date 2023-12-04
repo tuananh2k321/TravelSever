@@ -1,6 +1,6 @@
 
 const tourModel = require('./TourModel');
-
+const myBookingService = require('../my_booking/MyBookingService')
 
 const getAllTour = async () => {
     try {
@@ -28,6 +28,30 @@ const getTourById = async (id) => {
         return tour;
     } catch (error) {
         console.log("getTourById " + error);
+        return false;
+    }
+}
+
+const closeTour = async (tourId, reason) => {
+    try {
+        let tour = await tourModel.findById(tourId);
+        if (tour) {
+            const isClose = myBookingService.closeTourInMyBooking(tourId)
+            if (isClose) {
+                tour.reasonCloseTour = reason
+                tour.isState = false
+                await tour.save()
+                return true
+            } else {
+                console.log("close tour failed")
+                return false
+            }
+        } else {
+            console.log("tour is not found")
+            return false
+        }
+    } catch (error) {
+        console.log("closeTour " + error);
         return false;
     }
 }
@@ -206,5 +230,6 @@ module.exports = {
     getTourListName,
     departmentHour,
     availablePerson,
-    updateAvailablePerson
+    updateAvailablePerson,
+    closeTour
 };

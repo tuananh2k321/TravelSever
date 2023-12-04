@@ -234,6 +234,42 @@ const canceledBooking = async (id) => {
   }
 }
 
+const closeTourInMyBooking = async (tourId) => {
+  try {
+    const bookings = await MyBookingModel.find({ tour_id: tourId })
+    if (bookings && bookings.length > 0) {
+      for (const booking of bookings) {
+        booking.isCancel = true;
+        await booking.save();
+      }
+      return true;
+    } else {
+      console.log("No bookings found for tourId:", tourId);
+      return false; // Or handle the case where no bookings are found
+    }
+  } catch (error) {
+    console.log("closeTourInMyBooking", error);
+  }
+}
+
+const openTourInMyBooking = async (tourId) => {
+  try {
+    const bookings = await MyBookingModel.find({ tour_id: tourId })
+    if (bookings && bookings.length > 0) {
+      for (const booking of bookings) {
+        booking.isCancel = true;
+        await booking.save();
+      }
+      return true;
+    } else {
+      console.log("No bookings found for tourId:", tourId);
+      return false; // Or handle the case where no bookings are found
+    }
+  } catch (error) {
+    console.log("confirmBooking", error);
+  }
+}
+
 const handleCanceledBooking = async (id) => {
   try {
     const booking = await MyBookingModel.findOne({ _id: id })
@@ -281,5 +317,5 @@ module.exports = {
   deleteBooking, getAllBooking, tourIsBooking, getAllTourBooking,
   getBookingById, confirmBooking, addReason, completedBooking,
   canceledBooking, getBookingByIdUser, handleCanceledBooking, cancelRequired,
-  getCompletedBooking
+  getCompletedBooking, closeTourInMyBooking, openTourInMyBooking
 };

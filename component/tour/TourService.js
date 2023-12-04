@@ -249,5 +249,6 @@ module.exports = {
     updateAvailablePerson,
     closeTour,
     getClosedTour,
-    updateIsBooking
+    updateIsBooking,
+    getBookingTour
 };

@@ -1,10 +1,19 @@
 
 const tourModel = require('./TourModel');
-
+const myBookingService = require('../my_booking/MyBookingService')
 
 const getAllTour = async () => {
     try {
         return await tourModel.find().sort({createdAt:-1});
+    } catch (error) {
+        console.log("getAllTour failed: ", error);
+    }
+    return [];
+}
+
+const getClosedTour = async () => {
+    try {
+        return await tourModel.find({isState: false});
     } catch (error) {
         console.log("getAllTour failed: ", error);
     }
@@ -28,6 +37,30 @@ const getTourById = async (id) => {
         return tour;
     } catch (error) {
         console.log("getTourById " + error);
+        return false;
+    }
+}
+
+const closeTour = async (tourId, reason) => {
+    try {
+        let tour = await tourModel.findById(tourId);
+        if (tour) {
+            const isClose = myBookingService.closeTourInMyBooking(tourId)
+            if (isClose) {
+                tour.reasonCloseTour = reason
+                tour.isState = false
+                await tour.save()
+                return true
+            } else {
+                console.log("close tour failed")
+                return false
+            }
+        } else {
+            console.log("tour is not found")
+            return false
+        }
+    } catch (error) {
+        console.log("closeTour " + error);
         return false;
     }
 }
@@ -81,7 +114,7 @@ const departmentHour = async (id, departmentHour) => {
 
 const updateAvailablePerson = async (id) => {
     try {
-        let tour = await tourModel.findById(id);
+        let tour = await tourModel.findOne({_id: id});
         if (tour) {
             tour.availablePerson = tour.limitedPerson;
             await tour.save();
@@ -173,24 +206,7 @@ const getTourRating = async () => {
     return [];
 }
 
-const availablePerson = async (tourId, quantity) => {
-    try {
-        const tour =  await tourModel.findOne({_id: tourId}); 
-        if (tour) {
-            console.log(tour.availablePerson +" "+quantity)
-            if ( tour.availablePerson >= quantity) {
-                tour.availablePerson = tour.availablePerson - quantity
-                await tour.save();
-                return true
-            } else {
-                console.log("đã hết lượt")
-                return false
-            }
-        }
-    } catch (error) {
-        console.log("getTourRating failed: ", error);
-    }
-}
+
 
 
 module.exports = {
@@ -205,6 +221,7 @@ module.exports = {
     getTourSearhDomain,
     getTourListName,
     departmentHour,
-    availablePerson,
-    updateAvailablePerson
+    updateAvailablePerson,
+    closeTour,
+    getClosedTour
 };

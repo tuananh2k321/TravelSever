@@ -264,10 +264,6 @@ router.get("/get-confirmed-booking-app", async (req, res, next) => {
     const { idUser } = req.query;
     const response = await bookingController.getBookingByIdUser(idUser);
 
-        // Get the tour_id with the highest totalPrice
-        const highestTotalPriceTourId = ketQua.length > 0 ? ketQua[0] : null;
-        // Get the tour_id with the lowest totalPrice
-        const lowestTotalPriceTourId = ketQua.length > 0 ? ketQua[ketQua.length - 1] : null;
     // Lọc danh sách có response.isCancel === true
     const newBookings = response.filter(
       (booking) => booking.confirm === true && booking.handleCancel === false

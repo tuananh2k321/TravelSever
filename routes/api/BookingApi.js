@@ -211,7 +211,7 @@ router.get("/get-new-booking-cpanel", async (req, res, next) => {
 
     // Lọc danh sách có response.isCancel === true
     const newBookings = response.filter(
-      (booking) => booking.confirm === false && booking.handleCancel === true
+      (booking) => booking.confirm === false && booking.handleCancel === false
     );
 
     console.log("Canceled Bookings:", newBookings);

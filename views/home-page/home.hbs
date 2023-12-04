@@ -259,12 +259,22 @@
                     <i class="bi bi-currency-dollar"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>Tổng doanh thu: {{this}} Đồng</h6>
+                    <h6 id="doanthu"></h6>
                   </div>
                 </div>
               </div>
 
             </div>
+            <script>
+                  const childrenValue = '{{this}}';
+
+                  function formatPrice() {
+                    const VND = new Intl.NumberFormat('vi-VN', {style: 'currency',currency: 'VND',}).format(childrenValue);
+                    document.getElementById("doanthu").innerHTML = VND;
+                  }
+                  formatPrice();
+                  
+                </script>
           </div><!-- End Revenue Card -->
           {{/totalPriceBooking}}
           
@@ -491,15 +501,22 @@
         let tourIsBooking = data.tourIsBooking;
         let highestTotalPriceTourId = data.top;
         console.log(tourIsBooking)
+
+
+        // Định dạng số tiền bằng JavaScript
+        const formattedAmount = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        })
         
         document.getElementById("highestTotalPriceTourId").innerHTML = highestTotalPriceTourId.tour_name;
-        document.getElementById("highestTotalPrice").innerHTML = highestTotalPriceTourId.totalPrice;
+        document.getElementById("highestTotalPrice").innerHTML = formattedAmount.format(highestTotalPriceTourId.totalPrice);
         document.getElementById("highestSoLan").innerHTML = highestTotalPriceTourId.soLan;
 
         
         let lowestTotalPriceTourId = data.lose;
         document.getElementById("lowestTotalPriceTourId").innerHTML = lowestTotalPriceTourId.tour_name;
-        document.getElementById("lowestTotalPrice").innerHTML = lowestTotalPriceTourId.totalPrice;
+        document.getElementById("lowestTotalPrice").innerHTML = formattedAmount.format(lowestTotalPriceTourId.totalPrice)
         document.getElementById("lowestSoLan").innerHTML = lowestTotalPriceTourId.soLan; 
         let labels = tourIsBooking.map(item => item.tour_name);
         let values = tourIsBooking.map(item => item.totalPrice);
@@ -546,4 +563,7 @@
     // Gọi hàm để lấy dữ liệu và vẽ biểu đồ khi trang được tải
     fetchDataAndDrawChart1();
   </script>
+
+
+  
   

@@ -245,7 +245,16 @@
                         <p class="card-text">Độ tuổi trẻ em: {{tour.childrenAge}}</p>
                         <p class="card-text">Độ tuổi người lớn: {{tour.adultAge}}</p>
                         <p class="card-text">Nơi khởi hành: {{tour.departmentPlace}}</p>
-                        <p class="card-text">Ngày khởi hành: {{tour.departmentDate}}</p>
+                        <p class="card-text">Ngày khởi hành: {{tour.departmentDate}}</p> 
+                         <button onclick="openDialog()">Open Dialog</button>
+                            <dialog id="myDialog">
+                                <form id="myForm" >
+                                    <label  for="inputField">Input:</label>
+                                    <input placeholder="{{tour._id}}" type="text" id="inputField" name="inputField">
+                                    <button type="button"  onclick="saveChanges()" >Save Changes</button>
+                                    <button type="button" onclick="closeDialog()">Cancel</button>
+                                </form>
+                            </dialog>
                         <p class="card-text">Giờ khởi hành: {{tour.departmentHour}}</p>
                         <p class="card-text">Ngày dự kiến kết thúc tour: {{tour.expectedDate}}</p>
                         <p class="card-text">Thời gian đi: {{tour.limitedDay}}</p>
@@ -309,4 +318,58 @@
     }
     console.log(imageArray);
 </script>
+
+
+<script>
+        const myDialog = document.getElementById('myDialog');
+
+        function openDialog() {
+            myDialog.showModal();
+        }
+
+        function closeDialog() {
+            myDialog.close();
+        }
+
+        function saveChanges() {
+            // Thêm mã JavaScript để xử lý lưu thay đổi tại đây
+            // Ví dụ: lấy giá trị từ trường input
+            const inputValue  = document.getElementById('inputField').value;
+           const idValue  = document.getElementById('inputField').placeholder;
+           console.log("idValue",idValue)
+            // Hàm để lấy dữ liệu từ server-side và vẽ biểu đồ
+
+            //Gủi dữliệu lên api
+            fetch("http://localhost:3000/tour/api/departmentDate", {
+                method:'post',
+                headers:{
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ departmentDate: inputValue, id: idValue }),
+            })
+            .then(response => {
+                console.log("response",response)
+                if(!response.ok){
+                    
+                    throw new Error('response failed')
+                }
+                return response.json();
+            })
+            .then(data => {
+                 // Xử lý phản hồi từ API nếu cần
+                console.log('API response:', data);
+
+                // Sau khi xử lý, đóng hộp thoại
+                window.location.reload();
+                closeDialog();
+            })
+                 .catch(error => {
+                // Xử lý lỗi nếu có
+                console.error('Error:', error);
+            });
+
+           
+        }
+    </script>
+
  

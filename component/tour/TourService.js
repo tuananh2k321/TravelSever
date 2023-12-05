@@ -152,6 +152,22 @@ const updateAvailablePerson = async (id) => {
     }
 }
 
+const updateAvailablePersonCancelTour = async (id) => {
+    try {
+        let tour = await tourModel.findOne({_id: id});
+        if (tour) {
+            tour.availablePerson = tour.limitedPerson;
+            await tour.save();
+            return true;
+        } else {
+            return false
+        }
+    } catch (e) {
+        console.log("Update tour error :",error);
+        return false;
+    }
+}
+
 
 const updateTour = async (id,tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate,departmentHour,expectedDate, limitedDay,
     operatingDay,limitedPerson,availablePerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id) => {

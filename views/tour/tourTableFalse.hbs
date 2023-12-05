@@ -264,7 +264,7 @@
                   <th scope="col">Giá người lớn</th>
                   <th scope="col">Giá trẻ em dưới 15</th>
                   <th scope="col">Trạng thái</th>
-                  <th scope="col">Đánh giá</th>
+                  <th scope="col">Lý do</th>
                 </tr>
               </thead>
               <tbody>
@@ -284,7 +284,7 @@
                   </td>
                   <td> {{this.childrenPrice}} </td>
                   <td> {{this.isState}}</td>
-                  <td> {{this.rating}}</td>
+                  <td> {{this.reasonCloseTour}}</td>
 
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
@@ -392,7 +392,7 @@
 <script>
   function bookingLength1() {
         // Make an AJAX request to the API endpoint
-        fetch('/tour/api/get-all-tour')
+        fetch('/tour/cpanel/get-all-tour1')
             .then(response => response.json())
             .then(data => {
                 const lengthGetNew = data.tours.length;

@@ -20,7 +20,7 @@ const uploadImage = multer({ storage: multerStorage });
 // http://localhost:3000/tour/cpanel/tour-table
 router.get('/tour-table', [authen.checkTokenCpanel], async function (req, res, next) {
     const response = await tourController.getAllTour();
-    const tours = response.filter((tours)=> tours.isState == true)
+    const tours = response.filter((tours)=> tours.isState == true && tours.isBooking == false)
     const user = req.session.user;
     res.render('tour/tourTable', { tours, user });
 });
@@ -303,6 +303,17 @@ router.get("/get-booking-tour", async function (req, res, next) {
       const tours = await tourService.getBookingTour();
       const user = req.session.user;
       res.render('tour/tourTableBooking', { tours, user });
+    } catch (error) {
+      res.status(400).json({ result: false, error });
+    }
+  });
+
+  // http://localhost:3000/tour/cpanel/get-all-tour1
+router.get("/get-all-tour1", async function (req, res, next) {
+    try {
+      const response = await tourController.getAllTour();
+      const tours = response.filter((tours)=> tours.isState == true && tours.isBooking == false)
+      res.status(200).json({ result: true, tours });
     } catch (error) {
       res.status(400).json({ result: false, error });
     }

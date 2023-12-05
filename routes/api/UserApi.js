@@ -6,7 +6,7 @@ const nodemailer = require("nodemailer");
 const mongoose = require("mongoose");
 
 const accountSid = "AC8e6d6d91ef6f9d54fbefa4e641512eeb";
-const authToken = "6ecf7d96b2f81a54d11ef84d077b769e";
+const authToken = "f55bb73a2804faf6b8d3c7b98cda6c24";
 const verifySid = "VAa426a315b4b5f6b338bfc2fb20065568";
 const client = require("twilio")(accountSid, authToken);
 

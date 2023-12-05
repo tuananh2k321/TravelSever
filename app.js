@@ -5,7 +5,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 const session = require('express-session');
-
+require('dotenv').config();
 
 // API
 var indexRouter = require("./routes/api/Index");

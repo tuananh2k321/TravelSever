@@ -4,9 +4,9 @@ const jwt = require("jsonwebtoken");
 const userController = require("../../component/user/UserController");
 const nodemailer = require("nodemailer");
 const mongoose = require("mongoose");
-
+require('dotenv').config();
 const accountSid = "AC8e6d6d91ef6f9d54fbefa4e641512eeb";
-const authToken = process.env.auth || "5c497a579db9ffa41effd16b19e8f1d0";
+const authToken = process.env.TWILIO_AUTH_TOKEN;
 const verifySid = "VAa426a315b4b5f6b338bfc2fb20065568";
 const client = require("twilio")(accountSid, authToken);
 

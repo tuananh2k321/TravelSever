@@ -313,10 +313,17 @@ router.get("/list/search", async function (req, res, next) {
       const q = req.query.q;
       const byDate = req.query.byDate || "";
       const byDomain = req.query.byDomain || "";
-      
-      const query = {
-        tourName: { $regex: new RegExp(q, 'i') },
-      };
+      let query;
+      if(q != undefined || q != null){
+         query = {
+          tourName: { $regex: new RegExp(q, 'i') },
+        };
+      }else{
+          query = {
+          tourName: { $regex: new RegExp("", 'i') },
+        };
+      }
+     
   
       // Thêm điều kiện tìm kiếm theo limitedDay nếu byDate được cung cấp
       if (byDate !== undefined && byDate !== '') {

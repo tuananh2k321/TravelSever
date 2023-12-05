@@ -184,6 +184,34 @@ router.get("/get-handle-cancel-booking-app", async (req, res, next) => {
   }
 });
 
+// http://localhost:3000/booking/api/get-canceled-booking-app?idUser=""
+router.get("/get-canceled-booking-app", async (req, res, next) => {
+  try {
+    const { idUser } = req.query;
+    const response = await bookingController.getBookingByIdUser(idUser);
+
+    // Lọc danh sách có response.isCancel === true
+    const newBookings = response.filter(
+      (booking) => booking.handleCancel === true && booking.isCancel === true
+    );
+
+    console.log("Canceled Bookings:", newBookings);
+
+    res
+      .status(200)
+      .json({
+        result: true,
+        newBookings: newBookings,
+        message: "Get new bookings success",
+      });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(400)
+      .json({ result: false, error, message: "Get bookings failed" });
+  }
+});
+
 // http://localhost:3000/booking/api/cancel-required?id=""
 router.get("/cancel-required", async (req, res, next) => {
   try {

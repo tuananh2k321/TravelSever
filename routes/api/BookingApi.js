@@ -191,24 +191,24 @@ router.get("/get-canceled-booking-app", async (req, res, next) => {
     const response = await bookingController.getBookingByIdUser(idUser);
 
     // Lọc danh sách có response.isCancel === true
-    const newBookings = response.filter(
+    const canceledBooking = response.filter(
       (booking) => booking.handleCancel === true && booking.isCancel === true
     );
 
-    console.log("Canceled Bookings:", newBookings);
+    console.log("Canceled Bookings:", canceledBooking);
 
     res
       .status(200)
       .json({
         result: true,
-        newBookings: newBookings,
+        canceledBooking: canceledBooking,
         message: "Get new bookings success",
       });
   } catch (error) {
     console.log(error);
     res
       .status(400)
-      .json({ result: false, error, message: "Get bookings failed" });
+      .json({ result: false, error, message: "Get canceledBooking failed" });
   }
 });
 

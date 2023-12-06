@@ -30,6 +30,34 @@ router.get("/get-closed-tour", async function (req, res, next) {
   }
 });
 
+// tour sap dien ra
+// http://localhost:3000/tour/api/get-tour-will-travel
+router.get("/get-tour-will-travel", async function (req, res, next) {
+  try {
+    const tours = await tourService.getBookingTour();
+
+    // Lọc theo điều kiện departmentdate > date now < expectedDate
+    const currentDate = new Date();
+      console.log("currentDate:", currentDate)
+    const filteredBookings = tours.filter((booking) => {
+      // departmentDate
+      const [day, month, year] = booking.departmentDate.split('/');
+      const adjustedMonth = parseInt(month, 10) - 1; // Adjust for zero-based month
+      const adjustedDay = parseInt(day, 10) + 1; // Adjust for zero-based day
+      const departmentDate = new Date(year, adjustedMonth, adjustedDay);
+      
+      console.log("tour: "+ currentDate+" < "+booking.departmentDate)
+      console.log("departmentDate:", departmentDate)
+      
+      return  currentDate < departmentDate  ;
+    });
+
+    res.status(200).json({ result: true, tours: filteredBookings });
+  } catch (error) {
+    res.status(400).json({ result: false, error });
+  }
+});
+
 // tour dang dien ra
 // http://localhost:3000/tour/api/get-traveling-tour
 router.get("/get-traveling-tour", async function (req, res, next) {
@@ -247,7 +275,7 @@ router.post("/updateDomain", async (req, res) => {
     return res.status(500).json({ result: false });
   }
 });
-//http://localhost:3000/tour/api/departmentDate?id=""
+//http://localhost:3000/tour/api/departmentDate
 router.post("/departmentDate", async (req, res) => {
   try {
     const id = req.body.id;
@@ -463,6 +491,9 @@ router.post("/send-mail-close-tour", async (req, res, next) => {
         const emailHtml = `
                 <h1> Chúng tôi đóng sẽ đóng ${detailTour.tourName}</h1>
                 <p>Với lí do là: ${detailTour.reasonCloseTour}</p>
+                <p>Chúng tôi sẽ hoàn lại đúng số tiền mà quý khách đã đạt tour</p>
+                <h2>Chúng tôi thành thật xin lỗi vì sự bất tiện này ${detailTour.tourName}</h2>
+                <p>Nếu có thắc mắc hãy gọi số: 0921011337</p>
                 <img src="${detailTour.tourImage[0]}" width="300px" height="300">
             `;
     

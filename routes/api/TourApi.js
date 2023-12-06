@@ -229,9 +229,11 @@ router.post("/departmentDate", async (req, res) => {
     const expectedDate = ngayThangNamDate1.toLocaleDateString('en-GB');
     const convertedDate = parseDateString(tour.expectedDate);
     
+    const availablePerson = tour.limitedPerson; // cập nhật lại 
     if (ngayThangNamDate > convertedDate) {
         tour.departmentDate = ngayThangNamDaFormat ? ngayThangNamDaFormat : tour.departmentDate;
         tour.expectedDate = expectedDate ? expectedDate : tour.expectedDate;
+        tour.availablePerson = availablePerson ? availablePerson : tour.availablePerson;
         await tour.save();
         return res.status(200).json({ result: true, message: "Update Success" });
     }else {

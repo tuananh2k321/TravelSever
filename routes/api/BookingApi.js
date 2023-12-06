@@ -339,7 +339,7 @@ router.get("/get-confirmed-booking", async (req, res, next) => {
 });
 
 // tour sap dien ra done
-// http://localhost:3000/booking/cpanel/get-confirmed-booking-cpanel
+// http://localhost:3000/booking/api/get-confirmed-booking-cpanel
 router.get("/get-confirmed-booking-cpanel", async (req, res, next) => {
   try {
     const response = await bookingController.getCompletedBooking();

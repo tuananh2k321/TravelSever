@@ -30,6 +30,7 @@ router.get("/get-closed-tour", async function (req, res, next) {
   }
 });
 
+//dang tiến hành
 // http://localhost:3000/tour/api/get-traveling-tour
 router.get("/get-traveling-tour", async function (req, res, next) {
   try {

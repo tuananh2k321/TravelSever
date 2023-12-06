@@ -419,7 +419,7 @@ router.get("/get-history-booking", async (req, res, next) => {
 
     const user = req.session.user;
 
-    // res.render('mybooking/bookingComplete', { completedBookings, user});
+    res.render('mybooking/bookingHistory', { completedBookings, user});
   } catch (error) {
     res
       .status(400)

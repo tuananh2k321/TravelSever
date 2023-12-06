@@ -194,7 +194,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Đã xác nhận Tour</h1>
+    <h1>Tour sắp diễn ra</h1>
     <div class="gap-4 d-md-flex justify-content-md-end">
       <select id="myDropdown" onchange="goToPage(this)">
       <option value="">Chọn trang</option>
@@ -233,7 +233,7 @@
                 </tr>
               </thead>
               <tbody>
-                {{#each newBookings}}
+                {{#each filteredBookings}}
 
                 <tr>
                   <td> {{this.bookingDate}} </td>

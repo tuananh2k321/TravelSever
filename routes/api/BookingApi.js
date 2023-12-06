@@ -338,8 +338,8 @@ router.get("/get-confirmed-booking", async (req, res, next) => {
   }
 });
 
-// tour sap dien ra
-// http://localhost:3000/booking/api/get-confirmed-booking-cpanel
+// tour sap dien ra done
+// http://localhost:3000/booking/cpanel/get-confirmed-booking-cpanel
 router.get("/get-confirmed-booking-cpanel", async (req, res, next) => {
   try {
     const response = await bookingController.getCompletedBooking();
@@ -377,7 +377,7 @@ router.get("/get-confirmed-booking-cpanel", async (req, res, next) => {
 
 // kiem tra tour da hoan thanh hay chua
 
-// tour dang tien hanh
+// tour dang tien hanh done
 // http://localhost:3000/booking/api/get-uncompleted-booking
 router.get("/get-uncompleted-booking", async (req, res, next) => {
   try {

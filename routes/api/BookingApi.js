@@ -297,8 +297,6 @@ router.get("/get-confirmed-booking-app", async (req, res, next) => {
       (booking) => booking.confirm === true && booking.handleCancel === false && booking.isCancel === false
     );
 
-    console.log("Canceled Bookings:", newBookings);
-
     res
       .status(200)
       .json({
@@ -340,16 +338,142 @@ router.get("/get-confirmed-booking", async (req, res, next) => {
   }
 });
 
+// tour sap dien ra
+// http://localhost:3000/booking/api/get-confirmed-booking-cpanel
+router.get("/get-confirmed-booking-cpanel", async (req, res, next) => {
+  try {
+    const response = await bookingController.getCompletedBooking();
+
+    // Lọc danh sách có response.isCancel === true
+    const completedBookings = response.filter(
+      (booking) => booking.confirm === true && booking.handleCancel === false && booking.isCancel === false
+    );
+
+    // Lọc theo điều kiện departmentdate > date now < expectedDate
+    const currentDate = new Date();
+      console.log("currentDate:", currentDate)
+    const filteredBookings = completedBookings.filter((booking) => {
+      // departmentDate
+      const [day, month, year] = booking.departmentDate.split('/');
+      const adjustedMonth = parseInt(month, 10) - 1; // Adjust for zero-based month
+      const adjustedDay = parseInt(day, 10) + 1; // Adjust for zero-based day
+      const departmentDate = new Date(year, adjustedMonth, adjustedDay);
+      
+      console.log("tour: "+ currentDate+" < "+booking.departmentDate)
+      console.log("departmentDate:", departmentDate)
+      
+      return  currentDate < departmentDate  ;
+    });
+
+    res.status(200).json({
+      result: true,
+      completedBookings: filteredBookings,
+      message: "Get completed bookings success",
+    });
+  } catch (error) {
+    res.status(400).json({ result: false, error, message: "Get bookings failed" });
+  }
+});
+
 // kiem tra tour da hoan thanh hay chua
+
+// tour dang tien hanh
 // http://localhost:3000/booking/api/get-uncompleted-booking
 router.get("/get-uncompleted-booking", async (req, res, next) => {
   try {
     const response = await bookingController.getCompletedBooking();
 
     // Lọc danh sách có response.isCancel === true
-    const completedBookings = await response.filter(
-      (booking) => booking.isCompleted === false &&  booking.confirm === true
+    const completedBookings = response.filter(
+      (booking) => booking.isCompleted === false && booking.confirm === true
     );
+
+    // Lọc theo điều kiện departmentdate > date now < expectedDate
+    const currentDate = new Date();
+      console.log("currentDate:", currentDate)
+    const filteredBookings = completedBookings.filter((booking) => {
+      // departmentDate
+      const [day, month, year] = booking.departmentDate.split('/');
+      const adjustedMonth = parseInt(month, 10) - 1; // Adjust for zero-based month
+      const adjustedDay = parseInt(day, 10) + 1; // Adjust for zero-based day
+      const departmentDate = new Date(year, adjustedMonth, adjustedDay);
+      
+      //expectedDate
+      const [day2, month2, year2] = booking.expectedDate.split('/');
+      const adjustedMonth2 = parseInt(month2, 10) - 1; // Adjust for zero-based month
+      const adjustedDay2 = parseInt(day2, 10) + 1; // Adjust for zero-based day
+      const expectedDate = new Date(year2, adjustedMonth2, adjustedDay2);
+      
+      console.log("tour: "+ booking.departmentDate +" < "+currentDate+" < "+booking.expectedDate)
+      console.log("departmentDate:", departmentDate)
+      console.log("expectedDate:", expectedDate)
+      
+      return  currentDate > departmentDate  && currentDate < expectedDate;
+    });
+
+    res.status(200).json({
+      result: true,
+      completedBookings: filteredBookings,
+      message: "Get completed bookings success",
+    });
+  } catch (error) {
+    res.status(400).json({ result: false, error, message: "Get bookings failed" });
+  }
+});
+
+
+// tour da hoan thanh
+// http://localhost:3000/booking/api/get-completed-booking
+router.get("/get-completed-booking", async (req, res, next) => {
+    try {
+      const response = await bookingController.getCompletedBooking();
+  
+      // Lọc danh sách có response.isCancel === true
+      const completedBookings = await response.filter(
+        (booking) => booking.isCompleted === false && booking.confirm == true
+      );
+  
+    // Lọc theo điều kiện departmentdate > date now < expectedDate
+    const currentDate = new Date();
+      console.log("currentDate:", currentDate)
+    const filteredBookings = completedBookings.filter((booking) => {
+
+      //expectedDate
+      const [day2, month2, year2] = booking.expectedDate.split('/');
+      const adjustedMonth2 = parseInt(month2, 10) - 1; // Adjust for zero-based month
+      const adjustedDay2 = parseInt(day2, 10) + 1; // Adjust for zero-based day
+      const expectedDate = new Date(year2, adjustedMonth2, adjustedDay2);
+      
+      console.log("tour: "+currentDate+" > "+booking.expectedDate)
+      console.log("expectedDate:", expectedDate)
+      
+      return  currentDate > expectedDate;
+    });
+      res
+        .status(200)
+        .json({
+          result: true,
+          completedBookings: filteredBookings,
+          message: "Get completed bookings success",
+        });
+    } catch (error) {
+      res
+        .status(400)
+        .json({ result: false, error, message: "Get bookings failed" });
+    }
+  });
+
+// lich su tour da di
+// http://localhost:3000/booking/api/get-history-booking
+router.get("/get-history-booking", async (req, res, next) => {
+  try {
+    const response = await bookingController.getCompletedBooking();
+
+    // Lọc danh sách có response.isCancel === true
+    const completedBookings = await response.filter(
+      (booking) => booking.isCompleted === true && booking.confirm == true
+    );
+
     res
       .status(200)
       .json({
@@ -363,36 +487,6 @@ router.get("/get-uncompleted-booking", async (req, res, next) => {
       .json({ result: false, error, message: "Get bookings failed" });
   }
 });
-
-// http://localhost:3000/booking/api/get-completed-booking
-router.get("/get-completed-booking", async (req, res, next) => {
-    try {
-      const response = await bookingController.getCompletedBooking();
-  
-      // Lọc danh sách có response.isCancel === true
-      const completedBookings = await response.filter(
-        (booking) => booking.isCompleted === true && booking.confirm == true
-      );
-  
-    //   console.log("departmentDate:", completedBookings[0].tour_id.departmentDate);
-    //   console.log(
-    //     "expectedDate:",
-    //     completedBookings[0].tour_id.departmentDate +
-    //       completedBookings[0].tour_id.limitedDay.match(/\d+/)
-    //   );
-      res
-        .status(200)
-        .json({
-          result: true,
-          completedBookings: completedBookings,
-          message: "Get completed bookings success",
-        });
-    } catch (error) {
-      res
-        .status(400)
-        .json({ result: false, error, message: "Get bookings failed" });
-    }
-  });
 
 // chart
 // http://localhost:3000/booking/api/getAllBooking

@@ -321,7 +321,7 @@ router.get("/get-all-tour1", async function (req, res, next) {
 
 
   // http://localhost:3000/tour/cpanel/get-traveling-tour
-router.get("/get-traveling-tour", async function (req, res, next) {
+router.get("/get-traveling-tour", [authen.checkTokenCpanel], async function (req, res, next) {
     try {
       const tours = await tourService.getBookingTour();
   
@@ -357,7 +357,7 @@ router.get("/get-traveling-tour", async function (req, res, next) {
 
 
   // http://localhost:3000/tour/cpanel/get-completed-tour
-router.get("/get-completed-tour", async function (req, res, next) {
+router.get("/get-completed-tour", [authen.checkTokenCpanel], async function (req, res, next) {
     try {
       const tours = await tourService.getBookingTour();
   
@@ -387,7 +387,7 @@ router.get("/get-completed-tour", async function (req, res, next) {
 
 
   // http://localhost:3000/tour/api/get-tour-will-travel
-router.get("/get-tour-will-travel", async function (req, res, next) {
+router.get("/get-tour-will-travel", [authen.checkTokenCpanel], async function (req, res, next) {
     try {
       const tours = await tourService.getBookingTour();
   

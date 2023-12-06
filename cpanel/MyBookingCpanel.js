@@ -194,7 +194,7 @@ router.get('/getBookingById', async (req, res, next) => {
 });
 
 // http://localhost:3000/booking/api/get-confirmed-booking-cpanel
-router.get("/get-confirmed-booking-cpanel", async (req, res, next) => {
+router.get("/get-confirmed-booking-cpanel", [authen.checkTokenCpanel], async (req, res, next) => {
   try {
     const response = await MyBookingController.getCompletedBooking();
 
@@ -243,7 +243,7 @@ router.get('/get-canceled-booking', [authen.checkTokenCpanel], async (req, res, 
 });
 
 // http://localhost:3000/booking/api/get-completed-booking
-router.get("/get-completed-booking", async (req, res, next) => {
+router.get("/get-completed-booking", [authen.checkTokenCpanel], async (req, res, next) => {
   try {
     const response = await MyBookingController.getCompletedBooking();
 
@@ -282,7 +282,7 @@ router.get("/get-completed-booking", async (req, res, next) => {
 
 
 // http://localhost:3000/booking/api/get-uncompleted-booking
-router.get("/get-uncompleted-booking", async (req, res, next) => {
+router.get("/get-uncompleted-booking", [authen.checkTokenCpanel], async (req, res, next) => {
   try {
     const response = await MyBookingController.getCompletedBooking();
 
@@ -408,7 +408,7 @@ router.delete("/deleteBooking/:id", async (req, res, next) => {
 
 
 // http://localhost:3000/booking/api/get-history-booking
-router.get("/get-history-booking", async (req, res, next) => {
+router.get("/get-history-booking", [authen.checkTokenCpanel], async (req, res, next) => {
   try {
     const response = await MyBookingController.getCompletedBooking();
 

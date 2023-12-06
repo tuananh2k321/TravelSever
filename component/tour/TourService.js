@@ -80,7 +80,7 @@ const openTour = async (tourId) => {
         let tour = await tourModel.findById(tourId);
         if (tour) {
             const isOpen = myBookingService.openTourInMyBooking(tourId)
-            if (isClose) {
+            if (isOpen) {
                 tour.reasonCloseTour = ""
                 tour.isState = true
                 await tour.save()

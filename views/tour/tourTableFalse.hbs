@@ -10,7 +10,7 @@
   </div><!-- End Logo -->
 
   <div class="search-bar">
-    <form class="search-form d-flex align-items-center" method="get" action="#">
+    <form class="search-form d-flex align-items-center" method="get" action="/tour/cpanel/tour-table/search">
       <input type="text" name="searchName" placeholder="Search" title="Enter search keyword">
       <button type="submit" title="Search"><i class="bi bi-search"></i></button>
     </form>
@@ -187,6 +187,27 @@
         <span>Profile</span>
       </a>
     </li><!-- End Profile Page Nav -->
+
+    {{!-- <li class="nav-item"> --}}
+      {{!-- <a class="nav-link collapsed" href="../../user/cpanel/register">
+        <i class="bi bi-card-list"></i>
+        <span>Register</span>
+      </a>
+    </li><!-- End Register Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="../../user/cpanel/login">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>Login</span>
+      </a>
+    </li><!-- End Login Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="../../tour/cpanel/error404">
+        <i class="bi bi-dash-circle"></i>
+        <span>Error 404</span>
+      </a>
+    </li><!-- End Error 404 Page Nav --> --}}
   </ul>
 
 </aside><!-- End Sidebar-->
@@ -194,26 +215,21 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Đã hủy Tour</h1>
+    <h1>Tour không hoạt động</h1>
     <div class="gap-4 d-md-flex justify-content-md-end">
       <select id="myDropdown" onchange="goToPage(this)">
       <option value="">Chọn trang</option>
-      <option value="../cpanel/get-new-booking-cpanel">Chờ xác nhận</option>
-      <option value="../cpanel/get-uncompleted-booking">Đang tiến hành</option>
-      <option value="../cpanel/get-completed-booking">Đã hoàn thành</option>
-      <option value="../cpanel/get-handle-cancel-cpanel">Chờ hủy</option>
-      <option value="../cpanel/get-canceled-booking">Đã hủy</option>
+      <option value="../cpanel/tour-table">Hoạt động</option>
+      <option value="../cpanel/tour-table-false">Không hoạt động</option>
+      <option value="../cpanel/get-booking-tour">Tour đã đặt</option>
     </select>
     </div>
   </div><!-- End Page Title -->
 
-
   <div>
-    <p id="getNewBooking" style="display: inline-block; margin-right: 15px;"></p>
-    <p id="handleCancel" style="display: inline-block; margin-right: 15px;"></p>
-    <p id="Cancel" style="display: inline-block; margin-right: 15px;"></p>
-    <p id="unComplete" style="display: inline-block; margin-right: 15px;"></p>  
-    <p id="Complete" style="display: inline-block; margin-right: 15px;"></p>  
+    <p id="TourTrue" style="display: inline-block; margin-right: 15px;"></p>
+    <p id="TourFalse" style="display: inline-block; margin-right: 15px;"></p>
+    <p id="TourBooking" style="display: inline-block; margin-right: 15px;"></p>
   </div><!-- End Title -->
 
   <section class="section">
@@ -222,45 +238,61 @@
 
         <div class="card">
           <div class="card-body">
-            {{!-- <div class="dropdown gap-2 d-md-flex justify-content-md-end">
+            <div class="dropdown gap-2 d-md-flex justify-content-md-end" style="margin-top: 20px;">
               <a class="btn btn-outline-dark me-md-3 dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 Sắp xếp <span class="caret"></span>
               </a>
-            </div> --}}
+
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a onclick="showGenre(this)" class="dropdown-item" href="/tour/cpanel/tour-table">Mặc định</a></li>
+                <li><a onclick="showGenre(this)" class="dropdown-item" href="#">Đánh giá nhiều nhất</a></li>
+                <li><a onclick="showGenre(this)" class="dropdown-item" href="/tour/cpanel/tour-table/rating">Được yêu
+                    thích</a></li>
+                <li><a onclick="showGenre(this)" class="dropdown-item" href="">Khu vực: Đà Lạt</a></li>
+                <li><a onclick="showGenre(this)" class="dropdown-item" href="">Khu vực: Vũng Tàu</a></li>
+              </ul>
+            </div>
 
 
             <!-- Table with stripped rows -->
-            <table class="table">
-              <thead >
-                <tr class="col-lg-12">
-                  {{!-- <th class="col-lg-2" scope="col">Ngày đặt tour</th> --}}
-                  <th class="col-lg-2" scope="col">Hình ảnh Tour</th>
-                  <th class="col-lg-3" scope="col">Tên Tour</th>
-                  <th class="col-lg-2" scope="col">Ảnh người đăng ký</th>
-                  <th class="col-lg-2" scope="col">Người đăng ký</th>
-                  <th class="col-lg-3" scope="col">Lý do hủy</th>
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th scope="col">Hình ảnh</th>
+                  <th scope="col">Tên</th>
+                  <th scope="col">Giá người lớn</th>
+                  <th scope="col">Giá trẻ em dưới 15</th>
+                  <th scope="col">Trạng thái</th>
+                  <th scope="col">Đánh giá</th>
                 </tr>
               </thead>
               <tbody>
-                {{#each canceledBookings}}
+                {{#each tours}}
 
                 <tr>
-                  {{!-- <td> {{this.bookingDate}} </td> --}}
                   <td class="py-1">
-                    <img src="{{this.tour_id.tourImage}}" alt="Không có ảnh" width="200" height="100" />
+                    <img src="{{this.tourImage}}" alt="image" width="200" height="100" />
                   </td>
-                  <td> {{this.tour_id.tourName}} </td>
-                  <td class="py-1">
-                    <img src="{{this.user_id.avatar}}" alt="Không có ảnh" width="200" height="100" />
+                  <td> {{this.tourName}} </td>
+                  <td>
+                    {{!-- <div class="progress">
+                      <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                    </div> --}}
+                    {{this.adultPrice}}
                   </td>
-                  <td> {{this.user_id.name}} </td>
-                  <td> {{this.reason}} </td>
+                  <td> {{this.childrenPrice}} </td>
+                  <td> {{this.isState}}</td>
+                  <td> {{this.rating}}</td>
 
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
-                      <a href="/booking/cpanel/getBookingById?id={{this._id}}" class="btn btn-success m-1">
+                      <a href="/tour/cpanel/detail-tour/{{this._id}}" class="btn btn-success m-1">
                         <i class='bx bx-detail'></i>
+                      </a>
+                      <a href="/tour/cpanel/{{this._id}}/edit-tour" class="btn btn-primary m-1">
+                        <i class='bx bx-edit'></i>
                       </a>
                       <a onclick="confirmDelete('{{this._id}}')" type="button" class="btn btn-danger m-1">
                         <i class='bx bx-trash'></i>
@@ -268,6 +300,7 @@
                     </div>
                   </td>
                 </tr>
+
                 {{/each}}
 
               </tbody>
@@ -294,10 +327,8 @@
     return res.json();
   }
 
-  
-
-const comfirmBooking= async (user_id, tour_id, id) => {
-    const url = `/booking/cpanel/push-notification-confirm?userId=${user_id}&tourId=${tour_id}&id=${id}`;
+  const deleteProduct = async (id) => {
+    const url = `/tour/cpanel/${id}/delete`;
 
     const option = {
       method: 'get',
@@ -305,66 +336,32 @@ const comfirmBooking= async (user_id, tour_id, id) => {
     }
     try {
       const result = await fetchAPI(url, option);
-      console.log('comfirm result: ', result)
+      console.log('delete result: ', result)
+
+      if (result.tourisState==true && result.status) {
+        swal('Không thể xóa!', {
+          icon: 'error',
+        });
+      }
+
     } catch (e) {
-      console.log('error comfirm: ', e)
+      console.log('error delete: ', e)
       throw e;
     }
   }
 
-
-  const confirm = (user_id, tour_id, id) => {
-    swal({
-      title: "Thông báo Xác nhận",
-      text: "Bạn có muốn gửi thông báo xác nhận này?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((comfirmm) => {
-        if (comfirmm) {
-          comfirmBooking(user_id, tour_id, id);
-          swal({
-            title: "Success!",
-            text: "Gửi thông báo xác nhận thành công!!",
-            icon: "success"
-          }).then((wil) => {
-            window.location.reload();
-          })
-        }
-      });
-  }
-
-
-
-
-const deleteBooking= async (id) => {
-    const url = `/booking/api/deleteBooking/${id}`;
-
-    const option = {
-      method: 'delete',
-      headers: { 'Content-Type': 'application/json' }
-    }
-    try {
-      const result = await fetchAPI(url, option);
-      console.log('comfirm result: ', result)
-    } catch (e) {
-      console.log('error comfirm: ', e)
-      throw e;
-    }
-  }
 
   const confirmDelete = (id) => {
     swal({
       title: "Xác nhận xóa?",
-      text: "Bạn có muốn xóa tour này?",
+      text: "Bạn có muốn xóa sản phẩm này?",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     })
       .then((willDelete) => {
         if (willDelete) {
-          deleteBooking(id);
+          deleteProduct(id);
           swal({
             title: "Deleted!",
             text: "Xóa thành công!!",
@@ -376,11 +373,13 @@ const deleteBooking= async (id) => {
       });
   }
 
-
   function showGenre(item) {
     document.getElementById("dropdownMenuLink").innerHTML = item.innerHTML;
   }
 
+</script>
+
+<script>
   function goToPage(select) {
   var selectedOption = select.options[select.selectedIndex].value;
   
@@ -388,19 +387,17 @@ const deleteBooking= async (id) => {
     window.location.href = selectedOption;
   }
 }
-
 </script>
-<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 
 <script>
   function bookingLength1() {
         // Make an AJAX request to the API endpoint
-        fetch('/booking/api/get-new-booking-cpanel')
+        fetch('/tour/api/get-all-tour')
             .then(response => response.json())
             .then(data => {
-                const lengthGetNew = data.newBookings.length;
-                const resultLeangth = document.getElementById('getNewBooking');
-                const title = 'Chờ xác nhận Tour: ';
+                const lengthGetNew = data.tours.length;
+                const resultLeangth = document.getElementById('TourTrue');
+                const title = 'Tour đang hoạt động: ';
                 resultLeangth.innerHTML = title + lengthGetNew;
             })
             .catch(error => {
@@ -413,12 +410,12 @@ const deleteBooking= async (id) => {
 <script>
   function bookingLength2() {
         // Make an AJAX request to the API endpoint
-        fetch('/booking/api/get-handle-cancel-cpanel')
+        fetch('/tour/api/get-closed-tour')
             .then(response => response.json())
             .then(data => {
-                const lengthGetNew = data.newBookings.length;
-                const resultLeangth = document.getElementById('handleCancel');
-                const title = 'Chờ hủy Tour: ';
+                const lengthGetNew = data.tours.length;
+                const resultLeangth = document.getElementById('TourFalse');
+                const title = 'Tour không hoạt động: ';
                 resultLeangth.innerHTML = title + lengthGetNew;
             })
             .catch(error => {
@@ -431,12 +428,12 @@ const deleteBooking= async (id) => {
 <script>
   function bookingLength3() {
         // Make an AJAX request to the API endpoint
-        fetch('/booking/api/get-uncompleted-booking')
+        fetch('/tour/api/get-booking-tour')
             .then(response => response.json())
             .then(data => {
-                const lengthGetNew = data.completedBookings.length;
-                const resultLeangth = document.getElementById('unComplete');
-                const title = 'Tour đang tiến hành: ';
+                const lengthGetNew = data.tours.length;
+                const resultLeangth = document.getElementById('TourBooking');
+                const title = 'Tour đã được đặt: ';
                 resultLeangth.innerHTML = title + lengthGetNew;
             })
             .catch(error => {
@@ -444,41 +441,4 @@ const deleteBooking= async (id) => {
             });
     }
     bookingLength3();
-</script>
-
-<script>
-  function bookingLength4() {
-        // Make an AJAX request to the API endpoint
-        fetch('/booking/api/get-completed-booking')
-            .then(response => response.json())
-            .then(data => {
-                const lengthGetNew = data.completedBookings.length;
-                const resultLeangth = document.getElementById('Complete');
-                const title = 'Tour đã hoàn thành: ';
-                resultLeangth.innerHTML = title + lengthGetNew;
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }
-    bookingLength4();
-</script>
-
-
-<script>
-  function bookingLength5() {
-        // Make an AJAX request to the API endpoint
-        fetch('/booking/api/get-canceled-booking')
-            .then(response => response.json())
-            .then(data => {
-                const lengthGetNew = data.canceledBookings.length;
-                const resultLeangth = document.getElementById('Cancel');
-                const title = 'Tour đã hủy: ';
-                resultLeangth.innerHTML = title + lengthGetNew;
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }
-    bookingLength5();
 </script>

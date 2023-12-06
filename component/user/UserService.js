@@ -319,6 +319,28 @@ const getAllUser = async (page, size) => {
     }
 }
 
+const getAllEmailUser = async (page, size) => {
+    try {
+        // return data;
+        const users = UserModel.find()
+        const userArray = (await users).map((user) => user.toObject());
+        const userWithRole1 = []
+        const listIdUsers = []
+        userArray.forEach((user) => {
+            if (user.role === 1) {
+                userWithRole1.push(user)
+                listIdUsers.push(user.email)
+            }
+        });
+        console.log("listIdUsers: "+listIdUsers)
+        return listIdUsers
+        //  data.splice(index, 1);
+    } catch (error) {
+        console.log("List user Got an error: " + error);
+        throw error;
+    }
+}
+
 const getAllAdmin = async (page, size) => {
     try {
         // return data;
@@ -342,5 +364,6 @@ module.exports = {
     login, register, deleteByEmail,
     updateUser, getAllUser, updatePasswordByEmail, updatePasswordByPhone,
     findUserByEmail, verifyAccount, getAllAdmin, deleteById, searchUsers,
-    searchAdmins, changePassword, updateIsBan, banUserById, updateRole, loginFB
+    searchAdmins, changePassword, updateIsBan, banUserById, updateRole, loginFB,
+    getAllEmailUser
 };

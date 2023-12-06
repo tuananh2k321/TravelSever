@@ -6,6 +6,9 @@ const tourGuideController = require("../../component/tourGuide/TourGuideControll
 const destinationController = require("../../component/destination/DestinationController");
 const tourModel = require("../../component/tour/TourModel");
 const tourService = require("../../component/tour/TourService");
+const userService = require("../../component/user/UserService")
+const myBookingService = require("../../component/my_booking/MyBookingService")
+const nodemailer = require("nodemailer");
 // http://localhost:3000/tour/api/get-all-tour
 router.get("/get-all-tour", async function (req, res, next) {
   try {
@@ -15,6 +18,28 @@ router.get("/get-all-tour", async function (req, res, next) {
     res.status(400).json({ result: false, error });
   }
 });
+
+
+// http://localhost:3000/tour/api/get-closed-tour
+router.get("/get-closed-tour", async function (req, res, next) {
+  try {
+    const tours = await tourService.getClosedTour();
+    res.status(200).json({ result: true, tours });
+  } catch (error) {
+    res.status(400).json({ result: false, error });
+  }
+});
+
+// http://localhost:3000/tour/api/get-booking-tour
+router.get("/get-booking-tour", async function (req, res, next) {
+  try {
+    const tours = await tourService.getBookingTour();
+    res.status(200).json({ result: true, tours });
+  } catch (error) {
+    res.status(400).json({ result: false, error });
+  }
+});
+
 // http://localhost:3000/tour/api/inser-tour
 // them tour
 router.post("/inser-tour", async function (req, res, next) {
@@ -342,4 +367,60 @@ router.get("/list/search", async function (req, res, next) {
       console.log(error);
     }
   });
+
+//http://localhost:3000/tour/api/send-mail-close-tour?tourId=""
+router.post("/send-mail-close-tour", async (req, res, next) => {
+  const {reason} = req.body
+  const {tourId} = req.query
+  const userEmails = await userService.getAllEmailUser()
+  const isCloseTour = await tourService.closeTour(tourId, reason) 
+  const detailTour = await tourService.getTourById(tourId)
+  // send mail
+  if (isCloseTour) {
+    for(const email of userEmails) {
+      console.log(email)
+      if (email) {
+        const transporter = nodemailer.createTransport({
+          service: "Gmail",
+          auth: {
+            user: "haizzj123@gmail.com",
+            pass: "xakpztqusyejqykx",
+          },
+        });
+    
+        // Tạo một đường link trong email với href trỏ đến API xác thực
+        const emailHtml = `
+                <h1> Chúng tôi đóng sẽ đóng ${detailTour.tourName}</h1>
+                <p>Với lí do là: ${detailTour.reasonCloseTour}</p>
+                <img src="${detailTour.tourImage[0]}" width="300px" height="300">
+            `;
+    
+        const mailOptions = {
+          from: "haizzj123@gmail.com",
+          to: email,
+          subject: `Chúng tôi đóng sẽ đóng ${detailTour.tourName}`,
+          html: emailHtml,
+        };
+    
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            //res.status(200).json({ result: true, message: "send fail" });
+            console.log("send fail")
+          } else {
+            //res.status(200).json({ result: true, message: "send success" });
+            console.log("send success")
+          }
+        });
+      } else {
+        console.log("send fail")
+        //res.status(400).json({ result: false, message: "email is not exist!" });
+      }
+    }
+  }
+  if (isCloseTour) {
+    res.status(200).json({ result: true, message: "close tour success" });
+  } else {
+    res.status(200).json({ result: false, message: "close tour fail" });
+  }
+});
 module.exports = router;

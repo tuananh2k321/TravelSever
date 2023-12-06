@@ -110,7 +110,7 @@ router.get("/get-canceled-booking", async (req, res, next) => {
 
     // Lọc danh sách có response.isCancel === true
     const canceledBookings = response.filter(
-      (booking) => booking.isCancel === true
+      (booking) => booking.isCancel === true && booking.handleCancel === true
     );
 
     console.log("Canceled Bookings:", canceledBookings);
@@ -136,7 +136,7 @@ router.get("/get-handle-cancel-cpanel", async (req, res, next) => {
 
     // Lọc danh sách có response.isCancel === true
     const newBookings = response.filter(
-      (booking) => booking.confirm === false && booking.handleCancel === true
+      (booking) => booking.confirm === false && booking.handleCancel === true && booking.isCancel === false
     );
 
     console.log("Canceled Bookings:", newBookings);
@@ -164,7 +164,7 @@ router.get("/get-handle-cancel-booking-app", async (req, res, next) => {
 
     // Lọc danh sách có response.isCancel === true
     const newBookings = response.filter(
-      (booking) => booking.handleCancel === true && booking.confirm == false
+      (booking) => booking.handleCancel === true && booking.confirm === false && booking.isCancel === false
     );
 
     console.log("Canceled Bookings:", newBookings);
@@ -181,6 +181,34 @@ router.get("/get-handle-cancel-booking-app", async (req, res, next) => {
     res
       .status(400)
       .json({ result: false, error, message: "Get bookings failed" });
+  }
+});
+
+// http://localhost:3000/booking/api/get-canceled-booking-app?idUser=""
+router.get("/get-canceled-booking-app", async (req, res, next) => {
+  try {
+    const { idUser } = req.query;
+    const response = await bookingController.getBookingByIdUser(idUser);
+
+    // Lọc danh sách có response.isCancel === true
+    const canceledBooking = response.filter(
+      (booking) => booking.handleCancel === true && booking.isCancel === true
+    );
+
+    console.log("Canceled Bookings:", canceledBooking);
+
+    res
+      .status(200)
+      .json({
+        result: true,
+        canceledBooking: canceledBooking,
+        message: "Get new bookings success",
+      });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(400)
+      .json({ result: false, error, message: "Get canceledBooking failed" });
   }
 });
 
@@ -211,7 +239,7 @@ router.get("/get-new-booking-cpanel", async (req, res, next) => {
 
     // Lọc danh sách có response.isCancel === true
     const newBookings = response.filter(
-      (booking) => booking.confirm === false && booking.handleCancel === true
+      (booking) => booking.confirm === false && booking.handleCancel === false && booking.isCancel === false
     );
 
     console.log("Canceled Bookings:", newBookings);
@@ -238,7 +266,7 @@ router.get("/get-handle-booking-app", async (req, res, next) => {
 
     // Lọc danh sách có response.isCancel === true
     const newBookings = response.filter(
-      (booking) => booking.confirm === false && booking.handleCancel === false
+      (booking) => booking.confirm === false && booking.handleCancel === false && booking.isCancel === false
     );
 
     console.log("Canceled Bookings:", newBookings);
@@ -264,13 +292,9 @@ router.get("/get-confirmed-booking-app", async (req, res, next) => {
     const { idUser } = req.query;
     const response = await bookingController.getBookingByIdUser(idUser);
 
-        // Get the tour_id with the highest totalPrice
-        const highestTotalPriceTourId = ketQua.length > 0 ? ketQua[0] : null;
-        // Get the tour_id with the lowest totalPrice
-        const lowestTotalPriceTourId = ketQua.length > 0 ? ketQua[ketQua.length - 1] : null;
     // Lọc danh sách có response.isCancel === true
     const newBookings = response.filter(
-      (booking) => booking.confirm === true && booking.handleCancel === false
+      (booking) => booking.confirm === true && booking.handleCancel === false && booking.isCancel === false
     );
 
     console.log("Canceled Bookings:", newBookings);
@@ -326,13 +350,6 @@ router.get("/get-uncompleted-booking", async (req, res, next) => {
     const completedBookings = await response.filter(
       (booking) => booking.isCompleted === false &&  booking.confirm === true
     );
-
-    console.log("departmentDate:", completedBookings[0].tour_id.departmentDate);
-    console.log(
-      "expectedDate:",
-      completedBookings[0].tour_id.departmentDate +
-        completedBookings[0].tour_id.limitedDay.match(/\d+/)
-    );
     res
       .status(200)
       .json({
@@ -354,7 +371,7 @@ router.get("/get-completed-booking", async (req, res, next) => {
   
       // Lọc danh sách có response.isCancel === true
       const completedBookings = await response.filter(
-        (booking) => booking.isCompleted === true
+        (booking) => booking.isCompleted === true && booking.confirm == true
       );
   
     //   console.log("departmentDate:", completedBookings[0].tour_id.departmentDate);

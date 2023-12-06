@@ -7,7 +7,8 @@ const MyBookingModel = require("./MyBookingModel");
 const HotelModel = require("../hotel/HotelModel");
 const TourGuideModel = require("../tourGuide/TourGuideModel");
 
-const tourService = require('../tour/TourService')
+const tourService = require('../tour/TourService');
+const TourModel = require("../tour/TourModel");
 const getListBooking = async (userID) => {
   try {
     return await mybookingModel.find({ user_id: userID }).populate('tour_id').sort({ bookingDate: -1 });
@@ -17,12 +18,59 @@ const getListBooking = async (userID) => {
   return [];
 };
 
+const slotPerson = async (tourId, quantity) => {
+  try {
+      const tour =  await tourModel.findOne({_id: tourId}); 
+      if (tour) {
+          console.log(tour.availablePerson +" "+quantity)
+          if ( tour.availablePerson >= quantity) {
+              tour.availablePerson = tour.availablePerson - quantity
+              await tour.save();
+              return true
+          } else {
+              console.log("đã hết lượt")
+              return false
+          }
+      }
+  } catch (error) {
+      console.log("getTourRating failed: ", error);
+  }
+}
+
+const slotPersonWhenCancelTour = async (tourId, quantity) => {
+  try {
+      const tour =  await tourModel.findOne({_id: tourId}); 
+      if (tour) {
+          console.log(tour.availablePerson +" "+quantity)
+          
+              tour.availablePerson = tour.availablePerson + quantity
+              await tour.save();
+              return true
+      } else {
+        return false
+      }
+  } catch (error) {
+      console.log("getTourRating failed: ", error);
+  }
+}
+
+const getTourById = async (id) => {
+  try {
+      let tour = await tourModel.findById(id);
+      return tour;
+  } catch (error) {
+      console.log("getTourById " + error);
+      return false;
+  }
+}
+
 const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id, guestInfo, 
   quantity, departmentDate, departmentHour, expectedDate) => {
   try {
     const bookingDate = new Date().toLocaleString();
-    const slotPerson = await tourService.availablePerson(tour_id, quantity)
-    if(slotPerson) {
+    const isAvailable = await slotPerson(tour_id, quantity)
+    const tour = await getTourById(tour_id)
+    if(isAvailable && tour) {
       const newBooking = {
         name,
         children,
@@ -36,6 +84,8 @@ const addMyBooking = async (name, children, adult, totalPrice, user_id, tour_id,
         departmentHour,
         expectedDate
       };
+      tour.isBooking = true
+      await tour.save()
       const b = new MyBookingModel(newBooking);
       const save_b = await b.save()
       //const booking = await mybookingModel.create(newBooking);
@@ -225,9 +275,51 @@ const canceledBooking = async (id) => {
   try {
     const booking = await MyBookingModel.findOne({ _id: id })
     if (booking) {
+      await slotPersonWhenCancelTour(booking.tour_id, booking.children + booking.adult)
+      if (slotPersonWhenCancelTour) {
+        console.log("slotPersonWhenCancelTour: success")
+      } else {
+        console.log("slotPersonWhenCancelTour: fail")
+      }
       booking.isCancel = true;
       const b = await booking.save();
       return b
+    }
+  } catch (error) {
+    console.log("confirmBooking", error);
+  }
+}
+
+const closeTourInMyBooking = async (tourId) => {
+  try {
+    const bookings = await MyBookingModel.find({ tour_id: tourId })
+    if (bookings && bookings.length > 0) {
+      for (const booking of bookings) {
+        booking.isCancel = true;
+        await booking.save();
+      }
+      return true;
+    } else {
+      console.log("No bookings found for tourId:", tourId);
+      return false; // Or handle the case where no bookings are found
+    }
+  } catch (error) {
+    console.log("closeTourInMyBooking", error);
+  }
+}
+
+const openTourInMyBooking = async (tourId) => {
+  try {
+    const bookings = await MyBookingModel.find({ tour_id: tourId })
+    if (bookings && bookings.length > 0) {
+      for (const booking of bookings) {
+        booking.isCancel = true;
+        await booking.save();
+      }
+      return true;
+    } else {
+      console.log("No bookings found for tourId:", tourId);
+      return false; // Or handle the case where no bookings are found
     }
   } catch (error) {
     console.log("confirmBooking", error);
@@ -281,5 +373,5 @@ module.exports = {
   deleteBooking, getAllBooking, tourIsBooking, getAllTourBooking,
   getBookingById, confirmBooking, addReason, completedBooking,
   canceledBooking, getBookingByIdUser, handleCanceledBooking, cancelRequired,
-  getCompletedBooking
+  getCompletedBooking, closeTourInMyBooking, openTourInMyBooking
 };

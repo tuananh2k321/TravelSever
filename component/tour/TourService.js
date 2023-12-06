@@ -1,10 +1,28 @@
 
 const tourModel = require('./TourModel');
-
+const myBookingService = require('../my_booking/MyBookingService')
 
 const getAllTour = async () => {
     try {
-        return await tourModel.find().sort({createdAt:-1});
+        return await tourModel.find({isState: true}).sort({createdAt:-1});
+    } catch (error) {
+        console.log("getAllTour failed: ", error);
+    }
+    return [];
+}
+
+const getClosedTour = async () => {
+    try {
+        return await tourModel.find({isState: false});
+    } catch (error) {
+        console.log("getAllTour failed: ", error);
+    }
+    return [];
+}
+
+const getBookingTour = async () => {
+    try {
+        return await tourModel.find({isBooking: true});
     } catch (error) {
         console.log("getAllTour failed: ", error);
     }
@@ -13,7 +31,7 @@ const getAllTour = async () => {
 
 const getTourListName = async (keyword) => {
     try {
-     let query =  {tourName:{$regex:new RegExp(keyword,'i')}};
+     let query =  {tourName:{$regex:new RegExp(keyword,'i')}, isState: true};
      let filteredTours = await tourModel.find(query);
      return filteredTours;
     } catch (error) {
@@ -28,6 +46,30 @@ const getTourById = async (id) => {
         return tour;
     } catch (error) {
         console.log("getTourById " + error);
+        return false;
+    }
+}
+
+const closeTour = async (tourId, reason) => {
+    try {
+        let tour = await tourModel.findById(tourId);
+        if (tour) {
+            const isClose = myBookingService.closeTourInMyBooking(tourId)
+            if (isClose) {
+                tour.reasonCloseTour = reason
+                tour.isState = false
+                await tour.save()
+                return true
+            } else {
+                console.log("close tour failed")
+                return false
+            }
+        } else {
+            console.log("tour is not found")
+            return false
+        }
+    } catch (error) {
+        console.log("closeTour " + error);
         return false;
     }
 }
@@ -64,6 +106,21 @@ const updateDomain = async (id, isdomain) => {
         return false;
     }
 }
+
+const updateIsBooking = async (id) => {
+    try {
+        let tour = await tourModel.findById(id);
+        if (tour) {
+            tour.isBooking = false;
+            await tour.save();
+            return true;
+        }
+    } catch (e) {
+        console.log("updateIsBooking error :",error);
+        return false;
+    }
+}
+
 const departmentHour = async (id, departmentHour) => {
     try {
         let tour = await tourModel.findById(id);
@@ -81,7 +138,23 @@ const departmentHour = async (id, departmentHour) => {
 
 const updateAvailablePerson = async (id) => {
     try {
-        let tour = await tourModel.findById(id);
+        let tour = await tourModel.findOne({_id: id});
+        if (tour) {
+            tour.availablePerson = tour.limitedPerson;
+            await tour.save();
+            return true;
+        } else {
+            return false
+        }
+    } catch (e) {
+        console.log("Update tour error :",error);
+        return false;
+    }
+}
+
+const updateAvailablePersonCancelTour = async (id) => {
+    try {
+        let tour = await tourModel.findOne({_id: id});
         if (tour) {
             tour.availablePerson = tour.limitedPerson;
             await tour.save();
@@ -100,7 +173,7 @@ const updateTour = async (id,tourName, adultPrice, childrenPrice,childrenAge,adu
     operatingDay,limitedPerson,availablePerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id) => {
     try {
         let tour = await tourModel.findById(id);
-        if(tour) {
+        if(tour.isBooking == false) {
             tour.tourName = tourName ? tourName : tour.tourName;
             tour.adultPrice = adultPrice ? adultPrice : tour.adultPrice;
             tour.childrenPrice = childrenPrice ? childrenPrice : tour.childrenPrice;
@@ -134,8 +207,11 @@ const updateTour = async (id,tourName, adultPrice, childrenPrice,childrenAge,adu
 }
 const deleteTour = async (id) => {
     try {
-        await tourModel.findByIdAndDelete(id);
-        return true;
+        const tour = await tourModel.findOne({_id: id})
+        if (tour.isBooking == false) {
+            await tourModel.findByIdAndDelete(id);
+            return true;
+        }
     } catch (error) {
         console.log("Delete tour: ",error);
         return false;
@@ -144,7 +220,7 @@ const deleteTour = async (id) => {
 
 const getTourSearhName = async (keyword) => {
    try {
-    let query =  {tourName:{$regex:new RegExp(keyword,'i')}};
+    let query =  {tourName:{$regex:new RegExp(keyword,'i')}, isState: true};
     let filteredTours = await tourModel.find(query);
     return filteredTours;
    } catch (error) {
@@ -154,7 +230,7 @@ const getTourSearhName = async (keyword) => {
 }
 const getTourSearhDomain = async (keyword) => {
     try {
-        const query = {isdomain:{$regex:new RegExp(keyword,'i')}};
+        const query = {isdomain:{$regex:new RegExp(keyword,'i')}, isState: true};
      // query =  {isdomain:{$regex:new RegExp(keyword,'i')}};
      let filteredTours = await tourModel.find(query);
      return filteredTours;
@@ -166,30 +242,11 @@ const getTourSearhDomain = async (keyword) => {
 
 const getTourRating = async () => {
     try {
-        return await tourModel.find().sort({rating:-1}); //{ rating: { $exists: true, $ne: null } }
+        return await tourModel.find({isState: true}).sort({rating:-1}); //{ rating: { $exists: true, $ne: null } }
     } catch (error) {
         console.log("getTourRating failed: ", error);
     }
     return [];
-}
-
-const availablePerson = async (tourId, quantity) => {
-    try {
-        const tour =  await tourModel.findOne({_id: tourId}); 
-        if (tour) {
-            console.log(tour.availablePerson +" "+quantity)
-            if ( tour.availablePerson >= quantity) {
-                tour.availablePerson = tour.availablePerson - quantity
-                await tour.save();
-                return true
-            } else {
-                console.log("đã hết lượt")
-                return false
-            }
-        }
-    } catch (error) {
-        console.log("getTourRating failed: ", error);
-    }
 }
 
 
@@ -205,6 +262,9 @@ module.exports = {
     getTourSearhDomain,
     getTourListName,
     departmentHour,
-    availablePerson,
-    updateAvailablePerson
+    updateAvailablePerson,
+    closeTour,
+    getClosedTour,
+    updateIsBooking,
+    getBookingTour
 };

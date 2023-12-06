@@ -139,7 +139,7 @@
           </a>
         </li>
         <li>
-          <a href="/booking/cpanel/all-my-booking">
+          <a href="/booking/cpanel/get-new-booking-cpanel">
             <i class="bi bi-circle"></i><span>Booking</span>
           </a>
         </li>
@@ -215,15 +215,22 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Tour Management</h1>
-    {{!-- <nav>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item">Tables</li>
-        <li class="breadcrumb-item active">Tour</li>
-      </ol>
-    </nav> --}}
+    <h1>Tour hoạt động</h1>
+    <div class="gap-4 d-md-flex justify-content-md-end">
+      <select id="myDropdown" onchange="goToPage(this)">
+      <option value="">Chọn trang</option>
+      <option value="../cpanel/tour-table">Hoạt động</option>
+      <option value="../cpanel/tour-table-false">Không hoạt động</option>
+      <option value="../cpanel/get-booking-tour">Tour đã đặt</option>
+    </select>
+    </div>
   </div><!-- End Page Title -->
+
+  <div>
+    <p id="TourTrue" style="display: inline-block; margin-right: 15px;"></p>
+    <p id="TourFalse" style="display: inline-block; margin-right: 15px;"></p>
+    <p id="TourBooking" style="display: inline-block; margin-right: 15px;"></p>
+  </div><!-- End Title -->
 
   <section class="section">
     <div class="row">
@@ -231,7 +238,7 @@
 
         <div class="card">
           <div class="card-body">
-            <div class="dropdown gap-2 d-md-flex justify-content-md-end">
+            <div class="dropdown gap-2 d-md-flex justify-content-md-end" style="margin-top: 20px;">
               <a class="btn btn-outline-dark me-md-3 dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 Sắp xếp <span class="caret"></span>
@@ -370,4 +377,68 @@
     document.getElementById("dropdownMenuLink").innerHTML = item.innerHTML;
   }
 
+</script>
+
+<script>
+  function goToPage(select) {
+  var selectedOption = select.options[select.selectedIndex].value;
+  
+  if (selectedOption !== "") {
+    window.location.href = selectedOption;
+  }
+}
+</script>
+
+<script>
+  function bookingLength1() {
+        // Make an AJAX request to the API endpoint
+        fetch('/tour/api/get-all-tour')
+            .then(response => response.json())
+            .then(data => {
+                const lengthGetNew = data.tours.length;
+                const resultLeangth = document.getElementById('TourTrue');
+                const title = 'Tour đang hoạt động: ';
+                resultLeangth.innerHTML = title + lengthGetNew;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+    bookingLength1();
+</script>
+
+<script>
+  function bookingLength2() {
+        // Make an AJAX request to the API endpoint
+        fetch('/tour/api/get-closed-tour')
+            .then(response => response.json())
+            .then(data => {
+                const lengthGetNew = data.tours.length;
+                const resultLeangth = document.getElementById('TourFalse');
+                const title = 'Tour không hoạt động: ';
+                resultLeangth.innerHTML = title + lengthGetNew;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+    bookingLength2();
+</script>
+
+<script>
+  function bookingLength3() {
+        // Make an AJAX request to the API endpoint
+        fetch('/tour/api/get-booking-tour')
+            .then(response => response.json())
+            .then(data => {
+                const lengthGetNew = data.tours.length;
+                const resultLeangth = document.getElementById('TourBooking');
+                const title = 'Tour đã được đặt: ';
+                resultLeangth.innerHTML = title + lengthGetNew;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+    bookingLength3();
 </script>

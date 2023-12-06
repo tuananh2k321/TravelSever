@@ -194,17 +194,31 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Đã xác nhận Tour</h1>
+    <h1>Tour sắp diễn ra</h1>
     <div class="gap-4 d-md-flex justify-content-md-end">
       <select id="myDropdown" onchange="goToPage(this)">
       <option value="">Chọn trang</option>
       <option value="../cpanel/get-new-booking-cpanel">Chờ xác nhận</option>
+      <option value="../cpanel/get-confirmed-booking-cpanel">Sắp diễn ra</option>
       <option value="../cpanel/get-uncompleted-booking">Đang tiến hành</option>
       <option value="../cpanel/get-completed-booking">Đã hoàn thành</option>
-      <option value="../cpanel/get-canceled-booking">Chờ hủy</option>
+      <option value="../cpanel/get-handle-cancel-cpanel">Chờ hủy</option>
+      <option value="../cpanel/get-canceled-booking">Đã hủy</option>
+      <option value="../cpanel/get-history-booking">Lịch sử</option>
     </select>
     </div>
   </div><!-- End Page Title -->
+
+
+  <div>
+    <p id="getNewBooking" style="display: inline-block; margin-right: 15px;"></p>
+    <p id="confirmTour" style="display: inline-block; margin-right: 15px;"></p>
+    <p id="handleCancel" style="display: inline-block; margin-right: 15px;"></p>
+    <p id="Cancel" style="display: inline-block; margin-right: 15px;"></p>
+    <p id="unComplete" style="display: inline-block; margin-right: 15px;"></p>  
+    <p id="Complete" style="display: inline-block; margin-right: 15px;"></p>  
+    <p id="History" style="display: inline-block; margin-right: 15px;"></p>  
+  </div><!-- End Title -->
 
   <section class="section">
     <div class="row">
@@ -224,42 +238,37 @@
             <table class="table">
               <thead>
                 <tr class="col-lg-12">
-                  <th class="col-lg-2" scope="col">Ngày đặt tour</th>
-                  <th class="col-lg-2" scope="col">Hình ảnh Tour</th>
-                  <th class="col-lg-3" scope="col">Tên Tour</th>
-                  <th class="col-lg-2" scope="col">Ảnh người đăng ký</th>
-                  <th class="col-lg-2" scope="col">Người đăng ký</th>
+                  <th class="col-lg-1" scope="col">Hình ảnh Tour</th>
+                  <th class="col-lg-2" scope="col">Tên Tour</th>
+                  <th class="col-lg-1" scope="col">Hình ảnh khách</th>
+                  <th class="col-lg-2" scope="col">Tên khách</th>
+                  <th class="col-lg-1" scope="col">Ngày khỏi hành</th>
+                  <th class="col-lg-2" scope="col">Giờ khỏi hành</th>
+                  <th class="col-lg-1" scope="col">Dự kiến kết thúc</th>
                   {{!-- <th class="col-lg-3" scope="col">Trạng thái xác nhận</th> --}}
                 </tr>
               </thead>
               <tbody>
-                {{#each newBookings}}
+                {{#each filteredBookings}}
 
                 <tr>
-                  <td> {{this.bookingDate}} </td>
                   <td class="py-1">
-                    <img src="{{this.tour_id.tourImage}}" alt="Không có ảnh" width="200" height="100" />
+                    <img src="{{this.tour_id.tourImage}}" alt="Không có ảnh" width="145" height="100" />
                   </td>
                   <td> {{this.tour_id.tourName}} </td>
                   <td class="py-1">
-                    <img src="{{this.user_id.avatar}}" alt="Không có ảnh" width="200" height="100" />
+                    <img src="{{this.user_id.avatar}}" alt="Không có ảnh" width="145" height="100" />
                   </td>
                   <td> {{this.user_id.name}} </td>
-                  {{!-- <td> {{this.confirm}} </td> --}}
+                   <td> {{this.departmentDate}} </td>
+                  <td> {{this.departmentHour}} </td>
+                  <td> {{this.expectedDate}} </td>
 
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
                       <a href="/booking/cpanel/getBookingById?id={{this._id}}" class="btn btn-success m-1">
                         <i class='bx bx-detail'></i>
                       </a>
-                      <a onclick="confirm('{{this.user_id._id}}','{{this.tour_id._id}}', '{{this._id}}')" type="button"
-                        class="btn btn-primary m-1">
-                        <iconify-icon icon="ic:baseline-check"></iconify-icon>
-                      </a>
-                      {{!-- <a onclick="confirmDelete('{{this.user_id._id}}','{{this.tour_id._id}}', '{{this._id}}')"
-                        type="button" class="btn btn-danger m-1">
-                        <i class='bx bx-trash'></i>
-                      </a> --}}
                     </div>
                   </td>
                 </tr>
@@ -386,3 +395,130 @@
 
 </script>
 <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+<script>
+  function bookingLength1() {
+        // Make an AJAX request to the API endpoint
+        fetch('/booking/api/get-new-booking-cpanel')
+            .then(response => response.json())
+            .then(data => {
+                const lengthGetNew = data.newBookings.length;
+                const resultLeangth = document.getElementById('getNewBooking');
+                const title = 'Chờ xác nhận Tour: ';
+                resultLeangth.innerHTML = title + lengthGetNew;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+    bookingLength1();
+</script>
+
+<script>
+  function bookingLength2() {
+        // Make an AJAX request to the API endpoint
+        fetch('/booking/api/get-handle-cancel-cpanel')
+            .then(response => response.json())
+            .then(data => {
+                const lengthGetNew = data.newBookings.length;
+                const resultLeangth = document.getElementById('handleCancel');
+                const title = 'Chờ hủy Tour: ';
+                resultLeangth.innerHTML = title + lengthGetNew;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+    bookingLength2();
+</script>
+
+<script>
+  function bookingLength3() {
+        // Make an AJAX request to the API endpoint
+        fetch('/booking/api/get-uncompleted-booking')
+            .then(response => response.json())
+            .then(data => {
+                const lengthGetNew = data.completedBookings.length;
+                const resultLeangth = document.getElementById('unComplete');
+                const title = 'Tour đang tiến hành: ';
+                resultLeangth.innerHTML = title + lengthGetNew;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+    bookingLength3();
+</script>
+
+<script>
+  function bookingLength4() {
+        // Make an AJAX request to the API endpoint
+        fetch('/booking/api/get-completed-booking')
+            .then(response => response.json())
+            .then(data => {
+                const lengthGetNew = data.completedBookings.length;
+                const resultLeangth = document.getElementById('Complete');
+                const title = 'Tour đã hoàn thành: ';
+                resultLeangth.innerHTML = title + lengthGetNew;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+    bookingLength4();
+</script>
+
+
+<script>
+  function bookingLength5() {
+        // Make an AJAX request to the API endpoint
+        fetch('/booking/api/get-canceled-booking')
+            .then(response => response.json())
+            .then(data => {
+                const lengthGetNew = data.canceledBookings.length;
+                const resultLeangth = document.getElementById('Cancel');
+                const title = 'Tour đã hủy: ';
+                resultLeangth.innerHTML = title + lengthGetNew;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+    bookingLength5();
+</script>
+
+<script>
+  function bookingLength6() {
+        // Make an AJAX request to the API endpoint
+        fetch('/booking/api/get-confirmed-booking-cpanel')
+            .then(response => response.json())
+            .then(data => {
+                const lengthGetNew = data.completedBookings.length;
+                const resultLeangth = document.getElementById('confirmTour');
+                const title = 'Tour sắp diễn ra: ';
+                resultLeangth.innerHTML = title + lengthGetNew;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+    bookingLength6();
+</script>
+
+<script>
+  function bookingLength7() {
+        // Make an AJAX request to the API endpoint
+        fetch('/booking/api/get-history-booking')
+            .then(response => response.json())
+            .then(data => {
+                const lengthGetNew = data.completedBookings.length;
+                const resultLeangth = document.getElementById('History');
+                const title = 'Lịch sử Tour: ';
+                resultLeangth.innerHTML = title + lengthGetNew;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+    bookingLength7();
+</script>

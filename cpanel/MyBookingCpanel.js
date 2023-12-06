@@ -164,7 +164,7 @@ router.get('/get-new-booking-cpanel', [authen.checkTokenCpanel], async (req, res
       const response = await MyBookingController.getAllBooking();
 
       // Lọc danh sách có response.isCancel === true
-      const newBookings = response.filter(booking => booking.confirm === false && booking.handleCancel === false && booking.isCompleted == false);
+      const newBookings = response.filter(booking => booking.confirm === false && booking.handleCancel === false && booking.isCompleted == false && booking.isCancel === false);
 
       console.log("Canceled Bookings:", newBookings);
 
@@ -193,19 +193,36 @@ router.get('/getBookingById', async (req, res, next) => {
   }
 });
 
-// http://localhost:3000/booking/cpanel/get-confirmed-booking
-router.get('/get-confirmed-booking', [authen.checkTokenCpanel], async (req, res, next) => {
+// http://localhost:3000/booking/api/get-confirmed-booking-cpanel
+router.get("/get-confirmed-booking-cpanel", [authen.checkTokenCpanel], async (req, res, next) => {
   try {
-      const response = await MyBookingController.getAllBooking();
-      const user = req.session.user;
-      // Lọc danh sách có response.isCancel === true
-      const newBookings = response.filter(booking => booking.confirm === true);
+    const response = await MyBookingController.getCompletedBooking();
 
-      console.log("Canceled Bookings:", newBookings);
+    // Lọc danh sách có response.isCancel === true
+    const completedBookings = response.filter(
+      (booking) => booking.confirm === true && booking.handleCancel === false && booking.isCancel === false
+    );
 
-      res.render('mybooking/bookingTrue', { newBookings, user});
+    // Lọc theo điều kiện departmentdate > date now < expectedDate
+    const currentDate = new Date();
+      console.log("currentDate:", currentDate)
+    const filteredBookings = completedBookings.filter((booking) => {
+      // departmentDate
+      const [day, month, year] = booking.departmentDate.split('/');
+      const adjustedMonth = parseInt(month, 10) - 1; // Adjust for zero-based month
+      const adjustedDay = parseInt(day, 10) + 1; // Adjust for zero-based day
+      const departmentDate = new Date(year, adjustedMonth, adjustedDay);
+      
+      
+      return  currentDate < departmentDate  ;
+    });
+
+    const user = req.session.user;
+
+    res.render('mybooking/bookingTrue', { filteredBookings, user});
+
   } catch (error) {
-      res.status(400).json({ result: false, error, message: "Get bookings failed" });
+    res.status(400).json({ result: false, error, message: "Get bookings failed" });
   }
 });
 
@@ -225,42 +242,82 @@ router.get('/get-canceled-booking', [authen.checkTokenCpanel], async (req, res, 
   }
 });
 
-// http://localhost:3000/booking/cpanel/get-completed-booking
-router.get('/get-completed-booking', [authen.checkTokenCpanel], async (req, res, next) => {
+// http://localhost:3000/booking/api/get-completed-booking
+router.get("/get-completed-booking", [authen.checkTokenCpanel], async (req, res, next) => {
   try {
-      const response = await MyBookingController.getAllBooking();
-
-      // Lọc danh sách có response.isCancel === true
-      const completedBookings = response.filter((booking) => booking.isCompleted === true && booking.confirm == true);
-      const user = req.session.user;
-      // console.log("Canceled Bookings:", completedBookings);
-
-      res.render('mybooking/bookingComplete', { completedBookings, user});
-  } catch (error) {
-      res.status(400).json({ result: false, error, message: "Get bookings failed" });
-  }
-});
-
-
-// http://localhost:3000/booking/cpanel/get-uncompleted-booking
-router.get("/get-uncompleted-booking", [authen.checkTokenCpanel], async (req, res, next) => {
-  try {
-    const response = await MyBookingController.getAllBooking();
+    const response = await MyBookingController.getCompletedBooking();
 
     // Lọc danh sách có response.isCancel === true
-    const uncompletedBookings = await response.filter((booking) => booking.isCompleted === false && booking.confirm == true);
-    const user = req.session.user;
-    // console.log("departmentDate:", completedBookings[0].tour_id.departmentDate);
-    // console.log(
-    //   "expectedDate:",
-    //   completedBookings[0].tour_id.departmentDate +
-    //     completedBookings[0].tour_id.limitedDay.match(/\d+/)
-    // );
-    res.render('mybooking/bookingUnComplete', { uncompletedBookings, user});
+    const completedBookings = await response.filter(
+      (booking) => booking.isCompleted === false && booking.confirm == true
+    );
+
+  // Lọc theo điều kiện departmentdate > date now < expectedDate
+  const currentDate = new Date();
+    console.log("currentDate:", currentDate)
+  const filteredBookings = completedBookings.filter((booking) => {
+
+    //expectedDate
+    const [day2, month2, year2] = booking.expectedDate.split('/');
+    const adjustedMonth2 = parseInt(month2, 10) - 1; // Adjust for zero-based month
+    const adjustedDay2 = parseInt(day2, 10) + 1; // Adjust for zero-based day
+    const expectedDate = new Date(year2, adjustedMonth2, adjustedDay2);
+    
+    console.log("tour: "+currentDate+" > "+booking.expectedDate)
+    console.log("expectedDate:", expectedDate)
+    
+    return  currentDate > expectedDate;
+  });
+
+  const user = req.session.user;
+
+
+  res.render('mybooking/bookingComplete', { filteredBookings, user});
   } catch (error) {
     res
       .status(400)
       .json({ result: false, error, message: "Get bookings failed" });
+  }
+});
+
+
+// http://localhost:3000/booking/api/get-uncompleted-booking
+router.get("/get-uncompleted-booking", [authen.checkTokenCpanel], async (req, res, next) => {
+  try {
+    const response = await MyBookingController.getCompletedBooking();
+
+    // Lọc danh sách có response.isCancel === true
+    const completedBookings = response.filter(
+      (booking) => booking.isCompleted === false && booking.confirm === true
+    );
+
+    // Lọc theo điều kiện departmentdate > date now < expectedDate
+    const currentDate = new Date();
+      console.log("currentDate:", currentDate)
+    const filteredBookings = completedBookings.filter((booking) => {
+      // departmentDate
+      const [day, month, year] = booking.departmentDate.split('/');
+      const adjustedMonth = parseInt(month, 10) - 1; // Adjust for zero-based month
+      const adjustedDay = parseInt(day, 10) + 1; // Adjust for zero-based day
+      const departmentDate = new Date(year, adjustedMonth, adjustedDay);
+      
+      //expectedDate
+      const [day2, month2, year2] = booking.expectedDate.split('/');
+      const adjustedMonth2 = parseInt(month2, 10) - 1; // Adjust for zero-based month
+      const adjustedDay2 = parseInt(day2, 10) + 1; // Adjust for zero-based day
+      const expectedDate = new Date(year2, adjustedMonth2, adjustedDay2);
+      
+      console.log("tour: "+ booking.departmentDate +" < "+currentDate+" < "+booking.expectedDate)
+      console.log("departmentDate:", departmentDate)
+      console.log("expectedDate:", expectedDate)
+      
+      return  currentDate > departmentDate  && currentDate < expectedDate;
+    });
+    const user = req.session.user;
+    res.render('mybooking/bookingUnComplete', { filteredBookings, user});
+    
+  } catch (error) {
+    res.status(400).json({ result: false, error, message: "Get bookings failed" });
   }
 });
 
@@ -346,6 +403,27 @@ router.delete("/deleteBooking/:id", async (req, res, next) => {
     return res
       .status(400)
       .json({ result: true, message: "Delete booking fail" });
+  }
+});
+
+
+// http://localhost:3000/booking/api/get-history-booking
+router.get("/get-history-booking", [authen.checkTokenCpanel], async (req, res, next) => {
+  try {
+    const response = await MyBookingController.getCompletedBooking();
+
+    // Lọc danh sách có response.isCancel === true
+    const completedBookings = await response.filter(
+      (booking) => booking.isCompleted === true && booking.confirm == true
+    );
+
+    const user = req.session.user;
+
+    res.render('mybooking/bookingHistory', { completedBookings, user});
+  } catch (error) {
+    res
+      .status(400)
+      .json({ result: false, error, message: "Get bookings failed" });
   }
 });
 

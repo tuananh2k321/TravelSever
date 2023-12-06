@@ -199,20 +199,24 @@
       <select id="myDropdown" onchange="goToPage(this)">
       <option value="">Chọn trang</option>
       <option value="../cpanel/get-new-booking-cpanel">Chờ xác nhận</option>
+      <option value="../cpanel/get-confirmed-booking-cpanel">Sắp diễn ra</option>
       <option value="../cpanel/get-uncompleted-booking">Đang tiến hành</option>
       <option value="../cpanel/get-completed-booking">Đã hoàn thành</option>
       <option value="../cpanel/get-handle-cancel-cpanel">Chờ hủy</option>
       <option value="../cpanel/get-canceled-booking">Đã hủy</option>
+      <option value="../cpanel/get-history-booking">Lịch sử</option>
     </select>
     </div>
   </div><!-- End Page Title -->
 
   <div>
     <p id="getNewBooking" style="display: inline-block; margin-right: 15px;"></p>
+    <p id="confirmTour" style="display: inline-block; margin-right: 15px;"></p>
     <p id="handleCancel" style="display: inline-block; margin-right: 15px;"></p>
     <p id="Cancel" style="display: inline-block; margin-right: 15px;"></p>
     <p id="unComplete" style="display: inline-block; margin-right: 15px;"></p>  
     <p id="Complete" style="display: inline-block; margin-right: 15px;"></p>  
+    <p id="History" style="display: inline-block; margin-right: 15px;"></p>  
   </div><!-- End Title -->
 
   <section class="section">
@@ -244,7 +248,7 @@
                 </tr>
               </thead>
               <tbody>
-                {{#each uncompletedBookings}}
+                {{#each filteredBookings}}
 
                 <tr>
                   <td class="py-1">
@@ -265,9 +269,7 @@
                       <a href="/booking/cpanel/getBookingById?id={{this._id}}" class="btn btn-success m-1">
                         <i class='bx bx-detail'></i>
                       </a>
-                      <a onclick="confirmFeedback('{{this.user_id._id}}','{{this.tour_id._id}}','{{this._id}}')" type="button" class="btn btn-primary m-1">
-                        <i class='bx bx-bell'></i>
-                      </a>  
+                        
                     </div>
                   </td>
                 </tr>
@@ -440,4 +442,40 @@
             });
     }
     bookingLength5();
+</script>
+
+<script>
+  function bookingLength6() {
+        // Make an AJAX request to the API endpoint
+        fetch('/booking/api/get-confirmed-booking-cpanel')
+            .then(response => response.json())
+            .then(data => {
+                const lengthGetNew = data.completedBookings.length;
+                const resultLeangth = document.getElementById('confirmTour');
+                const title = 'Tour sắp diễn ra: ';
+                resultLeangth.innerHTML = title + lengthGetNew;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+    bookingLength6();
+</script>
+
+<script>
+  function bookingLength7() {
+        // Make an AJAX request to the API endpoint
+        fetch('/booking/api/get-history-booking')
+            .then(response => response.json())
+            .then(data => {
+                const lengthGetNew = data.completedBookings.length;
+                const resultLeangth = document.getElementById('History');
+                const title = 'Lịch sử Tour: ';
+                resultLeangth.innerHTML = title + lengthGetNew;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+    bookingLength7();
 </script>

@@ -59,6 +59,7 @@ const closeTour = async (tourId, reason) => {
             if (isClose) {
                 tour.reasonCloseTour = reason
                 tour.isState = false
+                tour.isBooking = false
                 await tour.save()
                 return true
             } else {
@@ -83,6 +84,7 @@ const openTour = async (tourId) => {
             if (isOpen) {
                 tour.reasonCloseTour = ""
                 tour.isState = true
+                tour.isBooking = false
                 await tour.save()
                 return true
             } else {
@@ -133,6 +135,20 @@ const updateDomain = async (id, isdomain) => {
 }
 
 const updateIsBooking = async (id) => {
+    try {
+        let tour = await tourModel.findById(id);
+        if (tour) {
+            tour.isBooking = false;
+            await tour.save();
+            return true;
+        }
+    } catch (e) {
+        console.log("updateIsBooking error :",error);
+        return false;
+    }
+}
+
+const updateIsBookingTest = async (id) => {
     try {
         let tour = await tourModel.findById(id);
         if (tour) {
@@ -277,5 +293,6 @@ module.exports = {
     getClosedTour,
     updateIsBooking,
     getBookingTour,
-    openTour
+    openTour,
+    updateIsBookingTest
 };

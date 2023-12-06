@@ -40,7 +40,7 @@ router.get("/push-notification-feedback", async (req, res, next) => {
     const type = "feedback"
     const notification = await notificationService.addNotification(image, title, content, timeStamp,type, userId, tourId)
     await bookingService.completedBooking(bookingId)
-    await tourService.updateIsBooking(tourId)
+    //await tourService.updateIsBooking(tourId)
     console.log(notification)
     if (notification) {
       const response = await admin.messaging().sendEachForMulticast(message);

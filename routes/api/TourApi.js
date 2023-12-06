@@ -247,7 +247,7 @@ router.post("/updateDomain", async (req, res) => {
     return res.status(500).json({ result: false });
   }
 });
-//http://localhost:3000/tour/api/departmentDate
+//http://localhost:3000/tour/api/departmentDate?id=""
 router.post("/departmentDate", async (req, res) => {
   try {
     const id = req.body.id;
@@ -284,6 +284,7 @@ router.post("/departmentDate", async (req, res) => {
     const convertedDate = parseDateString(tour.expectedDate);
     
     if (ngayThangNamDate > convertedDate) {
+        await tourService.updateIsBooking(id)
         tour.departmentDate = ngayThangNamDaFormat ? ngayThangNamDaFormat : tour.departmentDate;
         tour.expectedDate = expectedDate ? expectedDate : tour.expectedDate;
         await tour.save();

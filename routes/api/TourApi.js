@@ -200,9 +200,18 @@ router.post("/departmentDate", async (req, res) => {
     console.log(id);
     const departmentDate = req.body.departmentDate;
     const ngayThangNamDate = new Date(departmentDate);  
+    console.log("ngayThangNamDate",ngayThangNamDate)
     const ngayThangNamDaFormat = ngayThangNamDate.toLocaleDateString('en-GB');// định dạng dd/mm/yyyy
+    function parseDateString(dateString) {
+      // Tách ngày, tháng và năm từ chuỗi đầu vào
+      const [day, month, year] = dateString.split('/');
+  
+      // Chuyển đổi thành đối tượng Date
+      const formattedDate = new Date(`${year}-${month}-${day}`);
+  
+      return formattedDate;
+  }
     let tour = await tourModel.findById(id);
-    console.log(tour);
     const chuoiDate = tour.limitedDay.toString();
     // Cắt chuỗi và lấy số
     const soNgay = parseInt(chuoiDate.match(/\d+/)[0]);
@@ -218,7 +227,9 @@ router.post("/departmentDate", async (req, res) => {
      
      // Định dạng ngày tháng năm thành chuỗi "dd/mm/yyyy"
     const expectedDate = ngayThangNamDate1.toLocaleDateString('en-GB');
-    if (tour) {
+    const convertedDate = parseDateString(tour.expectedDate);
+    
+    if (ngayThangNamDate > convertedDate) {
         tour.departmentDate = ngayThangNamDaFormat ? ngayThangNamDaFormat : tour.departmentDate;
         tour.expectedDate = expectedDate ? expectedDate : tour.expectedDate;
         await tour.save();
@@ -327,10 +338,17 @@ router.get("/list/search", async function (req, res, next) {
       const q = req.query.q;
       const byDate = req.query.byDate || "";
       const byDomain = req.query.byDomain || "";
-      
-      const query = {
-        tourName: { $regex: new RegExp(q, 'i') },
-      };
+      let query;
+      if(q != undefined || q != null){
+         query = {
+          tourName: { $regex: new RegExp(q, 'i') },
+        };
+      }else{
+          query = {
+          tourName: { $regex: new RegExp("", 'i') },
+        };
+      }
+     
   
       // Thêm điều kiện tìm kiếm theo limitedDay nếu byDate được cung cấp
       if (byDate !== undefined && byDate !== '') {

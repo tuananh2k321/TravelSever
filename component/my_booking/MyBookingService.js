@@ -37,6 +37,23 @@ const slotPerson = async (tourId, quantity) => {
   }
 }
 
+const slotPersonWhenCancelTour = async (tourId, quantity) => {
+  try {
+      const tour =  await tourModel.findOne({_id: tourId}); 
+      if (tour) {
+          console.log(tour.availablePerson +" "+quantity)
+          
+              tour.availablePerson = tour.availablePerson + quantity
+              await tour.save();
+              return true
+      } else {
+        return false
+      }
+  } catch (error) {
+      console.log("getTourRating failed: ", error);
+  }
+}
+
 const getTourById = async (id) => {
   try {
       let tour = await tourModel.findById(id);
@@ -258,6 +275,12 @@ const canceledBooking = async (id) => {
   try {
     const booking = await MyBookingModel.findOne({ _id: id })
     if (booking) {
+      await slotPersonWhenCancelTour(booking.tour_id, booking.children + booking.adult)
+      if (slotPersonWhenCancelTour) {
+        console.log("slotPersonWhenCancelTour: success")
+      } else {
+        console.log("slotPersonWhenCancelTour: fail")
+      }
       booking.isCancel = true;
       const b = await booking.save();
       return b

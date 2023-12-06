@@ -3,6 +3,7 @@ var router = express.Router();
 
 const favoriteController = require('../../component/favorite/FavoriteController');
 const tourController = require('../../component/tour/TourController');
+const favoriteService = require('../../component/favorite/FavoriteService')
 function getCurrentDateTimeString() {
     const now = new Date();
     const dateString = now.toLocaleDateString();
@@ -40,6 +41,23 @@ router.get('/getFavorite', async (req, res, next) => {
         res.status(400).json({ result: false, error: err });
     }
 });
+
+//http://localhost:3000/favorite/api/getFavorite2?id_user=""
+router.get('/getFavorite2', async (req, res, next) => {
+    try {
+        const { id_user } = req.query;
+        const favorite = await favoriteService.getListFavorite2(id_user);
+        console.log("favorite", favorite);
+
+        res.status(200).json({ result: true, favorite: favorite, message: "Get favorite Success" });
+        
+         
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({ result: false, error: err });
+    }
+});
+
 
 
 router.get('/:user_id/:tour_id/addFavorite', async (req, res, next) => {

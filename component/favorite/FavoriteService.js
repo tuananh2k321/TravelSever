@@ -15,6 +15,21 @@ const getListFavorite = async (id_user) => {
   return [];
 };
 
+const getListFavorite2 = async () => {
+  try {
+    //const booking = await mybookingModel.find({ user_id: id });
+    const listFavorite = await favoriteModel.find().populate('tour_id');
+    //console.log('Booking: '+ booking)
+    if (listFavorite) {
+      return listFavorite;
+    } else {
+      return false
+    }
+  } catch (error) {
+    console.log("getBookingById", error);
+  }
+}
+
 const addFavorite = async (timestamp, user_id, tour_id) => {
   try {
     const newFavorite = {
@@ -41,4 +56,4 @@ const deleteFavorite = async (id) => {
   return false;
 };
 
-module.exports = { getListFavorite, addFavorite, deleteFavorite };
+module.exports = { getListFavorite, addFavorite, deleteFavorite, getListFavorite2 };

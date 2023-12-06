@@ -200,9 +200,18 @@ router.post("/departmentDate", async (req, res) => {
     console.log(id);
     const departmentDate = req.body.departmentDate;
     const ngayThangNamDate = new Date(departmentDate);  
+    console.log("ngayThangNamDate",ngayThangNamDate)
     const ngayThangNamDaFormat = ngayThangNamDate.toLocaleDateString('en-GB');// định dạng dd/mm/yyyy
+    function parseDateString(dateString) {
+      // Tách ngày, tháng và năm từ chuỗi đầu vào
+      const [day, month, year] = dateString.split('/');
+  
+      // Chuyển đổi thành đối tượng Date
+      const formattedDate = new Date(`${year}-${month}-${day}`);
+  
+      return formattedDate;
+  }
     let tour = await tourModel.findById(id);
-    console.log(tour);
     const chuoiDate = tour.limitedDay.toString();
     // Cắt chuỗi và lấy số
     const soNgay = parseInt(chuoiDate.match(/\d+/)[0]);
@@ -218,7 +227,9 @@ router.post("/departmentDate", async (req, res) => {
      
      // Định dạng ngày tháng năm thành chuỗi "dd/mm/yyyy"
     const expectedDate = ngayThangNamDate1.toLocaleDateString('en-GB');
-    if (tour) {
+    const convertedDate = parseDateString(tour.expectedDate);
+    
+    if (ngayThangNamDate > convertedDate) {
         tour.departmentDate = ngayThangNamDaFormat ? ngayThangNamDaFormat : tour.departmentDate;
         tour.expectedDate = expectedDate ? expectedDate : tour.expectedDate;
         await tour.save();
@@ -327,10 +338,17 @@ router.get("/list/search", async function (req, res, next) {
       const q = req.query.q;
       const byDate = req.query.byDate || "";
       const byDomain = req.query.byDomain || "";
-      
-      const query = {
-        tourName: { $regex: new RegExp(q, 'i') },
-      };
+      let query;
+      if(q != undefined || q != null){
+         query = {
+          tourName: { $regex: new RegExp(q, 'i') },
+        };
+      }else{
+          query = {
+          tourName: { $regex: new RegExp("", 'i') },
+        };
+      }
+     
   
       // Thêm điều kiện tìm kiếm theo limitedDay nếu byDate được cung cấp
       if (byDate !== undefined && byDate !== '') {
@@ -350,7 +368,7 @@ router.get("/list/search", async function (req, res, next) {
     }
   });
 
-//http://localhost:3000/tour/api/send-mail-close-tour?tourId=""
+//http://localhost:3000/tour/api/send-mail-open-tour?tourId=""
 router.post("/send-mail-close-tour", async (req, res, next) => {
   const {reason} = req.body
   const {tourId} = req.query
@@ -403,6 +421,60 @@ router.post("/send-mail-close-tour", async (req, res, next) => {
     res.status(200).json({ result: true, message: "close tour success" });
   } else {
     res.status(200).json({ result: false, message: "close tour fail" });
+  }
+});
+
+//http://localhost:3000/tour/api/send-mail-open-tour?tourId=""
+router.post("/send-mail-open-tour", async (req, res, next) => {
+  const {tourId} = req.query
+  const userEmails = await userService.getAllEmailUser()
+  const isOpenTour = await tourService.openTour(tourId) 
+  const detailTour = await tourService.getTourById(tourId)
+  // send mail
+  if (isOpenTour) {
+    for(const email of userEmails) {
+      console.log(email)
+      if (email) {
+        const transporter = nodemailer.createTransport({
+          service: "Gmail",
+          auth: {
+            user: "haizzj123@gmail.com",
+            pass: "xakpztqusyejqykx",
+          },
+        });
+    
+        // Tạo một đường link trong email với href trỏ đến API xác thực
+        const emailHtml = `
+                <h1> Chúng tôi đã mở lại ${detailTour.tourName}</h1>
+                <img src="${detailTour.tourImage[0]}" width="300px" height="300">
+            `;
+    
+        const mailOptions = {
+          from: "haizzj123@gmail.com",
+          to: email,
+          subject: `Chúng tôi đã mở lại ${detailTour.tourName}`,
+          html: emailHtml,
+        };
+    
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            //res.status(200).json({ result: true, message: "send fail" });
+            console.log("send fail")
+          } else {
+            //res.status(200).json({ result: true, message: "send success" });
+            console.log("send success")
+          }
+        });
+      } else {
+        console.log("send fail")
+        //res.status(400).json({ result: false, message: "email is not exist!" });
+      }
+    }
+  }
+  if (isCloseTour) {
+    res.status(200).json({ result: true, message: "open tour success" });
+  } else {
+    res.status(200).json({ result: false, message: "open tour fail" });
   }
 });
 module.exports = router;

@@ -232,7 +232,7 @@ router.get('/get-canceled-booking', [authen.checkTokenCpanel], async (req, res, 
       const response = await MyBookingController.getAllBooking();
 
       // Lọc danh sách có response.isCancel === true
-      const canceledBookings = response.filter(booking => booking.isCancel === true && booking.handleCancel === true);
+      const canceledBookings = response.filter(booking => booking.isCancel === true);
       const user = req.session.user;
       // console.log("Canceled Bookings:", canceledBookings, response  );
 

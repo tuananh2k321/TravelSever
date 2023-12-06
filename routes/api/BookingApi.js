@@ -110,7 +110,7 @@ router.get("/get-canceled-booking", async (req, res, next) => {
 
     // Lọc danh sách có response.isCancel === true
     const canceledBookings = response.filter(
-      (booking) => booking.isCancel === true && booking.handleCancel === true
+      (booking) => booking.isCancel === true 
     );
 
     console.log("Canceled Bookings:", canceledBookings);

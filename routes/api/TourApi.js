@@ -494,7 +494,7 @@ router.post("/send-mail-close-tour", async (req, res, next) => {
                 <h1> Chúng tôi đóng sẽ đóng ${detailTour.tourName}</h1>
                 <p>Với lí do là: ${detailTour.reasonCloseTour}</p>
                 <p>Chúng tôi sẽ hoàn lại đúng số tiền mà quý khách đã đạt tour</p>
-                <h2>Chúng tôi thành thật xin lỗi vì sự bất tiện này ${detailTour.tourName}</h2>
+                <h2>Chúng tôi thành thật xin lỗi vì sự bất tiện này!</h2>
                 <p>Nếu có thắc mắc hãy gọi số: 0921011337</p>
                 <img src="${detailTour.tourImage[0]}" width="300px" height="300">
             `;

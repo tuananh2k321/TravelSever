@@ -30,6 +30,7 @@ router.get("/get-closed-tour", async function (req, res, next) {
   }
 });
 
+// tour dang dien ra
 // http://localhost:3000/tour/api/get-traveling-tour
 router.get("/get-traveling-tour", async function (req, res, next) {
   try {
@@ -38,7 +39,7 @@ router.get("/get-traveling-tour", async function (req, res, next) {
     // Lọc theo điều kiện departmentdate > date now < expectedDate
     const currentDate = new Date();
       console.log("currentDate:", currentDate)
-    const filteredBookings = completedBookings.filter((booking) => {
+    const filteredBookings = tours.filter((booking) => {
       // departmentDate
       const [day, month, year] = booking.departmentDate.split('/');
       const adjustedMonth = parseInt(month, 10) - 1; // Adjust for zero-based month
@@ -58,7 +59,36 @@ router.get("/get-traveling-tour", async function (req, res, next) {
       return  currentDate > departmentDate  && currentDate < expectedDate;
     });
 
-    res.status(200).json({ result: true, tours });
+    res.status(200).json({ result: true, tours: filteredBookings });
+  } catch (error) {
+    res.status(400).json({ result: false, error });
+  }
+});
+
+// tour da hoan thanh
+// http://localhost:3000/tour/api/get-completed-tour
+router.get("/get-completed-tour", async function (req, res, next) {
+  try {
+    const tours = await tourService.getBookingTour();
+
+    // Lọc theo điều kiện departmentdate > date now < expectedDate
+    const currentDate = new Date();
+      console.log("currentDate:", currentDate)
+    const filteredBookings = tours.filter((booking) => {
+
+      //expectedDate
+      const [day2, month2, year2] = booking.expectedDate.split('/');
+      const adjustedMonth2 = parseInt(month2, 10) - 1; // Adjust for zero-based month
+      const adjustedDay2 = parseInt(day2, 10) + 1; // Adjust for zero-based day
+      const expectedDate = new Date(year2, adjustedMonth2, adjustedDay2);
+      
+      console.log("tour: "+currentDate+" > "+booking.expectedDate)
+      console.log("expectedDate:", expectedDate)
+      
+      return  currentDate > expectedDate;
+    });
+
+    res.status(200).json({ result: true, tours: filteredBookings });
   } catch (error) {
     res.status(400).json({ result: false, error });
   }

@@ -471,7 +471,7 @@ router.post("/send-mail-open-tour", async (req, res, next) => {
       }
     }
   }
-  if (isCloseTour) {
+  if (isOpenTour) {
     res.status(200).json({ result: true, message: "open tour success" });
   } else {
     res.status(200).json({ result: false, message: "open tour fail" });

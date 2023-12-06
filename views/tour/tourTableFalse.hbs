@@ -218,11 +218,11 @@
     <h1>Tour không hoạt động</h1>
     <div class="gap-4 d-md-flex justify-content-md-end">
       <select id="myDropdown" onchange="goToPage(this)">
-      <option value="">Chọn trang</option>
-      <option value="../cpanel/tour-table">Hoạt động</option>
-      <option value="../cpanel/tour-table-false">Không hoạt động</option>
-      <option value="../cpanel/get-booking-tour">Tour đã đặt</option>
-    </select>
+        <option value="">Chọn trang</option>
+        <option value="../cpanel/tour-table">Hoạt động</option>
+        <option value="../cpanel/tour-table-false">Không hoạt động</option>
+        <option value="../cpanel/get-booking-tour">Tour đã đặt</option>
+      </select>
     </div>
   </div><!-- End Page Title -->
 
@@ -297,6 +297,9 @@
                       <a onclick="confirmDelete('{{this._id}}')" type="button" class="btn btn-danger m-1">
                         <i class='bx bx-trash'></i>
                       </a>
+                      <a onclick="confirmOpenTour('{{this._id}}')" type="button" class="btn btn-success m-1">
+                        <i class="fas fa-folder-open"></i>
+                      </a>
                     </div>
                   </td>
                 </tr>
@@ -338,7 +341,7 @@
       const result = await fetchAPI(url, option);
       console.log('delete result: ', result)
 
-      if (result.tourisState==true && result.status) {
+      if (result.tourisState == true && result.status) {
         swal('Không thể xóa!', {
           icon: 'error',
         });
@@ -373,6 +376,51 @@
       });
   }
 
+
+
+
+  const openTour = async (tour_id) => {
+    const url = `/tour/api/send-mail-open-tour?tourId=${tour_id}`;
+
+    const option = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    }
+    try {
+      const result = await fetchAPI(url, option);
+      console.log('delete result: ', result)
+
+    } catch (e) {
+      console.log('error delete: ', e)
+      throw e;
+    }
+  }
+
+
+  const confirmOpenTour = (tour_id) => {
+    swal({
+      title: "Mở Tour",
+      text: "Bạn có muốn mở tour này?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          openTour(tour_id);
+          swal({
+            title: "Thành công!",
+            text: "Mở thành công!!",
+            icon: "success"
+          }).then((wil) => {
+            window.location.reload();
+          })
+        }
+      });
+  }
+
+
+
   function showGenre(item) {
     document.getElementById("dropdownMenuLink").innerHTML = item.innerHTML;
   }
@@ -381,64 +429,64 @@
 
 <script>
   function goToPage(select) {
-  var selectedOption = select.options[select.selectedIndex].value;
-  
-  if (selectedOption !== "") {
-    window.location.href = selectedOption;
+    var selectedOption = select.options[select.selectedIndex].value;
+
+    if (selectedOption !== "") {
+      window.location.href = selectedOption;
+    }
   }
-}
 </script>
 
 <script>
   function bookingLength1() {
-        // Make an AJAX request to the API endpoint
-        fetch('/tour/cpanel/get-all-tour1')
-            .then(response => response.json())
-            .then(data => {
-                const lengthGetNew = data.tours.length;
-                const resultLeangth = document.getElementById('TourTrue');
-                const title = 'Tour đang hoạt động: ';
-                resultLeangth.innerHTML = title + lengthGetNew;
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }
-    bookingLength1();
+    // Make an AJAX request to the API endpoint
+    fetch('/tour/cpanel/get-all-tour1')
+      .then(response => response.json())
+      .then(data => {
+        const lengthGetNew = data.tours.length;
+        const resultLeangth = document.getElementById('TourTrue');
+        const title = 'Tour đang hoạt động: ';
+        resultLeangth.innerHTML = title + lengthGetNew;
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+  bookingLength1();
 </script>
 
 <script>
   function bookingLength2() {
-        // Make an AJAX request to the API endpoint
-        fetch('/tour/api/get-closed-tour')
-            .then(response => response.json())
-            .then(data => {
-                const lengthGetNew = data.tours.length;
-                const resultLeangth = document.getElementById('TourFalse');
-                const title = 'Tour không hoạt động: ';
-                resultLeangth.innerHTML = title + lengthGetNew;
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }
-    bookingLength2();
+    // Make an AJAX request to the API endpoint
+    fetch('/tour/api/get-closed-tour')
+      .then(response => response.json())
+      .then(data => {
+        const lengthGetNew = data.tours.length;
+        const resultLeangth = document.getElementById('TourFalse');
+        const title = 'Tour không hoạt động: ';
+        resultLeangth.innerHTML = title + lengthGetNew;
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+  bookingLength2();
 </script>
 
 <script>
   function bookingLength3() {
-        // Make an AJAX request to the API endpoint
-        fetch('/tour/api/get-booking-tour')
-            .then(response => response.json())
-            .then(data => {
-                const lengthGetNew = data.tours.length;
-                const resultLeangth = document.getElementById('TourBooking');
-                const title = 'Tour đã được đặt: ';
-                resultLeangth.innerHTML = title + lengthGetNew;
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }
-    bookingLength3();
+    // Make an AJAX request to the API endpoint
+    fetch('/tour/api/get-booking-tour')
+      .then(response => response.json())
+      .then(data => {
+        const lengthGetNew = data.tours.length;
+        const resultLeangth = document.getElementById('TourBooking');
+        const title = 'Tour đã được đặt: ';
+        resultLeangth.innerHTML = title + lengthGetNew;
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+  bookingLength3();
 </script>

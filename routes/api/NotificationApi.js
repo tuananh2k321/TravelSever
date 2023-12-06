@@ -85,6 +85,7 @@ router.get("/push-notification-confirm", async (req, res, next) => {
     const type = "confirm"
     const notification = await notificationService.addNotification(image, title, content, timeStamp,type, userId, tourId)
     await bookingService.confirmBooking(id)
+    
     console.log(notification)
     if (notification) {
       const response = await admin.messaging().sendEachForMulticast(message);

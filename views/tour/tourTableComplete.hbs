@@ -264,42 +264,30 @@
                   <th scope="col">Giá người lớn</th>
                   <th scope="col">Giá trẻ em dưới 15</th>
                   <th scope="col">Trạng thái</th>
-                  <th scope="col">Đánh giá</th>
+                  <th scope="col">Ngày khỏi hành</th>
+                  <th scope="col">Ngày kết thúc</th>
                 </tr>
               </thead>
               <tbody>
                 {{#each filteredBookings}}
 
-                <tr>
-                  <td class="py-1">
+                <td class="py-1">
                     <img src="{{this.tourImage}}" alt="image" width="200" height="100" />
                   </td>
                   <td> {{this.tourName}} </td>
                   <td>
-                    {{!-- <div class="progress">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                    </div> --}}
+                    
                     {{this.adultPrice}}
                   </td>
                   <td> {{this.childrenPrice}} </td>
                   <td> {{this.isState}}</td>
-                  <td> {{this.rating}}</td>
+                  <td> {{this.departmentDate}}</td>
+                  <td> {{this.expectedDate}}</td>
 
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
                       <a href="/tour/cpanel/detail-tour/{{this._id}}" class="btn btn-success m-1">
                         <i class='bx bx-detail'></i>
-                      </a>
-                      <a href="/tour/cpanel/{{this._id}}/edit-tour" class="btn btn-primary m-1">
-                        <i class='bx bx-edit'></i>
-                      </a>
-                      <a onclick="confirmDelete('{{this._id}}')" type="button" class="btn btn-danger m-1">
-                        <i class='bx bx-trash'></i>
-                      </a>
-                      <a type="button" id="showInput" onclick="confirmClose('{{this._id}}')"
-                        class="btn btn-secondary m-1">
-                        <i class="fa fa-close"></i>
                       </a>
                     </div>
                   </td>

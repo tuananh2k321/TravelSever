@@ -385,4 +385,33 @@ router.get("/get-completed-tour", async function (req, res, next) {
     }
   });
 
+
+  // http://localhost:3000/tour/api/get-tour-will-travel
+router.get("/get-tour-will-travel", async function (req, res, next) {
+    try {
+      const tours = await tourService.getBookingTour();
+  
+      // Lọc theo điều kiện departmentdate > date now < expectedDate
+      const currentDate = new Date();
+        console.log("currentDate:", currentDate)
+      const filteredBookings = tours.filter((booking) => {
+        // departmentDate
+        const [day, month, year] = booking.departmentDate.split('/');
+        const adjustedMonth = parseInt(month, 10) - 1; // Adjust for zero-based month
+        const adjustedDay = parseInt(day, 10) + 1; // Adjust for zero-based day
+        const departmentDate = new Date(year, adjustedMonth, adjustedDay);
+        
+        console.log("tour: "+ currentDate+" < "+booking.departmentDate)
+        console.log("departmentDate:", departmentDate)
+        
+        return  currentDate < departmentDate  ;
+      });
+  
+      const user = req.session.user;
+      res.render('tour/tourTableWillTravel', { filteredBookings, user });
+    } catch (error) {
+      res.status(400).json({ result: false, error });
+    }
+  });
+
 module.exports = router;

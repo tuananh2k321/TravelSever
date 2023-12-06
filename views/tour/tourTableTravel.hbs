@@ -221,7 +221,9 @@
         <option value="">Chọn trang</option>
         <option value="../cpanel/tour-table">Hoạt động</option>
         <option value="../cpanel/tour-table-false">Không hoạt động</option>
-        <option value="../cpanel/get-booking-tour">Tour đã đặt</option>
+        <option value="../cpanel/get-tour-will-travel">Sắp diễn ra</option>
+        <option value="../cpanel/get-traveling-tour">Đang tiến hành</option>
+        <option value="../cpanel/get-completed-tour">Đã hoàn thành</option>
       </select>
     </div>
   </div><!-- End Page Title -->
@@ -229,7 +231,9 @@
   <div>
     <p id="TourTrue" style="display: inline-block; margin-right: 15px;"></p>
     <p id="TourFalse" style="display: inline-block; margin-right: 15px;"></p>
-    <p id="TourBooking" style="display: inline-block; margin-right: 15px;"></p>
+    <p id="TourWill" style="display: inline-block; margin-right: 15px;"></p>
+    <p id="TourTravel" style="display: inline-block; margin-right: 15px;"></p>
+    <p id="TourComplete" style="display: inline-block; margin-right: 15px;"></p>
   </div><!-- End Title -->
 
   <section class="section">
@@ -478,12 +482,12 @@
 <script>
   function bookingLength3() {
     // Make an AJAX request to the API endpoint
-    fetch('/tour/api/get-booking-tour')
+    fetch('/tour/api/get-tour-will-travel')
       .then(response => response.json())
       .then(data => {
         const lengthGetNew = data.tours.length;
-        const resultLeangth = document.getElementById('TourBooking');
-        const title = 'Tour đã được đặt: ';
+        const resultLeangth = document.getElementById('TourWill');
+        const title = 'Tour sắp diễn ra: ';
         resultLeangth.innerHTML = title + lengthGetNew;
       })
       .catch(error => {
@@ -491,4 +495,40 @@
       });
   }
   bookingLength3();
+</script>
+
+<script>
+  function bookingLength4() {
+    // Make an AJAX request to the API endpoint
+    fetch('/tour/api/get-traveling-tour')
+      .then(response => response.json())
+      .then(data => {
+        const lengthGetNew = data.tours.length;
+        const resultLeangth = document.getElementById('TourTravel');
+        const title = 'Tour đang tiến hành: ';
+        resultLeangth.innerHTML = title + lengthGetNew;
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+  bookingLength4();
+</script>
+
+<script>
+  function bookingLength5() {
+    // Make an AJAX request to the API endpoint
+    fetch('/tour/api/get-completed-tour')
+      .then(response => response.json())
+      .then(data => {
+        const lengthGetNew = data.tours.length;
+        const resultLeangth = document.getElementById('TourComplete');
+        const title = 'Tour hoàn thành: ';
+        resultLeangth.innerHTML = title + lengthGetNew;
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+  bookingLength5();
 </script>

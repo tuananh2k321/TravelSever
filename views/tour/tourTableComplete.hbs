@@ -221,7 +221,9 @@
         <option value="">Chọn trang</option>
         <option value="../cpanel/tour-table">Hoạt động</option>
         <option value="../cpanel/tour-table-false">Không hoạt động</option>
-        <option value="../cpanel/get-booking-tour">Tour đã đặt</option>
+        <option value="../cpanel/get-tour-will-travel">Sắp diễn ra</option>
+        <option value="../cpanel/get-traveling-tour">Đang tiến hành</option>
+        <option value="../cpanel/get-completed-tour">Đã hoàn thành</option>
       </select>
     </div>
   </div><!-- End Page Title -->
@@ -229,7 +231,9 @@
   <div>
     <p id="TourTrue" style="display: inline-block; margin-right: 15px;"></p>
     <p id="TourFalse" style="display: inline-block; margin-right: 15px;"></p>
-    <p id="TourBooking" style="display: inline-block; margin-right: 15px;"></p>
+    <p id="TourWill" style="display: inline-block; margin-right: 15px;"></p>
+    <p id="TourTravel" style="display: inline-block; margin-right: 15px;"></p>
+    <p id="TourComplete" style="display: inline-block; margin-right: 15px;"></p>
   </div><!-- End Title -->
 
   <section class="section">
@@ -283,69 +287,27 @@
                   <td> {{this.isState}}</td>
                   <td> {{this.departmentDate}}</td>
                   <td> {{this.expectedDate}}</td>
+                  
+                  <dialog id="myDialog">
+                      <form id="myForm" >
+                          <label  for="inputField">Input:</label>
+                          <input placeholder="{{this._id}}" type="date" id="inputField" name="inputField">
+                          <button type="button"  onclick="saveChanges()" >Thay đổi ngày</button>
+                          <button type="button" onclick="closeDialog()">Thôi</button>
+                      </form>
+                  </dialog>
 
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
                       <a href="/tour/cpanel/detail-tour/{{this._id}}" class="btn btn-success m-1">
                         <i class='bx bx-detail'></i>
                       </a>
+                      <a type="button" onclick="openDialog()" class="btn btn-primary m-1">
+                        <i class='bx bx-edit'></i>
+                      </a>
                     </div>
                   </td>
                 </tr>
-
-                <script>
-                  const closeTour = async (tour_id, reason) => {
-                    try {
-                      const response = await fetch(`/tour/api/send-mail-close-tour?tourId=${tour_id}`, {
-                        method: 'POST',
-                        headers: {
-                          'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ reason })
-                      });
-
-                      const data = await response.json();
-                      if (data.result) {
-                        return { success: true, message: 'Email đã được gửi đi!' };
-
-                      } else {
-                        return { success: false, message: 'Gửi email thất bại' };
-                      }
-                    } catch (error) {
-                      return { success: false, message: 'Lỗi khi gửi email: ' + error.message };
-                    }
-                  };
-
-                  const confirmClose = async (tour_id) => {
-                    const result = await Swal.fire({
-                      title: 'Lý do!!',
-                      text: 'Nhập lý do khóa Tour này',
-                      input: 'textarea',
-                      showCancelButton: true,
-                      confirmButtonColor: 'green',
-                      preConfirm: (reason) => {
-                        if (!reason) {
-                          Swal.showValidationMessage('Vui lòng nhập lý do');
-                        }
-                        return reason;
-                      }
-                    });
-
-                    if (!result.dismiss && result.value) {
-                      const reason = result.value;
-                      const closeTourResult = await closeTour(tour_id, reason);
-                      if (closeTourResult.success) {
-                        Swal.fire('Thành công', closeTourResult.message, 'success').then(() => {
-                          // Reload trang sau khi hoàn tất quá trình
-                          location.reload();
-                        });
-                      } else {
-                        Swal.fire('Lỗi', closeTourResult.message, 'error');
-                      }
-                    }
-                  };
-                </script>
-
                 {{/each}}
 
               </tbody>
@@ -478,12 +440,12 @@
 <script>
   function bookingLength3() {
     // Make an AJAX request to the API endpoint
-    fetch('/tour/api/get-booking-tour')
+    fetch('/tour/api/get-tour-will-travel')
       .then(response => response.json())
       .then(data => {
         const lengthGetNew = data.tours.length;
-        const resultLeangth = document.getElementById('TourBooking');
-        const title = 'Tour đã được đặt: ';
+        const resultLeangth = document.getElementById('TourWill');
+        const title = 'Tour sắp diễn ra: ';
         resultLeangth.innerHTML = title + lengthGetNew;
       })
       .catch(error => {
@@ -492,3 +454,90 @@
   }
   bookingLength3();
 </script>
+
+<script>
+  function bookingLength4() {
+    // Make an AJAX request to the API endpoint
+    fetch('/tour/api/get-traveling-tour')
+      .then(response => response.json())
+      .then(data => {
+        const lengthGetNew = data.tours.length;
+        const resultLeangth = document.getElementById('TourTravel');
+        const title = 'Tour đang tiến hành: ';
+        resultLeangth.innerHTML = title + lengthGetNew;
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+  bookingLength4();
+</script>
+
+<script>
+  function bookingLength5() {
+    // Make an AJAX request to the API endpoint
+    fetch('/tour/api/get-completed-tour')
+      .then(response => response.json())
+      .then(data => {
+        const lengthGetNew = data.tours.length;
+        const resultLeangth = document.getElementById('TourComplete');
+        const title = 'Tour hoàn thành: ';
+        resultLeangth.innerHTML = title + lengthGetNew;
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+  bookingLength5();
+</script>
+
+
+<script>
+        const myDialog = document.getElementById('myDialog');
+
+        function openDialog() {
+            myDialog.showModal();
+        }
+
+        function closeDialog() {
+            myDialog.close();
+        }
+
+        function saveChanges() {
+            // Thêm mã JavaScript để xử lý lưu thay đổi tại đây
+            // Ví dụ: lấy giá trị từ trường input
+            const inputValue  = document.getElementById('inputField').value;
+           const idValue  = document.getElementById('inputField').placeholder;
+           
+            //Gủi dữliệu lên api
+            fetch("http://localhost:3000/tour/api/departmentDate", {
+                method:'post',
+                headers:{
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ departmentDate: inputValue, id: idValue }),
+            })
+            .then(response => {
+                console.log("response",response)
+                if(!response.ok){
+                    alert('Ngày tháng năm phải lớn hơn ngày dự kiến kết thúc tour.');
+                    throw new Error('response failed')
+                }
+                return response.json();
+            })
+            .then(data => {
+                 // Xử lý phản hồi từ API nếu cần
+                console.log('API response:', data);
+
+                // Sau khi xử lý, đóng hộp thoại
+                window.location.reload();
+                closeDialog();
+            })
+                 .catch(error => {
+                // Xử lý lỗi nếu có
+                console.error('Error:', error);
+            });
+
+           
+        }
+    </script>

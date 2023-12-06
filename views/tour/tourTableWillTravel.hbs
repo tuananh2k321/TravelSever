@@ -215,7 +215,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Tour không hoạt động</h1>
+    <h1>Tour sắp diễn ra</h1>
     <div class="gap-4 d-md-flex justify-content-md-end">
       <select id="myDropdown" onchange="goToPage(this)">
         <option value="">Chọn trang</option>
@@ -268,11 +268,12 @@
                   <th scope="col">Giá người lớn</th>
                   <th scope="col">Giá trẻ em dưới 15</th>
                   <th scope="col">Trạng thái</th>
-                  <th scope="col">Lý do</th>
+                  <th scope="col">Ngày khỏi hành</th>
+                  <th scope="col">Ngày kết thúc</th>
                 </tr>
               </thead>
               <tbody>
-                {{#each tours}}
+                {{#each filteredBookings}}
 
                 <tr>
                   <td class="py-1">
@@ -288,25 +289,75 @@
                   </td>
                   <td> {{this.childrenPrice}} </td>
                   <td> {{this.isState}}</td>
-                  <td> {{this.reasonCloseTour}}</td>
+                  <td> {{this.departmentDate}}</td>
+                  <td> {{this.expectedDate}}</td>
 
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
                       <a href="/tour/cpanel/detail-tour/{{this._id}}" class="btn btn-success m-1">
                         <i class='bx bx-detail'></i>
                       </a>
-                      <a href="/tour/cpanel/{{this._id}}/edit-tour" class="btn btn-primary m-1">
-                        <i class='bx bx-edit'></i>
-                      </a>
-                      <a onclick="confirmDelete('{{this._id}}')" type="button" class="btn btn-danger m-1">
-                        <i class='bx bx-trash'></i>
-                      </a>
-                      <a onclick="confirmOpenTour('{{this._id}}')" type="button" class="btn btn-success m-1">
-                        <i class="fas fa-folder-open"></i>
+                      
+                      <a type="button" id="showInput" onclick="confirmClose('{{this._id}}')"
+                        class="btn btn-secondary m-1">
+                        <i class="fa fa-close"></i>
                       </a>
                     </div>
                   </td>
                 </tr>
+
+                <script>
+                  const closeTour = async (tour_id, reason) => {
+                    try {
+                      const response = await fetch(`/tour/api/send-mail-close-tour?tourId=${tour_id}`, {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ reason })
+                      });
+
+                      const data = await response.json();
+                      if (data.result) {
+                        return { success: true, message: 'Email đã được gửi đi!' };
+
+                      } else {
+                        return { success: false, message: 'Gửi email thất bại' };
+                      }
+                    } catch (error) {
+                      return { success: false, message: 'Lỗi khi gửi email: ' + error.message };
+                    }
+                  };
+
+                  const confirmClose = async (tour_id) => {
+                    const result = await Swal.fire({
+                      title: 'Lý do!!',
+                      text: 'Nhập lý do khóa Tour này',
+                      input: 'textarea',
+                      showCancelButton: true,
+                      confirmButtonColor: 'green',
+                      preConfirm: (reason) => {
+                        if (!reason) {
+                          Swal.showValidationMessage('Vui lòng nhập lý do');
+                        }
+                        return reason;
+                      }
+                    });
+
+                    if (!result.dismiss && result.value) {
+                      const reason = result.value;
+                      const closeTourResult = await closeTour(tour_id, reason);
+                      if (closeTourResult.success) {
+                        Swal.fire('Thành công', closeTourResult.message, 'success').then(() => {
+                          // Reload trang sau khi hoàn tất quá trình
+                          location.reload();
+                        });
+                      } else {
+                        Swal.fire('Lỗi', closeTourResult.message, 'error');
+                      }
+                    }
+                  };
+                </script>
 
                 {{/each}}
 
@@ -328,6 +379,11 @@
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
     class="bi bi-arrow-up-short"></i></a>
 {{!-- js delete tour --}}
+
+
+
+
+
 <script>
   const fetchAPI = async (url, option) => {
     const res = await fetch(url, option)
@@ -379,51 +435,6 @@
         }
       });
   }
-
-
-
-
-  const openTour = async (tour_id) => {
-    const url = `/tour/api/send-mail-open-tour?tourId=${tour_id}`;
-
-    const option = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
-    }
-    try {
-      const result = await fetchAPI(url, option);
-      console.log('delete result: ', result)
-
-    } catch (e) {
-      console.log('error delete: ', e)
-      throw e;
-    }
-  }
-
-
-  const confirmOpenTour = (tour_id) => {
-    swal({
-      title: "Mở Tour",
-      text: "Bạn có muốn mở tour này?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-          openTour(tour_id);
-          swal({
-            title: "Thành công!",
-            text: "Mở thành công!!",
-            icon: "success"
-          }).then((wil) => {
-            window.location.reload();
-          })
-        }
-      });
-  }
-
-
 
   function showGenre(item) {
     document.getElementById("dropdownMenuLink").innerHTML = item.innerHTML;

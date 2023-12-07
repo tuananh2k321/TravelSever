@@ -209,14 +209,14 @@
     </div>
   </div><!-- End Page Title -->
 
-  <div>
-    <p id="getNewBooking" style="display: inline-block; margin-right: 15px;"></p>
-    <p id="confirmTour" style="display: inline-block; margin-right: 15px;"></p>
-    <p id="handleCancel" style="display: inline-block; margin-right: 15px;"></p>
-    <p id="Cancel" style="display: inline-block; margin-right: 15px;"></p>
-    <p id="unComplete" style="display: inline-block; margin-right: 15px;"></p>  
-    <p id="Complete" style="display: inline-block; margin-right: 15px;"></p>  
-    <p id="History" style="display: inline-block; margin-right: 15px;"></p>  
+  <div style="display: flex; flex-wrap: wrap;">
+    <p id="getNewBooking" style="width: calc(25% - 20px); box-sizing: border-box; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white;"></p>
+    <p id="unComplete" style="width: calc(25% - 20px); box-sizing: border-box; margin: 5px ; border: 1px solid #000; padding: 5px 10px; color: #33FF33; background-color: white;"></p>
+    <p id="handleCancel" style="width: calc(25% - 20px); box-sizing: border-box; margin: 5px ; border: 1px solid #000; padding: 5px 10px; color: #FF9900; background-color: white;"></p>
+    <p id="History" style="width: calc(25% - 20px); box-sizing: border-box; margin: 5px ; border: 1px solid #000; padding: 5px 10px; color: #9999FF; background-color: white;"></p> 
+    <p id="confirmTour" style="width: calc(25% - 20px); box-sizing: border-box; margin: 5px ; border: 1px solid #000; padding: 5px 10px; color: #0099FF; background-color: white;"></p>
+    <p id="Complete" style="width: calc(25% - 20px); box-sizing: border-box; margin: 5px ; border: 1px solid #000; padding: 5px 10px; color: #00CC00; background-color: white;"></p>  
+    <p id="Cancel" style="width: calc(25% - 20px); box-sizing: border-box; margin: 5px ; border: 1px solid #000; padding: 5px 10px; color: #FF0000; background-color: white;"></p>
   </div><!-- End Title -->
 
 
@@ -260,8 +260,8 @@
                     <img src="{{this.user_id.avatar}}" alt="Không có ảnh" width="150" height="100" />
                   </td>
                   <td> {{this.user_id.name}} </td>
-                  <td id="sumPeople"></td>
-                  <td id="formatPrice"></td>
+                  <td id="sumPeople{{@index}}"></td>
+                  <td id="formatPrice{{@index}}"></td>
                   <td> {{this.expectedDate}} </td>
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
@@ -274,29 +274,6 @@
                     </div>
                   </td>
                 </tr>
-
-
-
-
-                <script>
-                  const childrenValue = '{{this.children}}';
-                    const adultValue = '{{this.adult}}';
-
-                  function calculateSum() {
-                      var sum = Number(childrenValue) + Number(adultValue);
-                      document.getElementById("sumPeople").innerHTML = sum;
-                    }
-                  calculateSum(); // Call the function to calculate and display the sum
-
-
-                  const price = '{{this.totalPrice}}';
-                  function formatPrice() {
-                    const VND = new Intl.NumberFormat('vi-VN', {style: 'currency',currency: 'VND',}).format(price);
-                    document.getElementById("formatPrice").innerHTML = VND;
-                  }
-                  formatPrice();
-                  
-                </script>
 
                 {{/each}}
 
@@ -505,3 +482,22 @@
     bookingLength7();
 </script>
 
+<script>
+  {{#each completedBookings}}
+    const childrenValue{{@index}} = '{{this.children}}';
+    const adultValue{{@index}} = '{{this.adult}}';
+    const price{{@index}} = '{{this.totalPrice}}';
+
+    function calculateSum{{@index}}() {
+      var sum = Number(childrenValue{{@index}}) + Number(adultValue{{@index}});
+      document.getElementById("sumPeople{{@index}}").innerHTML = sum;
+    }
+    calculateSum{{@index}}(); // Call the function to calculate and display the sum
+
+    function formatPrice{{@index}}() {
+      const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price{{@index}});
+      document.getElementById("formatPrice{{@index}}").innerHTML = VND;
+    }
+    formatPrice{{@index}}();
+  {{/each}}
+</script>

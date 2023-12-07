@@ -228,12 +228,12 @@
     </div>
   </div><!-- End Page Title -->
 
-  <div>
-    <p id="TourTrue" style="display: inline-block; margin-right: 15px;"></p>
-    <p id="TourFalse" style="display: inline-block; margin-right: 15px;"></p>
-    <p id="TourWill" style="display: inline-block; margin-right: 15px;"></p>
-    <p id="TourTravel" style="display: inline-block; margin-right: 15px;"></p>
-    <p id="TourComplete" style="display: inline-block; margin-right: 15px;"></p>
+   <div>
+    <p id="TourTrue" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #0000EE;"></p>
+    <p id="TourFalse" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #FF0033;"></p>
+    <p id="TourWill" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #00FF00;"></p>
+    <p id="TourTravel" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #00AA00;"></p>
+    <p id="TourComplete" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #00CC33;"></p>
   </div><!-- End Title -->
 
   <section class="section">
@@ -279,12 +279,15 @@
                     <img src="{{this.tourImage}}" alt="image" width="200" height="100" />
                   </td>
                   <td> {{this.tourName}} </td>
+                  <td id="adultPrice{{@index}}"></td>
+                  <td id="childrenPrice{{@index}}"></td>
                   <td>
-                    
-                    {{this.adultPrice}}
+                    {{#if this.isState}}
+                      Hoạt động
+                    {{else}}
+                      Không hoạt động
+                    {{/if}}
                   </td>
-                  <td> {{this.childrenPrice}} </td>
-                  <td> {{this.isState}}</td>
                   <td> {{this.departmentDate}}</td>
                   <td> {{this.expectedDate}}</td>
                   
@@ -541,3 +544,24 @@
            
         }
     </script>
+    <script>
+  {{#each tours}}
+    const childrenPrice{{@index}} = '{{this.childrenPrice}}';
+    const adultPrice{{@index}} = '{{this.adultPrice}}';
+
+
+    function formatPrice1{{@index}}() {
+      const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(adultPrice{{@index}});
+      document.getElementById("adultPrice{{@index}}").innerHTML = VND;
+    }
+    formatPrice1{{@index}}();
+
+    function formatPrice2{{@index}}() {
+      const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(childrenPrice{{@index}});
+      document.getElementById("childrenPrice{{@index}}").innerHTML = VND;
+    }
+    formatPrice2{{@index}}();
+
+
+  {{/each}}
+</script>

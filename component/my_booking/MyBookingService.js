@@ -313,7 +313,7 @@ const openTourInMyBooking = async (tourId) => {
     const bookings = await MyBookingModel.find({ tour_id: tourId })
     if (bookings && bookings.length > 0) {
       for (const booking of bookings) {
-        booking.isCancel = true;
+        booking.isCancel = false;
         await booking.save();
       }
       return true;

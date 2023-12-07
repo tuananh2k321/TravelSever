@@ -115,43 +115,47 @@
   </li><!-- End Forms Nav -->
 
   <li class="nav-item">
-    <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
-    </a>
-    <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-      <li>
-        <a href="/tour/cpanel/tour-table">
-          <i class="bi bi-circle"></i><span>Tour</span>
-        </a>
-      </li>
-      <li>
-        <a href="../../destination/cpanel/get-destination">
-          <i class="bi bi-circle"></i><span>Destination</span>
-        </a>
-      </li>
-
-      <li>
-        <a href="../../hotel/cpanel/hotel-table">
-          <i class="bi bi-circle"></i><span>Hotel</span>
-        </a>
-      </li>
-      <li>
-        <a href="/user/cpanel/list-admin">
-          <i class="bi bi-circle"></i><span>Admins</span>
-        </a>
-      </li>
-      <li>
-        <a href="/user/cpanel/list-user">
-          <i class="bi bi-circle"></i><span>Users</span>
-        </a>
-      </li>
-      <li>
-        <a href="/tourguide/cpanel/tour-guide">
-          <i class="bi bi-circle"></i><span>TourGuides</span>
-        </a>
-      </li>
-    </ul>
-  </li><!-- End Tables Nav -->
+      <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="/tour/cpanel/tour-table">
+            <i class="bi bi-circle"></i><span>Tour</span>
+          </a>
+        </li>
+        <li>
+          <a href="/destination/cpanel/get-destination">
+            <i class="bi bi-circle"></i><span>Destination</span>
+          </a>
+        </li>
+        <li>
+          <a href="/booking/cpanel/get-new-booking-cpanel">
+            <i class="bi bi-circle"></i><span>Booking</span>
+          </a>
+        </li>
+        <li>
+          <a href="/hotel/cpanel/hotel-table">
+            <i class="bi bi-circle"></i><span>Hotels</span>
+          </a>
+        </li>
+        <li>
+          <a href="../../tourguide/cpanel/tour-guide">
+            <i class="bi bi-circle"></i><span>Tour Guide </span>
+          </a>
+        </li>
+        <li>
+          <a href="/user/cpanel/list-admin">
+            <i class="bi bi-circle"></i><span>Admins</span>
+          </a>
+        </li>
+        <li>
+          <a href="/user/cpanel/list-user">
+            <i class="bi bi-circle"></i><span>Users</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Tables Nav -->
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="chart" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
@@ -202,7 +206,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Update Tour Guide</h1>
+    <h1>Chỉnh sửa hướng dẫn viên</h1>
     {{!-- <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -224,7 +228,7 @@
             <form id="form" method="post" action="/tourguide/cpanel/update-tourguide/{{tourguide._id}}"
               enctype="multipart/form-data">
               <div class="row mb-3">
-                <label for="inputText" class="col-sm-2 col-form-label">Name Tour Guide</label>
+                <label for="inputText" class="col-sm-2 col-form-label">Tên</label>
                 <div class="col-sm-10">
                   <input type="text" value="{{tourguide.name}}" name="name" class="form-control">
                 </div>
@@ -236,7 +240,7 @@
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputNumber" class="col-sm-2 col-form-label">Phone Number</label>
+                <label for="inputNumber" class="col-sm-2 col-form-label">Số liên hệ</label>
                 <div class="col-sm-10">
                   <input type="number" value="{{tourguide.phoneNumber}}" name="phoneNumber" class="form-control">
                   <div id="phoneError" style="color: red; font-size: 16px; font-style: italic; margin-top: 5px;">
@@ -244,7 +248,7 @@
                 </div>
               </div>
               <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">Work Places</label>
+                <label class="col-sm-2 col-form-label">Nơi làm việc</label>
                 <div class="col-sm-10">
                   <input type="text" id="workPlaces" value="{{tourguide.workPlaces}}" name="workPlaces"
                     class="form-control">
@@ -259,7 +263,7 @@
                 </div>
               </div> --}}
               <div class="row mb-3">
-                <label for="inputNumber" class="col-sm-2 col-form-label">Image Upload</label>
+                <label for="inputNumber" class="col-sm-2 col-form-label">Ảnh tải lên</label>
                 <div class="col-sm-10">
                   <input onchange="displayImg()" class="form-control" name="avatar" id="image" type="file"
                     id="formFile">
@@ -270,10 +274,9 @@
               </div>
           </div>
           <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Submit Button</label>
+            <label class="col-sm-2 col-form-label">Xác nhận sửa</label>
             <div class="col-sm-10">
-              <button type="submit" id="submit" class="btn btn-primary">Submit
-                Form</button>
+              <button type="submit" id="submit" class="btn btn-primary">Xác nhận</button>
             </div>
           </div>
 

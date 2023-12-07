@@ -279,15 +279,15 @@
                     <img src="{{this.tourImage}}" alt="image" width="200" height="100" />
                   </td>
                   <td> {{this.tourName}} </td>
+                  <td id="adultPrice{{@index}}"></td>
+                  <td id="childrenPrice{{@index}}"></td>
                   <td>
-                    {{!-- <div class="progress">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                    </div> --}}
-                    {{this.adultPrice}}
+                    {{#if this.isState}}
+                      Hoạt động
+                    {{else}}
+                      Không hoạt động
+                    {{/if}}
                   </td>
-                  <td> {{this.childrenPrice}} </td>
-                  <td> {{this.isState}}</td>
                   <td> {{this.reasonCloseTour}}</td>
 
                   <td class="text-right">
@@ -529,4 +529,26 @@
       });
   }
   bookingLength5();
+</script>
+<script>
+  {{#each tours}}
+    const childrenPrice{{@index}} = '{{this.childrenPrice}}';
+    const adultPrice{{@index}} = '{{this.adultPrice}}';
+
+
+    function formatPrice1{{@index}}() {
+      const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(adultPrice{{@index}});
+      document.getElementById("adultPrice{{@index}}").innerHTML = VND;
+    }
+    formatPrice1{{@index}}();
+
+    function formatPrice2{{@index}}() {
+      const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(childrenPrice{{@index}});
+      document.getElementById("childrenPrice{{@index}}").innerHTML = VND;
+    }
+    formatPrice2{{@index}}();
+
+ 
+
+  {{/each}}
 </script>

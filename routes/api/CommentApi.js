@@ -5,12 +5,13 @@ const commentController = require("../../component/comment/CommentController")
 //http://localhost:3000/comment/api/add-comment
 router.post("/add-comment", async (req, res, next) => {
     try {
+      const timeStamp = new Date().toLocaleString();
       const {
         content, image, rating,  user_id, tour_id
       } = req.body;
   
       const comment = await commentController.addComment(
-        content, image, rating, user_id, tour_id
+        content, image, rating, timeStamp, user_id, tour_id
       );
       if (comment) {
         return res

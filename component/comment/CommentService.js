@@ -2,9 +2,9 @@ const commentModel = require('./CommentModel');
 const userModel = require('../user/UserModel');
 const tourModel = require('../tour/TourModel')
 const tourService = require('../tour/TourService')
-const addComment = async (content, image, rating, user_id, tour_id) => {
+const addComment = async (content, image, rating, timeStamp, user_id, tour_id) => {
     try {
-      const timeStamp = new Date().toLocaleString();
+      
             const comment = {content, image, rating, timeStamp, user_id, tour_id };
             let tour = await tourModel.findById(tour_id);
             let commentsOfTour = await getAllCommentOfTour(tour_id)

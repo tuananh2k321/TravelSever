@@ -408,7 +408,7 @@ router.get("/get-uncompleted-booking", async (req, res, next) => {
       console.log("departmentDate:", departmentDate)
       console.log("expectedDate:", expectedDate)
       
-      return  currentDate > departmentDate  && currentDate < expectedDate;
+      return  currentDate >= departmentDate  && currentDate <= expectedDate;
     });
 
     res.status(200).json({

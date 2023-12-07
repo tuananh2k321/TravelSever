@@ -171,7 +171,7 @@ router.get("/listDomain/isdomain", async function (req, res, next) {
 router.get("/list/tourRating", async function (req, res, next) {
   try {
     const tours = await tourController.getTourRating();
-    res.status(200).json({ result: true, tours });
+    res.status(200).json({ result: true, tours});
   } catch (error) {
     res.status(400).json({ result: false, error });
   }

@@ -212,7 +212,7 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Detail Tour Booking</h1>
+        <h1>Chi tiết Tour đặt</h1>
         {{!-- <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -241,11 +241,12 @@
                                 <i class='bx bxs-star' style="color: gray; font-size: 24px;"></i>
                             </div> --}}
                         </div>
-                        <p class="card-text" >Tổng tiền: <p id="formatPrice"></p></p>
+                        <p class="card-text" >Tổng tiền: <span id="formatPrice"></span></p>
                         <p class="card-text">Số lượng người lớn: {{booking.adult}}</p>
                         <p class="card-text">Số lượng trẻ em: {{booking.children}}</p>
                         <p class="card-text">Tên tài khoản đăng ký: {{booking.user_id.name}}</p>
                         <p class="card-text">Số điện thoại tài khoản đăng ký: {{booking.user_id.phoneNumber}}</p>
+                        <p class="card-text">Ngày đặt tour: {{booking.bookingDate}}</p>
                         <p class="card-text">Ngày giới hạn: {{booking.tour_id.limitedDay}}</p>
                         <p class="card-text">Thông tin khách cung cấp: </p>
                         {{!-- <div id="guestInfo"></div> --}}

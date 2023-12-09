@@ -215,7 +215,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Tour hoạt động</h1>
+    <h1>Tour sắp diễn ra</h1>
     <div class="gap-4 d-md-flex justify-content-md-end">
       <select id="myDropdown" onchange="goToPage(this)">
         <option value="">Chọn trang</option>
@@ -228,7 +228,7 @@
     </div>
   </div><!-- End Page Title -->
 
-  <div>
+   <div>
     <p id="TourTrue" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #0000EE;"></p>
     <p id="TourFalse" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #FF0033;"></p>
     <p id="TourWill" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #00FF00;"></p>
@@ -242,7 +242,7 @@
 
         <div class="card">
           <div class="card-body">
-            {{!-- <div class="dropdown gap-2 d-md-flex justify-content-md-end" style="margin-top: 20px;">
+            <div class="dropdown gap-2 d-md-flex justify-content-md-end" style="margin-top: 20px;">
               <a class="btn btn-outline-dark me-md-3 dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 Sắp xếp <span class="caret"></span>
@@ -256,7 +256,7 @@
                 <li><a onclick="showGenre(this)" class="dropdown-item" href="">Khu vực: Đà Lạt</a></li>
                 <li><a onclick="showGenre(this)" class="dropdown-item" href="">Khu vực: Vũng Tàu</a></li>
               </ul>
-            </div> --}}
+            </div>
 
 
             <!-- Table with stripped rows -->
@@ -268,21 +268,18 @@
                   <th scope="col">Giá người lớn</th>
                   <th scope="col">Giá trẻ em dưới 15</th>
                   <th scope="col">Trạng thái</th>
-                  <th scope="col">Đánh giá</th>
+                  <th scope="col">Ngày khỏi hành</th>
+                  <th scope="col">Ngày kết thúc</th>
                 </tr>
               </thead>
               <tbody>
-                {{#each tours}}
+                {{#each filteredBookings}}
 
                 <tr>
                   <td class="py-1">
                     <img src="{{this.tourImage}}" alt="image" width="200" height="100" />
                   </td>
                   <td> {{this.tourName}} </td>
-                  {{!-- <td>
-                    {{this.adultPrice}}
-                  </td>
-                  <td> {{this.childrenPrice}} </td> --}}
                   <td id="adultPrice{{@index}}"></td>
                   <td id="childrenPrice{{@index}}"></td>
                   <td>
@@ -292,19 +289,15 @@
                       Không hoạt động
                     {{/if}}
                   </td>
-                  <td> {{this.rating}}</td>
+                  <td> {{this.departmentDate}}</td>
+                  <td> {{this.expectedDate}}</td>
 
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
                       <a href="/tour/cpanel/detail-tour/{{this._id}}" class="btn btn-success m-1">
                         <i class='bx bx-detail'></i>
                       </a>
-                      <a href="/tour/cpanel/{{this._id}}/edit-tour" class="btn btn-primary m-1">
-                        <i class='bx bx-edit'></i>
-                      </a>
-                      <a onclick="confirmDelete('{{this._id}}')" type="button" class="btn btn-danger m-1">
-                        <i class='bx bx-trash'></i>
-                      </a>
+                      
                       <a type="button" id="showInput" onclick="confirmClose('{{this._id}}')"
                         class="btn btn-secondary m-1">
                         <i class="fa fa-close"></i>
@@ -548,13 +541,10 @@
   }
   bookingLength5();
 </script>
-
-
 <script>
   {{#each tours}}
     const childrenPrice{{@index}} = '{{this.childrenPrice}}';
     const adultPrice{{@index}} = '{{this.adultPrice}}';
-    const isState{{@index}} = '{{this.isState}}'
 
 
     function formatPrice1{{@index}}() {
@@ -568,6 +558,8 @@
       document.getElementById("childrenPrice{{@index}}").innerHTML = VND;
     }
     formatPrice2{{@index}}();
+
+
 
   {{/each}}
 </script>

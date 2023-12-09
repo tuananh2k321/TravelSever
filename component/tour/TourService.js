@@ -1,6 +1,7 @@
 
 const tourModel = require('./TourModel');
-const myBookingService = require('../my_booking/MyBookingService')
+const myBookingService = require('../my_booking/MyBookingService');
+const { trusted } = require('mongoose');
 
 const getAllTour = async () => {
     try {
@@ -58,6 +59,7 @@ const closeTour = async (tourId, reason) => {
             if (isClose) {
                 tour.reasonCloseTour = reason
                 tour.isState = false
+                tour.isBooking = false
                 await tour.save()
                 return true
             } else {
@@ -70,6 +72,31 @@ const closeTour = async (tourId, reason) => {
         }
     } catch (error) {
         console.log("closeTour " + error);
+        return false;
+    }
+}
+
+const openTour = async (tourId) => {
+    try {
+        let tour = await tourModel.findById(tourId);
+        if (tour) {
+            const isOpen = myBookingService.openTourInMyBooking(tourId)
+            if (isOpen) {
+                tour.reasonCloseTour = ""
+                tour.isState = true
+                tour.isBooking = false
+                await tour.save()
+                return true
+            } else {
+                console.log("open tour failed")
+                return false
+            }
+        } else {
+            console.log("tour is not found")
+            return false
+        }
+    } catch (error) {
+        console.log("openTour " + error);
         return false;
     }
 }
@@ -121,6 +148,20 @@ const updateIsBooking = async (id) => {
     }
 }
 
+const updateIsBookingTest = async (id) => {
+    try {
+        let tour = await tourModel.findById(id);
+        if (tour) {
+            tour.isBooking = false;
+            await tour.save();
+            return true;
+        }
+    } catch (e) {
+        console.log("updateIsBooking error :",error);
+        return false;
+    }
+}
+
 const departmentHour = async (id, departmentHour) => {
     try {
         let tour = await tourModel.findById(id);
@@ -152,21 +193,6 @@ const updateAvailablePerson = async (id) => {
     }
 }
 
-const updateAvailablePersonCancelTour = async (id) => {
-    try {
-        let tour = await tourModel.findOne({_id: id});
-        if (tour) {
-            tour.availablePerson = tour.limitedPerson;
-            await tour.save();
-            return true;
-        } else {
-            return false
-        }
-    } catch (e) {
-        console.log("Update tour error :",error);
-        return false;
-    }
-}
 
 
 const updateTour = async (id,tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate,departmentHour,expectedDate, limitedDay,
@@ -266,5 +292,7 @@ module.exports = {
     closeTour,
     getClosedTour,
     updateIsBooking,
-    getBookingTour
+    getBookingTour,
+    openTour,
+    updateIsBookingTest
 };

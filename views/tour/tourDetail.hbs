@@ -101,18 +101,18 @@
                     <a href="/hotel/cpanel/insert-form">
                         <i class="bi bi-circle"></i><span>Insert Hotel</span>
                     </a>
-                    </li>
-                    <li>
+                </li>
+                <li>
                     <a href="../../tourguide/cpanel/insert-form">
                         <i class="bi bi-circle"></i><span>Insert TourGuide</span>
                     </a>
-                    </li>
-                    <li>
+                </li>
+                <li>
                     <a href="/tour/cpanel/insert-tour">
                         <i class="bi bi-circle"></i><span>Insert Tour</span>
                     </a>
-                    </li>
-                    <li>
+                </li>
+                <li>
                     <a href="/destination/cpanel/insert-destination">
                         <i class="bi bi-circle"></i><span>Insert Destination</span>
                     </a>
@@ -121,47 +121,48 @@
         </li><!-- End Forms Nav -->
 
         <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a href="/tour/cpanel/tour-table">
-            <i class="bi bi-circle"></i><span>Tour</span>
-          </a>
-        </li>
-        <li>
-          <a href="/destination/cpanel/get-destination">
-            <i class="bi bi-circle"></i><span>Destination</span>
-          </a>
-        </li>
-        <li>
-          <a href="/booking/cpanel/get-new-booking-cpanel">
-            <i class="bi bi-circle"></i><span>Booking</span>
-          </a>
-        </li>
-        <li>
-          <a href="/hotel/cpanel/hotel-table">
-            <i class="bi bi-circle"></i><span>Hotels</span>
-          </a>
-        </li>
-        <li>
-          <a href="../../tourguide/cpanel/tour-guide">
-            <i class="bi bi-circle"></i><span>Tour Guide </span>
-          </a>
-        </li>
-        <li>
-          <a href="/user/cpanel/list-admin">
-            <i class="bi bi-circle"></i><span>Admins</span>
-          </a>
-        </li>
-        <li>
-          <a href="/user/cpanel/list-user">
-            <i class="bi bi-circle"></i><span>Users</span>
-          </a>
-        </li>
-      </ul>
-    </li><!-- End Tables Nav -->
+            <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i
+                    class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="/tour/cpanel/tour-table">
+                        <i class="bi bi-circle"></i><span>Tour</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/destination/cpanel/get-destination">
+                        <i class="bi bi-circle"></i><span>Destination</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/booking/cpanel/get-new-booking-cpanel">
+                        <i class="bi bi-circle"></i><span>Booking</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/hotel/cpanel/hotel-table">
+                        <i class="bi bi-circle"></i><span>Hotels</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="../../tourguide/cpanel/tour-guide">
+                        <i class="bi bi-circle"></i><span>Tour Guide </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/user/cpanel/list-admin">
+                        <i class="bi bi-circle"></i><span>Admins</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/user/cpanel/list-user">
+                        <i class="bi bi-circle"></i><span>Users</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Tables Nav -->
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="chart" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
@@ -212,7 +213,7 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Detail Tour</h1>
+        <h1>Chi tiết Tour</h1>
         {{!-- <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -228,7 +229,8 @@
 
                 <!-- Card with an image on top -->
                 <div class="card">
-                    <img id="image" src="{{tour.tourImage}}" style="object-fit: cover;" class="card-img-top" alt="Image Tour">
+                    <img id="image" src="{{tour.tourImage}}" style="object-fit: cover;" class="card-img-top"
+                        alt="Image Tour">
                     <div class="card-body">
                         <div style="display: flex; align-items: center;">
                             <h5 class="card-title">{{tour.tourName}}</h5>
@@ -240,21 +242,21 @@
                                 <i class='bx bxs-star' style="color: gray; font-size: 24px;"></i>
                             </div> --}}
                         </div>
-                        <p class="card-text">Giá người lớn: {{tour.adultPrice}}</p>
-                        <p class="card-text">Giá trẻ em: {{tour.childrenPrice}}</p>
+                        <p class="card-text">Giá người lớn: <span id="AdultPrice"></span></p>
+                        <p class="card-text">Giá trẻ em: <span id="ChildrenPrice"></span></p>
                         <p class="card-text">Độ tuổi trẻ em: {{tour.childrenAge}}</p>
                         <p class="card-text">Độ tuổi người lớn: {{tour.adultAge}}</p>
                         <p class="card-text">Nơi khởi hành: {{tour.departmentPlace}}</p>
-                        <p class="card-text">Ngày khởi hành: {{tour.departmentDate}}</p> 
-                         <button onclick="openDialog()">Open Dialog</button>
-                            <dialog id="myDialog">
-                                <form id="myForm" >
-                                    <label  for="inputField">Input:</label>
-                                    <input placeholder="{{tour._id}}" type="date" id="inputField" name="inputField">
-                                    <button type="button"  onclick="saveChanges()" >Save Changes</button>
-                                    <button type="button" onclick="closeDialog()">Cancel</button>
-                                </form>
-                            </dialog>
+                        <p class="card-text">Ngày khởi hành: {{tour.departmentDate}}</p>
+                        {{!-- <button onclick="openDialog()">Open Dialog</button>
+                        <dialog id="myDialog">
+                            <form id="myForm">
+                                <label for="inputField">Input:</label>
+                                <input placeholder="{{tour._id}}" type="date" id="inputField" name="inputField">
+                                <button type="button" onclick="saveChanges()">Save Changes</button>
+                                <button type="button" onclick="closeDialog()">Cancel</button>
+                            </form>
+                        </dialog> --}}
                         <p class="card-text">Giờ khởi hành: {{tour.departmentHour}}</p>
                         <p class="card-text">Ngày dự kiến kết thúc tour: {{tour.expectedDate}}</p>
                         <p class="card-text">Thời gian đi: {{tour.limitedDay}}</p>
@@ -269,9 +271,9 @@
                         <p class="card-text">Khách sạn: {{datahotel.hotelName}}</p>
                         <p class="card-text">Điểm đến:
                             {{#each dataDestination}}
-                             {{this.destinationName}},
-                             {{/each}}
-                             </p>
+                            {{this.destinationName}},
+                            {{/each}}
+                        </p>
                     </div>
                 </div><!-- End Card with an image on top -->
 
@@ -286,7 +288,7 @@
                     </div>
                 </div><!-- End Default Card -->
 
-            
+
             </div>
             <div class="card">
                 <div class="card-header">More Image</div>
@@ -321,53 +323,69 @@
 
 
 <script>
-        const myDialog = document.getElementById('myDialog');
+    const myDialog = document.getElementById('myDialog');
 
-        function openDialog() {
-            myDialog.showModal();
-        }
+    function openDialog() {
+        myDialog.showModal();
+    }
 
-        function closeDialog() {
-            myDialog.close();
-        }
+    function closeDialog() {
+        myDialog.close();
+    }
 
-        function saveChanges() {
-            // Thêm mã JavaScript để xử lý lưu thay đổi tại đây
-            // Ví dụ: lấy giá trị từ trường input
-            const inputValue  = document.getElementById('inputField').value;
-           const idValue  = document.getElementById('inputField').placeholder;
-           
-            //Gủi dữliệu lên api
-            fetch("http://localhost:3000/tour/api/departmentDate", {
-                method:'post',
-                headers:{
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ departmentDate: inputValue, id: idValue }),
-            })
+    function saveChanges() {
+        // Thêm mã JavaScript để xử lý lưu thay đổi tại đây
+        // Ví dụ: lấy giá trị từ trường input
+        const inputValue = document.getElementById('inputField').value;
+        const idValue = document.getElementById('inputField').placeholder;
+
+        //Gủi dữliệu lên api
+        fetch("http://localhost:3000/tour/api/departmentDate", {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ departmentDate: inputValue, id: idValue }),
+        })
             .then(response => {
-                console.log("response",response)
-                if(!response.ok){
+                console.log("response", response)
+                if (!response.ok) {
                     alert('Ngày tháng năm phải lớn hơn ngày dự kiến kết thúc tour.');
                     throw new Error('response failed')
                 }
                 return response.json();
             })
             .then(data => {
-                 // Xử lý phản hồi từ API nếu cần
+                // Xử lý phản hồi từ API nếu cần
                 console.log('API response:', data);
 
                 // Sau khi xử lý, đóng hộp thoại
                 window.location.reload();
                 closeDialog();
             })
-                 .catch(error => {
+            .catch(error => {
                 // Xử lý lỗi nếu có
                 console.error('Error:', error);
             });
 
-           
-        }
-    </script>
 
- 
+    }
+</script>
+
+
+<Script>
+    const adultPrice = '{{tour.adultPrice}}';
+    function formatAdultPrice() {
+        const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', }).format(adultPrice);
+        document.getElementById("AdultPrice").innerHTML = VND;
+    }
+    formatAdultPrice();
+
+    const childrenPrice = '{{tour.childrenPrice}}';
+    function formatChildrenPrice() {
+        const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', }).format(childrenPrice);
+        document.getElementById("ChildrenPrice").innerHTML = VND;
+    }
+    formatChildrenPrice();
+
+</Script>

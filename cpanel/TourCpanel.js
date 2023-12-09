@@ -20,7 +20,7 @@ const uploadImage = multer({ storage: multerStorage });
 // http://localhost:3000/tour/cpanel/tour-table
 router.get('/tour-table', [authen.checkTokenCpanel], async function (req, res, next) {
     const response = await tourController.getAllTour();
-    const tours = response.filter((tours)=> tours.isState == true)
+    const tours = response.filter((tours)=> tours.isState == true && tours.isBooking == false)
     const user = req.session.user;
     res.render('tour/tourTable', { tours, user });
 });
@@ -303,6 +303,112 @@ router.get("/get-booking-tour", async function (req, res, next) {
       const tours = await tourService.getBookingTour();
       const user = req.session.user;
       res.render('tour/tourTableBooking', { tours, user });
+    } catch (error) {
+      res.status(400).json({ result: false, error });
+    }
+  });
+
+  // http://localhost:3000/tour/cpanel/get-all-tour1
+router.get("/get-all-tour1", async function (req, res, next) {
+    try {
+      const response = await tourController.getAllTour();
+      const tours = response.filter((tours)=> tours.isState == true && tours.isBooking == false)
+      res.status(200).json({ result: true, tours });
+    } catch (error) {
+      res.status(400).json({ result: false, error });
+    }
+  });
+
+
+  // http://localhost:3000/tour/cpanel/get-traveling-tour
+router.get("/get-traveling-tour", [authen.checkTokenCpanel], async function (req, res, next) {
+    try {
+      const tours = await tourService.getBookingTour();
+  
+      // Lọc theo điều kiện departmentdate > date now < expectedDate
+      const currentDate = new Date();
+        console.log("currentDate:", currentDate)
+      const filteredBookings = tours.filter((booking) => {
+        // departmentDate
+        const [day, month, year] = booking.departmentDate.split('/');
+        const adjustedMonth = parseInt(month, 10) - 1; // Adjust for zero-based month
+        const adjustedDay = parseInt(day, 10) + 1; // Adjust for zero-based day
+        const departmentDate = new Date(year, adjustedMonth, adjustedDay);
+        
+        //expectedDate
+        const [day2, month2, year2] = booking.expectedDate.split('/');
+        const adjustedMonth2 = parseInt(month2, 10) - 1; // Adjust for zero-based month
+        const adjustedDay2 = parseInt(day2, 10) + 1; // Adjust for zero-based day
+        const expectedDate = new Date(year2, adjustedMonth2, adjustedDay2);
+        
+        console.log("tour: "+ booking.departmentDate +" < "+currentDate+" < "+booking.expectedDate)
+        console.log("departmentDate:", departmentDate)
+        console.log("expectedDate:", expectedDate)
+        
+        return  currentDate > departmentDate  && currentDate < expectedDate;
+      });
+  
+      const user = req.session.user;
+      res.render('tour/tourTableTravel', { filteredBookings, user });
+    } catch (error) {
+      res.status(400).json({ result: false, error });
+    }
+  });
+
+
+  // http://localhost:3000/tour/cpanel/get-completed-tour
+router.get("/get-completed-tour", [authen.checkTokenCpanel], async function (req, res, next) {
+    try {
+      const tours = await tourService.getBookingTour();
+  
+      // Lọc theo điều kiện departmentdate > date now < expectedDate
+      const currentDate = new Date();
+        console.log("currentDate:", currentDate)
+      const filteredBookings = tours.filter((booking) => {
+  
+        //expectedDate
+        const [day2, month2, year2] = booking.expectedDate.split('/');
+        const adjustedMonth2 = parseInt(month2, 10) - 1; // Adjust for zero-based month
+        const adjustedDay2 = parseInt(day2, 10) + 1; // Adjust for zero-based day
+        const expectedDate = new Date(year2, adjustedMonth2, adjustedDay2);
+        
+        console.log("tour: "+currentDate+" > "+booking.expectedDate)
+        console.log("expectedDate:", expectedDate)
+        
+        return  currentDate > expectedDate;
+      });
+  
+      const user = req.session.user;
+      res.render('tour/tourTableComplete', { filteredBookings, user });
+    } catch (error) {
+      res.status(400).json({ result: false, error });
+    }
+  });
+
+
+  // http://localhost:3000/tour/api/get-tour-will-travel
+router.get("/get-tour-will-travel", [authen.checkTokenCpanel], async function (req, res, next) {
+    try {
+      const tours = await tourService.getBookingTour();
+  
+      // Lọc theo điều kiện departmentdate > date now < expectedDate
+      const currentDate = new Date();
+        console.log("currentDate:", currentDate)
+      const filteredBookings = tours.filter((booking) => {
+        // departmentDate
+        const [day, month, year] = booking.departmentDate.split('/');
+        const adjustedMonth = parseInt(month, 10) - 1; // Adjust for zero-based month
+        const adjustedDay = parseInt(day, 10) + 1; // Adjust for zero-based day
+        const departmentDate = new Date(year, adjustedMonth, adjustedDay);
+        
+        console.log("tour: "+ currentDate+" < "+booking.departmentDate)
+        console.log("departmentDate:", departmentDate)
+        
+        return  currentDate < departmentDate  ;
+      });
+  
+      const user = req.session.user;
+      res.render('tour/tourTableWillTravel', { filteredBookings, user });
     } catch (error) {
       res.status(400).json({ result: false, error });
     }

@@ -218,18 +218,22 @@
     <h1>Tour không hoạt động</h1>
     <div class="gap-4 d-md-flex justify-content-md-end">
       <select id="myDropdown" onchange="goToPage(this)">
-      <option value="">Chọn trang</option>
-      <option value="../cpanel/tour-table">Hoạt động</option>
-      <option value="../cpanel/tour-table-false">Không hoạt động</option>
-      <option value="../cpanel/get-booking-tour">Tour đã đặt</option>
-    </select>
+        <option value="">Chọn trang</option>
+        <option value="../cpanel/tour-table">Hoạt động</option>
+        <option value="../cpanel/tour-table-false">Không hoạt động</option>
+        <option value="../cpanel/get-tour-will-travel">Sắp diễn ra</option>
+        <option value="../cpanel/get-traveling-tour">Đang tiến hành</option>
+        <option value="../cpanel/get-completed-tour">Đã hoàn thành</option>
+      </select>
     </div>
   </div><!-- End Page Title -->
 
-  <div>
-    <p id="TourTrue" style="display: inline-block; margin-right: 15px;"></p>
-    <p id="TourFalse" style="display: inline-block; margin-right: 15px;"></p>
-    <p id="TourBooking" style="display: inline-block; margin-right: 15px;"></p>
+   <div>
+    <p id="TourTrue" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #0000EE;"></p>
+    <p id="TourFalse" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #FF0033;"></p>
+    <p id="TourWill" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #00FF00;"></p>
+    <p id="TourTravel" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #00AA00;"></p>
+    <p id="TourComplete" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #00CC33;"></p>
   </div><!-- End Title -->
 
   <section class="section">
@@ -264,7 +268,7 @@
                   <th scope="col">Giá người lớn</th>
                   <th scope="col">Giá trẻ em dưới 15</th>
                   <th scope="col">Trạng thái</th>
-                  <th scope="col">Đánh giá</th>
+                  <th scope="col">Lý do</th>
                 </tr>
               </thead>
               <tbody>
@@ -275,16 +279,16 @@
                     <img src="{{this.tourImage}}" alt="image" width="200" height="100" />
                   </td>
                   <td> {{this.tourName}} </td>
+                  <td id="adultPrice{{@index}}"></td>
+                  <td id="childrenPrice{{@index}}"></td>
                   <td>
-                    {{!-- <div class="progress">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                    </div> --}}
-                    {{this.adultPrice}}
+                    {{#if this.isState}}
+                      Hoạt động
+                    {{else}}
+                      Không hoạt động
+                    {{/if}}
                   </td>
-                  <td> {{this.childrenPrice}} </td>
-                  <td> {{this.isState}}</td>
-                  <td> {{this.rating}}</td>
+                  <td> {{this.reasonCloseTour}}</td>
 
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
@@ -296,6 +300,9 @@
                       </a>
                       <a onclick="confirmDelete('{{this._id}}')" type="button" class="btn btn-danger m-1">
                         <i class='bx bx-trash'></i>
+                      </a>
+                      <a onclick="confirmOpenTour('{{this._id}}')" type="button" class="btn btn-success m-1">
+                        <i class="fas fa-folder-open"></i>
                       </a>
                     </div>
                   </td>
@@ -338,7 +345,7 @@
       const result = await fetchAPI(url, option);
       console.log('delete result: ', result)
 
-      if (result.tourisState==true && result.status) {
+      if (result.tourisState == true && result.status) {
         swal('Không thể xóa!', {
           icon: 'error',
         });
@@ -373,6 +380,51 @@
       });
   }
 
+
+
+
+  const openTour = async (tour_id) => {
+    const url = `/tour/api/send-mail-open-tour?tourId=${tour_id}`;
+
+    const option = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    }
+    try {
+      const result = await fetchAPI(url, option);
+      console.log('delete result: ', result)
+
+    } catch (e) {
+      console.log('error delete: ', e)
+      throw e;
+    }
+  }
+
+
+  const confirmOpenTour = (tour_id) => {
+    swal({
+      title: "Mở Tour",
+      text: "Bạn có muốn mở tour này?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          openTour(tour_id);
+          swal({
+            title: "Thành công!",
+            text: "Mở thành công!!",
+            icon: "success"
+          }).then((wil) => {
+            window.location.reload();
+          })
+        }
+      });
+  }
+
+
+
   function showGenre(item) {
     document.getElementById("dropdownMenuLink").innerHTML = item.innerHTML;
   }
@@ -381,64 +433,122 @@
 
 <script>
   function goToPage(select) {
-  var selectedOption = select.options[select.selectedIndex].value;
-  
-  if (selectedOption !== "") {
-    window.location.href = selectedOption;
+    var selectedOption = select.options[select.selectedIndex].value;
+
+    if (selectedOption !== "") {
+      window.location.href = selectedOption;
+    }
   }
-}
 </script>
 
 <script>
   function bookingLength1() {
-        // Make an AJAX request to the API endpoint
-        fetch('/tour/api/get-all-tour')
-            .then(response => response.json())
-            .then(data => {
-                const lengthGetNew = data.tours.length;
-                const resultLeangth = document.getElementById('TourTrue');
-                const title = 'Tour đang hoạt động: ';
-                resultLeangth.innerHTML = title + lengthGetNew;
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }
-    bookingLength1();
+    // Make an AJAX request to the API endpoint
+    fetch('/tour/cpanel/get-all-tour1')
+      .then(response => response.json())
+      .then(data => {
+        const lengthGetNew = data.tours.length;
+        const resultLeangth = document.getElementById('TourTrue');
+        const title = 'Tour đang hoạt động: ';
+        resultLeangth.innerHTML = title + lengthGetNew;
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+  bookingLength1();
 </script>
 
 <script>
   function bookingLength2() {
-        // Make an AJAX request to the API endpoint
-        fetch('/tour/api/get-closed-tour')
-            .then(response => response.json())
-            .then(data => {
-                const lengthGetNew = data.tours.length;
-                const resultLeangth = document.getElementById('TourFalse');
-                const title = 'Tour không hoạt động: ';
-                resultLeangth.innerHTML = title + lengthGetNew;
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }
-    bookingLength2();
+    // Make an AJAX request to the API endpoint
+    fetch('/tour/api/get-closed-tour')
+      .then(response => response.json())
+      .then(data => {
+        const lengthGetNew = data.tours.length;
+        const resultLeangth = document.getElementById('TourFalse');
+        const title = 'Tour không hoạt động: ';
+        resultLeangth.innerHTML = title + lengthGetNew;
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+  bookingLength2();
 </script>
 
 <script>
   function bookingLength3() {
-        // Make an AJAX request to the API endpoint
-        fetch('/tour/api/get-booking-tour')
-            .then(response => response.json())
-            .then(data => {
-                const lengthGetNew = data.tours.length;
-                const resultLeangth = document.getElementById('TourBooking');
-                const title = 'Tour đã được đặt: ';
-                resultLeangth.innerHTML = title + lengthGetNew;
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+    // Make an AJAX request to the API endpoint
+    fetch('/tour/api/get-tour-will-travel')
+      .then(response => response.json())
+      .then(data => {
+        const lengthGetNew = data.tours.length;
+        const resultLeangth = document.getElementById('TourWill');
+        const title = 'Tour sắp diễn ra: ';
+        resultLeangth.innerHTML = title + lengthGetNew;
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+  bookingLength3();
+</script>
+
+<script>
+  function bookingLength4() {
+    // Make an AJAX request to the API endpoint
+    fetch('/tour/api/get-traveling-tour')
+      .then(response => response.json())
+      .then(data => {
+        const lengthGetNew = data.tours.length;
+        const resultLeangth = document.getElementById('TourTravel');
+        const title = 'Tour đang tiến hành: ';
+        resultLeangth.innerHTML = title + lengthGetNew;
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+  bookingLength4();
+</script>
+
+<script>
+  function bookingLength5() {
+    // Make an AJAX request to the API endpoint
+    fetch('/tour/api/get-completed-tour')
+      .then(response => response.json())
+      .then(data => {
+        const lengthGetNew = data.tours.length;
+        const resultLeangth = document.getElementById('TourComplete');
+        const title = 'Tour hoàn thành: ';
+        resultLeangth.innerHTML = title + lengthGetNew;
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+  bookingLength5();
+</script>
+<script>
+  {{#each tours}}
+    const childrenPrice{{@index}} = '{{this.childrenPrice}}';
+    const adultPrice{{@index}} = '{{this.adultPrice}}';
+
+
+    function formatPrice1{{@index}}() {
+      const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(adultPrice{{@index}});
+      document.getElementById("adultPrice{{@index}}").innerHTML = VND;
     }
-    bookingLength3();
+    formatPrice1{{@index}}();
+
+    function formatPrice2{{@index}}() {
+      const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(childrenPrice{{@index}});
+      document.getElementById("childrenPrice{{@index}}").innerHTML = VND;
+    }
+    formatPrice2{{@index}}();
+
+ 
+
+  {{/each}}
 </script>

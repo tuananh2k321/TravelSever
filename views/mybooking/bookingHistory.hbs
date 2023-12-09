@@ -194,7 +194,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Đã hủy Tour</h1>
+    <h1>Lịch sử đặt Tour</h1>
     <div class="gap-4 d-md-flex justify-content-md-end">
       <select id="myDropdown" onchange="goToPage(this)">
       <option value="">Chọn trang</option>
@@ -209,7 +209,6 @@
     </div>
   </div><!-- End Page Title -->
 
-
   <div style="display: flex; flex-wrap: wrap;">
     <p id="getNewBooking" style="width: calc(25% - 20px); box-sizing: border-box; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white;"></p>
     <p id="unComplete" style="width: calc(25% - 20px); box-sizing: border-box; margin: 5px ; border: 1px solid #000; padding: 5px 10px; color: #33FF33; background-color: white;"></p>
@@ -219,6 +218,7 @@
     <p id="Complete" style="width: calc(25% - 20px); box-sizing: border-box; margin: 5px ; border: 1px solid #000; padding: 5px 10px; color: #00CC00; background-color: white;"></p>  
     <p id="Cancel" style="width: calc(25% - 20px); box-sizing: border-box; margin: 5px ; border: 1px solid #000; padding: 5px 10px; color: #FF0000; background-color: white;"></p>
   </div><!-- End Title -->
+
 
   <section class="section">
     <div class="row">
@@ -234,40 +234,41 @@
             </div> --}}
 
 
+
+
             <!-- Table with stripped rows -->
             <table class="table">
               <thead >
                 <tr class="col-lg-12">
-                  {{!-- <th class="col-lg-2" scope="col">Ngày đặt tour</th> --}}
-                  <th class="col-lg-2" scope="col">Hình ảnh Tour</th>
-                  <th class="col-lg-3" scope="col">Tên Tour</th>
-                  <th class="col-lg-2" scope="col">Ảnh người đăng ký</th>
-                  <th class="col-lg-2" scope="col">Người đăng ký</th>
-                  <th class="col-lg-3" scope="col">Lý do hủy</th>
+                  <th class="col-lg-1" scope="col">Hình ảnh Tour</th>
+                  <th class="col-lg-2" scope="col">Tên Tour</th>
+                  <th class="col-lg-1" scope="col">Hình ảnh khách</th>
+                  <th class="col-lg-2" scope="col">Tên khách</th>
+                  <th class="col-lg-2" scope="col">Số lượng khách</th>
+                  <th class="col-lg-1" scope="col">Tổng tiền</th>
+                  <th class="col-lg-2" scope="col">Ngày kết thúc</th>
+                  {{!-- <th class="col-lg-3" scope="col">Lý do</th> --}}
                 </tr>
               </thead>
               <tbody>
-                {{#each canceledBookings}}
+                {{#each completedBookings}}
 
                 <tr>
-                  {{!-- <td> {{this.bookingDate}} </td> --}}
                   <td class="py-1">
-                    <img src="{{this.tour_id.tourImage}}" alt="Không có ảnh" width="200" height="100" />
+                    <img src="{{this.tour_id.tourImage}}" alt="Không có ảnh" width="150" height="100" />
                   </td>
                   <td> {{this.tour_id.tourName}} </td>
                   <td class="py-1">
-                    <img src="{{this.user_id.avatar}}" alt="Không có ảnh" width="200" height="100" />
+                    <img src="{{this.user_id.avatar}}" alt="Không có ảnh" width="150" height="100" />
                   </td>
                   <td> {{this.user_id.name}} </td>
-                  <td> {{this.reason}} </td>
-
+                  <td id="sumPeople{{@index}}"></td>
+                  <td id="formatPrice{{@index}}"></td>
+                  <td> {{this.expectedDate}} </td>
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
                       <a href="/booking/cpanel/getBookingById?id={{this._id}}" class="btn btn-success m-1">
                         <i class='bx bx-detail'></i>
-                      </a>
-                      <a onclick="confirmDelete('{{this._id}}')" type="button" class="btn btn-danger m-1">
-                        <i class='bx bx-trash'></i>
                       </a>
                     </div>
                   </td>
@@ -298,93 +299,12 @@
     return res.json();
   }
 
-  
-
-const comfirmBooking= async (user_id, tour_id, id) => {
-    const url = `/booking/cpanel/push-notification-confirm?userId=${user_id}&tourId=${tour_id}&id=${id}`;
-
-    const option = {
-      method: 'get',
-      headers: { 'Content-Type': 'application/json' }
-    }
-    try {
-      const result = await fetchAPI(url, option);
-      console.log('comfirm result: ', result)
-    } catch (e) {
-      console.log('error comfirm: ', e)
-      throw e;
-    }
-  }
-
-
-  const confirm = (user_id, tour_id, id) => {
-    swal({
-      title: "Thông báo Xác nhận",
-      text: "Bạn có muốn gửi thông báo xác nhận này?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((comfirmm) => {
-        if (comfirmm) {
-          comfirmBooking(user_id, tour_id, id);
-          swal({
-            title: "Success!",
-            text: "Gửi thông báo xác nhận thành công!!",
-            icon: "success"
-          }).then((wil) => {
-            window.location.reload();
-          })
-        }
-      });
-  }
-
-
-
-
-const deleteBooking= async (id) => {
-    const url = `/booking/api/deleteBooking/${id}`;
-
-    const option = {
-      method: 'delete',
-      headers: { 'Content-Type': 'application/json' }
-    }
-    try {
-      const result = await fetchAPI(url, option);
-      console.log('comfirm result: ', result)
-    } catch (e) {
-      console.log('error comfirm: ', e)
-      throw e;
-    }
-  }
-
-  const confirmDelete = (id) => {
-    swal({
-      title: "Xác nhận xóa?",
-      text: "Bạn có muốn xóa tour này?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-      .then((willDelete) => {
-        if (willDelete) {
-          deleteBooking(id);
-          swal({
-            title: "Deleted!",
-            text: "Xóa thành công!!",
-            icon: "success"
-          }).then((wil) => {
-            window.location.reload();
-          })
-        }
-      });
-  }
+    
 
 
   function showGenre(item) {
     document.getElementById("dropdownMenuLink").innerHTML = item.innerHTML;
   }
-
   function goToPage(select) {
   var selectedOption = select.options[select.selectedIndex].value;
   
@@ -521,4 +441,24 @@ const deleteBooking= async (id) => {
             });
     }
     bookingLength7();
+</script>
+
+<script>
+  {{#each completedBookings}}
+    const childrenValue{{@index}} = '{{this.children}}';
+    const adultValue{{@index}} = '{{this.adult}}';
+    const price{{@index}} = '{{this.totalPrice}}';
+
+    function calculateSum{{@index}}() {
+      var sum = Number(childrenValue{{@index}}) + Number(adultValue{{@index}});
+      document.getElementById("sumPeople{{@index}}").innerHTML = sum;
+    }
+    calculateSum{{@index}}(); // Call the function to calculate and display the sum
+
+    function formatPrice{{@index}}() {
+      const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price{{@index}});
+      document.getElementById("formatPrice{{@index}}").innerHTML = VND;
+    }
+    formatPrice{{@index}}();
+  {{/each}}
 </script>

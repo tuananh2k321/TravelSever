@@ -212,7 +212,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Edit Hotel</h1>
+    <h1>Chỉnh sửa khách sạn</h1>
     {{!-- <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -233,21 +233,21 @@
             <form id="form" method="post" action="/hotel/cpanel/update-hotel/{{hotel._id}}"
               enctype="multipart/form-data" onsubmit="return onClickForm()">
               <div class="row mb-3" style="margin-top: 20px;">
-                <label for="inputText" class="col-sm-2 col-form-label">Hotel Name</label>
+                <label for="inputText" class="col-sm-2 col-form-label">Tên khách sạn</label>
                 <div class="col-sm-10">
                   <input oninput="validate()" value="{{hotel.hotelName}}" type="text" id="hotelName" name="hotelName"
                     class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputEmail" class="col-sm-2 col-form-label">Address</label>
+                <label for="inputEmail" class="col-sm-2 col-form-label">Địa chỉ</label>
                 <div class="col-sm-10">
                   <input oninput="validate()" value="{{hotel.address}}" type="text" id="address" name="address"
                     class="form-control">
                 </div>
               </div>
               <div class="row mb-3">
-                <label for="inputNumber" class="col-sm-2 col-form-label">Phone Number</label>
+                <label for="inputNumber" class="col-sm-2 col-form-label">Liên hệ</label>
                 <div class="col-sm-10">
                   <input oninput="validate()" value="{{hotel.phoneNumber}}" type="text" id="phoneNumber"
                     name="phoneNumber" class="form-control">
@@ -277,7 +277,7 @@
               </div>
               </div>
               <div class="row mb-3">
-                <label for="inputNumber" class="col-sm-2 col-form-label">Image Upload</label>
+                <label for="inputNumber" class="col-sm-2 col-form-label">Ảnh tải lên</label>
                 <div class="col-sm-10">
                   <input onchange="displayImg()" class="form-control" id="image" name="listImage" multiple="multiple"
                     type="file" id="formFile">
@@ -288,17 +288,16 @@
               </div>
               
               <div class="row mb-3">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Descriptions</label>
+                <label for="inputPassword" class="col-sm-2 col-form-label">Mô tả</label>
                 <div class="col-sm-10">
                   <textarea oninput="validate()" class="form-control" id="description" name="description"
                     style="height: 200px">{{hotel.description}}</textarea>
                 </div>
               </div>
               <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">Submit Button</label>
+                <label class="col-sm-2 col-form-label">Xác nhận sửa</label>
                 <div class="col-sm-10">
-                  <button type="submit" id="submit" class="btn btn-primary">Submit
-                    Form</button>
+                  <button type="submit" id="submit" class="btn btn-primary">Xác nhận</button>
                 </div>
               </div>
 

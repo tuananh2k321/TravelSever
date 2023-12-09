@@ -1,9 +1,20 @@
 const commentModel = require('./CommentModel');
 const userModel = require('../user/UserModel');
-const addComment = async (content, image, rating, user_id, tour_id) => {
+const tourModel = require('../tour/TourModel')
+const tourService = require('../tour/TourService')
+const addComment = async (content, image, rating, timeStamp, user_id, tour_id) => {
     try {
-      const timeStamp = new Date().toLocaleString();
+      
             const comment = {content, image, rating, timeStamp, user_id, tour_id };
+            let tour = await tourModel.findById(tour_id);
+            let commentsOfTour = await getAllCommentOfTour(tour_id)
+            const ratingOldList = commentsOfTour.map(comment => comment.rating);
+            ratingOldList.push(rating)
+            const averageRating = ratingOldList.length > 0 ? ratingOldList.reduce((a, b) => a + b) / ratingOldList.length : 0;
+            if (tour) {
+              tour.rating = averageRating
+              await tour.save()
+            }
             const u = new commentModel(comment);
             await u.save();
             return u;

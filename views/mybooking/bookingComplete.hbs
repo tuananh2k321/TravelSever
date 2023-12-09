@@ -199,20 +199,24 @@
       <select id="myDropdown" onchange="goToPage(this)">
       <option value="">Chọn trang</option>
       <option value="../cpanel/get-new-booking-cpanel">Chờ xác nhận</option>
+      <option value="../cpanel/get-confirmed-booking-cpanel">Sắp diễn ra</option>
       <option value="../cpanel/get-uncompleted-booking">Đang tiến hành</option>
       <option value="../cpanel/get-completed-booking">Đã hoàn thành</option>
       <option value="../cpanel/get-handle-cancel-cpanel">Chờ hủy</option>
       <option value="../cpanel/get-canceled-booking">Đã hủy</option>
+      <option value="../cpanel/get-history-booking">Lịch sử</option>
     </select>
     </div>
   </div><!-- End Page Title -->
 
-  <div>
-    <p id="getNewBooking" style="display: inline-block; margin-right: 15px;"></p>
-    <p id="handleCancel" style="display: inline-block; margin-right: 15px;"></p>
-    <p id="Cancel" style="display: inline-block; margin-right: 15px;"></p>
-    <p id="unComplete" style="display: inline-block; margin-right: 15px;"></p>  
-    <p id="Complete" style="display: inline-block; margin-right: 15px;"></p>  
+  <div style="display: flex; flex-wrap: wrap;">
+    <p id="getNewBooking" style="width: calc(25% - 20px); box-sizing: border-box; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white;"></p>
+    <p id="unComplete" style="width: calc(25% - 20px); box-sizing: border-box; margin: 5px ; border: 1px solid #000; padding: 5px 10px; color: #33FF33; background-color: white;"></p>
+    <p id="handleCancel" style="width: calc(25% - 20px); box-sizing: border-box; margin: 5px ; border: 1px solid #000; padding: 5px 10px; color: #FF9900; background-color: white;"></p>
+    <p id="History" style="width: calc(25% - 20px); box-sizing: border-box; margin: 5px ; border: 1px solid #000; padding: 5px 10px; color: #9999FF; background-color: white;"></p> 
+    <p id="confirmTour" style="width: calc(25% - 20px); box-sizing: border-box; margin: 5px ; border: 1px solid #000; padding: 5px 10px; color: #0099FF; background-color: white;"></p>
+    <p id="Complete" style="width: calc(25% - 20px); box-sizing: border-box; margin: 5px ; border: 1px solid #000; padding: 5px 10px; color: #00CC00; background-color: white;"></p>  
+    <p id="Cancel" style="width: calc(25% - 20px); box-sizing: border-box; margin: 5px ; border: 1px solid #000; padding: 5px 10px; color: #FF0000; background-color: white;"></p>
   </div><!-- End Title -->
 
 
@@ -245,7 +249,7 @@
                 </tr>
               </thead>
               <tbody>
-                {{#each completedBookings}}
+                {{#each filteredBookings}}
 
                 <tr>
                   <td class="py-1">
@@ -256,40 +260,20 @@
                     <img src="{{this.user_id.avatar}}" alt="Không có ảnh" width="150" height="100" />
                   </td>
                   <td> {{this.user_id.name}} </td>
-                  <td id="sumPeople"></td>
-                  <td id="formatPrice"></td>
+                  <td id="sumPeople{{@index}}"></td>
+                  <td id="formatPrice{{@index}}"></td>
                   <td> {{this.expectedDate}} </td>
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
                       <a href="/booking/cpanel/getBookingById?id={{this._id}}" class="btn btn-success m-1">
                         <i class='bx bx-detail'></i>
                       </a>
+                      <a onclick="confirmFeedback('{{this.user_id._id}}','{{this.tour_id._id}}','{{this._id}}')" type="button" class="btn btn-primary m-1">
+                        <i class='bx bx-bell'></i>
+                      </a>
                     </div>
                   </td>
                 </tr>
-
-
-
-
-                <script>
-                  const childrenValue = '{{this.children}}';
-                    const adultValue = '{{this.adult}}';
-
-                  function calculateSum() {
-                      var sum = Number(childrenValue) + Number(adultValue);
-                      document.getElementById("sumPeople").innerHTML = sum;
-                    }
-                  calculateSum(); // Call the function to calculate and display the sum
-
-
-                  const price = '{{this.totalPrice}}';
-                  function formatPrice() {
-                    const VND = new Intl.NumberFormat('vi-VN', {style: 'currency',currency: 'VND',}).format(price);
-                    document.getElementById("formatPrice").innerHTML = VND;
-                  }
-                  formatPrice();
-                  
-                </script>
 
                 {{/each}}
 
@@ -317,7 +301,44 @@
     return res.json();
   }
 
-    
+    const pushFeedback = async (user_id, tour_id, booking_id) => {
+    const url = `/notification/api/push-notification-feedback?userId=${user_id}&tourId=${tour_id}&bookingId=${booking_id}`;
+
+    const option = {
+      method: 'get',
+      headers: { 'Content-Type': 'application/json' }
+    }
+    try {
+      const result = await fetchAPI(url, option);
+      console.log('delete result: ', result)
+    } catch (e) {
+      console.log('error delete: ', e)
+      throw e;
+    }
+  }
+
+
+  const confirmFeedback = (user_id, tour_id, booking_id) => {
+    swal({
+      title: "Xác nhận gửi Feedback?",
+      text: "Bạn có muốn gửi Feedback đến tour này?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          pushFeedback(user_id, tour_id, booking_id);
+          swal({
+            title: "Success!",
+            text: "Gửi Feedback thành công!!",
+            icon: "success"
+          }).then(() => {
+            window.location.reload();
+          })
+        }
+      });
+  }
 
 
   function showGenre(item) {
@@ -425,3 +446,58 @@
     bookingLength5();
 </script>
 
+<script>
+  function bookingLength6() {
+        // Make an AJAX request to the API endpoint
+        fetch('/booking/api/get-confirmed-booking-cpanel')
+            .then(response => response.json())
+            .then(data => {
+                const lengthGetNew = data.completedBookings.length;
+                const resultLeangth = document.getElementById('confirmTour');
+                const title = 'Tour sắp diễn ra: ';
+                resultLeangth.innerHTML = title + lengthGetNew;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+    bookingLength6();
+</script>
+
+<script>
+  function bookingLength7() {
+        // Make an AJAX request to the API endpoint
+        fetch('/booking/api/get-history-booking')
+            .then(response => response.json())
+            .then(data => {
+                const lengthGetNew = data.completedBookings.length;
+                const resultLeangth = document.getElementById('History');
+                const title = 'Lịch sử Tour: ';
+                resultLeangth.innerHTML = title + lengthGetNew;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+    bookingLength7();
+</script>
+
+<script>
+  {{#each completedBookings}}
+    const childrenValue{{@index}} = '{{this.children}}';
+    const adultValue{{@index}} = '{{this.adult}}';
+    const price{{@index}} = '{{this.totalPrice}}';
+
+    function calculateSum{{@index}}() {
+      var sum = Number(childrenValue{{@index}}) + Number(adultValue{{@index}});
+      document.getElementById("sumPeople{{@index}}").innerHTML = sum;
+    }
+    calculateSum{{@index}}(); // Call the function to calculate and display the sum
+
+    function formatPrice{{@index}}() {
+      const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price{{@index}});
+      document.getElementById("formatPrice{{@index}}").innerHTML = VND;
+    }
+    formatPrice{{@index}}();
+  {{/each}}
+</script>

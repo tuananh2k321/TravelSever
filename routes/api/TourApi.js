@@ -30,11 +30,93 @@ router.get("/get-closed-tour", async function (req, res, next) {
   }
 });
 
-// http://localhost:3000/tour/api/get-booking-tour
-router.get("/get-booking-tour", async function (req, res, next) {
+// tour sap dien ra
+// http://localhost:3000/tour/api/get-tour-will-travel
+router.get("/get-tour-will-travel", async function (req, res, next) {
   try {
     const tours = await tourService.getBookingTour();
-    res.status(200).json({ result: true, tours });
+
+    // Lọc theo điều kiện departmentdate > date now < expectedDate
+    const currentDate = new Date();
+      console.log("currentDate:", currentDate)
+    const filteredBookings = tours.filter((booking) => {
+      // departmentDate
+      const [day, month, year] = booking.departmentDate.split('/');
+      const adjustedMonth = parseInt(month, 10) - 1; // Adjust for zero-based month
+      const adjustedDay = parseInt(day, 10) + 1; // Adjust for zero-based day
+      const departmentDate = new Date(year, adjustedMonth, adjustedDay);
+      
+      console.log("tour: "+ currentDate+" < "+booking.departmentDate)
+      console.log("departmentDate:", departmentDate)
+      
+      return  currentDate < departmentDate  ;
+    });
+
+    res.status(200).json({ result: true, tours: filteredBookings });
+  } catch (error) {
+    res.status(400).json({ result: false, error });
+  }
+});
+
+// tour dang dien ra
+// http://localhost:3000/tour/api/get-traveling-tour
+router.get("/get-traveling-tour", async function (req, res, next) {
+  try {
+    const tours = await tourService.getBookingTour();
+
+    // Lọc theo điều kiện departmentdate > date now < expectedDate
+    const currentDate = new Date();
+      console.log("currentDate:", currentDate)
+    const filteredBookings = tours.filter((booking) => {
+      // departmentDate
+      const [day, month, year] = booking.departmentDate.split('/');
+      const adjustedMonth = parseInt(month, 10) - 1; // Adjust for zero-based month
+      const adjustedDay = parseInt(day, 10) + 1; // Adjust for zero-based day
+      const departmentDate = new Date(year, adjustedMonth, adjustedDay);
+      
+      //expectedDate
+      const [day2, month2, year2] = booking.expectedDate.split('/');
+      const adjustedMonth2 = parseInt(month2, 10) - 1; // Adjust for zero-based month
+      const adjustedDay2 = parseInt(day2, 10) + 1; // Adjust for zero-based day
+      const expectedDate = new Date(year2, adjustedMonth2, adjustedDay2);
+      
+      console.log("tour: "+ booking.departmentDate +" < "+currentDate+" < "+booking.expectedDate)
+      console.log("departmentDate:", departmentDate)
+      console.log("expectedDate:", expectedDate)
+      
+      return  currentDate >= departmentDate  && currentDate <= expectedDate;
+    });
+
+    res.status(200).json({ result: true, tours: filteredBookings });
+  } catch (error) {
+    res.status(400).json({ result: false, error });
+  }
+});
+
+// tour da hoan thanh
+// http://localhost:3000/tour/api/get-completed-tour
+router.get("/get-completed-tour", async function (req, res, next) {
+  try {
+    const tours = await tourService.getBookingTour();
+
+    // Lọc theo điều kiện departmentdate > date now < expectedDate
+    const currentDate = new Date();
+      console.log("currentDate:", currentDate)
+    const filteredBookings = tours.filter((booking) => {
+
+      //expectedDate
+      const [day2, month2, year2] = booking.expectedDate.split('/');
+      const adjustedMonth2 = parseInt(month2, 10) - 1; // Adjust for zero-based month
+      const adjustedDay2 = parseInt(day2, 10) + 1; // Adjust for zero-based day
+      const expectedDate = new Date(year2, adjustedMonth2, adjustedDay2);
+      
+      console.log("tour: "+currentDate+" > "+booking.expectedDate)
+      console.log("expectedDate:", expectedDate)
+      
+      return  currentDate > expectedDate;
+    });
+
+    res.status(200).json({ result: true, tours: filteredBookings });
   } catch (error) {
     res.status(400).json({ result: false, error });
   }
@@ -231,6 +313,7 @@ router.post("/departmentDate", async (req, res) => {
     
     const availablePerson = tour.limitedPerson; // cập nhật lại 
     if (ngayThangNamDate > convertedDate) {
+        await tourService.updateIsBooking(id)
         tour.departmentDate = ngayThangNamDaFormat ? ngayThangNamDaFormat : tour.departmentDate;
         tour.expectedDate = expectedDate ? expectedDate : tour.expectedDate;
         tour.availablePerson = availablePerson ? availablePerson : tour.availablePerson;
@@ -311,6 +394,22 @@ router.post("/updateAvailable", async (req, res) => {
   }
 });
 
+//http://localhost:3000/tour/api/updateIsBookingTest
+router.post("/updateIsBookingTest", async (req, res) => {
+  try {
+    const id = req.body.id;
+    const result = tourService.updateIsBookingTest(id);
+    if (result) {
+      return res.status(200).json({ result: true, message: "Update Success" });
+    } else {
+      return res.status(400).json({ result: false, message: "fail" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ result: false });
+  }
+});
+
 // http://localhost:3000/tour/api/list/sortBy?sortBy=asc
 router.get("/list/sortBy", async function (req, res, next) {
   try {
@@ -370,7 +469,7 @@ router.get("/list/search", async function (req, res, next) {
     }
   });
 
-//http://localhost:3000/tour/api/send-mail-close-tour?tourId=""
+//http://localhost:3000/tour/api/send-mail-open-tour?tourId=""
 router.post("/send-mail-close-tour", async (req, res, next) => {
   const {reason} = req.body
   const {tourId} = req.query
@@ -394,6 +493,9 @@ router.post("/send-mail-close-tour", async (req, res, next) => {
         const emailHtml = `
                 <h1> Chúng tôi đóng sẽ đóng ${detailTour.tourName}</h1>
                 <p>Với lí do là: ${detailTour.reasonCloseTour}</p>
+                <p>Chúng tôi sẽ hoàn lại đúng số tiền mà quý khách đã đạt tour</p>
+                <h2>Chúng tôi thành thật xin lỗi vì sự bất tiện này!</h2>
+                <p>Nếu có thắc mắc hãy gọi số: 0921011337</p>
                 <img src="${detailTour.tourImage[0]}" width="300px" height="300">
             `;
     
@@ -423,6 +525,60 @@ router.post("/send-mail-close-tour", async (req, res, next) => {
     res.status(200).json({ result: true, message: "close tour success" });
   } else {
     res.status(200).json({ result: false, message: "close tour fail" });
+  }
+});
+
+//http://localhost:3000/tour/api/send-mail-open-tour?tourId=""
+router.post("/send-mail-open-tour", async (req, res, next) => {
+  const {tourId} = req.query
+  const userEmails = await userService.getAllEmailUser()
+  const isOpenTour = await tourService.openTour(tourId) 
+  const detailTour = await tourService.getTourById(tourId)
+  // send mail
+  if (isOpenTour) {
+    for(const email of userEmails) {
+      console.log(email)
+      if (email) {
+        const transporter = nodemailer.createTransport({
+          service: "Gmail",
+          auth: {
+            user: "haizzj123@gmail.com",
+            pass: "xakpztqusyejqykx",
+          },
+        });
+    
+        // Tạo một đường link trong email với href trỏ đến API xác thực
+        const emailHtml = `
+                <h1> Chúng tôi đã mở lại ${detailTour.tourName}</h1>
+                <img src="${detailTour.tourImage[0]}" width="300px" height="300">
+            `;
+    
+        const mailOptions = {
+          from: "haizzj123@gmail.com",
+          to: email,
+          subject: `Chúng tôi đã mở lại ${detailTour.tourName}`,
+          html: emailHtml,
+        };
+    
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            //res.status(200).json({ result: true, message: "send fail" });
+            console.log("send fail")
+          } else {
+            //res.status(200).json({ result: true, message: "send success" });
+            console.log("send success")
+          }
+        });
+      } else {
+        console.log("send fail")
+        //res.status(400).json({ result: false, message: "email is not exist!" });
+      }
+    }
+  }
+  if (isOpenTour) {
+    res.status(200).json({ result: true, message: "open tour success" });
+  } else {
+    res.status(200).json({ result: false, message: "open tour fail" });
   }
 });
 module.exports = router;

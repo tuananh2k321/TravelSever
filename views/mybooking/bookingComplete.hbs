@@ -483,7 +483,7 @@
 </script>
 
 <script>
-  {{#each completedBookings}}
+  {{#each filteredBookings}}
     const childrenValue{{@index}} = '{{this.children}}';
     const adultValue{{@index}} = '{{this.adult}}';
     const price{{@index}} = '{{this.totalPrice}}';

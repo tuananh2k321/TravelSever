@@ -387,7 +387,7 @@ router.get("/send-mail", async (req, res, next) => {
 
     // URL của API xác thực
     const authenticationUrl =
-      "http://localhost:3000/user/api/verifyAccount?email=" + email;
+      "https://discover-be-bookingtours.onrender.com/user/api/verifyAccount?email=" + email;
 
     // Tạo một đường link trong email với href trỏ đến API xác thực
     const emailHtml = `
@@ -429,7 +429,7 @@ router.get("/send-mail-change-password", async (req, res, next) => {
 
     // URL của API xác thực
     const authenticationUrl =
-      "http://localhost:3000/user/cpanel/changePassword";
+      "https://discover-be-bookingtours.onrender.com/user/cpanel/changePassword";
 
     // Tạo một đường link trong email với href trỏ đến API xác thực
     const emailHtml = `

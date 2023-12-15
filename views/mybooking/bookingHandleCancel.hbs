@@ -301,7 +301,7 @@
   
 
 const cancelBooking= async (user_id, tour_id, id) => {
-    const url = `/booking/cpanel/push-notification-cancel?userId=${user_id}&tourId=${tour_id}&id=${id}`;
+    const url = `/notification/api/push-notification-cancel?userId=${user_id}&tourId=${tour_id}&id=${id}`;
 
     const option = {
       method: 'get',

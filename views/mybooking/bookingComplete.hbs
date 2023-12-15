@@ -243,7 +243,7 @@
                   <th class="col-lg-1" scope="col">Hình ảnh khách</th>
                   <th class="col-lg-2" scope="col">Tên khách</th>
                   <th class="col-lg-2" scope="col">Số lượng khách</th>
-                  <th class="col-lg-1" scope="col">Tổng tiền</th>
+                  <th class="col-lg-2" scope="col">Tổng tiền</th>
                   <th class="col-lg-2" scope="col">Ngày kết thúc</th>
                   {{!-- <th class="col-lg-3" scope="col">Lý do</th> --}}
                 </tr>
@@ -483,7 +483,7 @@
 </script>
 
 <script>
-  {{#each completedBookings}}
+  {{#each filteredBookings}}
     const childrenValue{{@index}} = '{{this.children}}';
     const adultValue{{@index}} = '{{this.adult}}';
     const price{{@index}} = '{{this.totalPrice}}';

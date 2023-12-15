@@ -208,7 +208,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Profile</h1>
+    <h1>Thông tin người dùng</h1>
     {{!-- <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -251,20 +251,19 @@
 
               <li class="nav-item">
                 <button class="nav-link active" data-bs-toggle="tab"
-                  data-bs-target="#profile-overview">Overview</button>
+                  data-bs-target="#profile-overview">Tổng quan</button>
               </li>
 
               <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Chỉnh sửa</button>
               </li>
 
               <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Cài đặt</button>
               </li>
 
               <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change
-                  Password</button>
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Thay đổi mật khẩu</button>
               </li>
 
             </ul>
@@ -276,15 +275,15 @@
                   Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet
                   perspiciatis odit. Fuga sequi sed ea saepe at unde.</p> --}}
 
-                <h5 class="card-title">Profile Details</h5>
+                <h5 class="card-title">Thông tin</h5>
                 {{#user}}
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                  <div class="col-lg-3 col-md-4 label ">Tên</div>
                   <div class="col-lg-9 col-md-8">{{this.name}}</div>
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Address</div>
+                  <div class="col-lg-3 col-md-4 label">Địa chỉ</div>
                   <div class="col-lg-9 col-md-8">{{this.address}}</div>
                 </div>
 
@@ -294,7 +293,7 @@
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-3 col-md-4 label">Phone</div>
+                  <div class="col-lg-3 col-md-4 label">Số điện thoại</div>
                   <div class="col-lg-9 col-md-8">{{this.phoneNumber}}</div>
                 </div>
 
@@ -307,7 +306,7 @@
                 {{#user}}
                 <form method="post" action="/user/cpanel/update/{{this.email}}" enctype="multipart/form-data">
                   <div class="row mb-3">
-                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Ảnh người dùng</label>
                     <div class="col-md-8 col-lg-9">
                       
                       <img id="img" src={{this.avatar}} alt="Profile">
@@ -322,7 +321,7 @@
                   </div>
                   
                   <div class="row mb-3">
-                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Tên</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="name" type="text" class="form-control" id="fullName" value="{{this.name}}">
                     </div>
@@ -359,7 +358,7 @@
                   </div> --}}
 
                   <div class="row mb-3">
-                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
+                    <label for="Address" class="col-md-4 col-lg-3 col-form-label">Địa chỉ</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="address" type="text" class="form-control" id="Address"
                         value="{{this.address}}">
@@ -367,7 +366,7 @@
                   </div>
 
                   <div class="row mb-3">
-                    <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+                    <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Số điện thoại</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="phoneNumber" type="text" class="form-control" id="Phone" value="{{this.phoneNumber}}">
                     </div>
@@ -407,7 +406,7 @@
                   </div> --}}
 
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="submit" class="btn btn-primary">Lưu chỉnh sửa</button>
                   </div>
                 </form><!-- End Profile Edit Form -->
               {{/user}}
@@ -461,28 +460,28 @@
                 <form method="post" action="/user/cpanel/update-password/{{this.email}}">
 
                   <div class="row mb-3">
-                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Mật khẩu hiện tại</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="currentPassword" type="password" class="form-control" id="currentPassword">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Mật khẩu mới</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="newPassword" type="password" class="form-control" id="newPassword">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Nhập lại mật khẩu mới</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="renewpassword" type="password" class="form-control" id="renewPassword">
                     </div>
                   </div>
 
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Change Password</button>
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
                   </div>
                 </form><!-- End Change Password Form -->
 
@@ -502,7 +501,7 @@
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
   <div class="copyright">
-    &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    &copy; Copyright <strong><span>Discover</span></strong>. All Rights Reserved
   </div>
   <div class="credits">
     <!-- All the links in the footer should remain intact. -->

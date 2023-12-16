@@ -12,6 +12,16 @@ const getAllTour = async () => {
     return [];
 }
 
+const getAllTourOffer = async () => {
+    try {
+        const list = await tourModel.find({isState: true}).sort({createdAt:-1});
+        const offers =  list.filter((tour) => parseFloat(tour.offer) > 0)
+        return offers
+    } catch (error) {
+        console.log("getAllTour failed: ", error);
+    }
+}
+
 const getClosedTour = async () => {
     try {
         return await tourModel.find({isState: false});
@@ -80,17 +90,17 @@ const openTour = async (tourId) => {
     try {
         let tour = await tourModel.findById(tourId);
         if (tour) {
-            const isOpen = myBookingService.openTourInMyBooking(tourId)
-            if (isOpen) {
+            //const isOpen = myBookingService.openTourInMyBooking(tourId)
+            //if (isOpen) {
                 tour.reasonCloseTour = ""
                 tour.isState = true
                 tour.isBooking = false
                 await tour.save()
                 return true
-            } else {
-                console.log("open tour failed")
-                return false
-            }
+            //} else {
+            //    console.log("open tour failed")
+            //    return false
+            //}
         } else {
             console.log("tour is not found")
             return false
@@ -130,6 +140,46 @@ const updateDomain = async (id, isdomain) => {
         }
     } catch (e) {
         console.log("Update tour error :",error);
+        return false;
+    }
+}
+
+const updateIsTraveling = async (idArray) => {
+    try {
+        for (const id of idArray) {
+            let tour = await tourModel.findById(id);
+            console.log(id)
+            if (tour) {
+                tour.isTraveling = true;
+                await tour.save();
+                console.log("update tour success")
+            } else {
+                console.log("tour is not exits")
+            }
+        }
+        return true
+    } catch (e) {
+        console.log("updateIsTraveling error :",error);
+        return false;
+    }
+}
+
+const updateIsTravelingFalse = async (idArray) => {
+    try {
+        for (const id of idArray) {
+            let tour = await tourModel.findById(id);
+            console.log(id)
+            if (tour) {
+                tour.isTraveling = false;
+                await tour.save();
+                console.log("update tour success")
+            } else {
+                console.log("tour is not exits")
+            }
+        }
+        return true
+    } catch (e) {
+        console.log("updateIsTraveling error :",error);
         return false;
     }
 }
@@ -294,5 +344,8 @@ module.exports = {
     updateIsBooking,
     getBookingTour,
     openTour,
-    updateIsBookingTest
+    updateIsBookingTest,
+    updateIsTraveling,
+    updateIsTravelingFalse,
+    getAllTourOffer
 };

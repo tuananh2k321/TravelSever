@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const commentController = require("../../component/comment/CommentController")
-
+const notifiController = require("../../component/notification/NotificationController")
 //http://localhost:3000/comment/api/add-comment
 router.post("/add-comment", async (req, res, next) => {
     try {

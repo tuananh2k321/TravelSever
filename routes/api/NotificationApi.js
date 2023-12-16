@@ -11,21 +11,42 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     messagingSenderId: '579542678002'
   });
+  const url = "https://firebasestorage.googleapis.com/v0/b/travelapp-3e538.appspot.com/o/user-avatar%2Flogo.png%20%20%20%20%20%20%202023-9-22%2017%3A9%3A56?alt=media&token=573bfb49-5be7-468c-8eed-05321283186e"
+//http://localhost:3000/notification/api/updateIsRead?id=""
+router.get("/updateIsRead", async (req, res, next) => {
+  try {
+    const { id } = req.query;
+    const isRead = await notificationController.updateIsRead(id)
+    if (isRead) {
+      res.status(200).json({ result: true, message: "success" });
+    } else {
+      res.status(400).json({ result: false,  message: "fail" });
+    }
+    
+    
+  } catch (error) {
+    console.log("Error updateIsRead:", error);
+    res.status(400).json({ result: false, error: error, message: "fail" });
+  }
+});
 
 //http://localhost:3000/notification/api/push-notification-feedback?userId=""&tourId=""
 router.get("/push-notification-feedback", async (req, res, next) => {
   try {
     const { userId, tourId, bookingId } = req.query;
     const tokens = await tokenController.getTokenByUserId(userId);
+    const detailTour = await tourService.getTourById(tourId)
     const tokensArray = tokens.map((tokenObj) => tokenObj.token);
     console.log(tokensArray);
-
+    
     const currentTime = new Date().toLocaleTimeString();
     const message = {
       notification: {
         title: "Phản hồi của khách hàng!",
         body: "Hãy ghi ra những trải nghiệm trong chặng hành trình của bạn!",
+        imageUrl: detailTour.tourImage[0]
       },
+     
       data: {
         score: "850",
         time: currentTime,
@@ -47,7 +68,7 @@ router.get("/push-notification-feedback", async (req, res, next) => {
       console.log("Successfully sent message:", response);
       res.status(200).json({ result: true, notification: notification, message: "success" });
     } else {
-      res.status(400).json({ result: true, notification: null, message: "fail" });
+      res.status(400).json({ result: false, notification: null, message: "fail" });
     }
     
     
@@ -62,6 +83,8 @@ router.get("/push-notification-confirm", async (req, res, next) => {
   try {
     const { userId, tourId, id } = req.query;
     const tokens = await tokenController.getTokenByUserId(userId);
+    const detailTour = await tourService.getTourById(tourId)
+    console.log(tokens)
     const tokensArray = tokens.map((tokenObj) => tokenObj.token);
     console.log(tokensArray);
 
@@ -70,7 +93,21 @@ router.get("/push-notification-confirm", async (req, res, next) => {
       notification: {
         title: "Đặt tour thành công!",
         body: "Chúc bạn có 1 chuyến đi tốt đẹp",
+        imageUrl: detailTour.tourImage[0]
       },
+      // android: {
+      //   notification: {
+      //     imageUrl: url
+      //   }
+      // },
+      // fcm_options: {
+      //   image: url
+      // },
+      // webpush: {
+      //   headers: {
+      //     image: url
+      //   }
+      // },
       data: {
         score: "850",
         time: currentTime,
@@ -86,13 +123,13 @@ router.get("/push-notification-confirm", async (req, res, next) => {
     const notification = await notificationService.addNotification(image, title, content, timeStamp,type, userId, tourId)
     await bookingService.confirmBooking(id)
     
-    console.log(notification)
+    //console.log(notification)
     if (notification) {
       const response = await admin.messaging().sendEachForMulticast(message);
       //console.log("Successfully sent message:", response);
       res.status(200).json({ result: true, notification: notification, message: "success" });
     } else {
-      res.status(400).json({ result: true, notification: null, message: "fail" });
+      res.status(400).json({ result: false, notification: null, message: "fail" });
     }
     
     
@@ -152,6 +189,7 @@ router.get("/push-notification-cancel", async (req, res, next) => {
     const { userId, tourId, id } = req.query;
     const tokens = await tokenController.getTokenByUserId(userId);
     const tokensArray = tokens.map((tokenObj) => tokenObj.token);
+    const detailTour = await tourService.getTourById(tourId)
     console.log(tokensArray);
 
     const currentTime = new Date().toLocaleTimeString();
@@ -159,6 +197,7 @@ router.get("/push-notification-cancel", async (req, res, next) => {
       notification: {
         title: "Hủy tour thành công!",
         body: "Hãy sớm đặt lại tour nhé!",
+        imageUrl: detailTour.tourImage[0]
       },
       data: {
         score: "850",
@@ -181,7 +220,7 @@ router.get("/push-notification-cancel", async (req, res, next) => {
       //console.log("Successfully sent message:", response);
       res.status(200).json({ result: true, notification: notification, message: "success" });
     } else {
-      res.status(400).json({ result: true, notification: null, message: "fail" });
+      res.status(400).json({ result: false, notification: null, message: "fail" });
     }
     
   } catch (error) {

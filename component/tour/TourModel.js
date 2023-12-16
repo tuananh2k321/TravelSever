@@ -25,6 +25,7 @@ const tourSchema = new Schema({
   isdomain: { type: String },
   isState:{type: Boolean, default: true},
   isBooking:{type: Boolean, default: false},
+  isTraveling:{type: Boolean, default: false},
   reasonCloseTour: { type: String , default:""},
   hotel_id: { type: ObjectId, ref: "hotel" },
   tourGuide_id: { type: ObjectId, ref: "tourguide" },

@@ -30,6 +30,16 @@ router.get("/get-closed-tour", async function (req, res, next) {
   }
 });
 
+// http://localhost:3000/tour/api/get-offer-tour
+router.get("/get-offer-tour", async function (req, res, next) {
+  try {
+    const tours = await tourService.getAllTourOffer();
+    res.status(200).json({ result: true, tours });
+  } catch (error) {
+    res.status(400).json({ result: false, error });
+  }
+});
+
 // tour sap dien ra
 // http://localhost:3000/tour/api/get-tour-will-travel
 router.get("/get-tour-will-travel", async function (req, res, next) {
@@ -51,6 +61,8 @@ router.get("/get-tour-will-travel", async function (req, res, next) {
       
       return  currentDate < departmentDate  ;
     });
+
+    
 
     res.status(200).json({ result: true, tours: filteredBookings });
   } catch (error) {
@@ -87,6 +99,10 @@ router.get("/get-traveling-tour", async function (req, res, next) {
       return  currentDate >= departmentDate  && currentDate <= expectedDate;
     });
 
+    let idArray = filteredBookings.map(booking => booking._id);
+    console.log("idArray: " + idArray)
+    await tourService.updateIsTraveling(idArray)
+
     res.status(200).json({ result: true, tours: filteredBookings });
   } catch (error) {
     res.status(400).json({ result: false, error });
@@ -115,6 +131,10 @@ router.get("/get-completed-tour", async function (req, res, next) {
       
       return  currentDate > expectedDate;
     });
+
+    let idArray = filteredBookings.map(booking => booking._id);
+    console.log("idArray: " + idArray)
+    await tourService.updateIsTravelingFalse(idArray)
 
     res.status(200).json({ result: true, tours: filteredBookings });
   } catch (error) {

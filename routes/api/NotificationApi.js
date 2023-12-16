@@ -62,6 +62,7 @@ router.get("/push-notification-confirm", async (req, res, next) => {
   try {
     const { userId, tourId, id } = req.query;
     const tokens = await tokenController.getTokenByUserId(userId);
+    console.log(tokens)
     const tokensArray = tokens.map((tokenObj) => tokenObj.token);
     console.log(tokensArray);
 
@@ -86,7 +87,7 @@ router.get("/push-notification-confirm", async (req, res, next) => {
     const notification = await notificationService.addNotification(image, title, content, timeStamp,type, userId, tourId)
     await bookingService.confirmBooking(id)
     
-    console.log(notification)
+    //console.log(notification)
     if (notification) {
       const response = await admin.messaging().sendEachForMulticast(message);
       //console.log("Successfully sent message:", response);

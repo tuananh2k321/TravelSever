@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const tokenController = require("../../component/token-notification/TokenService");
 
-//http://localhost:3000/tokenNotification/api/addToken?token=""&&userId=""
+//http://localhost:3000/tokenNotification/api/addToken?token=""&userId=""
 router.get("/addToken", async (req, res, next) => {
   try {
     const { token, userId } = req.query;

@@ -80,17 +80,17 @@ const openTour = async (tourId) => {
     try {
         let tour = await tourModel.findById(tourId);
         if (tour) {
-            const isOpen = myBookingService.openTourInMyBooking(tourId)
-            if (isOpen) {
+            //const isOpen = myBookingService.openTourInMyBooking(tourId)
+            //if (isOpen) {
                 tour.reasonCloseTour = ""
                 tour.isState = true
                 tour.isBooking = false
                 await tour.save()
                 return true
-            } else {
-                console.log("open tour failed")
-                return false
-            }
+            //} else {
+            //    console.log("open tour failed")
+            //    return false
+            //}
         } else {
             console.log("tour is not found")
             return false

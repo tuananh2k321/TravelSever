@@ -12,6 +12,16 @@ const getAllTour = async () => {
     return [];
 }
 
+const getAllTourOffer = async () => {
+    try {
+        const list = await tourModel.find({isState: true}).sort({createdAt:-1});
+        const offers =  list.filter((tour) => parseFloat(tour.offer) > 0)
+        return offers
+    } catch (error) {
+        console.log("getAllTour failed: ", error);
+    }
+}
+
 const getClosedTour = async () => {
     try {
         return await tourModel.find({isState: false});
@@ -336,5 +346,6 @@ module.exports = {
     openTour,
     updateIsBookingTest,
     updateIsTraveling,
-    updateIsTravelingFalse
+    updateIsTravelingFalse,
+    getAllTourOffer
 };

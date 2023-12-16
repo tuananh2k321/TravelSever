@@ -30,6 +30,16 @@ router.get("/get-closed-tour", async function (req, res, next) {
   }
 });
 
+// http://localhost:3000/tour/api/get-offer-tour
+router.get("/get-offer-tour", async function (req, res, next) {
+  try {
+    const tours = await tourService.getAllTourOffer();
+    res.status(200).json({ result: true, tours });
+  } catch (error) {
+    res.status(400).json({ result: false, error });
+  }
+});
+
 // tour sap dien ra
 // http://localhost:3000/tour/api/get-tour-will-travel
 router.get("/get-tour-will-travel", async function (req, res, next) {

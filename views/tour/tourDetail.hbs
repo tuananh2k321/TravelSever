@@ -374,14 +374,28 @@
 
 
 <Script>
-    const adultPrice = '{{tour.adultPrice}}';
+   
+      let offer =  '{{tour.offer}}';
+       let adultPrice = '{{tour.adultPrice}}';
+       let childrenPrice = '{{tour.childrenPrice}}' ;
+        if (!isNaN(offer) && offer !== "") {
+        offer = parseInt(offer);
+        adultPrice = adultPrice - (adultPrice * offer / 100);
+        childrenPrice = childrenPrice - (childrenPrice * offer / 100);
+    } else {
+        console.log("Chuỗi không hợp lệ hoặc là số 0.");
+    }
+   
+  
+    
     function formatAdultPrice() {
         const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', }).format(adultPrice);
         document.getElementById("AdultPrice").innerHTML = VND;
     }
     formatAdultPrice();
 
-    const childrenPrice = '{{tour.childrenPrice}}';
+    
+     
     function formatChildrenPrice() {
         const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', }).format(childrenPrice);
         document.getElementById("ChildrenPrice").innerHTML = VND;

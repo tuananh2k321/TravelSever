@@ -12,6 +12,24 @@ admin.initializeApp({
     messagingSenderId: '579542678002'
   });
 
+//http://localhost:3000/notification/api/updateIsRead?id=""
+router.get("/updateIsRead", async (req, res, next) => {
+  try {
+    const { id } = req.query;
+    const isRead = await notificationController.updateIsRead(id)
+    if (isRead) {
+      res.status(200).json({ result: true, message: "success" });
+    } else {
+      res.status(400).json({ result: false,  message: "fail" });
+    }
+    
+    
+  } catch (error) {
+    console.log("Error updateIsRead:", error);
+    res.status(400).json({ result: false, error: error, message: "fail" });
+  }
+});
+
 //http://localhost:3000/notification/api/push-notification-feedback?userId=""&tourId=""
 router.get("/push-notification-feedback", async (req, res, next) => {
   try {
@@ -47,7 +65,7 @@ router.get("/push-notification-feedback", async (req, res, next) => {
       console.log("Successfully sent message:", response);
       res.status(200).json({ result: true, notification: notification, message: "success" });
     } else {
-      res.status(400).json({ result: true, notification: null, message: "fail" });
+      res.status(400).json({ result: false, notification: null, message: "fail" });
     }
     
     
@@ -93,7 +111,7 @@ router.get("/push-notification-confirm", async (req, res, next) => {
       //console.log("Successfully sent message:", response);
       res.status(200).json({ result: true, notification: notification, message: "success" });
     } else {
-      res.status(400).json({ result: true, notification: null, message: "fail" });
+      res.status(400).json({ result: false, notification: null, message: "fail" });
     }
     
     
@@ -182,7 +200,7 @@ router.get("/push-notification-cancel", async (req, res, next) => {
       //console.log("Successfully sent message:", response);
       res.status(200).json({ result: true, notification: notification, message: "success" });
     } else {
-      res.status(400).json({ result: true, notification: null, message: "fail" });
+      res.status(400).json({ result: false, notification: null, message: "fail" });
     }
     
   } catch (error) {

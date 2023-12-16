@@ -8,6 +8,14 @@ const getNotification = async (user_id) =>{
     }
 }
 
+const updateIsRead = async (id) =>{
+    try {
+        return await notificationService.updateIsRead(id);
+    } catch (error) {
+        throw error;
+    }
+}
+
 const addNotification = async (image, title, content, timestamp, user_id) =>{
     try {
         await notificationService.addNotification(image, title, content, timestamp, user_id);
@@ -24,4 +32,4 @@ const deleteNotification = async (id) =>{
     }
 }
 
-module.exports = {getNotification, addNotification, deleteNotification}
+module.exports = {getNotification, addNotification, deleteNotification, updateIsRead}

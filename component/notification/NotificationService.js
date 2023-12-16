@@ -15,6 +15,20 @@ const getNotificationByIdUser = async (id_user) => {
   return [];
 };
 
+const updateIsRead = async (id) => {
+  try {
+      let notifi = await notificationModel.findById(id);
+      if (notifi) {
+        notifi.isRead = true 
+          await notifi.save();
+          return true;
+      }
+  } catch (e) {
+      console.log("updateIsRead error :",error);
+      return false;
+  }
+}
+
 const addNotification = async (image, title, content, timestamp, type, user_id, tour_id) => {
   try {
     const newNotification = {
@@ -81,4 +95,4 @@ const deleteById = async (id) => {
   }
 }
 
-module.exports = { getNotificationByIdUser, addNotification, addNotificationNewTour, deleteById };
+module.exports = { getNotificationByIdUser, addNotification, addNotificationNewTour, deleteById, updateIsRead };

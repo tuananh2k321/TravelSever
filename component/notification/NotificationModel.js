@@ -10,6 +10,7 @@ const notificationSchema = new Schema({
     content: {type: String, required: true},
     timestamp: {type: String, require: true},
     type: {type: String, required: true},
+    isRead: {type: Boolean, default: false},
     user_id: { type: ObjectId, ref: "user" },
     tour_id: { type: ObjectId, ref: "tour" },
 })

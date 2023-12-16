@@ -91,33 +91,33 @@
     <li class="nav-item">
       <a class="nav-link " href="/home-page/cpanel/home">
         <i class="bi bi-grid"></i>
-        <span>Dashboard</span>
+        <span>Trang chủ</span>
       </a>
     </li><!-- End Dashboard Nav -->
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-journal-text"></i><span>Thêm</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="/hotel/cpanel/insert-form">
-            <i class="bi bi-circle"></i><span>Insert Hotel</span>
+          <a href="../../hotel/cpanel/insert-form">
+            <i class="bi bi-circle"></i><span>Thêm khách sạn</span>
           </a>
         </li>
         <li>
-          <a href="/tour/cpanel/insert-tour">
-            <i class="bi bi-circle"></i><span>Insert Tour</span>
+          <a href="/tourguide/cpanel/insert-form">
+            <i class="bi bi-circle"></i><span>Thêm hướng dẫn viên</span>
           </a>
         </li>
         <li>
-          <a href="../../tourguide/cpanel/insert-form">
-            <i class="bi bi-circle"></i><span>Insert TourGuide</span>
+          <a href="../../tour/cpanel/insert-tour">
+            <i class="bi bi-circle"></i><span>Thêm chuyến đi</span>
           </a>
         </li>
         <li>
-          <a href="/destination/cpanel/insert-destination">
-            <i class="bi bi-circle"></i><span>Insert Destination</span>
+          <a href="../../destination/cpanel/insert-destination">
+            <i class="bi bi-circle"></i><span>Thêm điểm đến</span>
           </a>
         </li>
       </ul>
@@ -125,32 +125,32 @@
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-layout-text-window-reverse"></i><span>Quản lý</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
           <a href="/tour/cpanel/tour-table">
-            <i class="bi bi-circle"></i><span>Tour</span>
+            <i class="bi bi-circle"></i><span>Chuyến đi</span>
           </a>
         </li>
         <li>
           <a href="/destination/cpanel/get-destination">
-            <i class="bi bi-circle"></i><span>Destination</span>
+            <i class="bi bi-circle"></i><span>Điểm đến</span>
           </a>
         </li>
         <li>
           <a href="/booking/cpanel/get-new-booking-cpanel">
-            <i class="bi bi-circle"></i><span>Booking</span>
+            <i class="bi bi-circle"></i><span>Đặt chuyến đi</span>
           </a>
         </li>
         <li>
           <a href="/hotel/cpanel/hotel-table">
-            <i class="bi bi-circle"></i><span>Hotels</span>
+            <i class="bi bi-circle"></i><span>Khách sạn</span>
           </a>
         </li>
         <li>
           <a href="../../tourguide/cpanel/tour-guide">
-            <i class="bi bi-circle"></i><span>Tour Guide </span>
+            <i class="bi bi-circle"></i><span>Hướng dẫn viên</span>
           </a>
         </li>
         <li>
@@ -160,7 +160,7 @@
         </li>
         <li>
           <a href="/user/cpanel/list-user">
-            <i class="bi bi-circle"></i><span>Users</span>
+            <i class="bi bi-circle"></i><span>Người dùng</span>
           </a>
         </li>
       </ul>
@@ -184,30 +184,9 @@
     <li class="nav-item">
       <a class="nav-link collapsed" href="/home-page/cpanel/profile">
         <i class="bi bi-person"></i>
-        <span>Profile</span>
+        <span>Thông tin cá nhân</span>
       </a>
     </li><!-- End Profile Page Nav -->
-
-    {{!-- <li class="nav-item"> --}}
-      {{!-- <a class="nav-link collapsed" href="../../user/cpanel/register">
-        <i class="bi bi-card-list"></i>
-        <span>Register</span>
-      </a>
-    </li><!-- End Register Page Nav -->
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="../../user/cpanel/login">
-        <i class="bi bi-box-arrow-in-right"></i>
-        <span>Login</span>
-      </a>
-    </li><!-- End Login Page Nav -->
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="../../tour/cpanel/error404">
-        <i class="bi bi-dash-circle"></i>
-        <span>Error 404</span>
-      </a>
-    </li><!-- End Error 404 Page Nav --> --}}
   </ul>
 
 </aside><!-- End Sidebar-->
@@ -215,7 +194,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Tour đã hoàn thành</h1>
+    <h1>Chuyến đi đã hoàn thành</h1>
     <div class="gap-4 d-md-flex justify-content-md-end">
       <select id="myDropdown" onchange="goToPage(this)">
         <option value="">Chọn trang</option>

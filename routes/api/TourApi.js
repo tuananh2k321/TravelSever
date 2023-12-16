@@ -52,6 +52,8 @@ router.get("/get-tour-will-travel", async function (req, res, next) {
       return  currentDate < departmentDate  ;
     });
 
+    
+
     res.status(200).json({ result: true, tours: filteredBookings });
   } catch (error) {
     res.status(400).json({ result: false, error });
@@ -87,6 +89,10 @@ router.get("/get-traveling-tour", async function (req, res, next) {
       return  currentDate >= departmentDate  && currentDate <= expectedDate;
     });
 
+    let idArray = filteredBookings.map(booking => booking._id);
+    console.log("idArray: " + idArray)
+    await tourService.updateIsTraveling(idArray)
+
     res.status(200).json({ result: true, tours: filteredBookings });
   } catch (error) {
     res.status(400).json({ result: false, error });
@@ -115,6 +121,10 @@ router.get("/get-completed-tour", async function (req, res, next) {
       
       return  currentDate > expectedDate;
     });
+
+    let idArray = filteredBookings.map(booking => booking._id);
+    console.log("idArray: " + idArray)
+    await tourService.updateIsTravelingFalse(idArray)
 
     res.status(200).json({ result: true, tours: filteredBookings });
   } catch (error) {

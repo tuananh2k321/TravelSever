@@ -134,6 +134,46 @@ const updateDomain = async (id, isdomain) => {
     }
 }
 
+const updateIsTraveling = async (idArray) => {
+    try {
+        for (const id of idArray) {
+            let tour = await tourModel.findById(id);
+            console.log(id)
+            if (tour) {
+                tour.isTraveling = true;
+                await tour.save();
+                console.log("update tour success")
+            } else {
+                console.log("tour is not exits")
+            }
+        }
+        return true
+    } catch (e) {
+        console.log("updateIsTraveling error :",error);
+        return false;
+    }
+}
+
+const updateIsTravelingFalse = async (idArray) => {
+    try {
+        for (const id of idArray) {
+            let tour = await tourModel.findById(id);
+            console.log(id)
+            if (tour) {
+                tour.isTraveling = false;
+                await tour.save();
+                console.log("update tour success")
+            } else {
+                console.log("tour is not exits")
+            }
+        }
+        return true
+    } catch (e) {
+        console.log("updateIsTraveling error :",error);
+        return false;
+    }
+}
+
 const updateIsBooking = async (id) => {
     try {
         let tour = await tourModel.findById(id);
@@ -294,5 +334,7 @@ module.exports = {
     updateIsBooking,
     getBookingTour,
     openTour,
-    updateIsBookingTest
+    updateIsBookingTest,
+    updateIsTraveling,
+    updateIsTravelingFalse
 };

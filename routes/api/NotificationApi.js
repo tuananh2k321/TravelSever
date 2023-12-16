@@ -35,6 +35,7 @@ router.get("/push-notification-feedback", async (req, res, next) => {
   try {
     const { userId, tourId, bookingId } = req.query;
     const tokens = await tokenController.getTokenByUserId(userId);
+    const detailTour = await tourService.getTourById(tourId)
     const tokensArray = tokens.map((tokenObj) => tokenObj.token);
     console.log(tokensArray);
     
@@ -43,21 +44,9 @@ router.get("/push-notification-feedback", async (req, res, next) => {
       notification: {
         title: "Phản hồi của khách hàng!",
         body: "Hãy ghi ra những trải nghiệm trong chặng hành trình của bạn!",
-        imageUrl: url
+        imageUrl: detailTour.tourImage[0]
       },
-      android: {
-        notification: {
-          imageUrl: url
-        }
-      },
-      fcm_options: {
-        image: url
-      },
-      webpush: {
-        headers: {
-          image: url
-        }
-      },
+     
       data: {
         score: "850",
         time: currentTime,
@@ -94,6 +83,7 @@ router.get("/push-notification-confirm", async (req, res, next) => {
   try {
     const { userId, tourId, id } = req.query;
     const tokens = await tokenController.getTokenByUserId(userId);
+    const detailTour = await tourService.getTourById(tourId)
     console.log(tokens)
     const tokensArray = tokens.map((tokenObj) => tokenObj.token);
     console.log(tokensArray);
@@ -103,7 +93,7 @@ router.get("/push-notification-confirm", async (req, res, next) => {
       notification: {
         title: "Đặt tour thành công!",
         body: "Chúc bạn có 1 chuyến đi tốt đẹp",
-        imageUrl: url
+        imageUrl: detailTour.tourImage[0]
       },
       // android: {
       //   notification: {
@@ -199,6 +189,7 @@ router.get("/push-notification-cancel", async (req, res, next) => {
     const { userId, tourId, id } = req.query;
     const tokens = await tokenController.getTokenByUserId(userId);
     const tokensArray = tokens.map((tokenObj) => tokenObj.token);
+    const detailTour = await tourService.getTourById(tourId)
     console.log(tokensArray);
 
     const currentTime = new Date().toLocaleTimeString();
@@ -206,6 +197,7 @@ router.get("/push-notification-cancel", async (req, res, next) => {
       notification: {
         title: "Hủy tour thành công!",
         body: "Hãy sớm đặt lại tour nhé!",
+        imageUrl: detailTour.tourImage[0]
       },
       data: {
         score: "850",

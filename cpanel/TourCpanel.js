@@ -45,7 +45,7 @@ router.get('/detail-tour/:id', [authen.checkTokenCpanel], async function (req, r
         // get destinatioonName
         const idToQuery1 = tour.destination_id;
         console.log(">>>>>>>>>>>>>>>>", idToQuery1);
-        const dataDestination = await destinationController.getDataByArrayOfIds(idToQuery1);
+        const dataDestination = await destinationController.getDesById(idToQuery1);
         console.log(">>>>>>>>>>>>>>>>", dataDestination);
         res.render('tour/tourDetail', { tour, user, datahotel, dataDestination, dataTourGuide });
     } catch (error) {
@@ -122,7 +122,7 @@ router.post('/insert-tour', [uploadImage.array('tourImage', 10)], async (req, re
             operatingDay,limitedPerson,availablePerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
         await tourController.addNewTour(tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate,departmentHour,expectedDate, limitedDay,
             operatingDay,limitedPerson,availablePerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
-        return res.render('tour/insertTour');
+        return res.render('tour/tourTable');
     } catch (error) {
         console.log('Add new  error:', error);
         next(error);
@@ -160,28 +160,28 @@ router.get('/:id/edit-tour', [authen.checkTokenCpanel], async (req, res, next) =
         const tourGuide = await tourGuideController.getAllTourGuide();
 
         // check destination (false:ko đc chọn , true:đc chọn)
-        for (let i = 0; i < destination.length; i++) {// vòng lập duyệt phần tử mà tourguidee có
+        for (let i = 0; i < destination.length; i++) {// vòng lập duyệt phần tử mà  có
             const element = destination[i];
             destination[i].radio2 = false;
-            if (element._id = tour.tourGuide_id) { // nếu có 1 giá trị mà element._id = với id_tourGuide trong tour hiện tại 
+            if (element._id = tour.destination_id) { // nếu có 1 giá trị mà element._id = với id_ trong tour hiện tại 
                 destination[i].radio2 = true; // thì gán thành true
             }
         }
 
         // check TourGuide (false:ko đc chọn , true:đc chọn)
 
-        for (let i = 0; i < tourGuide.length; i++) {// vòng lập duyệt phần tử mà tourguidee có
+        for (let i = 0; i < tourGuide.length; i++) {// vòng lập duyệt phần tử mà  có
             const element = tourGuide[i];
             tourGuide[i].radio = false;
-            if (element._id = tour.tourGuide_id) { // nếu có 1 giá trị mà element._id = với id_tourGuide trong tour hiện tại 
+            if (element._id = tour.tourGuide_id) { // nếu có 1 giá trị mà element._id = với id_ trong tour hiện tại 
                 tourGuide[i].radio = true; // thì gán thành true
             }
         }
 
-        for (let i = 0; i < hotel.length; i++) {// vòng lập duyệt phần tử mà tourguidee có
+        for (let i = 0; i < hotel.length; i++) {// vòng lập duyệt phần tử mà  có
             const element = hotel[i];
             hotel[i].radio1 = false;
-            if (element._id = tour.hotel_id) { // nếu có 1 giá trị mà element._id = với id_tourGuide trong tour hiện tại 
+            if (element._id = tour.hotel_id) { // nếu có 1 giá trị mà element._id = với id_ trong tour hiện tại 
                 hotel[i].radio1 = true; // thì gán thành true
             }
         }

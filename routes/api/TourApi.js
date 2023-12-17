@@ -413,6 +413,24 @@ router.post("/updateAvailable", async (req, res) => {
     return res.status(500).json({ result: false });
   }
 });
+//http://localhost:3000/tour/api/offer
+router.post("/offer", async (req, res) => {
+  try {
+    const id = req.body.id; 
+    const offer = req.body.offer;
+    let tour = await tourModel.findById(id);
+    if (tour) {
+      tour.offer = offer ? offer : tour.offer;
+      await tour.save();
+      return res.status(200).json({ result: true, message: "Update Success" });
+  }else {
+    return res.status(400).json({ result: false, message: "fail" });
+  }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ result: false });
+  }
+});
 
 //http://localhost:3000/tour/api/updateIsBookingTest
 router.post("/updateIsBookingTest", async (req, res) => {

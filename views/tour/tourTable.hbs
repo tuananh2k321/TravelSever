@@ -531,18 +531,19 @@
 
 <script>
   {{#each tours}}
-    const childrenPrice{{@index}} = '{{this.childrenPrice}}';
-    const adultPrice{{@index}} = '{{this.adultPrice}}';
-    const isState{{@index}} = '{{this.isState}}'
- 
+    let childrenPrice{{@index}} = '{{this.childrenPrice}}';
+    let adultPrice{{@index}} = '{{this.adultPrice}}';
+    let isState{{@index}} = '{{this.isState}}'
+     let offer{{@index}} = '{{this.offer}}'
 
-    function formatPrice1{{@index}}() {
-      const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(adultPrice{{@index}});
-      document.getElementById("adultPrice{{@index}}").innerHTML = VND;
-    }
-    formatPrice1{{@index}}();
-
+      function formatPrice1{{@index}}() {
+       adultPrice{{@index}} = adultPrice{{@index}} - (adultPrice{{@index}} * (offer{{@index}} / 100));
+        const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(adultPrice{{@index}});
+        document.getElementById("adultPrice{{@index}}").innerHTML = VND;
+      }
+      formatPrice1{{@index}}();
     function formatPrice2{{@index}}() {
+      childrenPrice{{@index}} = childrenPrice{{@index}} - (childrenPrice{{@index}} * (offer{{@index}} / 100));
       const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(childrenPrice{{@index}});
       document.getElementById("childrenPrice{{@index}}").innerHTML = VND;
     }

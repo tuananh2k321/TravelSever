@@ -20,7 +20,7 @@ const uploadImage = multer({ storage: multerStorage });
 // http://localhost:3000/tour/cpanel/tour-table
 router.get('/tour-table', [authen.checkTokenCpanel], async function (req, res, next) {
     const response = await tourController.getAllTour();
-    const tours = response.filter((tours)=> tours.isState == true && tours.isBooking == false)
+    const tours = response.filter((tours) => tours.isState == true && tours.isBooking == false)
     const user = req.session.user;
     res.render('tour/tourTable', { tours, user });
 });
@@ -89,39 +89,39 @@ router.post('/insert-tour', [uploadImage.array('tourImage', 10)], async (req, re
             tourImage = await Promise.all(uploadedImagePromises);
         }
 
-        let { tourName, adultPrice, childrenPrice,childrenAge,adultAge,departmentPlace,ngayThangNam,departmentHour, limitedDay,
-            operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id } = body;
+        let { tourName, adultPrice, childrenPrice, childrenAge, adultAge, departmentPlace, ngayThangNam, departmentHour, limitedDay,
+            operatingDay, limitedPerson, offer, vehicle, description, rating, isdomain, isState, hotel_id, tourGuide_id, destination_id } = body;
 
 
-            // ddingj dangj date
-            const ngayThangNamDate = new Date(ngayThangNam);  
-            const departmentDate = ngayThangNamDate.toLocaleDateString('en-GB');// định dạng dd/mm/yyyy
+        // ddingj dangj date
+        const ngayThangNamDate = new Date(ngayThangNam);
+        const departmentDate = ngayThangNamDate.toLocaleDateString('en-GB');// định dạng dd/mm/yyyy
 
-            //expectedDate
-            const chuoiDate = limitedDay.toString();
-            // Cắt chuỗi và lấy số
-            const soNgay = parseInt(chuoiDate.match(/\d+/)[0]);
-            
-            // Tách chuỗi thành mảng [ngày, tháng, năm]
-            const [ngay, thang, nam] = departmentDate.split('/');
-        
+        //expectedDate
+        const chuoiDate = limitedDay.toString();
+        // Cắt chuỗi và lấy số
+        const soNgay = parseInt(chuoiDate.match(/\d+/)[0]);
+
+        // Tách chuỗi thành mảng [ngày, tháng, năm]
+        const [ngay, thang, nam] = departmentDate.split('/');
+
         // Tạo đối tượng Date từ mảng trên (chú ý rằng tháng trong JavaScript là từ 0 đến 11)
-            const ngayThangNamDate1 = new Date(nam, thang - 1, ngay);
-        
-            
-             ngayThangNamDate.setDate(ngayThangNamDate1.getDate() + soNgay);
-             
-             // Định dạng ngày tháng năm thành chuỗi "dd/mm/yyyy"
-            const expectedDate = ngayThangNamDate.toLocaleDateString('en-GB');
+        const ngayThangNamDate1 = new Date(nam, thang - 1, ngay);
 
 
-            // availablePerson
-            const availablePerson = limitedPerson;
+        ngayThangNamDate.setDate(ngayThangNamDate1.getDate() + soNgay);
 
-        console.log(tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate,departmentHour,expectedDate, limitedDay,
-            operatingDay,limitedPerson,availablePerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
-        await tourController.addNewTour(tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate,departmentHour,expectedDate, limitedDay,
-            operatingDay,limitedPerson,availablePerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
+        // Định dạng ngày tháng năm thành chuỗi "dd/mm/yyyy"
+        const expectedDate = ngayThangNamDate.toLocaleDateString('en-GB');
+
+
+        // availablePerson
+        const availablePerson = limitedPerson;
+
+        console.log(tourName, adultPrice, childrenPrice, childrenAge, adultAge, tourImage, departmentPlace, departmentDate, departmentHour, expectedDate, limitedDay,
+            operatingDay, limitedPerson, availablePerson, offer, vehicle, description, rating, isdomain, isState, hotel_id, tourGuide_id, destination_id);
+        await tourController.addNewTour(tourName, adultPrice, childrenPrice, childrenAge, adultAge, tourImage, departmentPlace, departmentDate, departmentHour, expectedDate, limitedDay,
+            operatingDay, limitedPerson, availablePerson, offer, vehicle, description, rating, isdomain, isState, hotel_id, tourGuide_id, destination_id);
         return res.render('tour/insertTour');
     } catch (error) {
         console.log('Add new  error:', error);
@@ -138,11 +138,11 @@ router.get('/:id/delete', [authen.checkTokenCpanel], async (req, res, next) => {
         const tourisState = tour.isState;
         if (tourisState == false) {
             await tourController.deleteTour(id);
-        }else{
+        } else {
             console.log("lỗi delete")
         }
 
-        return res.json({ status: true,tourisState })
+        return res.json({ status: true, tourisState })
     } catch (error) {
         return res.json({ status: false })
     }
@@ -217,42 +217,42 @@ router.post('/:id/edit-tour', [uploadImage.array('tourImage', 10)], async (req, 
 
             tourImage = await Promise.all(uploadedImagePromises);
         }
-        let { tourName, adultPrice, childrenPrice,childrenAge,adultAge,departmentPlace,ngayThangNam,departmentHour, limitedDay,
-            operatingDay,limitedPerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id } = body;
+        let { tourName, adultPrice, childrenPrice, childrenAge, adultAge, departmentPlace, ngayThangNam, departmentHour, limitedDay,
+            operatingDay, limitedPerson, offer, vehicle, description, rating, isdomain, isState, hotel_id, tourGuide_id, destination_id } = body;
 
 
-             // ddingj dangj date
-             const ngayThangNamDate = new Date(ngayThangNam);  
-             const departmentDate = ngayThangNamDate.toLocaleDateString('en-GB');// định dạng dd/mm/yyyy
- 
-             //expectedDate
-             const chuoiDate = limitedDay.toString();
-             // Cắt chuỗi và lấy số
-             const soNgay = parseInt(chuoiDate.match(/\d+/)[0]);
-             
-             // Tách chuỗi thành mảng [ngày, tháng, năm]
-             const [ngay, thang, nam] = departmentDate.split('/');
-         
-         // Tạo đối tượng Date từ mảng trên (chú ý rằng tháng trong JavaScript là từ 0 đến 11)
-             const ngayThangNamDate1 = new Date(nam, thang - 1, ngay);
-         
-             
-              ngayThangNamDate.setDate(ngayThangNamDate1.getDate() + soNgay);
-              
-              // Định dạng ngày tháng năm thành chuỗi "dd/mm/yyyy"
-             const expectedDate = ngayThangNamDate.toLocaleDateString('en-GB');
- 
- 
-             // availablePerson
-             const availablePerson = limitedPerson;
+        // ddingj dangj date
+        const ngayThangNamDate = new Date(ngayThangNam);
+        const departmentDate = ngayThangNamDate.toLocaleDateString('en-GB');// định dạng dd/mm/yyyy
+
+        //expectedDate
+        const chuoiDate = limitedDay.toString();
+        // Cắt chuỗi và lấy số
+        const soNgay = parseInt(chuoiDate.match(/\d+/)[0]);
+
+        // Tách chuỗi thành mảng [ngày, tháng, năm]
+        const [ngay, thang, nam] = departmentDate.split('/');
+
+        // Tạo đối tượng Date từ mảng trên (chú ý rằng tháng trong JavaScript là từ 0 đến 11)
+        const ngayThangNamDate1 = new Date(nam, thang - 1, ngay);
+
+
+        ngayThangNamDate.setDate(ngayThangNamDate1.getDate() + soNgay);
+
+        // Định dạng ngày tháng năm thành chuỗi "dd/mm/yyyy"
+        const expectedDate = ngayThangNamDate.toLocaleDateString('en-GB');
+
+
+        // availablePerson
+        const availablePerson = limitedPerson;
 
 
 
-        console.log(tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate,departmentHour,expectedDate, limitedDay,
-            operatingDay,limitedPerson,availablePerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
+        console.log(tourName, adultPrice, childrenPrice, childrenAge, adultAge, tourImage, departmentPlace, departmentDate, departmentHour, expectedDate, limitedDay,
+            operatingDay, limitedPerson, availablePerson, offer, vehicle, description, rating, isdomain, isState, hotel_id, tourGuide_id, destination_id);
 
-        await tourController.updateTour(id, tourName, adultPrice, childrenPrice,childrenAge,adultAge, tourImage,departmentPlace,departmentDate,departmentHour,expectedDate, limitedDay,
-            operatingDay,limitedPerson,availablePerson,offer, vehicle,description,rating,isdomain,isState,hotel_id,tourGuide_id,destination_id);
+        await tourController.updateTour(id, tourName, adultPrice, childrenPrice, childrenAge, adultAge, tourImage, departmentPlace, departmentDate, departmentHour, expectedDate, limitedDay,
+            operatingDay, limitedPerson, availablePerson, offer, vehicle, description, rating, isdomain, isState, hotel_id, tourGuide_id, destination_id);
         return res.redirect('/tour/cpanel/tour-table');
     } catch (error) {
         console.log('update  error:', error);
@@ -292,7 +292,7 @@ router.get('/tour-table/search', [authen.checkTokenCpanel], async (req, res) => 
 // http://localhost:3000/tour/cpanel/tour-table
 router.get('/tour-table-false', [authen.checkTokenCpanel], async function (req, res, next) {
     const response = await tourService.getClosedTour();
-    const tours = response.filter((tours)=> tours.isState == false)
+    const tours = response.filter((tours) => tours.isState == false)
     const user = req.session.user;
     res.render('tour/tourTableFalse', { tours, user });
 });
@@ -300,118 +300,130 @@ router.get('/tour-table-false', [authen.checkTokenCpanel], async function (req, 
 // http://localhost:3000/tour/cpanel/get-booking-tour
 router.get("/get-booking-tour", async function (req, res, next) {
     try {
-      const tours = await tourService.getBookingTour();
-      const user = req.session.user;
-      res.render('tour/tourTableBooking', { tours, user });
+        const tours = await tourService.getBookingTour();
+        const user = req.session.user;
+        res.render('tour/tourTableBooking', { tours, user });
     } catch (error) {
-      res.status(400).json({ result: false, error });
+        res.status(400).json({ result: false, error });
     }
-  });
+});
 
-  // http://localhost:3000/tour/cpanel/get-all-tour1
+// http://localhost:3000/tour/cpanel/get-all-tour1
 router.get("/get-all-tour1", async function (req, res, next) {
     try {
-      const response = await tourController.getAllTour();
-      const tours = response.filter((tours)=> tours.isState == true && tours.isBooking == false)
-      res.status(200).json({ result: true, tours });
+        const response = await tourController.getAllTour();
+        const tours = response.filter((tours) => tours.isState == true && tours.isBooking == false)
+        res.status(200).json({ result: true, tours });
     } catch (error) {
-      res.status(400).json({ result: false, error });
+        res.status(400).json({ result: false, error });
     }
-  });
+});
 
 
-  // http://localhost:3000/tour/cpanel/get-traveling-tour
+// http://localhost:3000/tour/cpanel/get-traveling-tour
 router.get("/get-traveling-tour", [authen.checkTokenCpanel], async function (req, res, next) {
     try {
-      const tours = await tourService.getBookingTour();
-  
-      // Lọc theo điều kiện departmentdate > date now < expectedDate
-      const currentDate = new Date();
+        const tours = await tourService.getBookingTour();
+
+        // Lọc theo điều kiện departmentdate > date now < expectedDate
+        const currentDate = new Date();
         console.log("currentDate:", currentDate)
-      const filteredBookings = tours.filter((booking) => {
-        // departmentDate
-        const [day, month, year] = booking.departmentDate.split('/');
-        const adjustedMonth = parseInt(month, 10) - 1; // Adjust for zero-based month
-        const adjustedDay = parseInt(day, 10) + 1; // Adjust for zero-based day
-        const departmentDate = new Date(year, adjustedMonth, adjustedDay);
-        
-        //expectedDate
-        const [day2, month2, year2] = booking.expectedDate.split('/');
-        const adjustedMonth2 = parseInt(month2, 10) - 1; // Adjust for zero-based month
-        const adjustedDay2 = parseInt(day2, 10) + 1; // Adjust for zero-based day
-        const expectedDate = new Date(year2, adjustedMonth2, adjustedDay2);
-        
-        console.log("tour: "+ booking.departmentDate +" < "+currentDate+" < "+booking.expectedDate)
-        console.log("departmentDate:", departmentDate)
-        console.log("expectedDate:", expectedDate)
-        
-        return  currentDate > departmentDate  && currentDate < expectedDate;
-      });
-  
-      const user = req.session.user;
-      res.render('tour/tourTableTravel', { filteredBookings, user });
+        const filteredBookings = tours.filter((booking) => {
+            // departmentDate
+            const [day, month, year] = booking.departmentDate.split('/');
+            const adjustedMonth = parseInt(month, 10) - 1; // Adjust for zero-based month
+            const adjustedDay = parseInt(day, 10) + 1; // Adjust for zero-based day
+            const departmentDate = new Date(year, adjustedMonth, adjustedDay);
+
+            //expectedDate
+            const [day2, month2, year2] = booking.expectedDate.split('/');
+            const adjustedMonth2 = parseInt(month2, 10) - 1; // Adjust for zero-based month
+            const adjustedDay2 = parseInt(day2, 10) + 1; // Adjust for zero-based day
+            const expectedDate = new Date(year2, adjustedMonth2, adjustedDay2);
+
+            console.log("tour: " + booking.departmentDate + " < " + currentDate + " < " + booking.expectedDate)
+            console.log("departmentDate:", departmentDate)
+            console.log("expectedDate:", expectedDate)
+
+            return currentDate > departmentDate && currentDate < expectedDate;
+        });
+
+        const user = req.session.user;
+        res.render('tour/tourTableTravel', { filteredBookings, user });
     } catch (error) {
-      res.status(400).json({ result: false, error });
+        res.status(400).json({ result: false, error });
     }
-  });
+});
 
 
-  // http://localhost:3000/tour/cpanel/get-completed-tour
+// http://localhost:3000/tour/cpanel/get-completed-tour
 router.get("/get-completed-tour", [authen.checkTokenCpanel], async function (req, res, next) {
     try {
-      const tours = await tourService.getBookingTour();
-  
-      // Lọc theo điều kiện departmentdate > date now < expectedDate
-      const currentDate = new Date();
+        const tours = await tourService.getBookingTour();
+
+        // Lọc theo điều kiện departmentdate > date now < expectedDate
+        const currentDate = new Date();
         console.log("currentDate:", currentDate)
-      const filteredBookings = tours.filter((booking) => {
-  
-        //expectedDate
-        const [day2, month2, year2] = booking.expectedDate.split('/');
-        const adjustedMonth2 = parseInt(month2, 10) - 1; // Adjust for zero-based month
-        const adjustedDay2 = parseInt(day2, 10) + 1; // Adjust for zero-based day
-        const expectedDate = new Date(year2, adjustedMonth2, adjustedDay2);
-        
-        console.log("tour: "+currentDate+" > "+booking.expectedDate)
-        console.log("expectedDate:", expectedDate)
-        
-        return  currentDate > expectedDate;
-      });
-  
-      const user = req.session.user;
-      res.render('tour/tourTableComplete', { filteredBookings, user });
+        const filteredBookings = tours.filter((booking) => {
+
+            //expectedDate
+            const [day2, month2, year2] = booking.expectedDate.split('/');
+            const adjustedMonth2 = parseInt(month2, 10) - 1; // Adjust for zero-based month
+            const adjustedDay2 = parseInt(day2, 10) + 1; // Adjust for zero-based day
+            const expectedDate = new Date(year2, adjustedMonth2, adjustedDay2);
+
+            console.log("tour: " + currentDate + " > " + booking.expectedDate)
+            console.log("expectedDate:", expectedDate)
+
+            return currentDate > expectedDate;
+        });
+
+        const user = req.session.user;
+        res.render('tour/tourTableComplete', { filteredBookings, user });
     } catch (error) {
-      res.status(400).json({ result: false, error });
+        res.status(400).json({ result: false, error });
     }
-  });
+});
 
 
-  // http://localhost:3000/tour/api/get-tour-will-travel
+// http://localhost:3000/tour/api/get-tour-will-travel
 router.get("/get-tour-will-travel", [authen.checkTokenCpanel], async function (req, res, next) {
     try {
-      const tours = await tourService.getBookingTour();
-  
-      // Lọc theo điều kiện departmentdate > date now < expectedDate
-      const currentDate = new Date();
+        const tours = await tourService.getBookingTour();
+
+        // Lọc theo điều kiện departmentdate > date now < expectedDate
+        const currentDate = new Date();
         console.log("currentDate:", currentDate)
-      const filteredBookings = tours.filter((booking) => {
-        // departmentDate
-        const [day, month, year] = booking.departmentDate.split('/');
-        const adjustedMonth = parseInt(month, 10) - 1; // Adjust for zero-based month
-        const adjustedDay = parseInt(day, 10) + 1; // Adjust for zero-based day
-        const departmentDate = new Date(year, adjustedMonth, adjustedDay);
-        
-        console.log("tour: "+ currentDate+" < "+booking.departmentDate)
-        console.log("departmentDate:", departmentDate)
-        
-        return  currentDate < departmentDate  ;
-      });
-  
-      const user = req.session.user;
-      res.render('tour/tourTableWillTravel', { filteredBookings, user });
+        const filteredBookings = tours.filter((booking) => {
+            // departmentDate
+            const [day, month, year] = booking.departmentDate.split('/');
+            const adjustedMonth = parseInt(month, 10) - 1; // Adjust for zero-based month
+            const adjustedDay = parseInt(day, 10) + 1; // Adjust for zero-based day
+            const departmentDate = new Date(year, adjustedMonth, adjustedDay);
+
+            console.log("tour: " + currentDate + " < " + booking.departmentDate)
+            console.log("departmentDate:", departmentDate)
+
+            return currentDate < departmentDate;
+        });
+
+        const user = req.session.user;
+        res.render('tour/tourTableWillTravel', { filteredBookings, user });
     } catch (error) {
-      res.status(400).json({ result: false, error });
+        res.status(400).json({ result: false, error });
     }
-  });
+});
+
+
+// http://localhost:3000/tour/cpanel/get-offer-tour
+router.get("/get-offer-tour", async function (req, res, next) {
+    try {
+        const tours = await tourService.getAllTourOffer();
+        const user = req.session.user;
+        res.render('tour/tourTableDeals', { tours, user });
+    } catch (error) {
+        res.status(400).json({ result: false, error });
+    }
+});
 
 module.exports = router;

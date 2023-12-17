@@ -194,7 +194,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Chuyến đi sắp diễn ra</h1>
+    <h1>Chuyến đi có khuyến mãi</h1>
     <div class="gap-4 d-md-flex justify-content-md-end">
       <select id="myDropdown" onchange="goToPage(this)">
         <option value="">Chọn trang</option>
@@ -208,7 +208,7 @@
     </div>
   </div><!-- End Page Title -->
 
-   <div>
+  <div>
     <p id="TourTrue" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #0000EE;"></p>
     <p id="TourDeal" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #256c7e;"></p>
     <p id="TourFalse" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #FF0033;"></p>
@@ -241,7 +241,7 @@
 
 
             <!-- Table with stripped rows -->
-            <table class="table ">
+            <table class="table datatable">
               <thead>
                 <tr>
                   <th scope="col">Hình ảnh</th>
@@ -249,18 +249,21 @@
                   <th scope="col">Giá người lớn</th>
                   <th scope="col">Giá trẻ em dưới 15</th>
                   <th scope="col">Trạng thái</th>
-                  <th scope="col">Ngày khỏi hành</th>
-                  <th scope="col">Ngày kết thúc</th>
+                  <th scope="col">Khuyến mãi</th>
                 </tr>
               </thead>
               <tbody>
-                {{#each filteredBookings}}
+                {{#each tours}}
 
                 <tr>
                   <td class="py-1">
                     <img src="{{this.tourImage}}" alt="image" width="200" height="100" />
                   </td>
                   <td> {{this.tourName}} </td>
+                  {{!-- <td>
+                    {{this.adultPrice}}
+                  </td>
+                  <td> {{this.childrenPrice}} </td> --}}
                   <td id="adultPrice{{@index}}"></td>
                   <td id="childrenPrice{{@index}}"></td>
                   <td>
@@ -270,15 +273,19 @@
                       Không hoạt động
                     {{/if}}
                   </td>
-                  <td> {{this.departmentDate}}</td>
-                  <td> {{this.expectedDate}}</td>
+                  <td> {{this.offer}} %</td>
 
                   <td class="text-right">
                     <div style="display: flex; justify-content: space-between;">
                       <a href="/tour/cpanel/detail-tour/{{this._id}}" class="btn btn-success m-1">
                         <i class='bx bx-detail'></i>
                       </a>
-                      
+                      <a href="/tour/cpanel/{{this._id}}/edit-tour" class="btn btn-primary m-1">
+                        <i class='bx bx-edit'></i>
+                      </a>
+                      <a onclick="confirmDelete('{{this._id}}')" type="button" class="btn btn-danger m-1">
+                        <i class='bx bx-trash'></i>
+                      </a>
                       <a type="button" id="showInput" onclick="confirmClose('{{this._id}}')"
                         class="btn btn-secondary m-1">
                         <i class="fa fa-close"></i>
@@ -543,23 +550,21 @@
 
 <script>
   {{#each tours}}
-    const childrenPrice{{@index}} = '{{this.childrenPrice}}';
-    const adultPrice{{@index}} = '{{this.adultPrice}}';
-
-
+    const childrenPrice{{@index}} = {{this.childrenPrice}} - {{this.childrenPrice}} * {{this.offer}} / 100;
+    const adultPrice{{@index}} = {{this.adultPrice}} - {{this.adultPrice}} * {{this.offer}} / 100;
+    const isState{{@index}} = '{{this.isState}}';
+ 
     function formatPrice1{{@index}}() {
-      const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(adultPrice{{@index}});
-      document.getElementById("adultPrice{{@index}}").innerHTML = VND;
+      const formattedAdultPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(adultPrice{{@index}});
+      document.getElementById("adultPrice{{@index}}").innerHTML = formattedAdultPrice;
     }
     formatPrice1{{@index}}();
 
     function formatPrice2{{@index}}() {
-      const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(childrenPrice{{@index}});
-      document.getElementById("childrenPrice{{@index}}").innerHTML = VND;
+      const formattedChildrenPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(childrenPrice{{@index}});
+      document.getElementById("childrenPrice{{@index}}").innerHTML = formattedChildrenPrice;
     }
     formatPrice2{{@index}}();
-
-
 
   {{/each}}
 </script>

@@ -199,6 +199,7 @@
       <select id="myDropdown" onchange="goToPage(this)">
         <option value="">Chọn trang</option>
         <option value="../cpanel/tour-table">Hoạt động</option>
+        <option value="../cpanel/get-offer-tour">Khuyến mãi</option>
         <option value="../cpanel/tour-table-false">Không hoạt động</option>
         <option value="../cpanel/get-tour-will-travel">Sắp diễn ra</option>
         <option value="../cpanel/get-traveling-tour">Đang tiến hành</option>
@@ -209,6 +210,7 @@
 
   <div>
     <p id="TourTrue" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #0000EE;"></p>
+    <p id="TourDeal" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #256c7e;"></p>
     <p id="TourFalse" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #FF0033;"></p>
     <p id="TourWill" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #00FF00;"></p>
     <p id="TourTravel" style="display: inline-block; margin: 5px ; border: 1px solid #000; padding: 5px 10px; background-color: white; color: #00AA00;"></p>
@@ -446,7 +448,7 @@
       .then(data => {
         const lengthGetNew = data.tours.length;
         const resultLeangth = document.getElementById('TourTrue');
-        const title = 'Tour đang hoạt động: ';
+        const title = 'Tour hoạt động: ';
         resultLeangth.innerHTML = title + lengthGetNew;
       })
       .catch(error => {
@@ -528,6 +530,23 @@
   bookingLength5();
 </script>
 
+<script>
+  function bookingLength6() {
+    // Make an AJAX request to the API endpoint
+    fetch('/tour/api/get-offer-tour')
+      .then(response => response.json())
+      .then(data => {
+        const lengthGetNew = data.tours.length;
+        const resultLeangth = document.getElementById('TourDeal');
+        const title = 'Tour khuyến mãi: ';
+        resultLeangth.innerHTML = title + lengthGetNew;
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+  bookingLength6();
+</script>
 
 <script>
   {{#each tours}}

@@ -533,23 +533,22 @@
 </script>
 
 <script>
-  {{#each tours}}
-    const childrenPrice{{@index}} = '{{this.childrenPrice}}';
-    const adultPrice{{@index}} = '{{this.adultPrice}}';
-
-
+  {{#each filteredBookings}}
+    const childrenPrice{{@index}} = {{this.childrenPrice}} - {{this.childrenPrice}} * {{this.offer}} / 100;
+    const adultPrice{{@index}} = {{this.adultPrice}} - {{this.adultPrice}} * {{this.offer}} / 100;
+    const isState{{@index}} = '{{this.isState}}';
+ 
     function formatPrice1{{@index}}() {
-      const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(adultPrice{{@index}});
-      document.getElementById("adultPrice{{@index}}").innerHTML = VND;
+      const formattedAdultPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(adultPrice{{@index}});
+      document.getElementById("adultPrice{{@index}}").innerHTML = formattedAdultPrice;
     }
     formatPrice1{{@index}}();
 
     function formatPrice2{{@index}}() {
-      const VND = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(childrenPrice{{@index}});
-      document.getElementById("childrenPrice{{@index}}").innerHTML = VND;
+      const formattedChildrenPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(childrenPrice{{@index}});
+      document.getElementById("childrenPrice{{@index}}").innerHTML = formattedChildrenPrice;
     }
     formatPrice2{{@index}}();
-
 
   {{/each}}
 </script>

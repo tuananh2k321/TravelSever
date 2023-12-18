@@ -335,11 +335,11 @@
                                         </thead>
                                        <tbody>
                                           {{#each hotel}}
-                                          <tr class="{{#if this.isSelected}}selected{{/if}}">
+                                          <tr >
                                              <td>
                                               <div class="custom-control custom-checkbox">
                                                   <input  name="hotel_id" placeholder="{{this.hotelName}}" value="{{this._id}}" class="form-check-input" type="radio"  {{#if this.radio1}}checked{{/if}}>
-                                                  <label for="{{this._id}}" value="{{this._id}}"  class="form-check-label">{{@index}}</label>
+                                                  <label for="{{this._id}}" class="form-check-label">{{@index}}</label>
                                               </div>
                                             </td>
                                             <td> {{this.hotelName}} </td>
@@ -395,8 +395,8 @@
                                           <tr>
                                              <td>
                                               <div class="custom-control custom-checkbox">
-                                                  <input  name="tourGuide_id"  value="{{this._id}}"  placeholder="{{this.name}}" class="form-check-input"  type="radio" >
-                                                  <label for="{{this._id}}" value="{{this._id}}" class="form-check-label">{{@index}}</label>
+                                                  <input  name="tourGuide_id"  value="{{this._id}}"  placeholder="{{this.name}}" class="form-check-input"  type="radio" {{#if this.radio}}checked{{/if}}>
+                                                  <label for="{{this._id}}" class="form-check-label"></label>
                                               </div>
                                             </td>
                                             <td> {{this.name}} </td>
@@ -453,9 +453,9 @@
                                           <tr>
                                              <td>
                                               <div class="custom-control custom-checkbox">
-                                                  <input  name="destination_id"  value="{{this._id}}"  placeholder="{{this.destinationName}}"  class="form-check-input" type="radio"
+                                                  <input  name="destination_id"  value="{{this._id}}"  placeholder="{{this.destinationName}}"  class="form-check-input" type="radio" {{#if this.radio2}}checked{{/if}}
                                                     >
-                                                  <label for="{{this._id}}" value="{{this._id}}" class="form-check-label">{{@index}}</label>
+                                                  <label for="{{this._id}}"  class="form-check-label">{{@index}}</label>
                                               </div>
                                             </td>
                                             <td> {{this.destinationName}} </td>
@@ -686,19 +686,7 @@ const radioButtons2 = document.querySelectorAll('input[name="destination_id"]:ch
             dialog.style.display = "block";
         }
     }
-    const radioButtons1 = document.querySelectorAll('input[name="tourGuide_id"]:checked');
-
-    // Kiểm tra xem có radio button nào được chọn hay không
-    if (radioButtons1.length >= 0) {
-        // Lấy giá trị của radio button đã chọn
-        const selectedTourGuide = radioButtons1[0].placeholder;
-        document.getElementById("tourGuide").innerHTML = selectedTourGuide;
-        
-        // Thực hiện các hành động khác nếu cần
-    } else {
-        // Hiển thị thông báo hoặc thực hiện hành động khác nếu không có radio button nào được chọn
-        console.log('Vui lòng chọn một khách sạn.');
-    }
+  
 
     // JavaScript để xử lý khi nhấp vào nút "OK"
     function handleOKTourGuide() {

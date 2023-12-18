@@ -280,6 +280,7 @@ router.get('/tour-table/search', [authen.checkTokenCpanel], async (req, res) => 
         if (searchName == null) {
             return res.render('tour/tourTable');
         } else {
+            
             const tours = await tourController.getTourSearchName(searchName);
             res.render('tour/tourTable', { tours });
         }

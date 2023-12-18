@@ -18,7 +18,7 @@ const tourSchema = new Schema({
   operatingDay: { type: String },
   limitedPerson: { type: Number},
   availablePerson: { type: Number}, //availablePerson = limitedPerson
-  offer: { type: String },
+  offer: { type: Number },
   vehicle: { type: String },
   description: { type: String},
   rating: { type: String },
@@ -29,7 +29,7 @@ const tourSchema = new Schema({
   reasonCloseTour: { type: String , default:""},
   hotel_id: { type: ObjectId, ref: "hotel" },
   tourGuide_id: { type: ObjectId, ref: "tourguide" },
-  destination_id: { type: Array, ref: "destination" },
+  destination_id: { type: ObjectId, ref: "destination" },
   createdAt: { type: Date, required: true, default: Date.now },
   updatedAt: { type: Date, required: true, default: Date.now },
 });

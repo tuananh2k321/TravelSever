@@ -273,8 +273,8 @@
                   <dialog id="myDialog">
                       <form id="myForm" >
                           <label  for="inputField">Input:</label>
-                          <input placeholder="{{this._id}}" type="date" id="inputField" name="inputField">
-                          <button type="button"  onclick="saveChanges()" >Thay đổi ngày</button>
+                          <input  type="date" id="inputField"  name="inputField">
+                          <button type="button"  onclick="saveChanges('{{this._id}}')">Thay đổi ngày</button>
                           <button type="button" onclick="closeDialog()">Thôi</button>
                       </form>
                   </dialog>
@@ -284,7 +284,7 @@
                       <a href="/tour/cpanel/detail-tour/{{this._id}}" class="btn btn-success m-1">
                         <i class='bx bx-detail'></i>
                       </a>
-                      <a type="button" onclick="openDialog()" class="btn btn-primary m-1">
+                      <a  onclick="openDialog('{{this._id}}')"  class="btn btn-primary m-1">
                         <i class='bx bx-edit'></i>
                       </a>
                     </div>
@@ -477,19 +477,20 @@
 <script>
         const myDialog = document.getElementById('myDialog');
 
-        function openDialog() {
+        function openDialog(id) {
             myDialog.showModal();
+          
         }
 
         function closeDialog() {
             myDialog.close();
         }
 
-        function saveChanges() {
+          function saveChanges(id) {
             // Thêm mã JavaScript để xử lý lưu thay đổi tại đây
             // Ví dụ: lấy giá trị từ trường input
             const inputValue  = document.getElementById('inputField').value;
-           const idValue  = document.getElementById('inputField').placeholder;
+          // const idValue  = document.getElementById('inputField').placeholder;
            
             //Gủi dữliệu lên api
             fetch("http://localhost:3000/tour/api/departmentDate", {
@@ -497,7 +498,7 @@
                 headers:{
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ departmentDate: inputValue, id: idValue }),
+                body: JSON.stringify({ departmentDate: inputValue, id: id }),
             })
             .then(response => {
                 console.log("response",response)

@@ -338,8 +338,8 @@
                                           <tr class="{{#if this.isSelected}}selected{{/if}}">
                                              <td>
                                               <div class="custom-control custom-checkbox">
-                                                  <input  name="hotel_id" id="{{this._id}}" placeholder="{{this.hotelName}}" value="{{this._id}}" class="form-check-input" type="radio"  {{#if this.radio1}}checked{{/if}}>
-                                                  <label for="{{this._id}}"  class="form-check-label">{{@index}}</label>
+                                                  <input  name="hotel_id" placeholder="{{this.hotelName}}" value="{{this._id}}" class="form-check-input" type="radio"  {{#if this.radio1}}checked{{/if}}>
+                                                  <label for="{{this._id}}" value="{{this._id}}"  class="form-check-label">{{@index}}</label>
                                               </div>
                                             </td>
                                             <td> {{this.hotelName}} </td>
@@ -395,7 +395,7 @@
                                           <tr>
                                              <td>
                                               <div class="custom-control custom-checkbox">
-                                                  <input  name="tourGuide_id" id="{{this._id}}" value="{{this._id}}"  placeholder="{{this.name}}" class="form-check-input"  type="radio" {{#if this.radio}}checked{{/if}}>
+                                                  <input  name="tourGuide_id"  value="{{this._id}}"  placeholder="{{this.name}}" class="form-check-input"  type="radio" >
                                                   <label for="{{this._id}}" value="{{this._id}}" class="form-check-label">{{@index}}</label>
                                               </div>
                                             </td>
@@ -453,9 +453,9 @@
                                           <tr>
                                              <td>
                                               <div class="custom-control custom-checkbox">
-                                                  <input  name="destination_id" id="{{this._id}}" value="{{this._id}}"  placeholder="{{this.destinationName}}"  class="form-check-input" type="radio"
-                                                    {{#if this.radio2}}checked{{/if}}>
-                                                  <label for="{{this._id}}" class="form-check-label">{{@index}}</label>
+                                                  <input  name="destination_id"  value="{{this._id}}"  placeholder="{{this.destinationName}}"  class="form-check-input" type="radio"
+                                                    >
+                                                  <label for="{{this._id}}" value="{{this._id}}" class="form-check-label">{{@index}}</label>
                                               </div>
                                             </td>
                                             <td> {{this.destinationName}} </td>

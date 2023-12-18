@@ -1,3 +1,4 @@
+<!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
 
   <div class="d-flex align-items-center justify-content-between">
@@ -9,14 +10,15 @@
   </div><!-- End Logo -->
 
   <div class="search-bar">
-    <form class="search-form d-flex align-items-center" method="post" action="/user/cpanel/search-admin">
-      <input type="text" name="keyword" placeholder="Search" title="Enter search keyword">
+    <form class="search-form d-flex align-items-center" method="POST" action="#">
+      <input type="text" name="query" placeholder="Tìm kiếm" title="Enter search keyword">
       <button type="submit" title="Search"><i class="bi bi-search"></i></button>
     </form>
   </div><!-- End Search Bar -->
 
   <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
+
       <li class="nav-item d-block d-lg-none">
         <a class="nav-link nav-icon search-bar-toggle " href="#">
           <i class="bi bi-search"></i>
@@ -35,7 +37,7 @@
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
           <li class="dropdown-header">
             <h6>{{this.name}}</h6>
-            <span>Travel Application Manager</span>
+            <span>Người quản lý ứng dụng</span>
           </li>
           <li>
             <hr class="dropdown-divider">
@@ -44,7 +46,7 @@
           <li>
             <a class="dropdown-item d-flex align-items-center" href="/home-page/cpanel/profile">
               <i class="bi bi-person"></i>
-              <span>My Profile</span>
+              <span>Thông tin cá nhân</span>
             </a>
           </li>
 
@@ -55,7 +57,7 @@
           <li>
             <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
               <i class="bi bi-question-circle"></i>
-              <span>Need Help?</span>
+              <span>Giúp đỡ?</span>
             </a>
           </li>
           <li>
@@ -65,15 +67,13 @@
           <li>
             <a class="dropdown-item d-flex align-items-center" href="/user/cpanel/logout">
               <i class="bi bi-box-arrow-right"></i>
-              <span>Sign Out</span>
+              <span>Đăng xuất</span>
             </a>
           </li>
 
         </ul><!-- End Profile Dropdown Items -->
       </li><!-- End Profile Nav -->
       {{/user}}
-
-
 
     </ul>
   </nav><!-- End Icons Navigation -->

@@ -283,12 +283,71 @@
                       <a href="/tour/cpanel/detail-tour/{{this._id}}" class="btn btn-success m-1">
                         <i class='bx bx-detail'></i>
                       </a>
-                      <a type="button" onclick="openDialog()" class="btn btn-primary m-1">
+                      <a type="button" onclick="confirmUpdate('{{this._id}}')" class="btn btn-primary m-1">
                         <i class='bx bx-edit'></i>
                       </a>
                     </div>
                   </td>
                 </tr>
+
+
+              <script>
+                const updateDate = async (tour_id, departmentDate) =>{
+                  try{
+                    const response = await fetch(`/tour/api/departmentDate?id=${tour_id}`, {
+                       method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ departmentDate})
+                    });
+                    const data = await response.json();
+                      if (data.result) {
+                        return { success: true, message: 'Đã thay đổi!' };
+
+                      } else {
+                        return { success: false, message: 'Thay đổi thất bại!' };
+                      }
+                  }catch (error){
+                    return { success: false, message: 'Lỗi khi thay đổi: ' + error.message };
+                  }
+                };
+
+                const confirmUpdate = async (tour_id)=>{
+                  const result = await Swal.fire({
+                      title: 'Cập nhật ngày!',
+                      input: 'date',
+                      showCancelButton: true,
+                      confirmButtonColor: 'green',
+                      preConfirm: (departmentDate) => {
+                        if (!departmentDate) {
+                          Swal.showValidationMessage('Vui lòng chọn ngày');
+                        }
+                        return departmentDate;
+                      },
+                      didOpen: () => {
+                        const today = (new Date()).toISOString();
+                        Swal.getInput().min = today.split("T")[0];
+                      }
+                    });
+
+                    if (!result.dismiss && result.value) {
+                      const departmentDate = result.value;
+                      const closeTourResult = await updateDate(tour_id, departmentDate);
+                      if (closeTourResult.success) {
+                        Swal.fire('Thành công', closeTourResult.message, 'success').then(() => {
+                          // Reload trang sau khi hoàn tất quá trình
+                          location.reload();
+                        });
+                      } else {
+                        Swal.fire('Lỗi', closeTourResult.message, 'error');
+                      }
+                    }
+
+                }
+              </script>
+
+
                 {{/each}}
 
               </tbody>

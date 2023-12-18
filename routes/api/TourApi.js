@@ -295,10 +295,10 @@ router.post("/updateDomain", async (req, res) => {
     return res.status(500).json({ result: false });
   }
 });
-//http://localhost:3000/tour/api/departmentDate
+//http://localhost:3000/tour/api/departmentDate?id=""
 router.post("/departmentDate", async (req, res) => {
   try {
-    const id = req.body.id;
+    const id = req.query.id;
     console.log(id);
     const departmentDate = req.body.departmentDate;
     const ngayThangNamDate = new Date(departmentDate);  

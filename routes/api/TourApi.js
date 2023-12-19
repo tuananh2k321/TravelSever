@@ -44,7 +44,7 @@ router.get("/get-offer-tour", async function (req, res, next) {
 // http://localhost:3000/tour/api/get-tour-will-travel
 router.get("/get-tour-will-travel", async function (req, res, next) {
   try {
-    const tours = await tourService.getBookingTour();
+    const tours = await tourController.getAllTour();
 
     // Lọc theo điều kiện departmentdate > date now < expectedDate
     const currentDate = new Date();
@@ -74,7 +74,7 @@ router.get("/get-tour-will-travel", async function (req, res, next) {
 // http://localhost:3000/tour/api/get-traveling-tour
 router.get("/get-traveling-tour", async function (req, res, next) {
   try {
-    const tours = await tourService.getBookingTour();
+    const tours = await tourController.getAllTour();
 
     // Lọc theo điều kiện departmentdate > date now < expectedDate
     const currentDate = new Date();
@@ -113,7 +113,7 @@ router.get("/get-traveling-tour", async function (req, res, next) {
 // http://localhost:3000/tour/api/get-completed-tour
 router.get("/get-completed-tour", async function (req, res, next) {
   try {
-    const tours = await tourService.getBookingTour();
+    const tours = await tourController.getAllTour();
 
     // Lọc theo điều kiện departmentdate > date now < expectedDate
     const currentDate = new Date();

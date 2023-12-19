@@ -195,7 +195,7 @@
     <div class="gap-4 d-md-flex justify-content-md-end">
       <select id="myDropdown" onchange="goToPage(this)">
         <option value="">Chọn trang</option>
-        <option value="../cpanel/tour-table">Hoạt động</option>
+        <option value="../cpanel/tour-table">Chưa được đặt</option>
         <option value="../cpanel/get-offer-tour">Khuyến mãi</option>
         <option value="../cpanel/tour-table-false">Không hoạt động</option>
         <option value="../cpanel/get-tour-will-travel">Sắp diễn ra</option>
@@ -427,7 +427,7 @@
       .then(data => {
         const lengthGetNew = data.tours.length;
         const resultLeangth = document.getElementById('TourTrue');
-        const title = 'Tour hoạt động: ';
+        const title = 'Tour chưa được đặt: ';
         resultLeangth.innerHTML = title + lengthGetNew;
       })
       .catch(error => {

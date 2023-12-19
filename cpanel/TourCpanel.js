@@ -138,11 +138,12 @@ router.get('/:id/delete', [authen.checkTokenCpanel], async (req, res, next) => {
         const { id } = req.params;
         const tour = await tourController.getTourById(id)
         const tourisState = tour.isState;
-        if (tourisState == false) {
-            await tourController.deleteTour(id);
-        } else {
-            console.log("lỗi delete")
-        }
+        // if (tourisState == false) {
+        //     await tourController.deleteTour(id);
+        // } else {
+        //     console.log("lỗi delete")
+        // }
+        await tourController.deleteTour(id);
 
         return res.json({ status: true, tourisState })
     } catch (error) {
@@ -326,7 +327,7 @@ router.get("/get-all-tour1", async function (req, res, next) {
 // http://localhost:3000/tour/cpanel/get-traveling-tour
 router.get("/get-traveling-tour", [authen.checkTokenCpanel], async function (req, res, next) {
     try {
-        const tours = await tourService.getBookingTour();
+        const tours = await tourService.getAllTour();
 
         // Lọc theo điều kiện departmentdate > date now < expectedDate
         const currentDate = new Date();
@@ -348,7 +349,7 @@ router.get("/get-traveling-tour", [authen.checkTokenCpanel], async function (req
             console.log("departmentDate:", departmentDate)
             console.log("expectedDate:", expectedDate)
 
-            return currentDate > departmentDate && currentDate < expectedDate;
+            return currentDate >= departmentDate && currentDate <= expectedDate;
         });
 
         const user = req.session.user;
@@ -362,7 +363,7 @@ router.get("/get-traveling-tour", [authen.checkTokenCpanel], async function (req
 // http://localhost:3000/tour/cpanel/get-completed-tour
 router.get("/get-completed-tour", [authen.checkTokenCpanel], async function (req, res, next) {
     try {
-        const tours = await tourService.getBookingTour();
+        const tours = await tourService.getAllTour();
 
         // Lọc theo điều kiện departmentdate > date now < expectedDate
         const currentDate = new Date();
@@ -392,7 +393,7 @@ router.get("/get-completed-tour", [authen.checkTokenCpanel], async function (req
 // http://localhost:3000/tour/api/get-tour-will-travel
 router.get("/get-tour-will-travel", [authen.checkTokenCpanel], async function (req, res, next) {
     try {
-        const tours = await tourService.getBookingTour();
+        const tours = await tourService.getAllTour();
 
         // Lọc theo điều kiện departmentdate > date now < expectedDate
         const currentDate = new Date();

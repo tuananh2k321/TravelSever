@@ -299,7 +299,6 @@ router.post("/updateDomain", async (req, res) => {
 router.post("/departmentDate", async (req, res) => {
   try {
     const id = req.body.id;
-    console.log(id);
     const departmentDate = req.body.departmentDate;
     const ngayThangNamDate = new Date(departmentDate);  
     console.log("ngayThangNamDate",ngayThangNamDate)
@@ -309,7 +308,7 @@ router.post("/departmentDate", async (req, res) => {
       const [day, month, year] = dateString.split('/');
   
       // Chuyển đổi thành đối tượng Date
-      const formattedDate = new Date(`${year}-${month}-${day}`);
+      const formattedDate = new Date(`${year}-${month - 1 }-${day}`);
   
       return formattedDate;
   }

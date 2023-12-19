@@ -30,6 +30,7 @@
     "nodemon": "^2.0.22",
     "stripe": "^14.4.0",
     "textflow": "^1.0.0",
-    "twilio": "^4.12.0"
+    "twilio": "^4.12.0",
+    "unidecode": "^0.1.8"
   }
 }

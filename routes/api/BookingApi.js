@@ -385,7 +385,7 @@ router.get("/get-uncompleted-booking", async (req, res, next) => {
 
     // Lọc danh sách có response.isCancel === true
     const completedBookings = response.filter(
-      (booking) => booking.isCompleted === false && booking.confirm === true && booking.isCancel === false
+      (booking) => booking.isCompleted === false && booking.confirm === true
     );
 
     // Lọc theo điều kiện departmentdate > date now < expectedDate
